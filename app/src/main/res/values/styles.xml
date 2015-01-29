@@ -28,6 +28,16 @@
         <item name="android:layout_marginLeft">@dimen/form_side_margin</item>
         <item name="android:layout_marginRight">@dimen/form_side_margin</item>
         <item name="android:layout_marginTop">@dimen/form_padding</item>
+    </style>
+    <!--表单控件容器LinearLayout样式-->
+    <style name="FormInputContainerWithBorder">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/form_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/form_side_margin</item>
+        <item name="android:layout_marginTop">@dimen/form_padding</item>
         <item name="android:background">@drawable/bg_form_input_container</item>
     </style>
     <!--单选框样式 -->
@@ -55,7 +65,10 @@
     <!--form中的textInput样式 -->
     <style name="FormEdittext">
         <item name="android:singleLine">true</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:layout_marginRight">1dp</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:background">@drawable/form_edittext_shape</item>
         <item name="android:textColorHint">@color/unavailable</item>
         <item name="android:padding">@dimen/common_gap</item>
     </style>

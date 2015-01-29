@@ -7,7 +7,7 @@
     android:background="@color/white"
     >
     <LinearLayout
-        style="@style/FormInputContainer"
+        style="@style/FormInputContainerWithBorder"
         android:layout_marginTop="@dimen/form_top_margin">
         <TextView
             android:text="@string/nicky_name"
@@ -17,6 +17,7 @@
             android:layout_width="@dimen/zero"
             android:singleLine="false"
             android:layout_height="match_parent"
+            style="@style/FormEdittext"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
