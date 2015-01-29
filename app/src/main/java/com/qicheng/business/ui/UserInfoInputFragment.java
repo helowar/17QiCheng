@@ -3,6 +3,7 @@ package com.qicheng.business.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseFragment;
@@ -62,9 +64,21 @@ public class UserInfoInputFragment extends BaseFragment {
         faceImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog();
+                    showImgPickDialog();
                 }
             });
+
+        ((TextView)fragmentView.findViewById(R.id.editText_age)).setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    FragmentManager fm = getActivity().getFragmentManager();
+                    DatePickFragment dialog = new DatePickFragment();
+                    dialog.setDialogTitle("请选择生日");
+                    dialog.show(fm,"date");
+                }
+            }
+        });
 
         fragmentView.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +93,7 @@ public class UserInfoInputFragment extends BaseFragment {
     /**
      * 显示选择对话框
      */
-    private void showDialog() {
+    private void showImgPickDialog() {
 
         new AlertDialog.Builder(this.getActivity())
                 .setTitle("设置头像")

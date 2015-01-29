@@ -2,6 +2,8 @@
 <resources>
 
     <string name="app_name">QiCheng</string>
+    <string name="txt_confirm">确定</string>
+    <string name="txt_cancel">取消</string>
     <string name="title_activity_usr_info">UsrInfoActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

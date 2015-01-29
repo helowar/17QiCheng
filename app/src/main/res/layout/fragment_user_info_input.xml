@@ -10,28 +10,30 @@
         style="@style/FormInputContainerWithBorder"
         android:layout_marginTop="@dimen/form_top_margin">
         <TextView
+            android:layout_height="match_parent"
             android:text="@string/nicky_name"
             style="@style/InputTitle"/>
         <EditText
             android:id="@+id/editText_nickyName"
             android:layout_width="@dimen/zero"
-            android:singleLine="false"
             android:layout_height="match_parent"
             style="@style/FormEdittext"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
-        style="@style/FormInputContainer">
+        style="@style/FormInputContainerWithBorder">
         <TextView
             android:text="@string/age_name"
-            style="@style/InputTitle"/>
+            style="@style/InputTitle"
+            android:layout_height="match_parent"/>
         <EditText
             android:id="@+id/editText_age"
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
-            style="@style/generalEdittext"
+            style="@style/FormEdittext"
             android:layout_weight="1"/>
     </LinearLayout>
+
     <LinearLayout
         style="@style/FormInputContainer">
         <TextView
@@ -106,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/next_step"
+            android:enabled="false"
             style="@style/NormalButton"/>
     </LinearLayout>
 
