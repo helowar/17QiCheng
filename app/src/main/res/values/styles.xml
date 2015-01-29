@@ -1,0 +1,88 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="NormalTripItemText">
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!--表单中输入控件的标题样式  -->
+    <style name="InputTitle">
+        <item name="android:background">@color/main</item>
+        <item name="android:textSize">@dimen/input_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">@dimen/input_title_height</item>
+        <item name="android:layout_width">@dimen/input_title_width</item>
+    </style>
+    <!--表单控件容器LinearLayout样式-->
+    <style name="FormInputContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/form_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/form_side_margin</item>
+        <item name="android:layout_marginTop">@dimen/form_padding</item>
+        <item name="android:background">@drawable/bg_form_input_container</item>
+    </style>
+    <!--单选框样式 -->
+    <style name="GeneralRadioButton">
+        <item name="android:background">@drawable/radio_shape</item>
+        <item name="android:textColor">@drawable/radio_text_color</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="DetailTripItemText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="NormalButton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_margin">3dp</item>
+        <!--<item name="android:state_pressed">@color/unavailable</item>
+        <item name="android:state_active">@color/main</item>-->
+        <item name="android:background">@drawable/button_shape</item>
+        <item name="android:textColor">@drawable/button_text_color</item>
+    </style>
+    <!--form中的textInput样式 -->
+    <style name="FormEdittext">
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorHint">@color/unavailable</item>
+        <item name="android:padding">@dimen/common_gap</item>
+    </style>
+    <!--基本textInput样式 -->
+    <style name="generalEdittext">
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/edittext_shape</item>
+        <item name="android:textColorHint">@color/unavailable</item>
+        <item name="android:padding">@dimen/common_gap</item>
+    </style>
+    <style name="bottomTab">
+        <item name="android:textColor">@drawable/common_text_color</item>
+        <item name="android:background">@color/unavailable</item>
+    </style>
+    <style name="GrayButton">
+
+    </style>
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 边框 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 半透明 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 模糊 -->
+    </style>
+</resources>

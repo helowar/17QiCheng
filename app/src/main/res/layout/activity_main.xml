@@ -1,0 +1,113 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    <FrameLayout
+        android:id="@+id/trip_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         />
+    <FrameLayout
+        android:id="@+id/social_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         />
+    <FrameLayout
+        android:id="@+id/acty_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         />
+    <FrameLayout
+        android:id="@+id/message_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+    <FrameLayout
+        android:id="@+id/user_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+    </FrameLayout>
+    <RadioGroup
+        android:id="@+id/tab_menu"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/unavailable"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <RadioButton
+            android:id="@+id/rbTrip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_selector_trip"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="2dp"
+            android:text="行程"
+            style="@style/bottomTab" />
+
+        <RadioButton
+            android:id="@+id/rbSocial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_social"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="2dp"
+            android:text="交友"
+            style="@style/bottomTab"  />
+
+        <RadioButton
+            android:id="@+id/rbActy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_acty"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="2dp"
+            android:text="启程"
+            style="@style/bottomTab"  />
+
+        <RadioButton
+            android:id="@+id/rbMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_message"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="2dp"
+            android:text="消息"
+            style="@style/bottomTab"  />
+        <RadioButton
+            android:id="@+id/rbMe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_selector_userinfo"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="2dp"
+            android:text="我"
+            style="@style/bottomTab"  />
+    </RadioGroup>
+
+
+
+</LinearLayout>
