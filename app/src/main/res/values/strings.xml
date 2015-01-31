@@ -19,8 +19,8 @@
     <string name="nicky_name">昵称</string>
     <string name="gender_name">性别</string>
     <string name="age_name">年龄</string>
-    <string name="male_text">男</string>
-    <string name="female_text">女</string>
+    <string name="male_text">直男</string>
+    <string name="female_text">软妹</string>
     <string name="portrait_name">头像</string>
     <string name="next_step">下一步</string>
     <string name="please_add_portrait">选择一张合适的照片，能帮助您在旅途中更快的结识TA</string>
