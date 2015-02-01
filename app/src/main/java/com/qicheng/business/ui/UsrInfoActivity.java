@@ -1,13 +1,13 @@
 package com.qicheng.business.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.qicheng.R;
+import com.qicheng.framework.ui.base.BaseActivity;
 
-public class UsrInfoActivity extends ActionBarActivity {
+public class UsrInfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
