@@ -1,9 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/QichengActionBarStyle</item>
+        <item name="android:actionBarItemBackground">@drawable/bg_action_bar</item>
     </style>
+    <style
+        name="QichengActionBarTitle"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style
+        name="QichengActionBarStyle"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:titleTextStyle">@style/QichengActionBarTitle</item>
+        <item name="android:background">@drawable/ab_background_textured</item>
+
+    </style>
+
     <style name="NormalTripItemText">
         <item name="android:textColor">@color/main</item>
         <item name="android:textSize">18sp</item>

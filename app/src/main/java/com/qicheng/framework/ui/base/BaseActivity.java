@@ -1,9 +1,9 @@
 package com.qicheng.framework.ui.base;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -13,7 +13,7 @@ import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
 
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends Activity{
 	
 	// helper
 	public BaseActivity getActivity() {
@@ -112,11 +112,11 @@ public class BaseActivity extends FragmentActivity {
 //		DebugLogger.write("onResume " + this);
 	}
 
-	@Override
-	protected void onResumeFragments() {
-		super.onResumeFragments();
-//		DebugLogger.write("onResumeFragments " + this);
-	}
+//	@Override
+//	protected void onResumeFragments() {
+//		super.onResumeFragments();
+////		DebugLogger.write("onResumeFragments " + this);
+//	}
 
 	@Override
 	protected void onStart() {
