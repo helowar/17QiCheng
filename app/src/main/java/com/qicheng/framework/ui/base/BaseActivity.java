@@ -4,13 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-
-=======
->>>>>>> markTest
-
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.ui.component.Loading;
@@ -19,12 +12,9 @@ import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
 
-<<<<<<< HEAD
-public class BaseActivity extends Activity {
-=======
+
 public class BaseActivity extends Activity{
->>>>>>> markTest
-	
+
 	// helper
 	public BaseActivity getActivity() {
 		return this;
@@ -124,16 +114,9 @@ public class BaseActivity extends Activity{
 
 //	@Override
 //	protected void onResumeFragments() {
-<<<<<<< HEAD
 //		super.onResume();
 ////		DebugLogger.write("onResumeFragments " + this);
 //	}
-
-=======
-//		super.onResumeFragments();
-////		DebugLogger.write("onResumeFragments " + this);
-//	}
->>>>>>> markTest
 
 	@Override
 	protected void onStart() {

@@ -20,10 +20,6 @@ public class RegisterActivity extends BaseActivity {
         getFragmentManager().beginTransaction().add(R.id.form_register, userInfoSettingFragment).commit();
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> markTest
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.

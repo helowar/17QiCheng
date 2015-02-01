@@ -1,10 +1,9 @@
 package com.qicheng.business.ui;
 
 
-<<<<<<< HEAD
+
 import android.annotation.TargetApi;
-=======
->>>>>>> markTest
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -71,9 +70,7 @@ public class UserInfoInputFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-<<<<<<< HEAD
         getActivity().setTitle("资料");
-=======
     }
 
     @Override
@@ -82,7 +79,6 @@ public class UserInfoInputFragment extends BaseFragment {
         inflater.inflate(R.menu.menu_register, menu);
         ActionBar bar = getActivity().getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
->>>>>>> markTest
     }
 
     @TargetApi(11)
@@ -270,9 +266,4 @@ public class UserInfoInputFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater){
-        super.onCreateOptionsMenu(menu,inflater);
-        inflater.inflate(R.menu.menu_register,menu);
-    }
 }
