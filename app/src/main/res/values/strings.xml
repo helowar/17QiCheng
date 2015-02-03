@@ -28,6 +28,9 @@
     <string name="get_verify_code_button">获取验证码</string>
     <string name="verify_code_hint">输入验证码</string>
     <string name="mobile_prefix_text">+86</string>
+    <string name="please_add_label">请加入您的个性标签</string>
+    <string name="delete_selected">完成注册</string>
+    <string name="already_add_label">已添加标签</string>
     <!--Register Activity end-->
 
     <!--Traveller Activity begin-->
@@ -38,7 +41,6 @@
     <!--Traveller Activity end-->
 
 
-    <string name="please_add_label">请加入您的个性标签</string>
-    <string name="delete_selected">保存</string>
+
 
 </resources>
