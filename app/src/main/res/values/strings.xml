@@ -24,4 +24,21 @@
     <string name="portrait_name">头像</string>
     <string name="next_step">下一步</string>
     <string name="please_add_portrait">选择一张合适的照片，能帮助您在旅途中更快的结识TA</string>
+
+    <!-- 资料：标签页面的文字资源 -->
+    <string name="label_title">资料</string>
+    <string name="label_text">标签</string>
+    <string name="label_text_pretty">美女</string>
+    <string name="label_text_financial">金融</string>
+    <string name="label_text_baigujing">白骨精</string>
+    <string name="label_text_xiaoxianrou">小鲜肉</string>
+    <string name="label_text_beijing">北京</string>
+    <string name="label_text_woshigeshou">我是歌手</string>
+    <string name="label_text_zhiyegeshou">职业歌手</string>
+    <string name="please_add_label">请加入您的个性标签</string>
+    <string name="is_delete">删除</string>
+    <string name="delete_selected">删除您选中的标签</string>
+    <string name="title_activity_register_label_select">标签</string>
+    <string name="title_activity_register_label_edit">RegisterLabelEditActivity</string>
+
 </resources>
