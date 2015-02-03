@@ -18,6 +18,7 @@
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
             style="@style/FormEdittext"
+            android:nextFocusUp="@+id/editText_age"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -31,7 +32,14 @@
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
             style="@style/FormEdittext"
+            android:editable="false"
             android:layout_weight="1"/>
+       <!-- <ImageButton
+            android:id="@+id/button_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_calander_on"
+            android:maxHeight="39dp"/>-->
     </LinearLayout>
 
     <LinearLayout

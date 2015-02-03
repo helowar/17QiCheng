@@ -1,6 +1,10 @@
 package com.qicheng.business.ui;
 
 
+
+import android.annotation.TargetApi;
+
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -10,11 +14,15 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +35,8 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
 
 import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,15 +45,19 @@ public class UserInfoInputFragment extends BaseFragment {
 
     private static final Logger logger = new Logger("UserInfoInputFragment");
 
+
     /* 组件 */
     private RelativeLayout switchAvatar;
     private ImageView faceImage;
+    private TextView mBirthDate;
 
     private String[] items = new String[] { "选择本地图片", "拍照" };
     /* 头像名称 */
     private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 
     /* 请求码 */
+    private static final int DATE_REQUEST_CODE = 3;
+
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESULT_REQUEST_CODE = 2;
@@ -53,12 +67,52 @@ public class UserInfoInputFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        getActivity().setTitle("资料");
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_register, menu);
+        ActionBar bar = getActivity().getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                //跳转回注册页面
+                RegisterActivity activity =(RegisterActivity)getActivity();
+                RegisterFragment registerFragment;
+                if(activity.getRegisterFragment()==null){
+                    registerFragment = new RegisterFragment();
+                }else {
+                    registerFragment = activity.getRegisterFragment();
+                }
+                activity.getFragmentManager().beginTransaction().replace(R.id.form_register,registerFragment).commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_user_info_input, container, false);
+        //显示返回按钮
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB){
+            ActionBar actionBar= getActivity().getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         faceImage= (ImageView)fragmentView.findViewById(R.id.img_user_portrait);
         faceImage.setOnClickListener(new View.OnClickListener() {
@@ -68,15 +122,11 @@ public class UserInfoInputFragment extends BaseFragment {
                 }
             });
 
-        ((TextView)fragmentView.findViewById(R.id.editText_age)).setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        mBirthDate = ((TextView)fragmentView.findViewById(R.id.editText_age));
+        mBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus){
-                    FragmentManager fm = getActivity().getFragmentManager();
-                    DatePickFragment dialog = new DatePickFragment();
-                    dialog.setDialogTitle("请选择生日");
-                    dialog.show(fm,"date");
-                }
+            public void onClick(View v) {
+                showDatePickDialog();
             }
         });
 
@@ -91,7 +141,31 @@ public class UserInfoInputFragment extends BaseFragment {
     }
 
     /**
-     * 显示选择对话框
+     * 显示生日选择对话框
+     */
+    private void showDatePickDialog(){
+        FragmentManager fm = getActivity().getFragmentManager();
+        DatePickFragment dialog = DatePickFragment.newInstance(null);
+        dialog.setDialogTitle("请选择生日");
+        dialog.setTargetFragment(this,DATE_REQUEST_CODE);
+        dialog.show(fm,"date");
+    }
+
+    private void updateBirthDate(Date date){
+        StringBuffer dateText  = new StringBuffer();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        dateText.append(calendar.get(Calendar.YEAR));
+        dateText.append("年");
+        dateText.append(calendar.get(Calendar.MONTH)+1);
+        dateText.append("月");
+        dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
+        dateText.append("日");
+        mBirthDate.setText(dateText.toString());
+    }
+
+    /**
+     * 显示头像选择对话框
      */
     private void showImgPickDialog() {
 
@@ -159,6 +233,10 @@ public class UserInfoInputFragment extends BaseFragment {
                     if (data != null) {
                         getImageToView(data);
                     }
+                    break;
+                case DATE_REQUEST_CODE:
+                    Date date = (Date)data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
+                    updateBirthDate(date);
                     break;
             }
         }
