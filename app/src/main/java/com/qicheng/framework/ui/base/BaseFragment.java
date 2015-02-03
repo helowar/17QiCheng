@@ -107,7 +107,7 @@ public class BaseFragment extends Fragment {
 	 * @param fragment
 	 */
 	protected void replaceFragment(int id, Fragment fragment) {
-		getChildFragmentManager().beginTransaction().replace(id, fragment).commit();
+		getFragmentManager().beginTransaction().replace(id, fragment).commit();
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class BaseFragment extends Fragment {
 		}
 		Fragment fragment = findFragment(id);
 		if(fragment != null) {
-			getChildFragmentManager().beginTransaction().remove(fragment).commit();
+			getFragmentManager().beginTransaction().remove(fragment).commit();
 		}
 	}
 	
@@ -132,7 +132,7 @@ public class BaseFragment extends Fragment {
 	 * @return
 	 */
 	protected Fragment findFragment(int id) {
-		return getChildFragmentManager().findFragmentById(id);
+		return getFragmentManager().findFragmentById(id);
 	}
 	
 	////////////////////fragment原生方法///////////////////////////
