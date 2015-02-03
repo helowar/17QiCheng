@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -70,7 +71,7 @@ public class TravellerPersonFragment extends Fragment {
                 startUserActivity(position);
             }
         });
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 2; i++) {
             personList.add(new TravellerPerson());
             personList.add(new TravellerPerson());
             personList.add(new TravellerPerson());
@@ -134,7 +135,7 @@ public class TravellerPersonFragment extends Fragment {
         /**
          * 拖至顶部的第一个可见位置和Y轴坐标
          */
-        private int firstVisiblePosition = 0, firstLocationY = 0;
+        private int firstVisiblePosition = -1, firstLocationY = 0;
 
         /**
          * 拖至底部的最后可见位置和Y轴坐标
@@ -150,9 +151,8 @@ public class TravellerPersonFragment extends Fragment {
             super.onScrollStateChanged(view, scrollState);
             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                 int currentFirstVisiblePosition = view.getFirstVisiblePosition();
-                int currentLastVisiblePosition = view.getLastVisiblePosition();
                 if (currentFirstVisiblePosition == 0) {
-                   //滚动到顶部
+                    // 滚动到顶部
                     View v = (View) view.getChildAt(0);
                     int[] location = new int[2];
                     // 获取在整个屏幕内的绝对坐标
@@ -168,36 +168,43 @@ public class TravellerPersonFragment extends Fragment {
                         personList.add(new TravellerPerson());
                         personList.add(new TravellerPerson());
                         personList.add(new TravellerPerson());
+                        personList.add(new TravellerPerson());
                         imageAdapter.notifyDataSetChanged();
                         personsGridView.smoothScrollToPosition(0);
                     }
-                } else if (currentLastVisiblePosition == (view.getCount() - 1)) {
-                    // 滚动到底部
-                    View v = (View) view.getChildAt(view.getChildCount() - 1);
-                    int[] location = new int[2];
-                    // 获取在整个屏幕内的绝对坐标
-                    v.getLocationOnScreen(location);
-                    int y = location[1];
-                    if (currentLastVisiblePosition != lastVisiblePosition && lastLocationY != y) {
-                        //第一次拖至底部
-                        lastVisiblePosition = currentLastVisiblePosition;
-                        lastLocationY = y;
-                        return;
-                    } else if (currentLastVisiblePosition == lastVisiblePosition && lastLocationY == y) {
-                        //第二次拖至底部
-                        personList.add(new TravellerPerson());
-                        personList.add(new TravellerPerson());
-                        imageAdapter.notifyDataSetChanged();
-                        personsGridView.smoothScrollToPosition(view.getCount());
+                } else {
+                    int currentLastVisiblePosition = view.getLastVisiblePosition();
+                    if (currentLastVisiblePosition == (view.getCount() - 1)) {
+                        // 滚动到底部
+                        View v = (View) view.getChildAt(view.getChildCount() - 1);
+                        int[] location = new int[2];
+                        // 获取在整个屏幕内的绝对坐标
+                        v.getLocationOnScreen(location);
+                        int y = location[1];
+                        if (currentLastVisiblePosition != lastVisiblePosition && lastLocationY != y) {
+                            //第一次拖至底部
+                            lastVisiblePosition = currentLastVisiblePosition;
+                            lastLocationY = y;
+                            return;
+                        } else if (currentLastVisiblePosition == lastVisiblePosition && lastLocationY == y) {
+                            //第二次拖至底部
+                            personList.add(new TravellerPerson());
+                            personList.add(new TravellerPerson());
+                            personList.add(new TravellerPerson());
+                            personList.add(new TravellerPerson());
+                            imageAdapter.notifyDataSetChanged();
+                            personsGridView.smoothScrollToPosition(view.getCount());
+                        }
                     }
                 }
 
-                // 未滚动到顶部，第二次拖至顶部都初始化
-                firstVisiblePosition = 0;
+                // 未滚动到顶部
+                firstVisiblePosition = -1;
                 firstLocationY = 0;
-                // 未滚动到底部，第二次拖至底部都初始化
+                // 未滚动到底部
                 lastVisiblePosition = 0;
                 lastLocationY = 0;
+                Toast.makeText(view.getContext(), "总量：" + view.getCount(), Toast.LENGTH_SHORT).show();
             }
         }
     }

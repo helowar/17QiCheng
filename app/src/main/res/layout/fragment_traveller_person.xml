@@ -7,8 +7,7 @@
         android:id="@+id/traveller_persons_grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="20dp"
         android:numColumns="4"
         android:scrollbars="vertical" />
 </LinearLayout>
