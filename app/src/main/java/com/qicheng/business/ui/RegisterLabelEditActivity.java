@@ -31,6 +31,8 @@ public class RegisterLabelEditActivity extends BaseActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
+        TextView text2 = (TextView) view.findViewById(R.id.label_text);
+        text2.setText("已选标签");
         Intent intent = getIntent();
         ArrayList<Label> labels = (ArrayList<Label>) intent.getSerializableExtra("labels");
         Log.d(TAG, labels.toString());
