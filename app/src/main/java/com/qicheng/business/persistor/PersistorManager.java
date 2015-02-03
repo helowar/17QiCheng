@@ -15,6 +15,13 @@ public class PersistorManager {
     private PersistorManager() {
     }
 
+    public void savePublicKey(String publicKey){
+        new UserPreferences().setPublicKey(publicKey);
+    }
+
+    public String getPublicKey(){
+        return new UserPreferences().getPublicKey();
+    }
     public User getLastestUser() {
         return new UserPreferences().getLastest();
     }

@@ -18,6 +18,16 @@ class UserPreferences {
 		editor.commit();
 	}
 
+    public void setPublicKey(String publicKey){
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString("publicKey", publicKey).apply();
+    }
+
+    public String getPublicKey(){
+        SharedPreferences sp = getPreferences();
+        return  sp.getString("publicKey","");
+    }
+
 	public User getLastest() {
 		SharedPreferences sp = getPreferences();
         User user = new User();

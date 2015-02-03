@@ -37,4 +37,7 @@ public enum OperErrorCode {
 
 	/** 初始化状态 */
 	None,
+
+    /** 非法请求*/
+    IllegalRequest,
 }

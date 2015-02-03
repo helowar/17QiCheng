@@ -77,11 +77,13 @@ abstract public class BaseProcess {
 			
 			String url = getRequestUrl();
 			String parameter = getInfoParameter();
-			parameter = parameter.replace("\\/", "/");
+            if(!StringUtil.isEmpty(parameter)){
+                parameter = parameter.replace("\\/", "/");
+            }
 			logger.d(String.format("send name:%s url:%s param:%s",
                     clazz, url, parameter));
 			
-			if(StringUtil.isEmpty(url) || parameter == null) {
+			if(StringUtil.isEmpty(url)) {
 				mStatus = ProcessStatus.Status.ErrUnkown;
 				return null;
 			}
@@ -95,10 +97,8 @@ abstract public class BaseProcess {
 				return null;
 			}
 			
-			Map<String, String> postParam = new HashMap<String, String>();
-			postParam.put("info", parameter);
 
-			new HttpComm(false).post(url, postParam, true, new HttpResultCallback() {
+			new HttpComm(false).post(url, parameter, new HttpResultCallback() {
 				
 				@Override
 				public void onResponse(HttpDownloaderResult success, String url,

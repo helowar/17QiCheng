@@ -51,7 +51,7 @@
     <LinearLayout
         style="@style/FormInputContainer">
         <Button
-            android:id="@+id/button_next"
+            android:id="@+id/button_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_button"

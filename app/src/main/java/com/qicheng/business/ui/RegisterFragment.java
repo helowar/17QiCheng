@@ -19,12 +19,24 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.event.StatusEventArgs;
+import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends BaseFragment {
+
+    private static Logger logger = new Logger("com.qicheng.business.ui.RegisterFragment");
 
     /**
      * 控件成员
@@ -44,6 +56,8 @@ public class RegisterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().setTitle("注册");
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.fetchPublicKey();
     }
 
     @Override
@@ -74,26 +88,31 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View fragmentView =  inflater.inflate(R.layout.fragment_register, container, false);
-        //验证码按钮事件
+        //验证码按钮
         mVerifyCodeButton= (Button)fragmentView.findViewById(R.id.button_get_verify_code);
+        //注册按钮
+        mSubmitButton = (Button)fragmentView.findViewById(R.id.button_register);
+        //获取手机号码输入控件
+        mMobileNumber = (EditText)fragmentView.findViewById(R.id.edittext_mobile);
+        //获取验证码输入控件
+        mVerifyCode = (EditText)fragmentView.findViewById(R.id.editText_verify_code);
+
         mVerifyCodeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View button) {
-                mVerifyCodeButton.setEnabled(false);
-                new CountDownTimer(60000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        mVerifyCodeButton.setText(millisUntilFinished / 1000+getResources().getString(R.string.verify_code_wait_msg));
-                    }
-                    public void onFinish() {
-                        mVerifyCodeButton.setEnabled(true);
-                        mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
-                    }
-                }.start();
-                // TODO: 调用验证码获取逻辑
+                String cellNum = mMobileNumber.getText().toString();
+                //判断手机号码是否合法
+                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNO(cellNum)){
+                       Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
+                }else {
+                    /**
+                     * 获取验证码
+                     */
+                    getVerifyCode();
+                }
             }
         });
-        //获取手机号码输入控件
-        mMobileNumber = (EditText)fragmentView.findViewById(R.id.edittext_mobile);
+
         mMobileNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,15 +126,14 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!(StringUtil.isEmpty(s.toString())&&StringUtil.isEmpty(mVerifyCode.getText().toString()))){
+                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mVerifyCode.getText().toString())){
                     mSubmitButton.setEnabled(true);
                 }else {
                     mSubmitButton.setEnabled(false);
                 }
             }
         });
-        //获取验证码输入控件
-        mVerifyCode = (EditText)fragmentView.findViewById(R.id.editText_verify_code);
+
         mVerifyCode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -129,18 +147,54 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!(StringUtil.isEmpty(s.toString())&&StringUtil.isEmpty(mMobileNumber.getText().toString()))){
+                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mMobileNumber.getText().toString())){
                     mSubmitButton.setEnabled(true);
                 }else {
                     mSubmitButton.setEnabled(false);
                 }
             }
         });
-        //注册按钮事件
-        mSubmitButton = (Button)fragmentView.findViewById(R.id.button_register);
+
+        mSubmitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // TODO:调用注册逻辑
+            }
+        });
         return fragmentView;
     }
 
+
+    private void getVerifyCode(){
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        logger.d("Public key is:------*"+userLogic.getPublicKey()+"*--------");
+        userLogic.getVerifyCode(mMobileNumber.getText().toString(), createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
+                switch(errCode) {
+                    case Success:
+                        Alert.Toast(getResources().getString(R.string.verify_code_send_success_msg));
+                        //重新获取的倒计时开启
+                        mVerifyCodeButton.setEnabled(false);
+                        new CountDownTimer(60000, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                                mVerifyCodeButton.setText(millisUntilFinished / 1000+getResources().getString(R.string.verify_code_wait_msg));
+                            }
+                            public void onFinish() {
+                                mVerifyCodeButton.setEnabled(true);
+                                mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
+                            }
+                        }.start();
+                        break;
+                    default:
+                        Alert.Toast(getResources().getString(R.string.verify_code_send_failed_msg));
+                        break;
+                }
+            }
+        }));
+
+    }
 
 
 }

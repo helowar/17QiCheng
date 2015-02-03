@@ -2,8 +2,11 @@ package com.qicheng.business.logic;
 
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
+import com.qicheng.business.persistor.PersistorManager;
+import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
@@ -59,5 +62,62 @@ public class UserLogic extends BaseLogic {
         });
 
     }
+
+    /**
+     * 获取验证码
+     * @param cellNum
+     * @param listener
+     */
+    public void getVerifyCode(final String cellNum, final EventListener listener){
+        logger.d("Get Verify Code with CellNum:" + cellNum);
+        final User user= new User();
+        user.setCellNum(cellNum);
+        //获取验证码过程
+        final VerifyCodeProcess process = new VerifyCodeProcess();
+        process.setParamUser(user);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("login process response, " + errCode);
+
+                if(errCode==OperErrorCode.Success){
+                    /**
+                     *
+                     */
+                }
+                //发送事件
+                fireStatusEvent(listener, errCode);
+
+            }
+        });
+    }
+
+    /**
+     * 获取并持久化公钥
+     */
+    public void fetchPublicKey(){
+        final GetPublicKeyProcess process = new GetPublicKeyProcess();
+        process.run();
+    }
+
+    /**
+     * 取出公钥
+     * @return
+     */
+    public String getPublicKey(){
+        return PersistorManager.getInstance().getPublicKey();
+    }
+
+    public void userRegister(final String cellNum, final String verifyCode, final EventListener listener){
+        logger.d("Register with CellNum:" + cellNum);
+        /**
+         *友盟统计
+         */
+//        Stat.onEvent(StatId.Login);
+
+    }
+
 
 }
