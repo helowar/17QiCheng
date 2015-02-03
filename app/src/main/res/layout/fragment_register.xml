@@ -23,6 +23,8 @@
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
             style="@style/FormEdittext"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -34,6 +36,7 @@
             style="@style/FormEdittext"
             android:layout_marginRight="32dp"
             android:hint="@string/verify_code_hint"
+            android:inputType="numberDecimal"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/button_get_verify_code"
