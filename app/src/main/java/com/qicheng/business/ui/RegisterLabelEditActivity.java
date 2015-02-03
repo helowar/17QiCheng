@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,14 +29,14 @@ public class RegisterLabelEditActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_edit);
+        //描绘自定义布局ViewGroup
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
-        text2.setText("已选标签");
+        text2.setText(R.string.already_add_label);
         Intent intent = getIntent();
         ArrayList<Label> labels = (ArrayList<Label>) intent.getSerializableExtra("labels");
-        Log.d(TAG, labels.toString());
         if (labels != null && labels.size() > 0) {
             for (int i = 0; i < labels.size(); i++) {
                 labelViewGroup.addView(setTextViewToGroup(labels.get(i).getName()));
@@ -74,8 +75,8 @@ public class RegisterLabelEditActivity extends BaseActivity {
     }
 
 
+    //通过文本文件创建TextView
     public TextView setTextViewToGroup(String text) {
-
         TextView textView = new TextView(this);
         textView.setText(text);
         textView.setTextAppearance(this, R.style.labelStyle);
@@ -107,21 +108,21 @@ public class RegisterLabelEditActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_register_label_edit, menu);
+        ActionBar bar = this.getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
