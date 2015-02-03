@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class LoginProcess extends BaseProcess {
 
     //服务端请求地址
-    private final String URL="http://192.168.1.112/user/login.html";
+    private final String URL="http://192.168.1.112/user/login.html?t=";
 
     //参数对象
     private User paramUser;

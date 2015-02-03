@@ -29,4 +29,12 @@
     <string name="verify_code_hint">输入验证码</string>
     <string name="mobile_prefix_text">+86</string>
     <!--Register Activity end-->
+
+    <!--Traveller Activity begin-->
+    <string name="traveller_activity_title">同路人</string>
+    <string name="traveller_recommend_text">推荐</string>
+    <string name="traveller_start_btn_text">出发车友</string>
+    <string name="traveller_end_btn_text">到达车友</string>
+    <!--Traveller Activity end-->
+
 </resources>

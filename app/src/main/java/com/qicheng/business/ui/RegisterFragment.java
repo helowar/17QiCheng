@@ -65,7 +65,8 @@ public class RegisterFragment extends Fragment {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         View fragmentView =  inflater.inflate(R.layout.fragment_register, container, false);
-        fragmentView.findViewById(R.id.);
+        //fragmentView.findViewById(R.id.);
+        return null;
     }
 
 
