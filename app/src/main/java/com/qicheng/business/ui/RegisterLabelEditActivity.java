@@ -117,6 +117,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+                //跳转至登录
                 Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
                 startActivity(intent);
                 getActivity().finish();
