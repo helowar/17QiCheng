@@ -33,26 +33,26 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         TextView text = (TextView) view2.findViewById(R.id.label_text);
         text.setText("影视");
         LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_pretty));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_financial));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_baigujing));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_beijing));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_xiaoxianrou));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_woshigeshou));
-        labelViewGroup2.addView(setTextViewToGroup(R.string.label_text_zhiyegeshou));
+        labelViewGroup2.addView(setTextViewToGroup("美女"));
+        labelViewGroup2.addView(setTextViewToGroup("金融"));
+        labelViewGroup2.addView(setTextViewToGroup("白骨精"));
+        labelViewGroup2.addView(setTextViewToGroup("北京"));
+        labelViewGroup2.addView(setTextViewToGroup("小鲜肉"));
+        labelViewGroup2.addView(setTextViewToGroup("我是歌手"));
+        labelViewGroup2.addView(setTextViewToGroup("职业歌手"));
         linearLayout.addView(view2);
 
         View view = (View)getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
         text2.setText("歌曲");
         LabelViewGroup labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_pretty));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_financial));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_baigujing));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_beijing));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_xiaoxianrou));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_woshigeshou));
-        labelViewGroup.addView(setTextViewToGroup(R.string.label_text_zhiyegeshou));
+        labelViewGroup.addView(setTextViewToGroup("美女"));
+        labelViewGroup.addView(setTextViewToGroup("金融"));
+        labelViewGroup.addView(setTextViewToGroup("白骨精"));
+        labelViewGroup.addView(setTextViewToGroup("北京"));
+        labelViewGroup.addView(setTextViewToGroup("小鲜肉"));
+        labelViewGroup.addView(setTextViewToGroup("我是歌手"));
+        labelViewGroup.addView(setTextViewToGroup("职业歌手"));
         linearLayout.addView(view);
 
         Button nextButton = (Button)findViewById(R.id.label_button_next);
@@ -68,15 +68,16 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     }
 
 
-    public TextView setTextViewToGroup(int textId) {
+    public TextView setTextViewToGroup(String textId) {
         TextView textView = new TextView(this);
         textView.setText(textId);
         textView.setTextAppearance(this, R.style.labelStyle);
         textView.setBackgroundResource(R.drawable.label_shape);
+        final Label label = new Label();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Label label = new Label();
+
                 if (!v.isSelected()) {
                     label.setName(((TextView)v).getText().toString());
                     labels.add(label);
@@ -84,6 +85,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     v.setSelected(true);
                 } else {
+                    labels.remove(label);
                     v.setBackgroundResource(R.drawable.label_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
                     v.setSelected(false);

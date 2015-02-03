@@ -79,24 +79,22 @@ public class RegisterLabelEditActivity extends BaseActivity {
         TextView textView = new TextView(this);
         textView.setText(text);
         textView.setTextAppearance(this, R.style.labelStyle);
-        textView.setBackgroundResource(R.drawable.label_shape);
-        if (!textView.isSelected()) {
-            listView.add(textView);
-        }
+        textView.setBackgroundResource(R.drawable.label_select_shape);
+        textView.setTextColor(getResources().getColor(R.color.white));
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!v.isSelected()) {
-                    v.setBackgroundResource(R.drawable.label_select_shape);
-                    ((TextView) v).setTextColor(getResources().getColor(R.color.white));
-                    v.setSelected(true);
-                    listView.remove(v);
-
-                } else {
                     v.setBackgroundResource(R.drawable.label_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
-                    v.setSelected(false);
+                    v.setSelected(true);
                     listView.add(v);
+
+                } else {
+                    v.setBackgroundResource(R.drawable.label_select_shape);
+                    ((TextView) v).setTextColor(getResources().getColor(R.color.white));
+                    v.setSelected(false);
+                    listView.remove(v);
                 }
 
             }
