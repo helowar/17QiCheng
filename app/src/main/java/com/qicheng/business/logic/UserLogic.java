@@ -4,6 +4,7 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
@@ -59,5 +60,62 @@ public class UserLogic extends BaseLogic {
         });
 
     }
+
+    public void getVerifyCode(final String cellNum, final EventListener listener){
+        logger.d("Get Verify Code with CellNum:" + cellNum);
+        final User user= new User();
+        user.setCellNum(cellNum);
+        //获取验证码过程
+        final VerifyCodeProcess process = new VerifyCodeProcess();
+        process.setParamUser(user);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("login process response, " + errCode);
+
+                if(errCode==OperErrorCode.Success){
+                    /**
+                     *
+                     */
+                }
+                //发送事件
+                fireStatusEvent(listener, errCode);
+
+            }
+        });
+    }
+
+    public void userRegister(final String cellNum, final String verifyCode, final EventListener listener){
+        logger.d("Register with CellNum:" + cellNum);
+        /**
+         *友盟统计
+         */
+//        Stat.onEvent(StatId.Login);
+        //注册所用的数据
+        final User user= new User();
+        user.setCellNum(cellNum);
+        user.setVerifyCode(verifyCode);
+        //登录后台交互过程
+        final LoginProcess process = new LoginProcess();
+        process.setParamUser(user);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("login process response, " + errCode);
+
+                if(errCode==OperErrorCode.Success){
+                    Cache.getInstance().setCacheUser(process.getResultUser());
+                }
+                //发送事件
+                fireStatusEvent(listener, OperErrorCode.Success);
+
+            }
+        });
+    }
+
 
 }

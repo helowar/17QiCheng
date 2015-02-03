@@ -80,7 +80,7 @@ public class Const {
 	public static QichengApplication Application = null;
 
 	// 调试
-	public static final boolean FakeProtocol = true;
+	public static final boolean FakeProtocol = false;
 
 	public static final String WorkDir = Environment
 			.getExternalStorageDirectory().getAbsolutePath() + "/ouser/";

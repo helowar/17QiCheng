@@ -26,6 +26,8 @@ public class ProcessStatus{
 
         ErrException,
         ErrUnkown,
+        /**非法请求*/
+        IllegalRequest,
     }
 
     public static OperErrorCode convertFromStatus(Status status) {
@@ -44,6 +46,8 @@ public class ProcessStatus{
                 return OperErrorCode.UidInvalid;
             case ErrNetDisable:
                 return OperErrorCode.NetNotAviable;
+            case IllegalRequest:
+                return OperErrorCode.IllegalRequest;
             default:
                 return OperErrorCode.Unknown;
         }

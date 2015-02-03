@@ -19,6 +19,8 @@ public class User {
 
     private String userId;
 
+    private String verifyCode;
+
     public User() {
     }
 
@@ -73,5 +75,13 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
     }
 }

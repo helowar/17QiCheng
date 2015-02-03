@@ -13,6 +13,8 @@
     <string name="password_is_empty">请输入密码</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="load_more">放开我就给你看更多</string>
+
+    <string name="illegal_cell_num_msg">请确认手机号是否正确</string>
     <!--Register Activity begin-->
     <string name="title_activity_register">注册</string>
     <string name="nicky_name">昵称</string>
@@ -26,6 +28,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_memo_text">您将收到验证身份的短信。手机注册将有效避免垃圾广告、骚扰信息</string>
     <string name="get_verify_code_button">获取验证码</string>
+    <string name="verify_code_send_success_msg">验证码已发送</string>
+    <string name="verify_code_send_failed_msg">验证码发送失败</string>
     <string name="verify_code_hint">输入验证码</string>
     <string name="verify_code_wait_msg">秒后重新获取</string>
     <string name="mobile_prefix_text">+86</string>

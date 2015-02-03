@@ -3,6 +3,7 @@ package com.qicheng.framework.net;
 import android.os.AsyncTask;
 
 import com.qicheng.framework.net.HttpResultCallback.HttpDownloaderResult;
+import com.qicheng.framework.util.StringUtil;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,10 +15,12 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +96,40 @@ public class HttpComm {
 			postEvent(work(request));
 		}
 	}
+
+    /**
+     *
+     * @param url
+     * @param param
+     * @param callback
+     */
+    public void post(String url, String param, HttpResultCallback callback) {
+        this.mUrl = url;
+        this.mCallback = callback;
+
+        HttpPost request = new HttpPost(url);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        if(!StringUtil.isEmpty(param)) {
+            try {
+                byte[] paramBytes =  param.getBytes();
+                BasicHttpEntity requestBody = new BasicHttpEntity();
+                requestBody.setContent(new ByteArrayInputStream(paramBytes));
+                requestBody.setContentLength(paramBytes.length);
+                request.setEntity(requestBody);
+
+            } catch(Exception e) {
+                this.postEvent(null);
+                return;
+            }
+        }
+
+        if(mAsync) {
+            new HttpAsyncTask().execute(request);
+        } else {
+            postEvent(work(request));
+        }
+    }
 	
 	private void postEvent(String result) {
 		if(this.mCallback != null) {
@@ -109,11 +146,11 @@ public class HttpComm {
 			}
 			
 		} catch(ClientProtocolException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		} catch(IOException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		} catch(Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		return null;
 	}

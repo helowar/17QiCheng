@@ -95,10 +95,8 @@ abstract public class BaseProcess {
 				return null;
 			}
 			
-			Map<String, String> postParam = new HashMap<String, String>();
-			postParam.put("info", parameter);
 
-			new HttpComm(false).post(url, postParam, true, new HttpResultCallback() {
+			new HttpComm(false).post(url, parameter, new HttpResultCallback() {
 				
 				@Override
 				public void onResponse(HttpDownloaderResult success, String url,
