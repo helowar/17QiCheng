@@ -1,13 +1,15 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,6 +26,8 @@ public class RegisterLabelEditActivity extends BaseActivity {
     private ArrayList<View> listView = new ArrayList<View>();
     private LabelViewGroup labelViewGroup;
     private final static String TAG = "EditLabel";
+    private LinearLayout labelRoot;
+    private  EditText addEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
         }
 
 
-        final EditText addEditText = (EditText) findViewById(R.id.edit_label);
+        addEditText   = (EditText) findViewById(R.id.edit_label);
         addEditText.setFocusable(true);
         addEditText.requestFocus();
         addEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -55,6 +59,11 @@ public class RegisterLabelEditActivity extends BaseActivity {
                     v = setTextViewToGroup(text);
                     labelViewGroup.addView(v);
                     addEditText.setText("");
+                    //按下回车丢失焦点
+                    addEditText.clearFocus();
+                    //收起软键盘
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(addEditText.getWindowToken(), 0);
                 }
                 return false;
             }
@@ -115,15 +124,16 @@ public class RegisterLabelEditActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 //跳转至登录
-                Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+                //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
+                //startActivity(intent);
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

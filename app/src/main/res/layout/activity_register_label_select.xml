@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/next_step"
+                android:enabled="false"
                 style="@style/NormalButton" />
         </LinearLayout>
     </LinearLayout>

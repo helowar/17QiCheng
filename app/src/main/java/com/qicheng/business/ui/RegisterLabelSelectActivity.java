@@ -1,12 +1,8 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.AndroidCharacter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +15,13 @@ import com.qicheng.R;
 import com.qicheng.business.module.Label;
 import com.qicheng.framework.ui.base.BaseActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RegisterLabelSelectActivity extends BaseActivity {
     private final static String TAG = "Selected";
     private ArrayList<Label> labels = new ArrayList<Label>();
+    private Button nextButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         labelViewGroup2.addView(setTextViewToGroup("职业歌手"));
         linearLayout.addView(view2);
 
-        View view = (View)getLayoutInflater().inflate(R.layout.layout_label_collection, null);
+        View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
         text2.setText("歌曲");
         LabelViewGroup labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
@@ -57,13 +54,14 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         labelViewGroup.addView(setTextViewToGroup("职业歌手"));
         linearLayout.addView(view);
 
-        Button nextButton = (Button)findViewById(R.id.label_button_next);
+
+        nextButton = (Button) findViewById(R.id.label_button_next);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegisterLabelSelectActivity.this,RegisterLabelEditActivity.class);
-                Log.d(TAG,labels.toString());
-                intent.putExtra("labels",labels);
+                Intent intent = new Intent(RegisterLabelSelectActivity.this, RegisterLabelEditActivity.class);
+                Log.d(TAG, labels.toString());
+                intent.putExtra("labels", labels);
                 startActivity(intent);
             }
         });
@@ -79,18 +77,23 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (!v.isSelected()) {
-                    label.setName(((TextView)v).getText().toString());
+                    label.setName(((TextView) v).getText().toString());
                     labels.add(label);
                     v.setBackgroundResource(R.drawable.label_select_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     v.setSelected(true);
+                    if (labels.size() > 0) {
+                        nextButton.setEnabled(true);
+                    }
                 } else {
                     labels.remove(label);
                     v.setBackgroundResource(R.drawable.label_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
                     v.setSelected(false);
+                    if (labels.size() <= 0) {
+                        nextButton.setEnabled(false);
+                    }
                 }
             }
         });
@@ -101,7 +104,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_register_label_select, menu);
-        ActionBar actionBar =this.getActionBar();
+        ActionBar actionBar = this.getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
@@ -111,9 +114,9 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
-            startActivity(intent);
-            getActivity().finish();
+            //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
+            //startActivity(intent);
+            onBackPressed();
             return true;
         }
 
