@@ -1,42 +1,25 @@
 package com.qicheng.business.protocol;
 
-import com.qicheng.business.module.User;
+import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.framework.protocol.BaseProcess;
+import com.qicheng.util.Const;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by NO1 on 2015/2/3.
  */
-public class VerifyCodeProcess extends BaseProcess{
+public class GetPublicKeyProcess extends BaseProcess {
 
-    private final String url = "http://192.168.1.107:8080/qps/user/verify_code_get.html";
-
-    private User mParamUser;
-
-    private User mResultUser;
+    private final String url="http://192.168.1.107:8080/qps/common/get_public_key.html";
 
     @Override
     protected String getRequestUrl() {
         return url;
     }
 
-    public void setParamUser(User mParamUser) {
-        this.mParamUser = mParamUser;
-    }
-
     @Override
     protected String getInfoParameter() {
-        try {
-            //组装传入服务端参数
-            JSONObject o = new JSONObject();
-            o.put("action_type", "0");
-            o.put("cell_num", mParamUser.getCellNum());
-            return o.toString();
-        } catch(JSONException e) {
-            e.printStackTrace();
-        }
         return null;
     }
 
@@ -50,6 +33,12 @@ public class VerifyCodeProcess extends BaseProcess{
             switch(value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
+                    /**
+                     * 获取公钥并持久化
+                     */
+                    JSONObject key = o.optJSONObject("body");
+                    String keyString = key.getString("public_key");
+                    PersistorManager.getInstance().savePublicKey(keyString);
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);

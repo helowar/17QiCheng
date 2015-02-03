@@ -28,12 +28,15 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends BaseFragment {
+
+    private static Logger logger = new Logger("com.qicheng.business.ui.RegisterFragment");
 
     /**
      * 控件成员
@@ -53,6 +56,8 @@ public class RegisterFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().setTitle("注册");
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.fetchPublicKey();
     }
 
     @Override
@@ -100,6 +105,9 @@ public class RegisterFragment extends BaseFragment {
                 if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNO(cellNum)){
                        Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
                 }else {
+                    /**
+                     * 获取验证码
+                     */
                     getVerifyCode();
                 }
             }
@@ -159,6 +167,7 @@ public class RegisterFragment extends BaseFragment {
 
     private void getVerifyCode(){
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        logger.d("Public key is:------*"+userLogic.getPublicKey()+"*--------");
         userLogic.getVerifyCode(mMobileNumber.getText().toString(), createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {

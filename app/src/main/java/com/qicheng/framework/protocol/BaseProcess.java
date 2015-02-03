@@ -77,11 +77,13 @@ abstract public class BaseProcess {
 			
 			String url = getRequestUrl();
 			String parameter = getInfoParameter();
-			parameter = parameter.replace("\\/", "/");
+            if(!StringUtil.isEmpty(parameter)){
+                parameter = parameter.replace("\\/", "/");
+            }
 			logger.d(String.format("send name:%s url:%s param:%s",
                     clazz, url, parameter));
 			
-			if(StringUtil.isEmpty(url) || parameter == null) {
+			if(StringUtil.isEmpty(url)) {
 				mStatus = ProcessStatus.Status.ErrUnkown;
 				return null;
 			}
