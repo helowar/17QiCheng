@@ -1,10 +1,8 @@
 package com.qicheng.business.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
@@ -17,6 +15,8 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         UserInfoInputFragment userInfoSettingFragment = new UserInfoInputFragment();
         getFragmentManager().beginTransaction().add(R.id.form_register, userInfoSettingFragment).commit();
+
+
     }
 
 
