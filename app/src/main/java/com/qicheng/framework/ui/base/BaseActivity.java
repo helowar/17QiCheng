@@ -130,4 +130,7 @@ public class BaseActivity extends Activity{
 		super.onStop();
 	}
 
+    public boolean isActyDestroyed() {
+        return super.isFinishing();
+    }
 }

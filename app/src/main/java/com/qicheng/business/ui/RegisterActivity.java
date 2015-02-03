@@ -11,13 +11,25 @@ import com.qicheng.framework.ui.base.BaseActivity;
 
 public class RegisterActivity extends BaseActivity {
 
+    private RegisterFragment mRegisterFragment;
+    private UserInfoInputFragment mUserInfoInputFragment;
+
+    public RegisterFragment getRegisterFragment() {
+        return mRegisterFragment;
+    }
+
+    public UserInfoInputFragment getUserInfoInputFragment() {
+        return mUserInfoInputFragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getActionBar();
         setContentView(R.layout.activity_register);
-        UserInfoInputFragment userInfoSettingFragment = new UserInfoInputFragment();
-        getFragmentManager().beginTransaction().add(R.id.form_register, userInfoSettingFragment).commit();
+        mRegisterFragment = new RegisterFragment();
+//        UserInfoInputFragment userInfoSettingFragment = new UserInfoInputFragment();
+        getFragmentManager().beginTransaction().add(R.id.form_register, mRegisterFragment).commit();
     }
 
 //    @Override

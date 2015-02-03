@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 15
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId "com.qicheng"
-        minSdkVersion 17
-        targetSdkVersion 17
+        minSdkVersion 15
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }

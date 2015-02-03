@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".business.ui.RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:logo="@drawable/ic_user">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

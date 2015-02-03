@@ -117,7 +117,7 @@ public class BaseFragment extends Fragment {
 	protected void removeFragment(int id) {
 		// 正在销毁，不允许remove fragment
 		// 否则异常java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-		if(((BaseActivity)getActivity()).isDestroyed()) {
+		if(((BaseActivity)getActivity()).isActyDestroyed()) {
 			return;
 		}
 		Fragment fragment = findFragment(id);

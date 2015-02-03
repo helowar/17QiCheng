@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -79,6 +80,26 @@ public class UserInfoInputFragment extends BaseFragment {
         inflater.inflate(R.menu.menu_register, menu);
         ActionBar bar = getActivity().getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                //跳转回注册页面
+                RegisterActivity activity =(RegisterActivity)getActivity();
+                RegisterFragment registerFragment;
+                if(activity.getRegisterFragment()==null){
+                    registerFragment = new RegisterFragment();
+                }else {
+                    registerFragment = activity.getRegisterFragment();
+                }
+                activity.getFragmentManager().beginTransaction().replace(R.id.form_register,registerFragment).commit();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @TargetApi(11)
