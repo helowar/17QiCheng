@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mine_label_add"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+
+
+    <EditText
+        android:id="@+id/edit_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/please_add_label"
+        android:textColor="@color/gray_text"
+        style="@style/FormEdittext" />
+
+    <ScrollView
+        android:id="@+id/label_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/label_scroll_root"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout style="@style/FormInputContainer">
+
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_selected"
+            style="@style/NormalButton" />
+    </LinearLayout>
+
+</LinearLayout>

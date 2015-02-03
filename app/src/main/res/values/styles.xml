@@ -117,4 +117,22 @@
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
     </style>
+
+    <!--标签控件样式-->
+    <style name="labelStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--标签标题控制样式-->
+    <style name="labelTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/main</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
 </resources>
