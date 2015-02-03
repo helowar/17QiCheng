@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/traveller_recommend_person_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/ic_default_portrait"
+        app:border_color="@color/main"
+        app:border_width="1dp" />
+
+    <TextView
+        android:id="@+id/traveller_recommend_person_end"
+        android:layout_width="60dp"
+        android:layout_height="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="@dimen/common_gap"
+        android:layout_marginRight="@dimen/common_gap"
+        android:background="@drawable/traveller_text_view_circle"
+        android:gravity="center|center_horizontal"
+        android:text="@string/traveller_recommend_text"
+        android:textColor="@color/white"
+        android:textSize="7sp" />
+</LinearLayout>
