@@ -45,6 +45,8 @@ public class RegisterFragment extends BaseFragment {
     private Button mSubmitButton;
     private EditText mMobileNumber;
     private EditText mVerifyCode;
+    private EditText mUserPwd;
+    private CountDownTimer timer;
 
 
     public RegisterFragment() {
@@ -55,9 +57,7 @@ public class RegisterFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle("注册");
-        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
-        userLogic.fetchPublicKey();
+        getActivity().setTitle(getResources().getString(R.string.title_activity_register));
     }
 
     @Override
@@ -96,13 +96,15 @@ public class RegisterFragment extends BaseFragment {
         mMobileNumber = (EditText)fragmentView.findViewById(R.id.edittext_mobile);
         //获取验证码输入控件
         mVerifyCode = (EditText)fragmentView.findViewById(R.id.editText_verify_code);
+        //获取密码输入控件
+        mUserPwd = (EditText)fragmentView.findViewById(R.id.edittext_pwd);
 
         mVerifyCodeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View button) {
                 String cellNum = mMobileNumber.getText().toString();
                 //判断手机号码是否合法
-                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNO(cellNum)){
+                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNum(cellNum)){
                        Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
                 }else {
                     /**
@@ -126,7 +128,7 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mVerifyCode.getText().toString())){
+                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mVerifyCode.getText().toString())&&!StringUtil.isEmpty(mUserPwd.getText().toString())){
                     mSubmitButton.setEnabled(true);
                 }else {
                     mSubmitButton.setEnabled(false);
@@ -147,9 +149,30 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mMobileNumber.getText().toString())){
+                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mMobileNumber.getText().toString())&&!StringUtil.isEmpty(mUserPwd.getText().toString())){
                     mSubmitButton.setEnabled(true);
                 }else {
+                    mSubmitButton.setEnabled(false);
+                }
+            }
+        });
+
+        mUserPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mMobileNumber.getText().toString()) && !StringUtil.isEmpty(mVerifyCode.getText().toString())) {
+                    mSubmitButton.setEnabled(true);
+                } else {
                     mSubmitButton.setEnabled(false);
                 }
             }
@@ -158,7 +181,16 @@ public class RegisterFragment extends BaseFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                String cellNum = mMobileNumber.getText().toString();
+                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNum(cellNum)){
+                    Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
+                    return;
+                }
+                if(StringUtil.isEmpty(mUserPwd.getText().toString())||StringUtil.isEmpty(mVerifyCode.getText().toString())){
+                    Alert.Toast("请填写正确注册信息");
+                }
                 // TODO:调用注册逻辑
+                doRegister();
             }
         });
         return fragmentView;
@@ -177,7 +209,8 @@ public class RegisterFragment extends BaseFragment {
                         Alert.Toast(getResources().getString(R.string.verify_code_send_success_msg));
                         //重新获取的倒计时开启
                         mVerifyCodeButton.setEnabled(false);
-                        new CountDownTimer(60000, 1000) {
+
+                        timer = new CountDownTimer(60000, 1000) {
                             public void onTick(long millisUntilFinished) {
                                 mVerifyCodeButton.setText(millisUntilFinished / 1000+getResources().getString(R.string.verify_code_wait_msg));
                             }
@@ -188,6 +221,7 @@ public class RegisterFragment extends BaseFragment {
                         }.start();
                         break;
                     default:
+                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.verify_code_send_failed_msg));
                         break;
                 }
@@ -196,5 +230,48 @@ public class RegisterFragment extends BaseFragment {
 
     }
 
+    /**
+     * 执行登录过程
+     */
+    private void doRegister(){
+        UserLogic userLogic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.userRegister(mMobileNumber.getText().toString(),mUserPwd.getText().toString(), mVerifyCode.getText().toString(),createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
+                switch(errCode) {
+                    case Success:
+                        startActivity(new Intent(getActivity(), MainActivity.class ));
+                        getActivity().finish();
+                        break;
+                    case CellNumExist:
+                        Alert.Toast(getResources().getString(R.string.cell_num_already_exist_err_msg));
+                        break;
+                    case VerifyCodeExpire:
+                        Alert.Toast(getResources().getString(R.string.verify_code_expire_err_msg));
+                        break;
+                    case VerifyCodeWrong:
+                        Alert.Toast(getResources().getString(R.string.wrong_verify_code_err_msg));
+                        break;
+                    case NetNotAviable:
+                        Alert.showNetAvaiable();
+                        break;
+                    default:
+                        Alert.Toast("注册失败");
+                        break;
+                }
+            }
+        }));
 
+        startLoading();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(timer!=null){
+            timer.cancel();
+        }
+    }
 }

@@ -21,6 +21,7 @@ abstract public class BaseProcess {
 	
 	private final String clazz = getClass().getSimpleName();
 	private static final Logger logger = new Logger("protocol");
+    protected static final String STATUS_TAG = "result_code";
 
 	/** 获得请求地址 */
 	abstract protected String getRequestUrl();

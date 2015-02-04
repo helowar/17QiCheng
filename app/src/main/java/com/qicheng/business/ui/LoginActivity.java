@@ -36,23 +36,18 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        /**
-         * 使用fragment进行布局
-         *
-         */
-//        FragmentManager fm = getFragmentManager();
-//        Fragment fragmentSlogan = fm.findFragmentById(R.id.layout_slogan);
-//        Fragment fragmentLoginForm = fm.findFragmentById(R.id.layout_login_form);
-//        if(fragmentSlogan == null){
-//            fragmentSlogan = new SloganFragment();
-//
-//           fm.beginTransaction().add(R.id.layout_slogan,fragmentSlogan).commit();
-//        }
-//        if(fragmentLoginForm==null) {
-//            fragmentLoginForm = new LoginFormFragment();
-//            fm.beginTransaction().add(R.id.layout_login_form, fragmentLoginForm).commit();
-//        }
-//        findViewById();
+        //获取并保存公钥
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.fetchPublicKey(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
+                //可能因网络故障等导致无法获取公钥
+                if(errCode!=OperErrorCode.Success){
+                    Alert.handleErrCode(errCode);
+                }
+            }
+        }));
         mLoginButton = (Button)findViewById(R.id.button_login);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
