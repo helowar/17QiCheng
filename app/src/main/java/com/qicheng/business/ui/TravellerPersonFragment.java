@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,6 +56,12 @@ public class TravellerPersonFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         imageAdapter = new ImageAdapter();
+        for (int i = 0; i < 2; i++) {
+            personList.add(new TravellerPerson());
+            personList.add(new TravellerPerson());
+            personList.add(new TravellerPerson());
+            personList.add(new TravellerPerson());
+        }
     }
 
     @Override
@@ -71,20 +76,13 @@ public class TravellerPersonFragment extends Fragment {
                 startUserActivity(position);
             }
         });
-        for (int i = 0; i < 2; i++) {
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
-        }
-        imageAdapter.notifyDataSetChanged();
         return personView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        personsGridView.setOnScrollListener(new TravellerPersonOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
+        personsGridView.setOnScrollListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
     }
 
     @Override
@@ -124,13 +122,17 @@ public class TravellerPersonFragment extends Fragment {
                 personView = convertView;
             }
             ImageView imageView = (ImageView) personView.findViewById(R.id.traveller_person_img);
-            imageView.setImageResource(R.drawable.ic_default_portrait);
-            //imageLoader.displayImage(personList.get(position).getPortrait_url(), imageView, options);
+            String portraitUrl = personList.get(position).getPortrait_url();
+            if (portraitUrl == null) {
+                imageView.setImageResource(R.drawable.ic_default_portrait);
+            } else {
+                imageLoader.displayImage(portraitUrl, imageView, options);
+            }
             return personView;
         }
     }
 
-    public class TravellerPersonOnScrollListener extends PauseOnScrollListener {
+    public class TravellerOnScrollListener extends PauseOnScrollListener {
 
         /**
          * 拖至顶部的第一个可见位置和Y轴坐标
@@ -142,7 +144,7 @@ public class TravellerPersonFragment extends Fragment {
          */
         private int lastVisiblePosition = 0, lastLocationY = 0;
 
-        public TravellerPersonOnScrollListener(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling) {
+        public TravellerOnScrollListener(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling) {
             super(imageLoader, pauseOnScroll, pauseOnFling);
         }
 
@@ -159,12 +161,12 @@ public class TravellerPersonFragment extends Fragment {
                     v.getLocationOnScreen(location);
                     int y = location[1];
                     if (currentFirstVisiblePosition != firstVisiblePosition && firstLocationY != y) {
-                        //第一次拖至顶部
+                        // 第一次拖至顶部
                         firstVisiblePosition = currentFirstVisiblePosition;
                         firstLocationY = y;
                         return;
                     } else if (currentFirstVisiblePosition == firstVisiblePosition && firstLocationY == y) {
-                        //第二次拖至顶部
+                        // 第二次拖至顶部
                         personList.add(new TravellerPerson());
                         personList.add(new TravellerPerson());
                         personList.add(new TravellerPerson());
@@ -182,12 +184,12 @@ public class TravellerPersonFragment extends Fragment {
                         v.getLocationOnScreen(location);
                         int y = location[1];
                         if (currentLastVisiblePosition != lastVisiblePosition && lastLocationY != y) {
-                            //第一次拖至底部
+                            // 第一次拖至底部
                             lastVisiblePosition = currentLastVisiblePosition;
                             lastLocationY = y;
                             return;
                         } else if (currentLastVisiblePosition == lastVisiblePosition && lastLocationY == y) {
-                            //第二次拖至底部
+                            // 第二次拖至底部
                             personList.add(new TravellerPerson());
                             personList.add(new TravellerPerson());
                             personList.add(new TravellerPerson());
@@ -204,7 +206,6 @@ public class TravellerPersonFragment extends Fragment {
                 // 未滚动到底部
                 lastVisiblePosition = 0;
                 lastLocationY = 0;
-                Toast.makeText(view.getContext(), "总量：" + view.getCount(), Toast.LENGTH_SHORT).show();
             }
         }
     }
