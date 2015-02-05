@@ -28,6 +28,14 @@ public class ProcessStatus{
         ErrUnkown,
         /**非法请求*/
         IllegalRequest,
+
+        /**验证码错误*/
+        ErrWrongVerCode,
+        /**手机号码已存在*/
+        ErrExistCellNum,
+        /**验证码过期*/
+        ErrVerCodeExpire,
+
     }
 
     public static OperErrorCode convertFromStatus(Status status) {
@@ -48,6 +56,12 @@ public class ProcessStatus{
                 return OperErrorCode.NetNotAviable;
             case IllegalRequest:
                 return OperErrorCode.IllegalRequest;
+            case ErrWrongVerCode:
+                return OperErrorCode.VerifyCodeWrong;
+            case ErrVerCodeExpire:
+                return OperErrorCode.VerifyCodeExpire;
+            case ErrExistCellNum:
+                return OperErrorCode.CellNumExist;
             default:
                 return OperErrorCode.Unknown;
         }

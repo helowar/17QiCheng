@@ -73,7 +73,7 @@
     <style name="NormalButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:layout_margin">3dp</item>
         <!--<item name="android:state_pressed">@color/unavailable</item>
         <item name="android:state_active">@color/main</item>-->
@@ -90,6 +90,7 @@
         <item name="android:textColorHint">@color/unavailable</item>
         <item name="android:padding">@dimen/common_gap</item>
         <item name="android:textColor">@color/gray_text</item>
+        <item name="android:textSize">@dimen/input_title_text_size</item>
     </style>
     <!--基本textInput样式 -->
     <style name="generalEdittext">

@@ -1,21 +1,32 @@
 package com.qicheng.business.ui;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
+import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.module.TravellerPerson;
+import com.qicheng.framework.ui.HorizontalScrollListView;
 import com.qicheng.framework.ui.base.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TravellerActivity extends BaseActivity {
 
@@ -25,12 +36,22 @@ public class TravellerActivity extends BaseActivity {
     /**
      * 推荐车友View
      */
-    private HorizontalScrollView recommendPersonsView = null;
+    private HorizontalScrollListView recommendPersonsView = null;
 
     /**
      * 推荐车友Layout
      */
     private LinearLayout recommendPersonsLayout = null;
+
+    /**
+     * 推荐车友列表
+     */
+    private List<TravellerPerson> recommendPersonList = new ArrayList<TravellerPerson>();
+
+    /**
+     * 推荐车友适配器
+     */
+    private RecommendPersonAdapter recommendPersonAdapter = null;
 
     /**
      * 出发车友按钮
@@ -42,10 +63,23 @@ public class TravellerActivity extends BaseActivity {
      */
     private Button endBtn = null;
 
+    /**
+     * 出发车友FrameLayout
+     */
+    private FrameLayout startFrameLayout = null;
+
+    /**
+     * 到达车友FrameLayout
+     */
+    private FrameLayout endFrameLayout = null;
+
+    /**
+     * 图片加载器及其相关参数
+     */
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private boolean pauseOnScroll = false;
     private boolean pauseOnFling = true;
-
+    private DisplayImageOptions options;
     private String[] imageUrls = new String[]{
             "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
             "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
@@ -97,17 +131,32 @@ public class TravellerActivity extends BaseActivity {
             "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg"
     };
 
-    private DisplayImageOptions options;
+    /**
+     * 出发车友Fragment
+     */
+    private TravellerPersonFragment startTravellerFragment = null;
+
+    /**
+     * 到达车友Fragment
+     */
+    private TravellerPersonFragment endTravellerFragment = null;
+
+    /**
+     * Fragment事物管理对象
+     */
+    private FragmentTransaction fragmentTransaction = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traveller);
         // 获取各种View对象
-        recommendPersonsView = (HorizontalScrollView) findViewById(R.id.traveller_recommend_persons_view);
+        recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
         startBtn = (Button) findViewById(R.id.traveller_start_btn);
         endBtn = (Button) findViewById(R.id.traveller_end_btn);
+        startFrameLayout = (FrameLayout) findViewById(R.id.traveller_start_Layout);
+        endFrameLayout = (FrameLayout) findViewById(R.id.traveller_end_Layout);
         // 图片缓存加载选项值
         options = new DisplayImageOptions.Builder()
                 .showStubImage(R.drawable.ic_default_portrait)
@@ -117,9 +166,38 @@ public class TravellerActivity extends BaseActivity {
                 .cacheOnDisc()
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
-
-        getFragmentManager().beginTransaction().add(R.id.traveller_persons_Layout, new TravellerPersonFragment()).commit();
-        findViewById(R.id.traveller_persons_Layout).setVisibility(View.VISIBLE);
+        // 设置出发车友和到达车友区域里的各种View对象
+        startTravellerFragment = new TravellerPersonFragment();
+        endTravellerFragment = new TravellerPersonFragment();
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
+        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);
+        fragmentTransaction.commit();
+        startFrameLayout.setVisibility(View.VISIBLE);
+        endFrameLayout.setVisibility(View.VISIBLE);
+        // 设置出发车友和到达车友按钮监听事件
+        startBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                endBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                endBtn.setTextColor(getResources().getColor(R.color.main));
+                startBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                startBtn.setTextColor(getResources().getColor(R.color.white));
+                endFrameLayout.setVisibility(View.GONE);
+                startFrameLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        endBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                startBtn.setTextColor(getResources().getColor(R.color.main));
+                endBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                endBtn.setTextColor(getResources().getColor(R.color.white));
+                startFrameLayout.setVisibility(View.GONE);
+                endFrameLayout.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void startUserActivity(int position) {
@@ -142,24 +220,13 @@ public class TravellerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // 设置推荐车友View
-        LinearLayout recommendPersonLayout = null;
-        ImageView imageView = null;
-        TextView textView = null;
-        for(int i = 0; i < 10; i++) {
-            recommendPersonLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.traveller_recommend_person, null);
-            imageView = (ImageView) recommendPersonLayout.findViewById(R.id.traveller_recommend_person_img);
-            imageLoader.displayImage(imageUrls[i], imageView, options);
-            textView  = (TextView) recommendPersonLayout.findViewById(R.id.traveller_recommend_person_end);
-            textView.setText("上海" + i);
-            recommendPersonLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startUserActivity(1);
-                }
-            });
-            recommendPersonsLayout.addView(recommendPersonLayout);
+        for (int i = 0; i < 6; i++) {
+            TravellerPerson travellerPerson = new TravellerPerson();
+            travellerPerson.setEnd_station("杭州" + i);
+            travellerPerson.setPortrait_url(imageUrls[i]);
+            recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
         }
+        recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
     }
 
     @Override
@@ -182,5 +249,133 @@ public class TravellerActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class TravellerOnScrollListener extends PauseOnScrollListener implements HorizontalScrollListView.OnScrollStopListener {
+
+        /**
+         * 是否第一次拖至最左边标识
+         */
+        private boolean isFirstScrollToLeftEdge = false;
+
+        /**
+         * 是否第一次拖至最右边标识
+         */
+        private boolean isFirstScrollToRightEdge = false;
+
+        public TravellerOnScrollListener(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling) {
+            super(imageLoader, pauseOnScroll, pauseOnFling);
+        }
+
+        @Override
+        public void onScrollStoped() {
+        }
+
+        @Override
+        public void onScrollToLeftEdge() {
+            if (!isFirstScrollToLeftEdge) {
+                isFirstScrollToLeftEdge = true;
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    TravellerPerson travellerPerson = new TravellerPerson();
+                    travellerPerson.setEnd_station("杭州" + i);
+                    travellerPerson.setPortrait_url(imageUrls[i]);
+                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson), 0);
+                }
+            }
+        }
+
+        @Override
+        public void onScrollToRightEdge() {
+            if (!isFirstScrollToRightEdge) {
+                isFirstScrollToRightEdge = true;
+            } else {
+                for (int i = 0; i < 3; i++) {
+                    TravellerPerson travellerPerson = new TravellerPerson();
+                    travellerPerson.setEnd_station("杭州" + i);
+                    travellerPerson.setPortrait_url(imageUrls[i]);
+                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
+                }
+            }
+        }
+
+        @Override
+        public void onScrollToMiddle() {
+            isFirstScrollToLeftEdge = false;
+            isFirstScrollToRightEdge = false;
+        }
+    }
+
+    public class RecommendPersonAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return recommendPersonList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return recommendPersonList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // 设置推荐车友View
+            final View recommendPerson;
+            ImageView imageView = null;
+            TextView textView = null;
+            TravellerPerson travellerPerson = null;
+            if (convertView == null) {
+                recommendPerson = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, parent, false);
+                imageView = (ImageView) recommendPerson.findViewById(R.id.traveller_recommend_person_img);
+                travellerPerson = recommendPersonList.get(position);
+                String portraitUrl = travellerPerson.getPortrait_url();
+                if (portraitUrl == null) {
+                    imageView.setImageResource(R.drawable.ic_default_portrait);
+                } else {
+                    imageLoader.displayImage(portraitUrl, imageView, options);
+                }
+                textView = (TextView) recommendPerson.findViewById(R.id.traveller_recommend_person_end);
+                textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getEnd_station());
+//                recommendPerson.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        startUserActivity(1);
+//                    }
+//                });
+            } else {
+                recommendPerson = convertView;
+            }
+            return recommendPerson;
+        }
+    }
+
+    private View createRecommendPersonView(TravellerPerson travellerPerson) {
+        // 创建推荐车友View
+        View recommendPersonView;
+        ImageView imageView = null;
+        TextView textView = null;
+        recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
+        imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
+        String portraitUrl = travellerPerson.getPortrait_url();
+        if (portraitUrl == null) {
+            imageView.setImageResource(R.drawable.ic_default_portrait);
+        } else {
+            imageLoader.displayImage(portraitUrl, imageView, options);
+        }
+        textView = (TextView) recommendPersonView.findViewById(R.id.traveller_recommend_person_end);
+        textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getEnd_station());
+//        recommendPersonView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startUserActivity(1);
+//            }
+//        });
+        return recommendPersonView;
     }
 }

@@ -6,29 +6,24 @@ import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by NO1 on 2015/2/3.
+ * Created by NO1 on 2015/2/4.
  */
-public class VerifyCodeProcess extends BaseProcess{
+public class RegisterProcess extends BaseProcess {
 
-    private static Logger logger= new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
+    private static Logger logger = new Logger("com.qicheng.business.protocol.RegisterProcess");
 
-    private final String url = "http://192.168.1.107:8080/qps/user/verify_code_get.html";
+    private String url="http://192.168.1.107:8080/qps/user/register.html";
 
     private User mParamUser;
 
-    private User mResultUser;
+
 
     @Override
     protected String getRequestUrl() {
         return url;
-    }
-
-    public void setParamUser(User mParamUser) {
-        this.mParamUser = mParamUser;
     }
 
     @Override
@@ -36,8 +31,9 @@ public class VerifyCodeProcess extends BaseProcess{
         try {
             //组装传入服务端参数
             JSONObject o = new JSONObject();
-            o.put("action_type", "0");
             o.put("cell_num", mParamUser.getCellNum());
+            o.put("pwd", mParamUser.getPassWord());
+            o.put("verify_code",mParamUser.getVerifyCode());
             return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
         } catch(Exception e) {
             e.printStackTrace();
@@ -55,9 +51,24 @@ public class VerifyCodeProcess extends BaseProcess{
             switch(value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
+                    JSONObject resultBody = o.getJSONObject("body");
+                    String token = resultBody.optString("token");
+                    String portraitUrl = resultBody.optString("portrait_url");
+                    // TODO: 持久化token及portraitUrl，缓存token及portraitImg
+                    logger.d("Get users token:"+token);
+                    logger.d("Get user portraitUrl"+portraitUrl);
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);
+                    break;
+                case 7:
+                    setStatus(ProcessStatus.Status.ErrExistCellNum);
+                    break;
+                case 9:
+                    setStatus(ProcessStatus.Status.ErrWrongVerCode);
+                    break;
+                case 10:
+                    setStatus(ProcessStatus.Status.ErrVerCodeExpire);
                     break;
                 default:
                     setStatus(ProcessStatus.Status.ErrUnkown);
@@ -72,5 +83,13 @@ public class VerifyCodeProcess extends BaseProcess{
     @Override
     protected String getFakeResult() {
         return null;
+    }
+
+    public User getParamUser() {
+        return mParamUser;
+    }
+
+    public void setParamUser(User paramUser) {
+        mParamUser = paramUser;
     }
 }

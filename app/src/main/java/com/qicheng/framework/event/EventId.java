@@ -4,6 +4,7 @@ public enum EventId {
 	
 	eNone,
 	eAll,
+    ePhotoDownloadComplete,
 
 
 }
