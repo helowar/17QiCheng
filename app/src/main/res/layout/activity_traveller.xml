@@ -21,7 +21,7 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-        <HorizontalScrollView
+        <com.qicheng.framework.ui.HorizontalScrollListView
             android:id="@+id/traveller_recommend_persons_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" />
-        </HorizontalScrollView>
+        </com.qicheng.framework.ui.HorizontalScrollListView>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +67,12 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/traveller_persons_Layout"
+        android:id="@+id/traveller_start_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/traveller_end_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

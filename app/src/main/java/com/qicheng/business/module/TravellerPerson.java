@@ -15,6 +15,11 @@ public class TravellerPerson {
      */
     private String portrait_url;
 
+    /**
+     * 终点站名称
+     */
+    private String end_station;
+
     public String getUser_id() {
         return user_id;
     }
@@ -29,5 +34,13 @@ public class TravellerPerson {
 
     public void setPortrait_url(String portrait_url) {
         this.portrait_url = portrait_url;
+    }
+
+    public String getEnd_station() {
+        return end_station;
+    }
+
+    public void setEnd_station(String end_station) {
+        this.end_station = end_station;
     }
 }
