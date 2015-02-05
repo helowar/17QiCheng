@@ -25,6 +25,7 @@
             style="@style/FormEdittext"
             android:imeOptions="actionNext"
             android:inputType="phone"
+            android:hint="@string/username_is_empty"
             android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
@@ -46,7 +47,21 @@
             android:enabled="true"
             android:layout_weight="1"
             style="@style/NormalButton"/>
-
+    </LinearLayout>
+    <LinearLayout
+        style="@style/FormInputContainerWithBorder">
+        <TextView
+            android:text="@string/pwd_text"
+            style="@style/InputTitle"/>
+        <EditText
+            android:id="@+id/edittext_pwd"
+            android:layout_width="@dimen/zero"
+            android:layout_height="match_parent"
+            style="@style/FormEdittext"
+            android:hint="@string/pwd_hint_msg"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:layout_weight="1"/>
     </LinearLayout>
     <LinearLayout
         style="@style/FormInputContainer">

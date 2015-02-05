@@ -6,6 +6,7 @@ import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
@@ -94,12 +95,55 @@ public class UserLogic extends BaseLogic {
         });
     }
 
+    public void userRegister(final String cellNum, final String password,final String verifyCode ,final EventListener listener){
+        logger.d("Register with cellnum:" +cellNum+"--with password:"+password+"--with verifyCode:"+verifyCode );
+        /**
+         *友盟统计
+         */
+//        Stat.onEvent(StatId.Login);
+        final User user = new User();
+        user.setCellNum(cellNum);
+        user.setVerifyCode(verifyCode);
+        user.setPassWord(password);
+        final RegisterProcess process = new RegisterProcess();
+        process.setParamUser(user);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("Register process response, " + errCode);
+
+                if(errCode==OperErrorCode.Success){
+                    /**
+                     *
+                     */
+                }
+                //发送事件
+                fireStatusEvent(listener, errCode);
+            }
+        });
+    }
+
+
     /**
      * 获取并持久化公钥
      */
-    public void fetchPublicKey(){
+    public void fetchPublicKey(final EventListener listener){
         final GetPublicKeyProcess process = new GetPublicKeyProcess();
-        process.run();
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                    if(errCode!=OperErrorCode.Success){
+                        /**
+                         *获取公钥出错
+                         */
+                        fireStatusEvent(listener, errCode);
+                    }
+                }
+        });
     }
 
     /**
@@ -110,14 +154,6 @@ public class UserLogic extends BaseLogic {
         return PersistorManager.getInstance().getPublicKey();
     }
 
-    public void userRegister(final String cellNum, final String verifyCode, final EventListener listener){
-        logger.d("Register with CellNum:" + cellNum);
-        /**
-         *友盟统计
-         */
-//        Stat.onEvent(StatId.Login);
-
-    }
 
 
 }

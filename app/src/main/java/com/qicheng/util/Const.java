@@ -69,13 +69,13 @@ public class Const {
 	}
 	
 	public static class SharedPreferenceKey {
-		public static final String DefaultName = "ouser";
+		public static final String DefaultName = "qicheng";
 		
 		public static final String FirstStartup = "v1_0_first";
 	}
 	
 	/** 升级服务器地址 */
-	public static final String UpgradeServer = "http://ouser.zhengre.com/upgrade";
+//	public static final String UpgradeServer = "http://ouser.zhengre.com/upgrade";
 
 	public static QichengApplication Application = null;
 
@@ -83,7 +83,7 @@ public class Const {
 	public static final boolean FakeProtocol = false;
 
 	public static final String WorkDir = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/ouser/";
+			.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
 	// 地图缩放
 	public static final int MapZoom = 16;

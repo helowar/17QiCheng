@@ -40,4 +40,12 @@ public enum OperErrorCode {
 
     /** 非法请求*/
     IllegalRequest,
+
+    /**验证码过期*/
+    VerifyCodeExpire,
+
+    VerifyCodeWrong,
+
+    CellNumExist,
+
 }
