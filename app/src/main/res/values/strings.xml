@@ -14,7 +14,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="load_more">放开我就给你看更多</string>
 
-    <string name=""></string>
+    <!--<string name=""></string>-->
     <!--Login Activity begin-->
     <string name="pwd_text">密码</string>
     <string name="pwd_hint_msg">请设置密码</string>
