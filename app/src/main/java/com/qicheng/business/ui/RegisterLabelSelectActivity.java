@@ -12,34 +12,51 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.LabelItemPriorityComparator;
+import com.qicheng.business.logic.LabelLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.logic.LabelPriorityComparator;
 import com.qicheng.business.module.Label;
+import com.qicheng.business.module.LabelTypeList;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.helper.Alert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class RegisterLabelSelectActivity extends BaseActivity {
     private final static String TAG = "Selected";
     private ArrayList<Label> labels = new ArrayList<Label>();
     private Button nextButton;
+    private ArrayList<LabelTypeList> labelTypeLists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_select);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
 
-        View view2 = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
-        TextView text = (TextView) view2.findViewById(R.id.label_text);
-        text.setText("影视");
-        LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
-        labelViewGroup2.addView(setTextViewToGroup("美女"));
-        labelViewGroup2.addView(setTextViewToGroup("金融"));
-        labelViewGroup2.addView(setTextViewToGroup("白骨精"));
-        labelViewGroup2.addView(setTextViewToGroup("北京"));
-        labelViewGroup2.addView(setTextViewToGroup("小鲜肉"));
-        labelViewGroup2.addView(setTextViewToGroup("我是歌手"));
-        labelViewGroup2.addView(setTextViewToGroup("职业歌手"));
-        linearLayout.addView(view2);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
+          getTagList();
+
+        for (int i = 0; i <labelTypeLists.size() ; i++) {
+            View view2 = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
+            TextView text = (TextView) view2.findViewById(R.id.label_text);
+           LabelTypeList labelType= labelTypeLists.get(i);
+            text.setText(labelType.getName());
+            LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
+            for (int j = 0; j<labelType.getTagList().size(); j++) {
+                labelViewGroup2.addView(setTextViewToGroup(labelType.getTagList().get(j).getName()));
+            }
+            linearLayout.addView(view2);
+        }
+
+
+
 
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
@@ -65,6 +82,35 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * 获取标签完整列表
+     */
+    private  ArrayList<LabelTypeList> getTagList() {
+        final LabelLogic labelLogic =(LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
+        labelLogic.getLabelList(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                OperErrorCode errCode = ((LabelEventArgs)args).getErrCode();
+                 labelTypeLists=  ((LabelEventArgs) args).getLabelTypeLists();
+                Collections.sort(labelTypeLists,new LabelPriorityComparator());
+                for (int i = 0; i <labelTypeLists.size() ; i++) {
+                  Collections.sort(labelTypeLists.get(i).getTagList(), new LabelItemPriorityComparator());
+                }
+                Log.d("test",labelTypeLists.toString());
+                switch(errCode) {
+                    case Success:
+
+                        break;
+                    default:
+                        Alert.handleErrCode(errCode);
+                        Alert.Toast(getResources().getString(R.string.verify_code_send_failed_msg));
+                        break;
+                }
+            }
+        }));
+    return labelTypeLists;
     }
 
 
