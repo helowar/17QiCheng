@@ -1,13 +1,11 @@
 package com.qicheng.business.module;
 
-import com.qicheng.business.logic.LabelItemPriorityComparator;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by NO3 on 2015/2/5.
+ * 标签类型分组的module类
  */
 public class LabelTypeList implements Serializable {
 

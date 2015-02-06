@@ -2,6 +2,7 @@ package com.qicheng.business.module;
 
 /**
  * Created by NO3 on 2015/2/5.
+ * 标签元素的实体类
  */
 public class LabelItem {
     private String id;

@@ -8,15 +8,17 @@ import java.util.ArrayList;
 
 /**
  * Created by NO3 on 2015/2/5.
+ * 用户接收分组标签的列表
  */
 public class LabelEventArgs extends StatusEventArgs {
 
     private ArrayList<LabelTypeList> labelTypeLists = new ArrayList<LabelTypeList>();
 
-    public LabelEventArgs( ArrayList<LabelTypeList> value) {
+    public LabelEventArgs(ArrayList<LabelTypeList> value) {
         super(OperErrorCode.Success);
         labelTypeLists = value;
     }
+
     public LabelEventArgs(ArrayList<LabelTypeList> value, OperErrorCode errCode) {
         super(errCode);
         labelTypeLists = value;

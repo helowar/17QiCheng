@@ -1,9 +1,6 @@
 package com.qicheng.business.logic;
 
-import android.util.Log;
-
 import com.qicheng.business.logic.event.LabelEventArgs;
-import com.qicheng.business.module.Label;
 import com.qicheng.business.module.LabelTypeList;
 import com.qicheng.business.protocol.LabelProcess;
 import com.qicheng.business.protocol.ProcessStatus;
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 
 /**
  * Created by NO3 on 2015/2/5.
+ * 用户标签逻辑类
  */
 public class LabelLogic extends BaseLogic {
 
@@ -26,7 +24,8 @@ public class LabelLogic extends BaseLogic {
         }
     }
 
-    ArrayList<LabelTypeList> labelTypeLists ;
+    ArrayList<LabelTypeList> labelTypeLists;
+
     /**
      * 直接获取用户标签
      */
@@ -36,17 +35,17 @@ public class LabelLogic extends BaseLogic {
             @Override
             public void onResponse(String requestId) {
                 //操作码转换
-                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                //接收标签列表和返回值
+                LabelEventArgs args = new LabelEventArgs(labelTypeLists, errCode);
 
-                LabelEventArgs args = new LabelEventArgs(labelTypeLists ,errCode);
-
-                if(errCode==OperErrorCode.Success){
+                if (errCode == OperErrorCode.Success) {
                     /**
                      *
                      */
-                }else{
-                  process.getFakeResult();
-                  labelTypeLists =process.getList();
+                } else {
+                    process.getFakeResult();
+                    labelTypeLists = process.getList();
                     args.setLabelTypeLists(labelTypeLists);
                 }
                 //发送事件

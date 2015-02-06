@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 /**
  * Created by NO3 on 2015/2/6.
+ * 标签类型优先级比较器
  */
 public class LabelPriorityComparator implements Comparator<LabelTypeList> {
 

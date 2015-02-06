@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 /**
  * Created by NO3 on 2015/2/6.
+ * 比较小标签的的优先级
  */
 public class LabelItemPriorityComparator implements Comparator<LabelItem> {
 

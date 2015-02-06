@@ -11,10 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by NO3 on 2015/2/5.
+ * 标签报文发送与解析
  */
 public class LabelProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
@@ -63,7 +63,7 @@ public class LabelProcess extends BaseProcess {
 
     @Override
     public String getFakeResult() {
-    String r =   "{\n" +
+        String r = "{\n" +
                 "    \"result_code\": \"0\", \n" +
                 "    \"body\": [\n" +
                 "        {\n" +
@@ -89,19 +89,19 @@ public class LabelProcess extends BaseProcess {
                 "    ]\n" +
                 "}\n";
 
-       try {
-           Gson gson =new Gson();
-           JSONObject object = new JSONObject(r);
-           JSONArray arry =(JSONArray) object.opt("body");
-           for (int i = 0; i <arry.length() ; i++) {
-               Object o = arry.get(i);
-               LabelTypeList labelTypeList=    gson.fromJson(o.toString(),LabelTypeList.class);
-               list.add(labelTypeList);
-           }
+        try {
+            Gson gson = new Gson();
+            JSONObject object = new JSONObject(r);
+            JSONArray arry = (JSONArray) object.opt("body");
+            for (int i = 0; i < arry.length(); i++) {
+                Object o = arry.get(i);
+                LabelTypeList labelTypeList = gson.fromJson(o.toString(), LabelTypeList.class);
+                list.add(labelTypeList);
+            }
 
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "";
 
     }
