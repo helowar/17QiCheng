@@ -1,13 +1,11 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,7 +25,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
     private LabelViewGroup labelViewGroup;
     private final static String TAG = "EditLabel";
     private LinearLayout labelRoot;
-    private  EditText addEditText;
+    private EditText addEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
         }
 
 
-        addEditText   = (EditText) findViewById(R.id.edit_label);
+        addEditText = (EditText) findViewById(R.id.edit_label);
         addEditText.setFocusable(true);
         addEditText.requestFocus();
         addEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -62,7 +60,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
                     //按下回车丢失焦点
                     addEditText.clearFocus();
                     //收起软键盘
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(addEditText.getWindowToken(), 0);
                 }
                 return false;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *标签选择Activity
+ * 标签选择Activity
  */
 public class RegisterLabelSelectActivity extends BaseActivity {
     private final static String TAG = "Selected";
@@ -46,12 +46,11 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         getTagList();
 
 
-
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
         text2.setText("歌曲");
         LabelViewGroup labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
-        for (int i = 0; i <10 ; i++) {
+        for (int i = 0; i < 10; i++) {
 
             labelViewGroup.addView(setTextViewToGroup("美女"));
         }

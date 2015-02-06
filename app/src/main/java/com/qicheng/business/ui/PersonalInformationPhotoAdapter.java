@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
@@ -31,7 +30,7 @@ public class PersonalInformationPhotoAdapter extends BaseAdapter {
         imageList.add(R.drawable.ic_test_img);
         imageList.add(R.drawable.ic_test_img);
 
-       ;
+        ;
 
     }
 
@@ -54,7 +53,7 @@ public class PersonalInformationPhotoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.v("run", "---------------------------");
         ImageView imageView = new ImageView(context);
-        imageView.setPadding(5,0,5,0);
+        imageView.setPadding(5, 0, 5, 0);
 
 
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

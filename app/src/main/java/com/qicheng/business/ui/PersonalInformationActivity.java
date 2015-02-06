@@ -1,16 +1,12 @@
 package com.qicheng.business.ui;
 
-import android.content.ReceiverCallNotAllowedException;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
@@ -49,7 +45,7 @@ public class PersonalInformationActivity extends BaseActivity {
         photoTitle.setText("我的相册");
         LinearLayout liner = (LinearLayout) photo.findViewById(R.id.table_id);
         View photos = (View) getLayoutInflater().inflate(R.layout.personal_information_photo, null);
-        GridView gridView =(GridView)photos.findViewById(R.id.photo_list);
+        GridView gridView = (GridView) photos.findViewById(R.id.photo_list);
 
         ListAdapter listAdapter = new PersonalInformationPhotoAdapter(this);
         gridView.setAdapter(listAdapter);
@@ -65,7 +61,6 @@ public class PersonalInformationActivity extends BaseActivity {
         TextView friendText = (TextView) friend.findViewById(R.id.table_text);
         friendText.setText("交友资料");
         linearLayout.addView(friend);
-
 
 
         View account = (View) getLayoutInflater().inflate(R.layout.personal_information_tabel, null);
