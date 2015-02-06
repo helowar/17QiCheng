@@ -11,8 +11,11 @@ import android.widget.RadioGroup;
 
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.util.Logger;
 
 public class MainActivity extends BaseActivity {
+
+    private static Logger logger = new Logger("com.qicheng.business.ui.MainActivity");
 
     private RadioGroup myTabRg;
 
@@ -30,7 +33,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
-
+        logger.d("Get the user token:"+userToken);
         initView();
     }
 

@@ -55,6 +55,7 @@
     <string name="traveller_recommend_text">推荐</string>
     <string name="traveller_start_btn_text">出发车友</string>
     <string name="traveller_end_btn_text">到达车友</string>
+    <string name="traveller_to">至</string>
     <!--Traveller Activity end-->
 
 
