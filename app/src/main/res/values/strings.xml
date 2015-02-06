@@ -58,7 +58,7 @@
     <string name="traveller_to">至</string>
     <!--Traveller Activity end-->
 
-
+    <string name="title_activity_personal_information">我的动态</string>
 
 
 </resources>
