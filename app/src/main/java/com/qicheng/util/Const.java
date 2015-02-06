@@ -126,7 +126,4 @@ public class Const {
 	 */
 	/** 照片下载最大失败次数 */
 	public static final int PhotoMaxTryTime = 3;
-
-	/** 藕丝数据的失效时间间隔，毫秒 */
-	public static final int OuserInvalidTimeout = 5 * 60 * 1000;
 }

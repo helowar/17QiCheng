@@ -23,11 +23,14 @@ public class MainActivity extends BaseActivity {
     private ActyFragment actyFragment;
 
     private ActionBar topBar;
+    private String userToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userToken = getIntent().getStringExtra("token");
+
         initView();
     }
 

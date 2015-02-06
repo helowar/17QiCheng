@@ -1,6 +1,7 @@
 package com.qicheng.business.logic;
 
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
@@ -53,11 +54,12 @@ public class UserLogic extends BaseLogic {
                 OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("login process response, " + errCode);
 
+                UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(),errCode);
                 if(errCode==OperErrorCode.Success){
                     Cache.getInstance().setCacheUser(process.getResultUser());
                 }
                 //发送事件
-                fireStatusEvent(listener, OperErrorCode.Success);
+                fireEvent(listener, userEventArgs);
 
             }
         });
@@ -82,12 +84,6 @@ public class UserLogic extends BaseLogic {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("login process response, " + errCode);
-
-                if(errCode==OperErrorCode.Success){
-                    /**
-                     *
-                     */
-                }
                 //发送事件
                 fireStatusEvent(listener, errCode);
 
@@ -113,12 +109,6 @@ public class UserLogic extends BaseLogic {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("Register process response, " + errCode);
-
-                if(errCode==OperErrorCode.Success){
-                    /**
-                     *
-                     */
-                }
                 //发送事件
                 fireStatusEvent(listener, errCode);
             }

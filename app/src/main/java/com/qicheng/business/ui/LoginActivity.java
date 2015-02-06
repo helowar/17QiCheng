@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -92,11 +93,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
-                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
+                UserEventArgs result = (UserEventArgs)args;
+                OperErrorCode errCode = result.getErrCode();
 
                 switch(errCode) {
                     case Success:
-                        startActivity(new Intent(getActivity(), MainActivity.class ));
+                        Intent intent = new Intent(getActivity(), MainActivity.class );
+                        intent.putExtra("token",result.getResult().getToken());
+                        startActivity(intent);
                         finish();
                         break;
                     case UidNoExist:

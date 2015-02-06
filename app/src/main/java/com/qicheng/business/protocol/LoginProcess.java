@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -67,10 +68,19 @@ public class LoginProcess extends BaseProcess {
             switch(value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
+                    /**
+                     * 取出返回值
+                     */
                     JSONObject body = JSONUtil.getResultBody(o);
                     String token = body.optString("token");
                     String nickname = body.optString("nickname");
                     String url = body.optString("portrait_url");
+                    /**
+                     * 组装返回对象
+                     */
+                    resultUser.setToken(token);
+                    resultUser.setNickName(nickname);
+                    resultUser.setPortraitURL(url);
                     break;
                 case -1:
                     setStatus(ProcessStatus.Status.ErrPass);
