@@ -6,15 +6,14 @@ import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Created by NO1 on 2015/2/3.
  */
-public class VerifyCodeProcess extends BaseProcess{
+public class VerifyCodeProcess extends BaseProcess {
 
-    private static Logger logger= new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
+    private static Logger logger = new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
 
     private final String url = "http://192.168.1.107:8080/qps/user/verify_code_get.html";
 
@@ -39,7 +38,7 @@ public class VerifyCodeProcess extends BaseProcess{
             o.put("action_type", "0");
             o.put("cell_num", mParamUser.getCellNum());
             return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -52,7 +51,7 @@ public class VerifyCodeProcess extends BaseProcess{
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch(value) {
+            switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
                     break;
@@ -63,7 +62,7 @@ public class VerifyCodeProcess extends BaseProcess{
                     setStatus(ProcessStatus.Status.ErrUnkown);
                     break;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
         }

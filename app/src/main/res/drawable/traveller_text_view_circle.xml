@@ -5,6 +5,8 @@
         android:bottomLeftRadius="5dp"
         android:bottomRightRadius="5dp"
         android:topLeftRadius="5dp"
-        android:topRightRadius="5dp"/>
-    <size android:height="10dp" android:width="60dp" />
+        android:topRightRadius="5dp" />
+    <size
+        android:height="10dp"
+        android:width="60dp" />
 </shape>

@@ -8,16 +8,14 @@
         <item name="android:windowBackground">@color/white</item>
 
     </style>
-    <style
-        name="QichengActionBarTitle"
-        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+
+    <style name="QichengActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/main</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-    <style
-        name="QichengActionBarStyle"
-        parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+
+    <style name="QichengActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:titleTextStyle">@style/QichengActionBarTitle</item>
         <item name="android:background">@drawable/ab_background_textured</item>
     </style>
@@ -70,6 +68,7 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="NormalButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
@@ -99,13 +98,16 @@
         <item name="android:textColorHint">@color/unavailable</item>
         <item name="android:padding">@dimen/common_gap</item>
     </style>
+
     <style name="bottomTab">
         <item name="android:textColor">@drawable/common_text_color</item>
         <item name="android:background">@color/unavailable</item>
     </style>
+
     <style name="GrayButton">
 
     </style>
+
     <style name="Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
@@ -131,18 +133,18 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/main</item>
-        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingTop">14dp</item>
         <item name="android:paddingBottom">6dp</item>
         <item name="android:textSize">15sp</item>
     </style>
-    
+
     <!--我的资料控件样式-->
     <style name="personal_information_font">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/main</item>
-        
+
     </style>
-    
-    
+
+
 </resources>

@@ -2,10 +2,9 @@ package com.qicheng.business.ui;
 
 
 import android.app.ActionBar;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -62,10 +61,10 @@ public class RegisterFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 //跳转至登录
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
                 return true;
@@ -87,26 +86,26 @@ public class RegisterFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View fragmentView =  inflater.inflate(R.layout.fragment_register, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_register, container, false);
         //验证码按钮
-        mVerifyCodeButton= (Button)fragmentView.findViewById(R.id.button_get_verify_code);
+        mVerifyCodeButton = (Button) fragmentView.findViewById(R.id.button_get_verify_code);
         //注册按钮
-        mSubmitButton = (Button)fragmentView.findViewById(R.id.button_register);
+        mSubmitButton = (Button) fragmentView.findViewById(R.id.button_register);
         //获取手机号码输入控件
-        mMobileNumber = (EditText)fragmentView.findViewById(R.id.edittext_mobile);
+        mMobileNumber = (EditText) fragmentView.findViewById(R.id.edittext_mobile);
         //获取验证码输入控件
-        mVerifyCode = (EditText)fragmentView.findViewById(R.id.editText_verify_code);
+        mVerifyCode = (EditText) fragmentView.findViewById(R.id.editText_verify_code);
         //获取密码输入控件
-        mUserPwd = (EditText)fragmentView.findViewById(R.id.edittext_pwd);
+        mUserPwd = (EditText) fragmentView.findViewById(R.id.edittext_pwd);
 
-        mVerifyCodeButton.setOnClickListener(new View.OnClickListener(){
+        mVerifyCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 String cellNum = mMobileNumber.getText().toString();
                 //判断手机号码是否合法
-                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNum(cellNum)){
-                       Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
-                }else {
+                if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
+                    Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
+                } else {
                     /**
                      * 获取验证码
                      */
@@ -128,9 +127,9 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mVerifyCode.getText().toString())&&!StringUtil.isEmpty(mUserPwd.getText().toString())){
+                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mVerifyCode.getText().toString()) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
                     mSubmitButton.setEnabled(true);
-                }else {
+                } else {
                     mSubmitButton.setEnabled(false);
                 }
             }
@@ -149,9 +148,9 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!StringUtil.isEmpty(s.toString())&&!StringUtil.isEmpty(mMobileNumber.getText().toString())&&!StringUtil.isEmpty(mUserPwd.getText().toString())){
+                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mMobileNumber.getText().toString()) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
                     mSubmitButton.setEnabled(true);
-                }else {
+                } else {
                     mSubmitButton.setEnabled(false);
                 }
             }
@@ -178,15 +177,15 @@ public class RegisterFragment extends BaseFragment {
             }
         });
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener(){
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String cellNum = mMobileNumber.getText().toString();
-                if(StringUtil.isEmpty(cellNum)||!StringUtil.isMobileNum(cellNum)){
+                if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
                     Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
                     return;
                 }
-                if(StringUtil.isEmpty(mUserPwd.getText().toString())||StringUtil.isEmpty(mVerifyCode.getText().toString())){
+                if (StringUtil.isEmpty(mUserPwd.getText().toString()) || StringUtil.isEmpty(mVerifyCode.getText().toString())) {
                     Alert.Toast("请填写正确注册信息");
                 }
                 // TODO:调用注册逻辑
@@ -197,14 +196,14 @@ public class RegisterFragment extends BaseFragment {
     }
 
 
-    private void getVerifyCode(){
+    private void getVerifyCode() {
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
-        logger.d("Public key is:------*"+userLogic.getPublicKey()+"*--------");
+        logger.d("Public key is:------*" + userLogic.getPublicKey() + "*--------");
         userLogic.getVerifyCode(mMobileNumber.getText().toString(), createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
-                switch(errCode) {
+                OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
+                switch (errCode) {
                     case Success:
                         Alert.Toast(getResources().getString(R.string.verify_code_send_success_msg));
                         //重新获取的倒计时开启
@@ -212,8 +211,9 @@ public class RegisterFragment extends BaseFragment {
 
                         timer = new CountDownTimer(60000, 1000) {
                             public void onTick(long millisUntilFinished) {
-                                mVerifyCodeButton.setText(millisUntilFinished / 1000+getResources().getString(R.string.verify_code_wait_msg));
+                                mVerifyCodeButton.setText(millisUntilFinished / 1000 + getResources().getString(R.string.verify_code_wait_msg));
                             }
+
                             public void onFinish() {
                                 mVerifyCodeButton.setEnabled(true);
                                 mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
@@ -233,16 +233,16 @@ public class RegisterFragment extends BaseFragment {
     /**
      * 执行登录过程
      */
-    private void doRegister(){
-        UserLogic userLogic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
-        userLogic.userRegister(mMobileNumber.getText().toString(),mUserPwd.getText().toString(), mVerifyCode.getText().toString(),createUIEventListener(new EventListener() {
+    private void doRegister() {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.userRegister(mMobileNumber.getText().toString(), mUserPwd.getText().toString(), mVerifyCode.getText().toString(), createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
-                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
-                switch(errCode) {
+                OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
+                switch (errCode) {
                     case Success:
-                        startActivity(new Intent(getActivity(), MainActivity.class ));
+                        startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().finish();
                         break;
                     case CellNumExist:
@@ -270,7 +270,7 @@ public class RegisterFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
     }

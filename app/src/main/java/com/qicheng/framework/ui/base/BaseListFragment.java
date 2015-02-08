@@ -2,19 +2,13 @@ package com.qicheng.framework.ui.base;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
-import com.qicheng.R;
-import com.qicheng.business.module.Trip;
 import com.qicheng.framework.ui.helper.Alert;
 
 import java.util.ArrayList;
@@ -39,6 +33,7 @@ public abstract class BaseListFragment extends Fragment {
 
 
     protected abstract ArrayAdapter getAdapter();
+
     protected abstract ListView getListView();
 
     @Override
@@ -48,14 +43,16 @@ public abstract class BaseListFragment extends Fragment {
 
     private class ListOnScrollListener implements AbsListView.OnScrollListener {
         private boolean lastIndex = false;
+
         /**
          * 判断是否已滚动到最后一条
+         *
          * @param view
          * @param scrollState
          */
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
-            int  i = view.getLastVisiblePosition();
+            int i = view.getLastVisiblePosition();
             if (scrollState == SCROLL_STATE_IDLE && lastIndex) {
                 loadMoreData();// 加载更多数据
 //                            bt.setVisibility(View.VISIBLE);
@@ -71,25 +68,25 @@ public abstract class BaseListFragment extends Fragment {
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             //已到最后
 
-            if(view.getLastVisiblePosition()+1==view.getCount()){
-                lastIndex=true;
+            if (view.getLastVisiblePosition() + 1 == view.getCount()) {
+                lastIndex = true;
             }
             // 所有的条目已经和最大条数相等，则移除底部的View
             if (view.getLastVisiblePosition() == trips.size()) {
-                ((ListView)view).removeFooterView(footerView);
+                ((ListView) view).removeFooterView(footerView);
                 Alert.Toast("别拉了！到底啦！");
             }
         }
     }
 
-    private void loadMoreData(){
+    private void loadMoreData() {
         int count = getAdapter().getCount();
-        if(count+pageSize<=trips.size()){
-            for(int i = 0;i<pageSize;i++){
-                pageList.add(trips.get(count+i));
+        if (count + pageSize <= trips.size()) {
+            for (int i = 0; i < pageSize; i++) {
+                pageList.add(trips.get(count + i));
             }
-        }else{
-            for(int i = count;i<trips.size();i++){
+        } else {
+            for (int i = count; i < trips.size(); i++) {
                 pageList.add(trips.get(i));
             }
         }

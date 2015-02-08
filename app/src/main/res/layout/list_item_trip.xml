@@ -5,65 +5,69 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="10dp">
+
     <TableRow
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:id="@+id/trip_summary_row"
-        android:background="@drawable/bg_trip_item"
-        >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="4dp"
-                android:layout_marginBottom="4dp"
-                >
-                <TextView
-                    android:id="@+id/textview_train_code"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="G3"
-                    android:paddingTop="8dp"
-                    style="@style/NormalTripItemText"/>
-                <TextView
-                    android:id="@+id/textview_trip_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="2015年1月22日"
-                    android:textSize="10sp"
-                    style="@style/NormalTripItemText"/>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/textview_start_station"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="乌鲁木齐南"
-                android:padding="8dp"
-                style="@style/NormalTripItemText"
-                />
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:src="@drawable/sp_line"
-                android:adjustViewBounds="false"
-                android:scaleType="fitXY"
-                android:contentDescription="去往"
-                />
-        <ImageView android:layout_height="match_parent"
+        android:background="@drawable/bg_trip_item">
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:src="@drawable/ic_arrow"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="4dp">
+
             <TextView
-                android:id="@+id/textview_end_station"
+                android:id="@+id/textview_train_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="乌鲁木齐南"
-                android:padding="8dp"
-                style="@style/NormalTripItemText"
-               />
+                android:text="G3"
+                android:paddingTop="8dp"
+                style="@style/NormalTripItemText" />
+
+            <TextView
+                android:id="@+id/textview_trip_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="2015年1月22日"
+                android:textSize="10sp"
+                style="@style/NormalTripItemText" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_start_station"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="乌鲁木齐南"
+            android:padding="8dp"
+            style="@style/NormalTripItemText" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:src="@drawable/sp_line"
+            android:adjustViewBounds="false"
+            android:scaleType="fitXY"
+            android:contentDescription="去往" />
+
+        <ImageView
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_arrow" />
+
+        <TextView
+            android:id="@+id/textview_end_station"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="乌鲁木齐南"
+            android:padding="8dp"
+            style="@style/NormalTripItemText" />
     </TableRow>
 </TableLayout>

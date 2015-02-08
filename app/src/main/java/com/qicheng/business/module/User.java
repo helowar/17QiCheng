@@ -1,7 +1,5 @@
 package com.qicheng.business.module;
 
-import java.util.UUID;
-
 /**
  * Created by NO1 on 2015/1/18.
  */

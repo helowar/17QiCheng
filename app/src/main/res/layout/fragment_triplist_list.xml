@@ -3,20 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <FrameLayout
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.qicheng.business.ui.TripListFragment">
 
 
-        <ListView android:id="@android:id/list" android:layout_width="match_parent"
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <TextView android:id="@android:id/empty" android:layout_width="match_parent"
-            android:layout_height="match_parent" android:gravity="center" />
+        <TextView
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
 
     </FrameLayout>
 </LinearLayout>

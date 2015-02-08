@@ -10,16 +10,16 @@ public class UserCache {
 
     private User mUser = null;
 
-    public void onCreate(){
-        mUser= PersistorManager.getInstance().getLastestUser();
+    public void onCreate() {
+        mUser = PersistorManager.getInstance().getLastestUser();
     }
 
-    public User getCashedUser(){
+    public User getCashedUser() {
         return mUser;
     }
 
-    public void setCache(User user){
-        mUser= user;
+    public void setCache(User user) {
+        mUser = user;
         PersistorManager.getInstance().setUser(user);
     }
 }

@@ -13,15 +13,15 @@ import com.qicheng.util.QiChengDb;
  */
 public class DBTaskProvider extends ContentProvider {
 
-    public static  final String TAG="DBTaskProvider";
+    public static final String TAG = "DBTaskProvider";
 
     public QiChengDbHelper qiChengDbHelper;
 
-    public static UriMatcher uriMatcher =new UriMatcher(UriMatcher.NO_MATCH);
+    public static UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI(QiChengDb.AUTOHORITY,QiChengDb.TNAME,QiChengDb.ITEM);
-        uriMatcher.addURI(QiChengDb.AUTOHORITY,QiChengDb.TNAME+"/#",QiChengDb.ITEM_ID);
+        uriMatcher.addURI(QiChengDb.AUTOHORITY, QiChengDb.TNAME, QiChengDb.ITEM);
+        uriMatcher.addURI(QiChengDb.AUTOHORITY, QiChengDb.TNAME + "/#", QiChengDb.ITEM_ID);
     }
 
     public static final String CREATE_TAG_TABLE = "create table " + QiChengDb.TNAME + "(" +

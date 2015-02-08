@@ -43,16 +43,17 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_select);
+        linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         getTagList();
 
-
-        View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
+        View view = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
         text2.setText("歌曲");
         LabelViewGroup labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
         for (int i = 0; i < 10; i++) {
-
-            labelViewGroup.addView(setTextViewToGroup("美女"));
+            TextView labelText = setTextViewToGroup("美女");
+            labelText.setTag("1,1");
+            labelViewGroup.addView(labelText);
         }
 
         linearLayout.addView(view);
@@ -87,9 +88,9 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                 }
                 Log.d("test", labelTypeLists.toString());
 
-                linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
+
                 for (int i = 0; i < labelTypeLists.size(); i++) {
-                    View view2 = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
+                    View view2 = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
                     TextView text = (TextView) view2.findViewById(R.id.label_text);
                     LabelTypeList labelType = labelTypeLists.get(i);
                     text.setText(labelType.getName());
@@ -117,6 +118,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     public TextView setTextViewToGroup(String textId) {
         TextView textView = new TextView(this);
         textView.setText(textId);
+
         textView.setTextAppearance(this, R.style.labelStyle);
         textView.setBackgroundResource(R.drawable.label_shape);
         final Label label = new Label();
@@ -125,6 +127,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
             public void onClick(View v) {
                 if (!v.isSelected()) {
                     label.setName(((TextView) v).getText().toString());
+                    Log.d("ttt", v.getTag().toString());
                     labels.add(label);
                     v.setBackgroundResource(R.drawable.label_select_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));

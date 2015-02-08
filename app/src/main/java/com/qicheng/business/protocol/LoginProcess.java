@@ -1,13 +1,11 @@
 package com.qicheng.business.protocol;
 
-import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.JSONUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +14,7 @@ import org.json.JSONObject;
 public class LoginProcess extends BaseProcess {
 
     //服务端请求地址
-    private final String URL="http://192.168.1.107:8080/qps/user/login.html";
+    private final String URL = "http://192.168.1.107:8080/qps/user/login.html";
 
     //参数对象
     private User paramUser;
@@ -30,7 +28,7 @@ public class LoginProcess extends BaseProcess {
 
     @Override
     protected String getFakeResult() {
-        String fakeResult = "{status:0,userName:"+paramUser.getUserName()+",passWord:"+paramUser.getPassWord()+"}";
+        String fakeResult = "{status:0,userName:" + paramUser.getUserName() + ",passWord:" + paramUser.getPassWord() + "}";
         return fakeResult;
     }
 
@@ -39,8 +37,8 @@ public class LoginProcess extends BaseProcess {
         return URL;
     }
 
-    public void setParamUser(User param){
-        paramUser=param;
+    public void setParamUser(User param) {
+        paramUser = param;
     }
 
     @Override
@@ -51,8 +49,8 @@ public class LoginProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             o.put("user_name", paramUser.getUserName());
             o.put("pwd", paramUser.getPassWord());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(),PersistorManager.getInstance().getPublicKey());
-        } catch(Exception e) {
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -65,7 +63,7 @@ public class LoginProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt(STATUS_TAG);
-            switch(value) {
+            switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
                     /**
@@ -92,7 +90,7 @@ public class LoginProcess extends BaseProcess {
                     setStatus(ProcessStatus.Status.ErrException);
                     break;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
         }

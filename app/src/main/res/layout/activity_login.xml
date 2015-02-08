@@ -3,37 +3,42 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/white">
-  <LinearLayout
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3">
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/image_slogan"
-        android:src="@drawable/slogan_railway"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY" />
-   </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/image_slogan"
+            android:src="@drawable/slogan_railway"
+            android:adjustViewBounds="false"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="2">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
-                <LinearLayout
-                    style="@style/FormInputContainerWithBorder">
-                    <ImageView
-                        android:src="@drawable/cellno"
-                        android:layout_height="29dp"
-                        android:background="@color/main"
-                        style="@style/InputTitle"
-                        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout style="@style/FormInputContainerWithBorder">
+
+                <ImageView
+                    android:src="@drawable/cellno"
+                    android:layout_height="29dp"
+                    android:background="@color/main"
+                    style="@style/InputTitle" />
+
                 <EditText
                     android:id="@+id/edit_username"
                     android:layout_width="@dimen/zero"
@@ -41,20 +46,19 @@
                     style="@style/FormEdittext"
                     android:hint="@string/user_name_input_hint"
                     android:inputType="textEmailAddress"
-                    android:layout_weight="1"/>
-                </LinearLayout>
+                    android:layout_weight="1" />
+            </LinearLayout>
 
-                <!--<include layout="@layout/layout_separation" />-->
-                <LinearLayout
-                    style="@style/FormInputContainerWithBorder"
-                    >
-                    <ImageView
-                        android:src="@drawable/icn_password"
-                        android:layout_height="29dp"
-                        android:background="@color/main"
-                        style="@style/InputTitle"
-                    />
-                    <EditText
+            <!--<include layout="@layout/layout_separation" />-->
+            <LinearLayout style="@style/FormInputContainerWithBorder">
+
+                <ImageView
+                    android:src="@drawable/icn_password"
+                    android:layout_height="29dp"
+                    android:background="@color/main"
+                    style="@style/InputTitle" />
+
+                <EditText
                     android:id="@+id/edit_password"
                     android:layout_width="@dimen/zero"
                     android:layout_height="match_parent"
@@ -62,31 +66,31 @@
                     android:hint="@string/password_is_empty"
                     android:imeOptions="actionNext"
                     android:inputType="textPassword"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
             </LinearLayout>
-            <LinearLayout
-                style="@style/FormInputContainer"
-                >
+
+            <LinearLayout style="@style/FormInputContainer">
+
                 <Button
                     android:id="@+id/button_login"
                     android:layout_height="@dimen/input_title_height"
                     style="@style/NormalButton"
                     android:text="@string/login_button"
                     android:layout_marginRight="60dp"
-                    android:layout_weight="1"
-                    />
-                   <ImageView
-                       android:layout_width="60dp"
-                       android:layout_height="match_parent"/>
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent" />
+
                 <Button
                     android:id="@+id/button_register"
                     android:layout_height="@dimen/input_title_height"
                     style="@style/NormalButton"
                     android:text="@string/register_button"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
 
-        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
