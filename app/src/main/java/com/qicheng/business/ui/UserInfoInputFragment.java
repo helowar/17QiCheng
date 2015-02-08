@@ -1,12 +1,11 @@
 package com.qicheng.business.ui;
 
 
-
 import android.annotation.TargetApi;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -59,7 +57,7 @@ public class UserInfoInputFragment extends BaseFragment {
     private ImageView faceImage;
     private TextView mBirthDate;
 
-    private String[] items = new String[] { "选择本地图片", "拍照" };
+    private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
     private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 
@@ -92,17 +90,17 @@ public class UserInfoInputFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 //跳转回注册页面
-                RegisterActivity activity =(RegisterActivity)getActivity();
+                RegisterActivity activity = (RegisterActivity) getActivity();
                 RegisterFragment registerFragment;
-                if(activity.getRegisterFragment()==null){
+                if (activity.getRegisterFragment() == null) {
                     registerFragment = new RegisterFragment();
-                }else {
+                } else {
                     registerFragment = activity.getRegisterFragment();
                 }
-                activity.getFragmentManager().beginTransaction().replace(R.id.form_register,registerFragment).commit();
+                activity.getFragmentManager().beginTransaction().replace(R.id.form_register, registerFragment).commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,20 +115,20 @@ public class UserInfoInputFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_user_info_input, container, false);
         //显示返回按钮
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB){
-            ActionBar actionBar= getActivity().getActionBar();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar actionBar = getActivity().getActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        faceImage= (ImageView)fragmentView.findViewById(R.id.img_user_portrait);
+        faceImage = (ImageView) fragmentView.findViewById(R.id.img_user_portrait);
         faceImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showImgPickDialog();
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                showImgPickDialog();
+            }
+        });
 
-        mBirthDate = ((TextView)fragmentView.findViewById(R.id.editText_age));
+        mBirthDate = ((TextView) fragmentView.findViewById(R.id.editText_age));
         mBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,21 +149,21 @@ public class UserInfoInputFragment extends BaseFragment {
     /**
      * 显示生日选择对话框
      */
-    private void showDatePickDialog(){
+    private void showDatePickDialog() {
         FragmentManager fm = getActivity().getFragmentManager();
         DatePickFragment dialog = DatePickFragment.newInstance(null);
         dialog.setDialogTitle("请选择生日");
-        dialog.setTargetFragment(this,DATE_REQUEST_CODE);
-        dialog.show(fm,"date");
+        dialog.setTargetFragment(this, DATE_REQUEST_CODE);
+        dialog.show(fm, "date");
     }
 
-    private void updateBirthDate(Date date){
-        StringBuffer dateText  = new StringBuffer();
+    private void updateBirthDate(Date date) {
+        StringBuffer dateText = new StringBuffer();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         dateText.append(calendar.get(Calendar.YEAR));
         dateText.append("年");
-        dateText.append(calendar.get(Calendar.MONTH)+1);
+        dateText.append(calendar.get(Calendar.MONTH) + 1);
         dateText.append("月");
         dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
         dateText.append("日");
@@ -198,13 +196,13 @@ public class UserInfoInputFragment extends BaseFragment {
                                 // 判断存储卡是否可以用，可用进行存储
                                 if (hasSdcard()) {
                                     File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                                    File file = new File(path,IMAGE_FILE_NAME);
+                                    File file = new File(path, IMAGE_FILE_NAME);
                                     intentFromCapture.putExtra(
                                             MediaStore.EXTRA_OUTPUT,
                                             Uri.fromFile(file));
                                 }
 
-                                startActivityForResult(intentFromCapture,CAMERA_REQUEST_CODE);
+                                startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
                                 break;
                         }
                     }
@@ -231,7 +229,7 @@ public class UserInfoInputFragment extends BaseFragment {
                 case CAMERA_REQUEST_CODE:
                     if (hasSdcard()) {
                         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                        File tempFile = new File(path,IMAGE_FILE_NAME);
+                        File tempFile = new File(path, IMAGE_FILE_NAME);
                         startPhotoZoom(Uri.fromFile(tempFile));
                     } else {
                         Alert.Toast("未找到存储卡，无法存储照片！");
@@ -243,7 +241,7 @@ public class UserInfoInputFragment extends BaseFragment {
                     }
                     break;
                 case DATE_REQUEST_CODE:
-                    Date date = (Date)data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
+                    Date date = (Date) data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
                     updateBirthDate(date);
                     break;
             }
@@ -274,7 +272,6 @@ public class UserInfoInputFragment extends BaseFragment {
 
     /**
      * 保存裁剪之后的图片数据
-     *
      */
     private void getImageToView(Intent data) {
         Bundle extras = data.getExtras();
@@ -282,17 +279,17 @@ public class UserInfoInputFragment extends BaseFragment {
             Bitmap photo = extras.getParcelable("data");
             savePortrait(photo);
 //            logger.d("photo size:"+photo.getByteCount()/1000+"K");
-            Drawable drawable = new BitmapDrawable(this.getResources(),photo);
+            Drawable drawable = new BitmapDrawable(this.getResources(), photo);
             faceImage.setImageDrawable(drawable);
 
         }
     }
 
-    public boolean hasSdcard(){
+    public boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
-        if(state.equals(Environment.MEDIA_MOUNTED)){
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

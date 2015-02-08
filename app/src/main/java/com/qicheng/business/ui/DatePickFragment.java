@@ -5,15 +5,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import com.qicheng.R;
 
@@ -42,9 +39,9 @@ public class DatePickFragment extends DialogFragment {
         this.mDialogTitle = mDialogTitle;
     }
 
-    public static DatePickFragment newInstance(Date date){
+    public static DatePickFragment newInstance(Date date) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_DATE,date);
+        args.putSerializable(EXTRA_DATE, date);
 
         DatePickFragment fragment = new DatePickFragment();
         fragment.setArguments(args);
@@ -57,12 +54,11 @@ public class DatePickFragment extends DialogFragment {
     }
 
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mDate = (Date)getArguments().getSerializable(EXTRA_DATE);
-        View v  = getActivity().getLayoutInflater().inflate(R.layout.dialog_date,null);
-        mDatePicker = (DatePicker)v.findViewById(R.id.dialog_date_datePicker);
+        mDate = (Date) getArguments().getSerializable(EXTRA_DATE);
+        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_date, null);
+        mDatePicker = (DatePicker) v.findViewById(R.id.dialog_date_datePicker);
         initDatePicker();
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
@@ -75,30 +71,30 @@ public class DatePickFragment extends DialogFragment {
                 }).create();
     }
 
-    private void initDatePicker(){
+    private void initDatePicker() {
         Calendar calendar = Calendar.getInstance();
-        if(mDate!=null){
+        if (mDate != null) {
             calendar.setTime(mDate);
-        }else{
+        } else {
             mDate = calendar.getTime();
         }
-        mDatePicker.init(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH),new
-            DatePicker.OnDateChangedListener() {
-                @Override
-                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mDate = new GregorianCalendar(year,monthOfYear,dayOfMonth).getTime();
-                    getArguments().putSerializable(EXTRA_DATE,mDate);
-                }
-            });
+        mDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), new
+                DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        mDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
+                        getArguments().putSerializable(EXTRA_DATE, mDate);
+                    }
+                });
     }
 
-    private void sendResult(int resultCode){
-        if(getTargetFragment() == null)
+    private void sendResult(int resultCode) {
+        if (getTargetFragment() == null)
             return;
         Intent i = new Intent();
-        i.putExtra(EXTRA_DATE,mDate);
+        i.putExtra(EXTRA_DATE, mDate);
 
-        getTargetFragment().onActivityResult(getTargetRequestCode(),resultCode,i);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
 
     }
 

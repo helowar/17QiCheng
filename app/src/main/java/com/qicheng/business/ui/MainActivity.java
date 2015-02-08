@@ -1,12 +1,10 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.RadioGroup;
 
 import com.qicheng.R;
@@ -33,7 +31,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
-        logger.d("Get the user token:"+userToken);
+        logger.d("Get the user token:" + userToken);
         initView();
     }
 
@@ -67,7 +65,7 @@ public class MainActivity extends BaseActivity {
         myTabRg = (RadioGroup) findViewById(R.id.tab_menu);
         myTabRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
-            private void activatedFrame(int id){
+            private void activatedFrame(int id) {
                 findViewById(R.id.trip_content).setVisibility(View.GONE);
                 findViewById(R.id.social_content).setVisibility(View.GONE);
                 findViewById(R.id.acty_content).setVisibility(View.GONE);
@@ -82,7 +80,7 @@ public class MainActivity extends BaseActivity {
                 // TODO Auto-generated method stub
                 switch (checkedId) {
                     case R.id.rbMessage:
-                        if(messageFragment==null){
+                        if (messageFragment == null) {
                             messageFragment = new MessageFragment();
                             getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment)
                                     .commit();
@@ -97,7 +95,7 @@ public class MainActivity extends BaseActivity {
                         activatedFrame(R.id.trip_content);
                         break;
                     case R.id.rbSocial:
-                        if(socialFragment==null){
+                        if (socialFragment == null) {
                             socialFragment = new SocialFragment();
                             getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment)
                                     .commit();
@@ -105,7 +103,7 @@ public class MainActivity extends BaseActivity {
                         activatedFrame(R.id.social_content);
                         break;
                     case R.id.rbMe:
-                        if(userinfoFragment==null){
+                        if (userinfoFragment == null) {
                             userinfoFragment = new UserinfoFragment();
                             getFragmentManager().beginTransaction().add(R.id.user_content, userinfoFragment)
                                     .commit();
@@ -113,7 +111,7 @@ public class MainActivity extends BaseActivity {
                         activatedFrame(R.id.user_content);
                         break;
                     case R.id.rbActy:
-                        if(actyFragment==null){
+                        if (actyFragment == null) {
                             actyFragment = new ActyFragment();
                             getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment)
                                     .commit();

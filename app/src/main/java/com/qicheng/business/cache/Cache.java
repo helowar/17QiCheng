@@ -9,11 +9,13 @@ public class Cache {
 
     private static Cache ins = new Cache();
 
-    public static Cache getInstance(){return ins;}
+    public static Cache getInstance() {
+        return ins;
+    }
 
     private User mUser;
 
-    private UserCache mUserCache= new UserCache();
+    private UserCache mUserCache = new UserCache();
 
     public User getUser() {
         return mUser;
@@ -23,17 +25,17 @@ public class Cache {
         this.mUser = mUser;
     }
 
-    public void clear(){
+    public void clear() {
         setUser(null);
 
     }
 
-    public void onCreate(){
+    public void onCreate() {
         mUserCache.onCreate();
     }
 
-    public void setCacheUser(User user){
-        mUser=user;
+    public void setCacheUser(User user) {
+        mUser = user;
         mUserCache.setCache(user);
     }
 }

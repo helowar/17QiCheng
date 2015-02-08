@@ -13,27 +13,39 @@ import java.util.Map;
 public class Photo {
 
     public enum Size {
-        Small(80, 0),	/** 小列表，菜单 */
-        Normal(100, 1),	/** profile */
-        Large(134, 2),	/** 大列表 */
-        XLarge(640, 3);	/** 大图 */
+        Small(80, 0), /**
+         * 小列表，菜单
+         */
+        Normal(100, 1), /**
+         * profile
+         */
+        Large(134, 2), /**
+         * 大列表
+         */
+        XLarge(640, 3);
+        /**
+         * 大图
+         */
 
         private int size = 0;
         private int key = 0;
+
         Size(int size, int key) {
             this.size = size;
             this.key = key;
         }
+
         public int getSize() {
             return size;
         }
+
         int getKey() {
             return key;
         }
 
         static Size fromKey(int key) {
-            for(Size s : Size.values()) {
-                if(s.getKey() == key) {
+            for (Size s : Size.values()) {
+                if (s.getKey() == key) {
                     return s;
                 }
             }
@@ -49,30 +61,37 @@ public class Photo {
     public String getUrl() {
         return url;
     }
+
     public void setUrl(String url) {
         this.url = url;
         this.tryTimes.clear();
     }
+
     public int getResId() {
         return resId;
     }
+
     public void setResId(int res) {
         this.resId = res;
     }
+
     public void setPath(String path, Size size) {
         paths.put(size, path);
     }
+
     public String getPath(Size size) {
-        if(paths.containsKey(size)) {
+        if (paths.containsKey(size)) {
             return paths.get(size);
         }
         return "";
     }
+
     public void setTryTime(int value, Size size) {
         tryTimes.put(size, value);
     }
+
     public int getTryTime(Size size) {
-        if(tryTimes.containsKey(size)) {
+        if (tryTimes.containsKey(size)) {
             return tryTimes.get(size);
         }
         return 0;
@@ -81,18 +100,20 @@ public class Photo {
     public boolean isEmpty() {
         return StringUtil.isEmpty(url) && resId == 0;
     }
+
     public boolean isSame(Photo p) {
         return p.url.equals(this.url) || (
                 this.resId != 0 && p.resId == this.resId);
     }
+
     public Bundle toBundle() {
 
         StringBuilder sbPath = new StringBuilder();
-        for(Map.Entry<Size, String> entry : paths.entrySet()) {
+        for (Map.Entry<Size, String> entry : paths.entrySet()) {
             sbPath.append(entry.getKey().getKey()).append(":").append(entry.getValue()).append(";");
         }
         StringBuilder sbTryTime = new StringBuilder();
-        for(Map.Entry<Size, Integer> entry : tryTimes.entrySet()) {
+        for (Map.Entry<Size, Integer> entry : tryTimes.entrySet()) {
             sbPath.append(entry.getKey().getKey()).append(":").append(entry.getValue()).append(";");
         }
 
@@ -103,6 +124,7 @@ public class Photo {
         bundle.putString("trytime", sbTryTime.toString());
         return bundle;
     }
+
     public void fromBundle(Bundle bundle) {
         url = bundle.getString("url");
         resId = bundle.getInt("resid");
@@ -110,16 +132,16 @@ public class Photo {
         String strTryTime = bundle.getString("trytime");
 
         this.paths.clear();
-        for(String str : strPath.split(";")) {
-            if("".equals(str)) {
+        for (String str : strPath.split(";")) {
+            if ("".equals(str)) {
                 continue;
             }
             String[] values = str.split(":");
             this.paths.put(Size.fromKey(Integer.parseInt(values[0])), values[1]);
         }
         this.tryTimes.clear();
-        for(String str : strTryTime.split(";")) {
-            if("".equals(str)) {
+        for (String str : strTryTime.split(";")) {
+            if ("".equals(str)) {
                 continue;
             }
             String[] values = str.split(":");

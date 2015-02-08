@@ -1,9 +1,5 @@
 package com.qicheng.business.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,7 +17,6 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
-import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 
@@ -42,18 +37,18 @@ public class LoginActivity extends BaseActivity {
         userLogic.fetchPublicKey(createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                OperErrorCode errCode = ((StatusEventArgs)args).getErrCode();
+                OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
                 //可能因网络故障等导致无法获取公钥
-                if(errCode!=OperErrorCode.Success){
+                if (errCode != OperErrorCode.Success) {
                     Alert.handleErrCode(errCode);
                 }
             }
         }));
-        mLoginButton = (Button)findViewById(R.id.button_login);
+        mLoginButton = (Button) findViewById(R.id.button_login);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInput()){
+                if (checkInput()) {
                     login();
                 }
 
@@ -63,19 +58,20 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * 验证登录输入非空
+     *
      * @return
      */
-    private boolean checkInput(){
-        mUserName = (EditText)findViewById(R.id.edit_username);
-        mPassWord = (EditText)findViewById(R.id.edit_password);
+    private boolean checkInput() {
+        mUserName = (EditText) findViewById(R.id.edit_username);
+        mPassWord = (EditText) findViewById(R.id.edit_password);
         String userName = mUserName.getText().toString();
         String passWord = mPassWord.getText().toString();
-        if(userName.isEmpty()){
+        if (userName.isEmpty()) {
             mUserName.setSelected(true);//获取焦点
             Alert.Toast(R.string.username_is_empty);//显示提示
             return false;
-        }else{
-            if(passWord.isEmpty()){
+        } else {
+            if (passWord.isEmpty()) {
                 mPassWord.setSelected(true);//获取焦点
                 Alert.Toast(R.string.password_is_empty);//显示提示
                 return false;
@@ -87,19 +83,19 @@ public class LoginActivity extends BaseActivity {
     /**
      * 执行登录过程
      */
-    private void login(){
-        UserLogic userLogic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
-        userLogic.login(mUserName.getText().toString(),mPassWord.getText().toString(), createUIEventListener(new EventListener() {
+    private void login() {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.login(mUserName.getText().toString(), mPassWord.getText().toString(), createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
-                UserEventArgs result = (UserEventArgs)args;
+                UserEventArgs result = (UserEventArgs) args;
                 OperErrorCode errCode = result.getErrCode();
 
-                switch(errCode) {
+                switch (errCode) {
                     case Success:
-                        Intent intent = new Intent(getActivity(), MainActivity.class );
-                        intent.putExtra("token",result.getResult().getToken());
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("token", result.getResult().getToken());
                         startActivity(intent);
                         finish();
                         break;

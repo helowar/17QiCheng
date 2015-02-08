@@ -2,7 +2,6 @@ package com.qicheng.business.protocol;
 
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.framework.protocol.BaseProcess;
-import com.qicheng.util.Const;
 
 import org.json.JSONObject;
 
@@ -11,7 +10,7 @@ import org.json.JSONObject;
  */
 public class GetPublicKeyProcess extends BaseProcess {
 
-    private final String url="http://192.168.1.107:8080/qps/common/get_public_key.html";
+    private final String url = "http://192.168.1.107:8080/qps/common/get_public_key.html";
 
     @Override
     protected String getRequestUrl() {
@@ -30,7 +29,7 @@ public class GetPublicKeyProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch(value) {
+            switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
                     /**
@@ -47,7 +46,7 @@ public class GetPublicKeyProcess extends BaseProcess {
                     setStatus(ProcessStatus.Status.ErrUnkown);
                     break;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
         }

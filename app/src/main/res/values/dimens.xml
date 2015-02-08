@@ -12,4 +12,9 @@
     <dimen name="common_gap">8dp</dimen>
     <dimen name="half_gap">4dp</dimen>
     <dimen name="double_gap">16dp</dimen>
+    <dimen name="slidingmenu_offset">100dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">2dp</dimen>
+
+    <integer name="num_cols">1</integer>
 </resources>

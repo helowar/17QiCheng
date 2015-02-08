@@ -22,8 +22,7 @@
             android:layout_marginRight="16dp"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_add_new"
-            />
+            android:src="@drawable/ic_add_new" />
 
     </RelativeLayout>
 

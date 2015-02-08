@@ -11,12 +11,11 @@ class UserPreferences {
 	
 	public void set(User user) {
 		SharedPreferences.Editor editor = getPreferences().edit();
-//		editor.putString("lastuid", user.getUserId());
+		editor.putString("lastuid", user.getUserId());
 		editor.putString("lastpass", user.getPassWord());
         editor.putString("lastuname",user.getUserName());
         editor.putString("lastcellnum",user.getCellNum());
         editor.putString("lasttoken",user.getToken());
-        editor.putString("lastPortrait",user.getPortraitURL());
 		editor.commit();
 	}
 

@@ -9,8 +9,8 @@ public class JSONUtil {
 
     private static final String BODY_TAG = "body";
 
-    public static JSONObject getResultBody(JSONObject result) throws Exception{
-        if(result!=null){
+    public static JSONObject getResultBody(JSONObject result) throws Exception {
+        if (result != null) {
             return result.getJSONObject("body");
         }
         return null;

@@ -86,9 +86,9 @@ public class HorizontalScrollListView extends HorizontalScrollView {
                     onScrollStopListener.onScrollStoped();
                     Rect outRect = new Rect();
                     getDrawingRect(outRect);
-                    if(newPosition == 0) {
+                    if (newPosition == 0) {
                         onScrollStopListener.onScrollToLeftEdge();
-                    } else if(childWidth + getPaddingLeft() + getPaddingRight() == outRect.right) {
+                    } else if (childWidth + getPaddingLeft() + getPaddingRight() == outRect.right) {
                         onScrollStopListener.onScrollToRightEdge();
                     } else {
                         onScrollStopListener.onScrollToMiddle();
@@ -132,7 +132,7 @@ public class HorizontalScrollListView extends HorizontalScrollView {
      */
     private void checkTotalWidth() {
         childWidth = 0;
-        for(int i = 0, childCount = getChildCount(); i < childCount; i++) {
+        for (int i = 0, childCount = getChildCount(); i < childCount; i++) {
             childWidth += getChildAt(i).getWidth();
         }
     }

@@ -15,10 +15,9 @@ public class RegisterProcess extends BaseProcess {
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.RegisterProcess");
 
-    private String url="http://192.168.1.107:8080/qps/user/register.html";
+    private String url = "http://192.168.1.107:8080/qps/user/register.html";
 
     private User mParamUser;
-
 
 
     @Override
@@ -33,9 +32,9 @@ public class RegisterProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             o.put("cell_num", mParamUser.getCellNum());
             o.put("pwd", mParamUser.getPassWord());
-            o.put("verify_code",mParamUser.getVerifyCode());
+            o.put("verify_code", mParamUser.getVerifyCode());
             return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -48,15 +47,15 @@ public class RegisterProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch(value) {
+            switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
                     JSONObject resultBody = o.getJSONObject("body");
                     String token = resultBody.optString("token");
                     String portraitUrl = resultBody.optString("portrait_url");
                     // TODO: 持久化token及portraitUrl，缓存token及portraitImg
-                    logger.d("Get users token:"+token);
-                    logger.d("Get user portraitUrl"+portraitUrl);
+                    logger.d("Get users token:" + token);
+                    logger.d("Get user portraitUrl" + portraitUrl);
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);
@@ -74,7 +73,7 @@ public class RegisterProcess extends BaseProcess {
                     setStatus(ProcessStatus.Status.ErrUnkown);
                     break;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
         }

@@ -12,24 +12,26 @@ public class UserEventArgs extends StatusEventArgs {
     private User result = null;
 
 
-    public UserEventArgs(User user , OperErrorCode errCode) {
+    public UserEventArgs(User user, OperErrorCode errCode) {
         super(errCode);
         result = user;
     }
 
     /**
      * 错误返回
+     *
      * @param errCode
      */
-    public UserEventArgs( OperErrorCode errCode) {
+    public UserEventArgs(OperErrorCode errCode) {
         super(errCode);
     }
 
     /**
      * 正确返回
+     *
      * @param user
      */
-    public UserEventArgs(User user ) {
+    public UserEventArgs(User user) {
         super(OperErrorCode.Success);
         result = user;
     }

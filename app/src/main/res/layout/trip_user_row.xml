@@ -16,64 +16,40 @@ android:id="@+id/trip_users_row">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -88,64 +64,40 @@ android:id="@+id/trip_users_row">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -160,64 +112,40 @@ android:id="@+id/trip_users_row">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
+            <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_userinfo_selected"
+                />
         </LinearLayout>
     </LinearLayout>
 
