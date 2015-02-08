@@ -105,7 +105,7 @@ public class TripListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_register, menu);
+        inflater.inflate(R.menu.menu_main, menu);
         ActionBar bar = getActivity().getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
     }
