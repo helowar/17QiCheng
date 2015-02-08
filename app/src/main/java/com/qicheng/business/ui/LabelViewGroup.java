@@ -2,9 +2,7 @@ package com.qicheng.business.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,16 +37,16 @@ public class LabelViewGroup extends ViewGroup {
             // measure
             child.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         }
-       // DisplayMetrics dm = new DisplayMetrics();
+        // DisplayMetrics dm = new DisplayMetrics();
         int childCount = this.getChildCount();
-        int height = 0 ;
-        if(this.getChildCount()>=1){
-            View endView  = this.getChildAt(childCount-1);
+        int height = 0;
+        if (this.getChildCount() >= 1) {
+            View endView = this.getChildAt(childCount - 1);
             View beginView = this.getChildAt(0);
             float e = endView.getY();
             float b = beginView.getY();
-            String length  =(e-b+endView.getHeight()+VIEW_MARGIN)+"";
-            height = Integer.parseInt(length.substring(0,length.length()-2));
+            String length = (e - b + endView.getHeight() + VIEW_MARGIN) + "";
+            height = Integer.parseInt(length.substring(0, length.length() - 2));
         }
 
         setMeasuredDimension(widthMeasureSpec, height);
@@ -69,12 +67,12 @@ public class LabelViewGroup extends ViewGroup {
             int width = child.getMeasuredWidth();
             int height = child.getMeasuredHeight();
             lengthX += width + VIEW_MARGIN;
-            lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height ;
+            lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height;
             //if it can't drawing on a same line , skip to next line
             if (lengthX > arg3) {
                 lengthX = width + VIEW_MARGIN + arg1;
                 row++;
-                lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height ;
+                lengthY = row * (height + VIEW_MARGIN) + VIEW_MARGIN + height;
 
             }
 
