@@ -49,6 +49,7 @@
     <string name="please_add_label">请加入您的个性标签</string>
     <string name="delete_selected">完成注册</string>
     <string name="already_add_label">已添加标签</string>
+    <string name="portrait_save_failed">头像上传失败，请重试</string>
     <!-- Register Activity end -->
 
 

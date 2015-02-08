@@ -35,6 +35,8 @@ public class ProcessStatus{
         ErrExistCellNum,
         /**验证码过期*/
         ErrVerCodeExpire,
+        /**上传文件为空*/
+        ErrEmptyFile,
 
     }
 
@@ -62,6 +64,8 @@ public class ProcessStatus{
                 return OperErrorCode.VerifyCodeExpire;
             case ErrExistCellNum:
                 return OperErrorCode.CellNumExist;
+            case ErrEmptyFile:
+                return OperErrorCode.FileUpLoadFailed;
             default:
                 return OperErrorCode.Unknown;
         }

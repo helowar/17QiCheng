@@ -48,4 +48,6 @@ public enum OperErrorCode {
 
     CellNumExist,
 
+    FileUpLoadFailed,
+
 }

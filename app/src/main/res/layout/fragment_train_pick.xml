@@ -9,13 +9,14 @@
             android:layout_height="match_parent"
             android:text="@string/train_code_title"
             style="@style/InputTitle"/>
-        <EditText
-            android:id="@+id/editText_train_code"
+        <AutoCompleteTextView
             android:layout_width="@dimen/zero"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText_train_code"
+            android:nextFocusUp="@+id/editText_date"
             style="@style/FormEdittext"
-            android:nextFocusUp="@+id/editText_age"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            />
     </LinearLayout>
     <LinearLayout
         style="@style/FormInputContainerWithBorder"

@@ -30,6 +30,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
@@ -272,9 +280,11 @@ public class UserInfoInputFragment extends BaseFragment {
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
+            savePortrait(photo);
 //            logger.d("photo size:"+photo.getByteCount()/1000+"K");
             Drawable drawable = new BitmapDrawable(this.getResources(),photo);
             faceImage.setImageDrawable(drawable);
+
         }
     }
 
@@ -285,6 +295,42 @@ public class UserInfoInputFragment extends BaseFragment {
         }else{
             return false;
         }
+    }
+
+    /**
+     * 保存并上传
+     * @param photo
+     */
+    private void savePortrait(Bitmap photo){
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.saveUserPortrait(photo,createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result =  (UserEventArgs)args;
+                OperErrorCode errCode = result.getErrCode();
+                switch(errCode) {
+                    case Success:
+                        logger.d("Portrait file url:"+result.getResult().getPortraitURL());
+                        break;
+                    case FileUpLoadFailed:
+                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        break;
+                    default:
+                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        break;
+                }
+            }
+        }));
+        startLoading();
+    }
+
+
+    private void setUserInformation(){
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+
+
+
     }
 
 }
