@@ -101,7 +101,8 @@
 
     <style name="bottomTab">
         <item name="android:textColor">@drawable/common_text_color</item>
-        <item name="android:background">@color/unavailable</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="GrayButton">
