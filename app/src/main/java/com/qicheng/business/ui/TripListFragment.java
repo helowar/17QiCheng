@@ -1,9 +1,14 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -28,6 +33,7 @@ import java.util.ArrayList;
 public class TripListFragment extends ListFragment {
 
     private static Logger logger = new Logger("TripListFragment");
+    private static int REQUEST_CODE_ADD_TRIP = 0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,6 +99,29 @@ public class TripListFragment extends ListFragment {
         mAdapter = new TripListAdapter(pageList);
         loadMoreData();
         mAdapter.notifyDataSetChanged();
+        setHasOptionsMenu(true);
+        getActivity().setTitle(getResources().getString(R.string.title_activity_main));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_register, menu);
+        ActionBar bar = getActivity().getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                //TODO:行程统计
+                return super.onOptionsItemSelected(item);
+            case R.id.action_add:
+                startActivityForResult(new Intent(getActivity(),AddTripActivity.class),REQUEST_CODE_ADD_TRIP);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     /**

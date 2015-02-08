@@ -2,6 +2,10 @@ package com.qicheng.business.ui;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,6 +35,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         View view2 = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text = (TextView) view2.findViewById(R.id.label_text);
         text.setText("影视");
+
         LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
         labelViewGroup2.addView(setTextViewToGroup("美女"));
         labelViewGroup2.addView(setTextViewToGroup("金融"));
@@ -40,7 +45,6 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         labelViewGroup2.addView(setTextViewToGroup("我是歌手"));
         labelViewGroup2.addView(setTextViewToGroup("职业歌手"));
         linearLayout.addView(view2);
-
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         TextView text2 = (TextView) view.findViewById(R.id.label_text);
         text2.setText("歌曲");

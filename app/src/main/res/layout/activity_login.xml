@@ -30,17 +30,17 @@
                     style="@style/FormInputContainerWithBorder">
                     <ImageView
                         android:src="@drawable/cellno"
-                        android:layout_height="29dp"
+                        android:layout_height="match_parent"
                         android:background="@color/main"
                         style="@style/InputTitle"
                         />
                 <EditText
                     android:id="@+id/edit_username"
                     android:layout_width="@dimen/zero"
-                    android:layout_height="match_parent"
+                    android:layout_height="39dp"
                     style="@style/FormEdittext"
                     android:hint="@string/user_name_input_hint"
-                    android:inputType="textEmailAddress"
+                    android:inputType="phone"
                     android:layout_weight="1"/>
                 </LinearLayout>
 
@@ -50,14 +50,14 @@
                     >
                     <ImageView
                         android:src="@drawable/icn_password"
-                        android:layout_height="29dp"
+                        android:layout_height="match_parent"
                         android:background="@color/main"
                         style="@style/InputTitle"
                     />
                     <EditText
                     android:id="@+id/edit_password"
                     android:layout_width="@dimen/zero"
-                    android:layout_height="match_parent"
+                    android:layout_height="39dp"
                     style="@style/FormEdittext"
                     android:hint="@string/password_is_empty"
                     android:imeOptions="actionNext"

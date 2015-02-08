@@ -78,6 +78,7 @@ public class LoginProcess extends BaseProcess {
                     /**
                      * 组装返回对象
                      */
+                    resultUser = new User();
                     resultUser.setToken(token);
                     resultUser.setNickName(nickname);
                     resultUser.setPortraitURL(url);

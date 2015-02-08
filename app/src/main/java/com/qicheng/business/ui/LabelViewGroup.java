@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 public class LabelViewGroup extends ViewGroup {
     private final static String TAG = "MyViewGroup";
 
-    private final static int VIEW_MARGIN = 20;
+    public final static int VIEW_MARGIN = 20;
+
+    private int hStartPoint;
+
+    private int vStartPoint;
 
     public LabelViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -19,6 +23,11 @@ public class LabelViewGroup extends ViewGroup {
 
     public LabelViewGroup(Context context) {
         super(context);
+    }
+
+    @Override
+    public void addView(View child) {
+        super.addView(child);
     }
 
     @Override
@@ -43,7 +52,6 @@ public class LabelViewGroup extends ViewGroup {
         }
 
         setMeasuredDimension(widthMeasureSpec, height);
-        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -51,6 +59,8 @@ public class LabelViewGroup extends ViewGroup {
         Log.d(TAG, "changed = " + arg0 + " left = " + arg1 + " top = " + arg2 + " right = " + arg3 + " botom = " + arg4);
         final int count = getChildCount();
         int row = 0;// which row lay you view relative to parent
+        this.hStartPoint = arg1;
+        this.vStartPoint = arg2;
         int lengthX = arg1;    // right position of child relative to parent
         int lengthY = arg2;    // bottom position of child relative to parent
         for (int i = 0; i < count; i++) {
@@ -73,6 +83,13 @@ public class LabelViewGroup extends ViewGroup {
 
     }
 
+    public int gethStartPoint() {
+        return hStartPoint;
+    }
+
+    public int getvStartPoint() {
+        return vStartPoint;
+    }
 
 //
 //    int cur_x;

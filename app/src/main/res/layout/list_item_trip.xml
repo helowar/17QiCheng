@@ -53,9 +53,7 @@
                 android:scaleType="fitXY"
                 android:contentDescription="去往"
                 />
-        <ImageView android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_arrow"/>
+
             <TextView
                 android:id="@+id/textview_end_station"
                 android:layout_width="wrap_content"
