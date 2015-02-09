@@ -3,7 +3,7 @@ package com.qicheng.business.protocol;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.qicheng.business.module.LabelTypeList;
+import com.qicheng.business.module.LabelType;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
 
@@ -21,7 +21,7 @@ public class LabelProcess extends BaseProcess {
 
     private final String url = "http://192.168.1.107:8080/qps/basedata/tag_list.html";
 
-    private ArrayList<LabelTypeList> list = new ArrayList<LabelTypeList>();
+    private ArrayList<LabelType> list = new ArrayList<LabelType>();
 
 
     @Override
@@ -95,7 +95,7 @@ public class LabelProcess extends BaseProcess {
             JSONArray arry = (JSONArray) object.opt("body");
             for (int i = 0; i < arry.length(); i++) {
                 Object o = arry.get(i);
-                LabelTypeList labelTypeList = gson.fromJson(o.toString(), LabelTypeList.class);
+                LabelType labelTypeList = gson.fromJson(o.toString(), LabelType.class);
                 list.add(labelTypeList);
             }
 
@@ -106,11 +106,11 @@ public class LabelProcess extends BaseProcess {
 
     }
 
-    public ArrayList<LabelTypeList> getList() {
+    public ArrayList<LabelType> getList() {
         return list;
     }
 
-    public void setList(ArrayList<LabelTypeList> list) {
+    public void setList(ArrayList<LabelType> list) {
         this.list = list;
     }
 }

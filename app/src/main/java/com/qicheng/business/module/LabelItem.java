@@ -35,10 +35,11 @@ public class LabelItem {
 
     @Override
     public String toString() {
-        return "LabelItem{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", priority=" + priority +
-                '}';
+        final StringBuilder sb = new StringBuilder("LabelItem{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", priority=").append(priority);
+        sb.append('}');
+        return sb.toString();
     }
 }

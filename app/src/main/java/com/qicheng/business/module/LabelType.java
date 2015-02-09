@@ -7,11 +7,14 @@ import java.util.ArrayList;
  * Created by NO3 on 2015/2/5.
  * 标签类型分组的module类
  */
-public class LabelTypeList implements Serializable {
+public class LabelType implements Serializable {
 
     private String id;
+
     private String name;
+
     private int priority;
+
     private ArrayList<LabelItem> tagList = new ArrayList<LabelItem>();
 
     public String getId() {
@@ -49,11 +52,12 @@ public class LabelTypeList implements Serializable {
 
     @Override
     public String toString() {
-        return "LabelTypeList{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", priority=" + priority +
-                ", tagList=" + tagList +
-                '}';
+        final StringBuilder sb = new StringBuilder("LabelType{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", priority=").append(priority);
+        sb.append(", tagList=").append(tagList);
+        sb.append('}');
+        return sb.toString();
     }
 }
