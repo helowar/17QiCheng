@@ -1,7 +1,12 @@
 package com.qicheng.business.logic;
 
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.TravellerPersonProcess;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
@@ -33,9 +38,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByStation(String station, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_STATION, station, orderBy, lastLoginTime, size);
+    public void queryUserByStation(String station, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_STATION, station, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -45,9 +51,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByStartStation(String startStation, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_BEGIN, startStation, orderBy, lastLoginTime, size);
+    public void queryUserByStartStation(String startStation, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_BEGIN, startStation, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -57,9 +64,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByEndStation(String endStation, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_END, endStation, orderBy, lastLoginTime, size);
+    public void queryUserByEndStation(String endStation, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_END, endStation, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -69,9 +77,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByTrain(String train, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_TRAIN, train, orderBy, lastLoginTime, size);
+    public void queryUserByTrain(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_TRAIN, train, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -81,9 +90,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByNotOnCar(String train, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_NOT_ON_CAR, train, orderBy, lastLoginTime, size);
+    public void queryUserByNotOnCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_NOT_ON_CAR, train, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -93,9 +103,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByOnCar(String train, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_ON_CAR, train, orderBy, lastLoginTime, size);
+    public void queryUserByOnCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_ON_CAR, train, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -105,9 +116,10 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUserByOffCar(String train, byte orderBy, String lastLoginTime, int size) {
-        queryUser(Const.USER_QUERY_TYPE_OFF_CAR, train, orderBy, lastLoginTime, size);
+    public void queryUserByOffCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        queryUser(Const.USER_QUERY_TYPE_OFF_CAR, train, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -118,14 +130,21 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
+     * @param listener      查询结果事件监听器
      */
-    public void queryUser(byte queryType, String queryValue, byte orderBy, String lastLoginTime, int size) {
-        TravellerPersonProcess process = new TravellerPersonProcess();
+    public void queryUser(byte queryType, String queryValue, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        final TravellerPersonProcess process = new TravellerPersonProcess();
         process.setInfoParameter(queryType, queryValue, orderBy, lastLoginTime, size);
         process.run("queryUser", new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("查询用户信息列表结果码为：" + errCode);
 
+                UserEventArgs userEventArgs = new UserEventArgs(process.getUserList(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
             }
         });
     }

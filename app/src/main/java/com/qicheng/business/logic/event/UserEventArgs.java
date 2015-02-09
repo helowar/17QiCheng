@@ -15,12 +15,20 @@ public class UserEventArgs extends StatusEventArgs {
 
     private User result = null;
 
+    /**
+     * 用户信息列表
+     */
+    private List<User> userList = null;
     private ArrayList<LabelType> resultLabelTypes = null;
-
 
     public UserEventArgs(User user, OperErrorCode errCode) {
         super(errCode);
         result = user;
+    }
+
+    public UserEventArgs(List<User> userList, OperErrorCode errCode) {
+        super(errCode);
+        this.userList = userList;
     }
 
     /**
@@ -57,5 +65,9 @@ public class UserEventArgs extends StatusEventArgs {
 
     public void setResultLabelTypes(ArrayList<LabelType> resultLabelTypes) {
         this.resultLabelTypes = resultLabelTypes;
+    }
+
+    public List<User> getUserList() {
+        return userList;
     }
 }
