@@ -19,9 +19,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
-import com.qicheng.business.module.TravellerPerson;
+import com.qicheng.business.module.User;
 import com.qicheng.framework.ui.HorizontalScrollListView;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class TravellerActivity extends BaseActivity {
     /**
      * 推荐车友列表
      */
-    private List<TravellerPerson> recommendPersonList = new ArrayList<TravellerPerson>();
+    private List<User> recommendPersonList = new ArrayList<User>();
 
     /**
      * 推荐车友适配器
@@ -78,56 +79,6 @@ public class TravellerActivity extends BaseActivity {
     private boolean pauseOnScroll = false;
     private boolean pauseOnFling = true;
     private DisplayImageOptions options;
-    private String[] imageUrls = new String[]{
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://h.hiphotos.baidu.com/image/pic/item/b58f8c5494eef01f9585c9cce2fe9925bc317d22.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg",
-            "http://b.hiphotos.baidu.com/image/pic/item/fcfaaf51f3deb48fed45bbd0f21f3a292df5788b.jpg"
-    };
 
     /**
      * 出发车友Fragment
@@ -143,6 +94,16 @@ public class TravellerActivity extends BaseActivity {
      * Fragment事物管理对象
      */
     private FragmentTransaction fragmentTransaction = null;
+
+    /**
+     * 查询类型
+     */
+    private byte queryType = 0;
+
+    /**
+     * 查询值
+     */
+    private String queryValue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +157,10 @@ public class TravellerActivity extends BaseActivity {
                 endFrameLayout.setVisibility(View.VISIBLE);
             }
         });
+        // 获取上一个Activity传递过来的值
+        Bundle extras= getIntent().getExtras();
+        queryType = extras.getByte(Const.Intent.TRAVELLER_QUERY_TYPE);
+        queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
     }
 
     private void startUserActivity(int position) {
@@ -219,9 +184,8 @@ public class TravellerActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         for (int i = 0; i < 6; i++) {
-            TravellerPerson travellerPerson = new TravellerPerson();
-            travellerPerson.setEnd_station("杭州" + i);
-            travellerPerson.setPortrait_url(imageUrls[i]);
+            User travellerPerson = new User();
+            travellerPerson.setStationName("杭州" + i);
             recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
         }
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
@@ -275,9 +239,8 @@ public class TravellerActivity extends BaseActivity {
                 isFirstScrollToLeftEdge = true;
             } else {
                 for (int i = 0; i < 3; i++) {
-                    TravellerPerson travellerPerson = new TravellerPerson();
-                    travellerPerson.setEnd_station("杭州" + i);
-                    travellerPerson.setPortrait_url(imageUrls[i]);
+                    User travellerPerson = new User();
+                    travellerPerson.setStationName("杭州" + i);
                     recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson), 0);
                 }
             }
@@ -289,9 +252,8 @@ public class TravellerActivity extends BaseActivity {
                 isFirstScrollToRightEdge = true;
             } else {
                 for (int i = 0; i < 3; i++) {
-                    TravellerPerson travellerPerson = new TravellerPerson();
-                    travellerPerson.setEnd_station("杭州" + i);
-                    travellerPerson.setPortrait_url(imageUrls[i]);
+                    User travellerPerson = new User();
+                    travellerPerson.setStationName("杭州" + i);
                     recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
                 }
             }
@@ -327,19 +289,19 @@ public class TravellerActivity extends BaseActivity {
             final View recommendPerson;
             ImageView imageView = null;
             TextView textView = null;
-            TravellerPerson travellerPerson = null;
+            User travellerPerson = null;
             if (convertView == null) {
                 recommendPerson = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, parent, false);
                 imageView = (ImageView) recommendPerson.findViewById(R.id.traveller_recommend_person_img);
                 travellerPerson = recommendPersonList.get(position);
-                String portraitUrl = travellerPerson.getPortrait_url();
+                String portraitUrl = travellerPerson.getPortraitURL();
                 if (portraitUrl == null) {
                     imageView.setImageResource(R.drawable.ic_default_portrait);
                 } else {
                     imageLoader.displayImage(portraitUrl, imageView, options);
                 }
                 textView = (TextView) recommendPerson.findViewById(R.id.traveller_recommend_person_end);
-                textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getEnd_station());
+                textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getStationName());
 //                recommendPerson.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View v) {
@@ -353,21 +315,21 @@ public class TravellerActivity extends BaseActivity {
         }
     }
 
-    private View createRecommendPersonView(TravellerPerson travellerPerson) {
+    private View createRecommendPersonView(User travellerPerson) {
         // 创建推荐车友View
         View recommendPersonView;
         ImageView imageView = null;
         TextView textView = null;
         recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
         imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
-        String portraitUrl = travellerPerson.getPortrait_url();
+        String portraitUrl = travellerPerson.getPortraitURL();
         if (portraitUrl == null) {
             imageView.setImageResource(R.drawable.ic_default_portrait);
         } else {
             imageLoader.displayImage(portraitUrl, imageView, options);
         }
         textView = (TextView) recommendPersonView.findViewById(R.id.traveller_recommend_person_end);
-        textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getEnd_station());
+        textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getStationName());
 //        recommendPersonView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

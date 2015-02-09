@@ -18,7 +18,7 @@ import com.qicheng.business.logic.LabelPriorityComparator;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.LabelEventArgs;
 import com.qicheng.business.module.Label;
-import com.qicheng.business.module.LabelTypeList;
+import com.qicheng.business.module.LabelType;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -28,6 +28,7 @@ import com.qicheng.framework.ui.helper.Alert;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * 标签选择Activity
@@ -36,7 +37,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     private final static String TAG = "Selected";
     private ArrayList<Label> labels = new ArrayList<Label>();
     private Button nextButton;
-    private ArrayList<LabelTypeList> labelTypeLists = new ArrayList<LabelTypeList>();
+    private List<LabelType> labelTypes;
     private LinearLayout linearLayout;
 
     @Override
@@ -81,18 +82,18 @@ public class RegisterLabelSelectActivity extends BaseActivity {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 OperErrorCode errCode = ((LabelEventArgs) args).getErrCode();
-                labelTypeLists = ((LabelEventArgs) args).getLabelTypeLists();
-                Collections.sort(labelTypeLists, new LabelPriorityComparator());
-                for (int i = 0; i < labelTypeLists.size(); i++) {
-                    Collections.sort(labelTypeLists.get(i).getTagList(), new LabelItemPriorityComparator());
+                labelTypes = ((LabelEventArgs) args).getLabelType();
+                Collections.sort(labelTypes, new LabelPriorityComparator());
+                for (int i = 0; i < labelTypes.size(); i++) {
+                    Collections.sort(labelTypes.get(i).getTagList(), new LabelItemPriorityComparator());
                 }
-                Log.d("test", labelTypeLists.toString());
+                Log.d("test", labelTypes.toString());
 
 
-                for (int i = 0; i < labelTypeLists.size(); i++) {
+                for (int i = 0; i < labelTypes.size(); i++) {
                     View view2 = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
                     TextView text = (TextView) view2.findViewById(R.id.label_text);
-                    LabelTypeList labelType = labelTypeLists.get(i);
+                    LabelType labelType = labelTypes.get(i);
                     text.setText(labelType.getName());
                     LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
                     for (int j = 0; j < labelType.getTagList().size(); j++) {

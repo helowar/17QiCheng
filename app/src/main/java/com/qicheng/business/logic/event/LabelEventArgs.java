@@ -1,10 +1,11 @@
 package com.qicheng.business.logic.event;
 
-import com.qicheng.business.module.LabelTypeList;
+import com.qicheng.business.module.LabelType;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NO3 on 2015/2/5.
@@ -12,23 +13,19 @@ import java.util.ArrayList;
  */
 public class LabelEventArgs extends StatusEventArgs {
 
-    private ArrayList<LabelTypeList> labelTypeLists = new ArrayList<LabelTypeList>();
+    private List<LabelType> labelType;
 
-    public LabelEventArgs(ArrayList<LabelTypeList> value) {
+    public LabelEventArgs(List<LabelType> value) {
         super(OperErrorCode.Success);
-        labelTypeLists = value;
+        labelType = value;
     }
 
-    public LabelEventArgs(ArrayList<LabelTypeList> value, OperErrorCode errCode) {
+    public LabelEventArgs(ArrayList<LabelType> value, OperErrorCode errCode) {
         super(errCode);
-        labelTypeLists = value;
+        labelType = value;
     }
 
-    public ArrayList<LabelTypeList> getLabelTypeLists() {
-        return labelTypeLists;
-    }
-
-    public void setLabelTypeLists(ArrayList<LabelTypeList> labelTypeLists) {
-        this.labelTypeLists = labelTypeLists;
+    public List<LabelType> getLabelType() {
+        return labelType;
     }
 }
