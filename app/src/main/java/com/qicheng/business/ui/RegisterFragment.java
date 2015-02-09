@@ -242,8 +242,7 @@ public class RegisterFragment extends BaseFragment {
                 OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
                 switch (errCode) {
                     case Success:
-                        startActivity(new Intent(getActivity(), MainActivity.class));
-                        getActivity().finish();
+                        getActivity().getFragmentManager().beginTransaction().replace(R.id.form_register,new UserInfoInputFragment()).commit();
                         break;
                     case CellNumExist:
                         Alert.Toast(getResources().getString(R.string.cell_num_already_exist_err_msg));

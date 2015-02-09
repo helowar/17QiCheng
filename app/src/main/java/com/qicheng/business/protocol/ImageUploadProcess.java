@@ -26,7 +26,7 @@ public class ImageUploadProcess {
     private static final Logger logger = new Logger("protocol");
     protected static final String STATUS_TAG = "result_code";
 
-    private static final String url ="http://192.168.1.107:8080/common/upload.html";
+    private static final String url ="http://192.168.1.107:8080/qps/common/upload.html";
     /**
      * 文件用途
      */

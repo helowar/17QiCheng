@@ -1,13 +1,17 @@
 package com.qicheng.framework.protocol;
 
+import com.qicheng.framework.util.Logger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -18,6 +22,7 @@ import java.util.UUID;
  * Created by NO1 on 2015/2/8.
  */
 public class FileImageUpload {
+    private static Logger logger = new Logger("FileImageUpload");
     private static final String TAG = "uploadFile";
     private static final int TIME_OUT = 10*10000000; //超时时间
     private static final String CHARSET = "utf-8"; //设置编码
@@ -35,7 +40,8 @@ public class FileImageUpload {
         UploadResult result = new UploadResult();
         try {
             URL url = new URL(RequestURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection(); conn.setReadTimeout(TIME_OUT); conn.setConnectTimeout(TIME_OUT);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(TIME_OUT); conn.setConnectTimeout(TIME_OUT);
             conn.setDoInput(true); //允许输入流
             conn.setDoOutput(true); //允许输出流
             conn.setUseCaches(false); //不允许使用缓存
@@ -56,7 +62,7 @@ public class FileImageUpload {
                  * name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
                  * filename是文件的名字，包含后缀名的 比如:abc.png
                  */
-                sb.append("Content-Disposition: form-data; name=\"img\"; filename=\""+file.getName()+"\""+LINE_END);
+                sb.append("Content-Disposition: form-data; name=\"fileData\"; filename=\""+file.getName()+"\""+LINE_END);
                 sb.append("Content-Type: application/octet-stream; charset="+CHARSET+LINE_END);
                 sb.append(LINE_END);
                 dos.write(sb.toString().getBytes());
@@ -72,17 +78,34 @@ public class FileImageUpload {
                 byte[] end_data = (PREFIX+BOUNDARY+PREFIX+LINE_END).getBytes();
                 dos.write(end_data);
                 dos.flush();
+//                dos.close();
                 /**
                  * 获取响应码 200=成功
                  * 当响应成功，获取响应的流
                  */
                 int res = conn.getResponseCode();
-//                Log.e(TAG, "response code:"+res);
+                logger.d("response code:"+res);
                 if(res==200)
                 {
                     result.setResult(SUCCESS);
-                    JSONObject o = new JSONObject(conn.getResponseMessage());
+                    StringBuilder stringBuilder = new StringBuilder();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    boolean firstLine = true;
+                    String line = null; ;
+                    while((line = bufferedReader.readLine()) != null){
+                        if(!firstLine){
+                            stringBuilder.append(System.getProperty("line.separator"));
+                        }else{
+                            firstLine = false;
+                        }
+                        stringBuilder.append(line);
+                    }
+                    String response = stringBuilder.toString();
+                    JSONObject o = new JSONObject(response);
                     result.setUrl(o.getJSONObject("body").optString("file_path"));
+                    dos.close();
+                    outputSteam.close();
+                    conn.disconnect();
                     return result;
                 }
             }

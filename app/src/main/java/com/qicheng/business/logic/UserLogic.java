@@ -80,6 +80,14 @@ public class UserLogic extends BaseLogic {
     }
 
     /**
+     * 在注册时初次设置用户基本信息
+     *
+     */
+    public void initUserInfo(final User param,final EventListener listener){
+
+    }
+
+    /**
      * 获取验证码
      *
      * @param cellNum
@@ -165,8 +173,11 @@ public class UserLogic extends BaseLogic {
      * @param listener
      */
     public void saveUserPortrait(Bitmap photo,final EventListener listener){
-
-        final File myCaptureFile = new File( Const.WorkDir+UUID.randomUUID().toString() + ".jpg");
+        File dir = new File(Const.WorkDir);
+        if(!dir.exists() || !dir.isDirectory()) {
+            dir.mkdirs();
+        }
+        final File myCaptureFile = new File( dir+UUID.randomUUID().toString() + ".jpg");
         OperErrorCode errCode = null;
         try{
             BufferedOutputStream bos = new BufferedOutputStream(

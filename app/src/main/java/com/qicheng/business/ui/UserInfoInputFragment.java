@@ -23,7 +23,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,6 +42,7 @@ import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.framework.util.StringUtil;
 
 import java.io.File;
 import java.util.Calendar;
@@ -53,9 +57,16 @@ public class UserInfoInputFragment extends BaseFragment {
 
 
     /* 组件 */
-    private RelativeLayout switchAvatar;
     private ImageView faceImage;
     private TextView mBirthDate;
+    private EditText mNickName;
+    private Button mNextButton;
+    private RadioGroup mGenderRadio;
+
+    /* 参数 */
+    private String portraitUrl = null;
+    private boolean confirm = false;
+    private int gender = 1;
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
@@ -67,7 +78,6 @@ public class UserInfoInputFragment extends BaseFragment {
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESULT_REQUEST_CODE = 2;
-
 
     public UserInfoInputFragment() {
         // Required empty public constructor
@@ -129,13 +139,44 @@ public class UserInfoInputFragment extends BaseFragment {
         });
 
         mBirthDate = ((TextView) fragmentView.findViewById(R.id.editText_age));
+        /**
+         *  监听点击事件，进行生日选择
+         */
         mBirthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickDialog();
             }
         });
+        mNickName = (EditText)fragmentView.findViewById(R.id.editText_nickyName);
+        /**
+         * 性别选择
+         */
+        mGenderRadio = (RadioGroup)fragmentView.findViewById(R.id.radiobutton_gender);
+        mGenderRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId==R.id.radiobutton_female){
+                    /*女性*/
+                    gender=0;
+                    return;
+                }
+                /*男性*/
+                gender=1;
+            }
+        });
+        mNextButton = (Button)fragmentView.findViewById(R.id.button_next);
 
+        mNextButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(checkInput()) {
+                    //TODO: Step1-提交并获取标签列表
+
+                    //TODO:Step2-跳转到标签页面，并传递数据
+                }
+            }
+        });
         fragmentView.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,6 +185,26 @@ public class UserInfoInputFragment extends BaseFragment {
         });
 
         return fragmentView;
+    }
+
+    /**
+     * 输入项校验
+     * @return
+     */
+    private boolean checkInput(){
+        if(StringUtil.isEmpty(mNickName.getText().toString())){
+            Alert.Toast(R.string.nick_name_warning);
+            return false;
+        }
+        if(StringUtil.isEmpty(mBirthDate.getText().toString())){
+            Alert.Toast(R.string.age_set_warning);
+            return false;
+        }
+        if(StringUtil.isEmpty(portraitUrl)&&!confirm){
+            Alert.Toast(R.string.portrait_set_warning);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -168,6 +229,9 @@ public class UserInfoInputFragment extends BaseFragment {
         dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
         dateText.append("日");
         mBirthDate.setText(dateText.toString());
+        if(!StringUtil.isEmpty(mNickName.getText().toString())){
+            mNextButton.setEnabled(true);
+        }
     }
 
     /**
@@ -309,6 +373,7 @@ public class UserInfoInputFragment extends BaseFragment {
                 switch(errCode) {
                     case Success:
                         logger.d("Portrait file url:"+result.getResult().getPortraitURL());
+                        portraitUrl = result.getResult().getPortraitURL();
                         break;
                     case FileUpLoadFailed:
                         Alert.Toast(getResources().getString(R.string.portrait_save_failed));
