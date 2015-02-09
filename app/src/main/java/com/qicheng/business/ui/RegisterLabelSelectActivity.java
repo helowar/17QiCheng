@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.qicheng.R;
 import com.qicheng.business.logic.LabelItemPriorityComparator;
 import com.qicheng.business.logic.LabelLogic;
@@ -25,6 +26,9 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,21 +49,27 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_select);
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
-        getTagList();
-
-        View view = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
-        TextView text2 = (TextView) view.findViewById(R.id.label_text);
-        text2.setText("歌曲");
-        LabelViewGroup labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
-        for (int i = 0; i < 10; i++) {
-            TextView labelText = setTextViewToGroup("美女");
-            labelText.setTag("1,1");
-            labelViewGroup.addView(labelText);
+        //获取测试数据
+        labelTypes = getFakeResult();
+        //遍历各个type的标签
+        for (int i = 0; i < labelTypes.size(); i++) {
+            View view2 = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
+            TextView text = (TextView) view2.findViewById(R.id.label_text);
+            //获得单个种类的标签
+            LabelType labelType = labelTypes.get(i);
+            //设置标签类型textview
+            text.setText(labelType.getName());
+            LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
+            //遍历各个标签，生成TextView添加到viewGroup中
+            for (int j = 0; j < labelType.getTagList().size(); j++) {
+                TextView labelTextView = setTextViewToGroup(labelType.getTagList().get(j).getName());
+                //将标签的类型Id和标签Id添加到textView的Tag中
+                String[] ids = new String[]{labelType.getId(), labelType.getTagList().get(j).getId()};
+                labelTextView.setTag(ids);
+                labelViewGroup2.addView(labelTextView);
+            }
+            linearLayout.addView(view2);
         }
-
-        linearLayout.addView(view);
-
-
         nextButton = (Button) findViewById(R.id.label_button_next);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +87,6 @@ public class RegisterLabelSelectActivity extends BaseActivity {
      */
     private void getTagList() {
         final LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
-
         labelLogic.getLabelList(createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
@@ -88,19 +97,6 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                     Collections.sort(labelTypes.get(i).getTagList(), new LabelItemPriorityComparator());
                 }
                 Log.d("test", labelTypes.toString());
-
-
-                for (int i = 0; i < labelTypes.size(); i++) {
-                    View view2 = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
-                    TextView text = (TextView) view2.findViewById(R.id.label_text);
-                    LabelType labelType = labelTypes.get(i);
-                    text.setText(labelType.getName());
-                    LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
-                    for (int j = 0; j < labelType.getTagList().size(); j++) {
-                        labelViewGroup2.addView(setTextViewToGroup(labelType.getTagList().get(j).getName()));
-                    }
-                    linearLayout.addView(view2);
-                }
 
                 switch (errCode) {
                     case Success:
@@ -115,21 +111,31 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         }));
     }
 
-
-    public TextView setTextViewToGroup(String textId) {
+    /**
+     * 通过TextName生成TextView
+     *
+     * @param itemName
+     * @return TextView
+     */
+    public TextView setTextViewToGroup(String itemName) {
         TextView textView = new TextView(this);
-        textView.setText(textId);
-
+        textView.setText(itemName);
         textView.setTextAppearance(this, R.style.labelStyle);
         textView.setBackgroundResource(R.drawable.label_shape);
+        //定义临时的类，存储typeId，itemId，itemName
         final Label label = new Label();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //如果TextView被选择了取出Tag中的数据，添加到list中用于传递到下一级别
                 if (!v.isSelected()) {
-                    label.setName(((TextView) v).getText().toString());
-                    Log.d("ttt", v.getTag().toString());
+                    label.setItemName(((TextView) v).getText().toString());
+                    String[] ids = (String[]) v.getTag();
+                    label.setTypeId(ids[0]);
+                    label.setItemId(ids[1]);
+                    Log.d("ttt", label.toString());
                     labels.add(label);
+                    //替换TextView的样式
                     v.setBackgroundResource(R.drawable.label_select_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     v.setSelected(true);
@@ -138,6 +144,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                     }
                 } else {
                     labels.remove(label);
+                    //替换TextView的样式
                     v.setBackgroundResource(R.drawable.label_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
                     v.setSelected(false);
@@ -172,4 +179,52 @@ public class RegisterLabelSelectActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public List<LabelType> getFakeResult() {
+        String r = "{\n" +
+                "    \"result_code\": \"0\", \n" +
+                "    \"body\": [\n" +
+                "        {\n" +
+                "            \"id\": \"XXXXXXXXXXXXXXXXXXA\",\n" +
+                "            \"name\": \"看电影\",\n" +
+                "            \"priority\": \"2\",\n" +
+                "            \"tagList\": [\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXAA\", \"name\": \"动作片\", \"priority\": \"2\"},\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXAB\", \"name\": \"恐怕片\", \"priority\": \"1\"},\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXAC\",\"name\": \"科幻片\", \"priority\": \"3\"}\n" +
+                "            ]\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"id\": \"XXXXXXXXXXXXXXXXXXB\",\n" +
+                "            \"name\": \"运动\",\n" +
+                "            \"priority\": \"1\",\n" +
+                "            \"tagList\": [\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXBA\", \"name\": \"网球\", \"priority\": \"3\"},\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXBB\", \"name\": \"羽毛球\", \"priority\": \"1\"},\n" +
+                "                {\"id\": \"XXXXXXXXXXXXXXXXBC\",\"name\": \"保龄球\", \"priority\": \"2\"}\n" +
+                "            ]\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}\n";
+
+        List<LabelType> list = new ArrayList<LabelType>();
+        try {
+
+            Gson gson = new Gson();
+            JSONObject object = new JSONObject(r);
+            JSONArray arry = (JSONArray) object.opt("body");
+            for (int i = 0; i < arry.length(); i++) {
+                Object o = arry.get(i);
+                LabelType labelType = gson.fromJson(o.toString(), LabelType.class);
+                list.add(labelType);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+
+    }
+
+
 }

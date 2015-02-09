@@ -3,6 +3,7 @@ package com.qicheng.business.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +18,10 @@ import com.qicheng.R;
 import com.qicheng.business.module.Label;
 import com.qicheng.framework.ui.base.BaseActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RegisterLabelEditActivity extends BaseActivity {
@@ -26,6 +30,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
     private final static String TAG = "EditLabel";
     private LinearLayout labelRoot;
     private EditText addEditText;
+    private ArrayList<Label> labels = new ArrayList<Label>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +40,20 @@ public class RegisterLabelEditActivity extends BaseActivity {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         View view = (View) getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         labelViewGroup = (LabelViewGroup) view.findViewById(R.id.label_viewGroup);
-        TextView text2 = (TextView) view.findViewById(R.id.label_text);
-        text2.setText(R.string.already_add_label);
+        TextView textTitle = (TextView) view.findViewById(R.id.label_text);
+        textTitle.setText(R.string.already_add_label);
         Intent intent = getIntent();
-        ArrayList<Label> labels = (ArrayList<Label>) intent.getSerializableExtra("labels");
+        labels = (ArrayList<Label>) intent.getSerializableExtra("labels");
         if (labels != null && labels.size() > 0) {
             for (int i = 0; i < labels.size(); i++) {
-                labelViewGroup.addView(setTextViewToGroup(labels.get(i).getName()));
+                Label label =labels.get(i);
+                //labels.add(label);
+                TextView labelText =setTextViewToGroup(label.getItemName());
+                String[] ids = new String[]{label.getTypeId(), label.getItemId()};
+                labelText.setTag(ids);
+                labelViewGroup.addView(labelText);
             }
         }
-
 
         addEditText = (EditText) findViewById(R.id.edit_label);
         addEditText.setFocusable(true);
@@ -89,20 +98,29 @@ public class RegisterLabelEditActivity extends BaseActivity {
         textView.setTextAppearance(this, R.style.labelStyle);
         textView.setBackgroundResource(R.drawable.label_select_shape);
         textView.setTextColor(getResources().getColor(R.color.white));
+        final Label label = new Label();
+        label.setItemName(text);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!v.isSelected()) {
+                    String[] ids = (String[]) v.getTag();
+                    label.setTypeId(ids[0]);
+                    label.setItemId(ids[1]);
+                    labels.add(label);
                     v.setBackgroundResource(R.drawable.label_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
                     v.setSelected(true);
                     listView.add(v);
+                    Log.d("list",labels.toString());
 
                 } else {
                     v.setBackgroundResource(R.drawable.label_select_shape);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     v.setSelected(false);
+                    labels.remove(label);
                     listView.remove(v);
+                    Log.d("list",labels.toString());
                 }
 
             }
