@@ -34,11 +34,13 @@ import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.module.User;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
+import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
@@ -67,6 +69,7 @@ public class UserInfoInputFragment extends BaseFragment {
     private String portraitUrl = null;
     private boolean confirm = false;
     private int gender = 1;
+    private StringBuffer birthday = new StringBuffer();
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
@@ -167,24 +170,48 @@ public class UserInfoInputFragment extends BaseFragment {
         });
         mNextButton = (Button)fragmentView.findViewById(R.id.button_next);
 
-        mNextButton.setOnClickListener(new View.OnClickListener(){
+        mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkInput()) {
-                    //TODO: Step1-提交并获取标签列表
-
-                    //TODO:Step2-跳转到标签页面，并传递数据
+                if (checkInput()) {
+                    addUserInfo();
                 }
-            }
-        });
-        fragmentView.findViewById(R.id.button_next).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
         return fragmentView;
+    }
+
+    private void addUserInfo(){
+        UserLogic userLogic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
+        final User param = new User();
+        param.setNickName(mNickName.getText().toString());
+        param.setGender(gender);
+        param.setPortraitURL(portraitUrl);
+        param.setBirthday(birthday.toString());
+        userLogic.initUserInfo(param,new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result =  (UserEventArgs)args;
+                OperErrorCode errCode = result.getErrCode();
+                switch(errCode) {
+                    case Success:
+                        logger.d("User info updated");
+                        Intent intent = new Intent(getActivity(), RegisterLabelSelectActivity.class);
+                        intent.putExtra("Label",result.getResultLabelTypes());
+                        startActivity(intent);
+                        break;
+                    case FileUpLoadFailed:
+                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        break;
+                    default:
+                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        break;
+                }
+            }
+        });
+        startLoading();
     }
 
     /**
@@ -223,15 +250,23 @@ public class UserInfoInputFragment extends BaseFragment {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         dateText.append(calendar.get(Calendar.YEAR));
+        birthday.append(calendar.get(Calendar.YEAR));
         dateText.append("年");
         dateText.append(calendar.get(Calendar.MONTH) + 1);
+        if(Calendar.MONTH + 1<10){
+            birthday.append("0"+(calendar.get(Calendar.MONTH) + 1));
+        }else {
+            birthday.append((calendar.get(Calendar.MONTH) + 1));
+        }
         dateText.append("月");
         dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
+        birthday.append(calendar.get(Calendar.DAY_OF_MONTH));
         dateText.append("日");
         mBirthDate.setText(dateText.toString());
         if(!StringUtil.isEmpty(mNickName.getText().toString())){
             mNextButton.setEnabled(true);
         }
+
     }
 
     /**

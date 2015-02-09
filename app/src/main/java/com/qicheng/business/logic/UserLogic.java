@@ -11,6 +11,7 @@ import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.RegisterProcess;
+import com.qicheng.business.protocol.SetUserInfoProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
@@ -84,6 +85,23 @@ public class UserLogic extends BaseLogic {
      *
      */
     public void initUserInfo(final User param,final EventListener listener){
+        final SetUserInfoProcess process = new SetUserInfoProcess();
+        process.setParamUser(param);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                User resultUser = new User();
+
+                UserEventArgs userEventArgs = new UserEventArgs(resultUser,errCode);
+                if(errCode==OperErrorCode.Success){
+                    resultUser.setLabelTypes(process.getLabelTypes());
+                }
+                fireEvent(listener, userEventArgs);
+            }
+        });
+
 
     }
 
@@ -164,7 +182,7 @@ public class UserLogic extends BaseLogic {
      * @return
      */
     public String getPublicKey() {
-        return PersistorManager.getInstance().getPublicKey();
+        return Cache.getInstance().getPublicKey();
     }
 
     /**

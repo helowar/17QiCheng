@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -49,7 +50,7 @@ public class LoginProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             o.put("user_name", paramUser.getUserName());
             o.put("pwd", paramUser.getPassWord());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }

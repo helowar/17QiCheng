@@ -1,8 +1,12 @@
 package com.qicheng.business.logic.event;
 
+import com.qicheng.business.module.LabelType;
 import com.qicheng.business.module.User;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NO1 on 2015/2/6.
@@ -10,6 +14,8 @@ import com.qicheng.framework.event.StatusEventArgs;
 public class UserEventArgs extends StatusEventArgs {
 
     private User result = null;
+
+    private ArrayList<LabelType> resultLabelTypes = null;
 
 
     public UserEventArgs(User user, OperErrorCode errCode) {
@@ -43,5 +49,13 @@ public class UserEventArgs extends StatusEventArgs {
     @Override
     public OperErrorCode getErrCode() {
         return super.getErrCode();
+    }
+
+    public ArrayList<LabelType> getResultLabelTypes() {
+        return resultLabelTypes;
+    }
+
+    public void setResultLabelTypes(ArrayList<LabelType> resultLabelTypes) {
+        this.resultLabelTypes = resultLabelTypes;
     }
 }

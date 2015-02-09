@@ -3,6 +3,7 @@ package com.qicheng.business.protocol;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.protocol.FileImageUpload;
@@ -53,7 +54,7 @@ public class ImageUploadProcess {
     }
 
     private String getRequestUrl(){
-        return url+"?fileUsage="+fileUsage;
+        return url+"?fileUsage="+fileUsage+"&token="+ Cache.getInstance().getUser().getToken();
     }
 
     protected void onCreate() {

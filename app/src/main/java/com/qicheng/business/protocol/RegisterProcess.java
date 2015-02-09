@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -33,7 +34,7 @@ public class RegisterProcess extends BaseProcess {
             o.put("cell_num", mParamUser.getCellNum());
             o.put("pwd", mParamUser.getPassWord());
             o.put("verify_code", mParamUser.getVerifyCode());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,9 +54,18 @@ public class RegisterProcess extends BaseProcess {
                     JSONObject resultBody = o.getJSONObject("body");
                     String token = resultBody.optString("token");
                     String portraitUrl = resultBody.optString("portrait_url");
-                    // TODO: 持久化token及portraitUrl，缓存token及portraitImg
                     logger.d("Get users token:" + token);
                     logger.d("Get user portraitUrl" + portraitUrl);
+                    User user = new User();
+                    user.setPortraitURL(portraitUrl);
+                    user.setToken(token);
+                    user.setCellNum(mParamUser.getCellNum());
+                    user.setPassWord(mParamUser.getPassWord());
+                    /**
+                     * 刷新缓存
+                     */
+                    Cache.getInstance().clear();
+                    Cache.getInstance().setCacheUser(user);
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);

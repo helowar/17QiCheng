@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.framework.protocol.BaseProcess;
 
@@ -37,7 +38,7 @@ public class GetPublicKeyProcess extends BaseProcess {
                      */
                     JSONObject key = o.optJSONObject("body");
                     String keyString = key.getString("public_key");
-                    PersistorManager.getInstance().savePublicKey(keyString);
+                    Cache.getInstance().setPublicKey(keyString);
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);

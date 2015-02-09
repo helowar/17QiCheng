@@ -25,8 +25,8 @@ public class RegisterActivity extends BaseActivity {
         setContentView(R.layout.activity_register);
         mRegisterFragment = new RegisterFragment();
         UserInfoInputFragment userInfoSettingFragment = new UserInfoInputFragment();
-//        getFragmentManager().beginTransaction().add(R.id.form_register, mRegisterFragment).commit();
-        getFragmentManager().beginTransaction().add(R.id.form_register, userInfoSettingFragment).commit();
+        getFragmentManager().beginTransaction().add(R.id.form_register, mRegisterFragment).commit();
+//        getFragmentManager().beginTransaction().add(R.id.form_register, userInfoSettingFragment).commit();
     }
 
 //    @Override
