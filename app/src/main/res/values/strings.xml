@@ -11,11 +11,12 @@
     <string name="register_button">注册</string>
     <string name="username_is_empty">请输入手机号码</string>
     <string name="password_is_empty">请输入密码</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">行程</string>
     <string name="load_more">放开我就给你看更多</string>
+    <string name="date_text">日期</string>
 
-    <!--<string name=""></string>-->
-    <!--Login Activity begin-->
+    <!-- <string name=""></string> -->
+    <!-- Login Activity begin -->
     <string name="pwd_text">密码</string>
     <string name="pwd_hint_msg">请设置密码</string>
     <string name="illegal_cell_num_msg">请确认手机号是否正确</string>
@@ -23,8 +24,8 @@
     <string name="user_name_not_exist_err_msg">用户名不存在</string>
     <string name="phone_number_not_exist_err_msg">该手机未注册</string>
     <string name="user_invalid_err_msg">抱歉，该用户名已不可用</string>
-    <!--Login Activity end-->
-    <!--Register Activity begin-->
+    <!-- Login Activity end -->
+    <!-- Register Activity begin -->
     <string name="title_activity_register">注册</string>
     <string name="cell_num_already_exist_err_msg">手机号码已存在</string>
     <string name="nicky_name">昵称</string>
@@ -48,16 +49,26 @@
     <string name="please_add_label">请加入您的个性标签</string>
     <string name="delete_selected">完成注册</string>
     <string name="already_add_label">已添加标签</string>
-    <!--Register Activity end-->
+    <string name="portrait_save_failed">头像上传失败，请重试</string>
+    <!-- Register Activity end -->
 
-    <!--Traveller Activity begin-->
+
+    <!-- Trip Activity begin -->
+    <string name="add_trip_text">添加行程</string>
+    <string name="train_code_title">车次</string>
+    <!-- Trip Activity end -->
+
+
+    <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
     <string name="traveller_start_btn_text">出发车友</string>
     <string name="traveller_end_btn_text">到达车友</string>
-    <!--Traveller Activity end-->
+    <string name="traveller_to">至</string>
+    <!-- Traveller Activity end -->
 
-
-
+    <string name="title_activity_personal_information">我的动态</string>
+    <string name="title_activity_add_trip">AddTrip</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

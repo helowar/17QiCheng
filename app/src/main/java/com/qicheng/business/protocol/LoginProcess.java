@@ -6,7 +6,6 @@ import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.JSONUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -67,10 +66,20 @@ public class LoginProcess extends BaseProcess {
             switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
+                    /**
+                     * 取出返回值
+                     */
                     JSONObject body = JSONUtil.getResultBody(o);
                     String token = body.optString("token");
                     String nickname = body.optString("nickname");
                     String url = body.optString("portrait_url");
+                    /**
+                     * 组装返回对象
+                     */
+                    resultUser = new User();
+                    resultUser.setToken(token);
+                    resultUser.setNickName(nickname);
+                    resultUser.setPortraitURL(url);
                     break;
                 case -1:
                     setStatus(ProcessStatus.Status.ErrPass);

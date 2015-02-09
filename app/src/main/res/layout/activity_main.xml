@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -8,37 +7,38 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    <FrameLayout
-        android:id="@+id/trip_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         />
-    <FrameLayout
-        android:id="@+id/social_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         />
-    <FrameLayout
-        android:id="@+id/acty_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-         />
-    <FrameLayout
-        android:id="@+id/message_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
-    <FrameLayout
-        android:id="@+id/user_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+
+        <FrameLayout
+            android:id="@+id/trip_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <FrameLayout
+            android:id="@+id/social_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <FrameLayout
+            android:id="@+id/acty_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <FrameLayout
+            android:id="@+id/message_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <FrameLayout
+            android:id="@+id/user_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
     </FrameLayout>
+
     <RadioGroup
         android:id="@+id/tab_menu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/unavailable"
+        android:background="@drawable/ab_background_textured"
         android:orientation="horizontal"
         android:padding="8dp">
 
@@ -67,7 +67,7 @@
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
             android:text="交友"
-            style="@style/bottomTab"  />
+            style="@style/bottomTab" />
 
         <RadioButton
             android:id="@+id/rbActy"
@@ -80,7 +80,7 @@
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
             android:text="启程"
-            style="@style/bottomTab"  />
+            style="@style/bottomTab" />
 
         <RadioButton
             android:id="@+id/rbMessage"
@@ -93,7 +93,8 @@
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
             android:text="消息"
-            style="@style/bottomTab"  />
+            style="@style/bottomTab" />
+
         <RadioButton
             android:id="@+id/rbMe"
             android:layout_width="0dp"
@@ -105,9 +106,8 @@
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
             android:text="我"
-            style="@style/bottomTab"  />
+            style="@style/bottomTab" />
     </RadioGroup>
-
 
 
 </LinearLayout>

@@ -38,7 +38,7 @@ public class PhotoManager {
         return ins;
     }
 
-    private static final Logger logger = new Logger("photomgr");
+    private static final Logger logger = new Logger("com.qicheng.business.image.PhotoManager");
 
     private static final String BaseUrl = "http://image.zhengre.com";
     private static final String ImagePath = Const.WorkDir + "image/";

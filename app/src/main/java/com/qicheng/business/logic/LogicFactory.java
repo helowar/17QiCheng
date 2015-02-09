@@ -8,6 +8,7 @@ import java.util.Map;
 public class LogicFactory {
 
 	private static final LogicFactory ins = new LogicFactory();
+
 	public static final LogicFactory self() {
 		return ins;
 	}
@@ -27,6 +28,7 @@ public class LogicFactory {
 		Share,
 		Emotion,
         TravellerPerson,
+        Label,
 	}
 	
 	private Map<Type, BaseLogic.Factory> mFactorys = new HashMap<Type, BaseLogic.Factory>();
@@ -44,6 +46,7 @@ public class LogicFactory {
 //		mFactorys.put(Type.Timeline, new TimelineLogic.Factory());
 //		mFactorys.put(Type.Upgrade, new UpgradeLogic.Factory());
 		mFactorys.put(Type.User, new UserLogic.Factory());
+        mFactorys.put(Type.Label, new LabelLogic.Factory());
 //		mFactorys.put(Type.Share, new ShareLogic.Factory());
 //		mFactorys.put(Type.Emotion, new EmotionLogic.Factory());
         mFactorys.put(Type.TravellerPerson, new TravellerPersonLogic.Factory());

@@ -1,7 +1,5 @@
 package com.qicheng.business.module;
 
-import java.util.UUID;
-
 /**
  * Created by NO1 on 2015/1/18.
  */
@@ -20,6 +18,8 @@ public class User {
     private String userId;
 
     private String verifyCode;
+
+    private String nickName;
 
     /**
      * 最后登录时间
@@ -93,6 +93,14 @@ public class User {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getLastLoginTime() {

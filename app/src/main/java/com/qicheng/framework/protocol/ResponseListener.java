@@ -2,5 +2,5 @@ package com.qicheng.framework.protocol;
 
 public interface ResponseListener {
 
-	void onResponse(String requestId);
+    void onResponse(String requestId);
 }

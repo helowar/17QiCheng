@@ -48,12 +48,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_trip_direction"
+                android:src="@drawable/sp_line"
                 android:adjustViewBounds="false"
-                android:padding="2dp"
                 android:scaleType="fitXY"
                 android:contentDescription="去往"
                 />
+        <ImageView android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_arrow"/>
             <TextView
                 android:id="@+id/textview_end_station"
                 android:layout_width="wrap_content"

@@ -5,249 +5,163 @@ import android.os.Environment;
 import com.qicheng.QichengApplication;
 
 public class Const {
-	
-	/** startyActivityForResult中的request code */
-	public static class RequestCode {
-		
-		// 不关注，仅仅占位
-		public static final int AnyOne = 0;
-		
-		// 从相册获取照片
-		public static final int PhotoFromAlbum = 1000;
-		
-		// 拍照过去照片
-		public static final int PhotoFromCamera = 1001;
-		
-		// 剪裁照片
-		public static final int PhotoCrop = 1002;
-		
-		// 地图位置选择
-		public static final int Location = 1003;
-		
-		// 发布友约
-		public static final int PublishAppoint = 1004;
-		
-		// 友约详情
-		public static final int AppointDetail = 1005;
-		
-		// 聊天
-		public static final int Chat = 1006;
-	}
-	
-	/** intent中的extra的key */
-	public static class Intent {
-		/** ouser的uid */
-		public static final String Uid = "uid";
-
-		/** ouser的昵称 */
-		public static final String NickName = "nickname";
-		
-		/** 聊天对象的id */
-		public static final String ChatId = "chatid";
-		
-		/** 友约对象 */
-		public static final String Appoint = "appoint";
-
-		/** 友约发布者uid */
-		public static final String PublisherUid = "publisheruid";
-		
-		/** 友约内容 */
-		public static final String AppointContent = "aname";
-		
-		/** 针对不同页有不同的含义 */
-		public static final String Type = "type";
-		
-		/** 转到top时需要选择的页面 */
-		public static final String SwitchPage = "page";
-
-        /** 迁移到Traveller页面的查询类型 */
-        public static final String TRAVELLER_QUERY_TYPE = "traveller_query_type";
-
-        /** 迁移到Traveller页面的查询值 */
-        public static final String TRAVELLER_QUERY_VALUE = "traveller_query_value";
-	}
-	
-	public static class DefaultValue {
-		
-		public static final int Age = -1;
-		public static final int Time = -1;
-		public static final int Distance = -1;
-	}
-	
-	public static class SharedPreferenceKey {
-		public static final String DefaultName = "qicheng";
-		
-		public static final String FirstStartup = "v1_0_first";
-	}
-	
-	/** 升级服务器地址 */
-//	public static final String UpgradeServer = "http://ouser.zhengre.com/upgrade";
-
-	public static QichengApplication Application = null;
-
-	// 调试
-	public static final boolean FakeProtocol = false;
-
-	public static final String WorkDir = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
-
-	// 地图缩放
-	public static final int MapZoom = 16;
-	public static final int PoiResultCount = 25;
-	public static final int PoiSearchRaduis = 5 * 1000;
-	
-	/**
-	 * time
-	 */
-	public static final int MessageCountInterval = 5;
-	public static final int MessageChatInterval = 10;
-	
-	/** 消息会话间隔 */
-	public static final int SessionInterval = 15 * 60 * 1000;
-	
-	/** 语音聊天的最小间隔 */
-	public static final int ChatVoiceMinDuring = 1000;
-	
-	/** 两次点击back退出应用的最小应用 */
-	public static final int ExitAppClickBackMinInterval = 2000;
-
-	/**
-	 * limit
-	 */
-	/** 获取藕丝每次获取的条数 */
-	public static final int OuserFetchCount = 20;
-	
-	/** 所有友约每次获取的条数 */
-	public static final int AppointsFetchCount = 20;
-	
-	/** 动态每次获取条数 */
-	public static final int TimelineFetchCount = 20;
-	
-	/** 消息每次获取条数 */
-	public static final int MessagFetchCount = 20;
-
-	/**
-	 * cache
-	 */
-	/** 照片下载最大失败次数 */
-	public static final int PhotoMaxTryTime = 3;
-
-	/** 藕丝数据的失效时间间隔，毫秒 */
-	public static final int OuserInvalidTimeout = 5 * 60 * 1000;
 
     /**
-     * 服务端响应结果代码常量类
+     * startyActivityForResult中的request code
      */
-    public static class ResponseResultCode {
+    public static class RequestCode {
 
-        /**
-         * 响应结果码 9999:内部异常
-         */
-        public static final int RESULT_EXCEPTION = 9999;
+        // 不关注，仅仅占位
+        public static final int AnyOne = 0;
 
-        /**
-         * 响应结果码 0:成功
-         */
-        public static final int RESULT_SUCCESS = 0;
+        // 从相册获取照片
+        public static final int PhotoFromAlbum = 1000;
 
-        /**
-         * 响应结果码 1:失败
-         */
-        public static final int RESULT_FAIL = 1;
+        // 拍照过去照片
+        public static final int PhotoFromCamera = 1001;
 
-        /**
-         * 响应结果码 2:非法调用
-         */
-        public static final int RESULT_ILLEGAL_CALL = 2;
+        // 剪裁照片
+        public static final int PhotoCrop = 1002;
 
-        /**
-         * 响应结果码 3:未登录
-         */
-        public static final int RESULT_NOT_LOGINED = 3;
+        // 地图位置选择
+        public static final int Location = 1003;
 
-        /**
-         * 响应结果码 4:登录超时，请重登录
-         */
-        public static final int RESULT_LOGIN_TIMEOUT = 4;
+        // 发布友约
+        public static final int PublishAppoint = 1004;
 
-        /**
-         * 响应结果码 5:用户名为空
-         */
-        public static final int RESULT_USER_NAME_EMPTY = 5;
+        // 友约详情
+        public static final int AppointDetail = 1005;
 
-        /**
-         * 响应结果码 6:用户密码为空
-         */
-        public static final int RESULT_PWD_EMPTY = 6;
-
-        /**
-         * 响应结果码 7:手机号码已存在
-         */
-        public static final int RESULT_CELL_NUM_EXIST = 7;
-
-        /**
-         * 响应结果码 8:手机号码不存在
-         */
-        public static final int RESULT_CELL_NUM_NOT_EXIST = 8;
-
-        /**
-         * 响应结果码 9:验证码错误
-         */
-        public static final int RESULT_VERIFY_CODE_ERROR = 9;
-
-        /**
-         * 响应结果码 10:验证码过期
-         */
-        public static final int RESULT_VERIFY_CODE_INVALID = 10;
-
-        /**
-         * 响应结果码 11:用户密码错误
-         */
-        public static final int RESULT_PWD_ERROR = 11;
-
-        /**
-         * 响应结果码 12:用户名不存在
-         */
-        public static final int RESULT_USER_NAME_NOT_EXIST = 12;
-
-        /**
-         * 响应结果码 13:该用户已无效
-         */
-        public static final int RESULT_USER_NAME_INVALID = 13;
-
-        /**
-         * 响应结果码 14:昵称已存在
-         */
-        public static final int RESULT_NICKNAME_EXIST = 14;
+        // 聊天
+        public static final int Chat = 1006;
     }
 
     /**
-     * Traveller页面
+     * intent中的extra的key
      */
-    /** 用户查询类型 0：车站 */
-    public static final byte USER_QUERY_TYPE_STATION = 0;
+    public static class Intent {
+        /**
+         * ouser的uid
+         */
+        public static final String Uid = "uid";
 
-    /** 用户查询类型 1：出发 */
-    public static final byte USER_QUERY_TYPE_BEGIN = 1;
+        /**
+         * ouser的昵称
+         */
+        public static final String NickName = "nickname";
 
-    /** 用户查询类型 2：到达 */
-    public static final byte USER_QUERY_TYPE_END = 2;
+        /**
+         * 聊天对象的id
+         */
+        public static final String ChatId = "chatid";
 
-    /** 用户查询类型 3：车次 */
-    public static final byte USER_QUERY_TYPE_TRAIN = 3;
+        /**
+         * 友约对象
+         */
+        public static final String Appoint = "appoint";
 
-    /** 用户查询类型 4：未上车 */
-    public static final byte USER_QUERY_TYPE_NOT_ON_CAR = 4;
+        /**
+         * 友约发布者uid
+         */
+        public static final String PublisherUid = "publisheruid";
 
-    /** 用户查询类型 5：上车 */
-    public static final byte USER_QUERY_TYPE_ON_CAR = 5;
+        /**
+         * 友约内容
+         */
+        public static final String AppointContent = "aname";
 
-    /** 用户查询类型 6：下车 */
-    public static final byte USER_QUERY_TYPE_OFF_CAR = 6;
+        /**
+         * 针对不同页有不同的含义
+         */
+        public static final String Type = "type";
 
-    /** 查询方向 0：往最新方向查询 */
-    public static final byte ORDER_BY_NEWEST = 0;
+        /**
+         * 转到top时需要选择的页面
+         */
+        public static final String SwitchPage = "page";
+    }
 
-    /** 查询方向 1：往最早方向查询 */
-    public static final byte ORDER_BY_EARLIEST = 1;
+    public static class DefaultValue {
+
+        public static final int Age = -1;
+        public static final int Time = -1;
+        public static final int Distance = -1;
+    }
+
+    public static class SharedPreferenceKey {
+        public static final String DefaultName = "qicheng";
+
+        public static final String FirstStartup = "v1_0_first";
+    }
+
+    /**
+     * 升级服务器地址
+     */
+//	public static final String UpgradeServer = "http://ouser.zhengre.com/upgrade";
+
+    public static QichengApplication Application = null;
+
+    // 调试
+    public static final boolean FakeProtocol = false;
+
+    public static final String WorkDir = Environment
+            .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
+
+    // 地图缩放
+    public static final int MapZoom = 16;
+    public static final int PoiResultCount = 25;
+    public static final int PoiSearchRaduis = 5 * 1000;
+
+    /**
+     * time
+     */
+    public static final int MessageCountInterval = 5;
+    public static final int MessageChatInterval = 10;
+
+    /**
+     * 消息会话间隔
+     */
+    public static final int SessionInterval = 15 * 60 * 1000;
+
+    /**
+     * 语音聊天的最小间隔
+     */
+    public static final int ChatVoiceMinDuring = 1000;
+
+    /**
+     * 两次点击back退出应用的最小应用
+     */
+    public static final int ExitAppClickBackMinInterval = 2000;
+
+    /**
+     * limit
+     */
+    /**
+     * 获取藕丝每次获取的条数
+     */
+    public static final int OuserFetchCount = 20;
+
+    /**
+     * 所有友约每次获取的条数
+     */
+    public static final int AppointsFetchCount = 20;
+
+    /**
+     * 动态每次获取条数
+     */
+    public static final int TimelineFetchCount = 20;
+
+    /**
+     * 消息每次获取条数
+     */
+    public static final int MessagFetchCount = 20;
+
+
+    /**
+     * cache
+     */
+    /**
+     * 照片下载最大失败次数
+     */
+    public static final int PhotoMaxTryTime = 3;
 }

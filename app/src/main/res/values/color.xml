@@ -3,6 +3,7 @@
     <!--Qicheng -->
     <color name="main">#5BA3F4</color>
     <color name="unavailable">#E7E5E5</color>
+    <color name="unavailable_transparent">#99E7E5E5</color>
     <color name="gray_line">#F6F6F6</color>
     <color name="gray_text">#9B9B9B</color>
 
@@ -23,4 +24,5 @@
     <color name="popup_bg">#88000000</color>
 
     <color name="sep_line">#F3F5F7</color>
+
 </resources>

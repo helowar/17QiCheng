@@ -22,4 +22,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile files('libs/qps-crypt-1.0.0.jar')
+    compile files('libs/umeng_sdk.jar')
+    compile files('libs/universal-image-loader-1.9.3-with-sources.jar')
 }
