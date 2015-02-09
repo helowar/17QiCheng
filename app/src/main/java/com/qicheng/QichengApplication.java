@@ -20,6 +20,7 @@ public class QichengApplication extends Application {
         super.onCreate();
 
         Const.Application = this;
+        //初始化内存缓存
         Cache.getInstance().onCreate();
 //		LogicFactory.self().getUser().appStrat();
 

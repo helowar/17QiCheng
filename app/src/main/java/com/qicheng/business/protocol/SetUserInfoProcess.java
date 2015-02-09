@@ -1,29 +1,36 @@
 package com.qicheng.business.protocol;
 
+import com.google.gson.Gson;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.module.LabelType;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Created by NO1 on 2015/2/4.
+ * Created by NO1 on 2015/2/9.
  */
-public class RegisterProcess extends BaseProcess {
+public class SetUserInfoProcess extends BaseProcess{
 
-    private static Logger logger = new Logger("com.qicheng.business.protocol.RegisterProcess");
+    private static Logger logger = new Logger("com.qicheng.business.protocol.SetUserInfoProcess");
 
-    private String url = "http://192.168.1.107:8080/qps/user/register.html";
+    private String url = "http://192.168.1.107:8080/qps/user/modify.html";
 
     private User mParamUser;
 
+    private ArrayList<LabelType> mLabelTypes;
 
     @Override
     protected String getRequestUrl() {
-        return url;
+        return url+"?token="+Cache.getInstance().getUser().getToken();
     }
 
     @Override
@@ -31,10 +38,11 @@ public class RegisterProcess extends BaseProcess {
         try {
             //组装传入服务端参数
             JSONObject o = new JSONObject();
-            o.put("cell_num", mParamUser.getCellNum());
-            o.put("pwd", mParamUser.getPassWord());
-            o.put("verify_code", mParamUser.getVerifyCode());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
+            o.put("nickname", mParamUser.getNickName());
+            o.put("birthday", mParamUser.getBirthday());
+            o.put("gender", mParamUser.getGender());
+            o.put("portrait_url",mParamUser.getPortraitURL());
+            return o.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,21 +59,22 @@ public class RegisterProcess extends BaseProcess {
             switch (value) {
                 case 0:
                     setStatus(ProcessStatus.Status.Success);
+                    User cachedUser = Cache.getInstance().getUser();
+                    cachedUser.setNickName(mParamUser.getNickName());
+                    cachedUser.setGender(mParamUser.getGender());
+                    cachedUser.setPortraitURL(mParamUser.getPortraitURL());
+                    cachedUser.setBirthday(mParamUser.getBirthday());
+                    //刷新User缓存对象
+                    Cache.getInstance().setCacheUser(cachedUser);
+                    //获取标签列表
                     JSONObject resultBody = o.getJSONObject("body");
-                    String token = resultBody.optString("token");
-                    String portraitUrl = resultBody.optString("portrait_url");
-                    logger.d("Get users token:" + token);
-                    logger.d("Get user portraitUrl" + portraitUrl);
-                    User user = new User();
-                    user.setPortraitURL(portraitUrl);
-                    user.setToken(token);
-                    user.setCellNum(mParamUser.getCellNum());
-                    user.setPassWord(mParamUser.getPassWord());
-                    /**
-                     * 刷新缓存
-                     */
-                    Cache.getInstance().clear();
-                    Cache.getInstance().setCacheUser(user);
+                    JSONArray arry = (JSONArray) o.opt("body");
+                    Gson gson = new Gson();
+                    for (int i = 0; i < arry.length(); i++) {
+                        Object type = arry.get(i);
+                        LabelType labelType = gson.fromJson(type.toString(), LabelType.class);
+                        mLabelTypes.add(labelType);
+                    }
                     break;
                 case 1:
                     setStatus(ProcessStatus.Status.IllegalRequest);
@@ -87,18 +96,19 @@ public class RegisterProcess extends BaseProcess {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
         }
+
+    }
+
+    public void setParamUser(User paramUser) {
+        mParamUser = paramUser;
+    }
+
+    public ArrayList<LabelType> getLabelTypes() {
+        return mLabelTypes;
     }
 
     @Override
     protected String getFakeResult() {
         return null;
-    }
-
-    public User getParamUser() {
-        return mParamUser;
-    }
-
-    public void setParamUser(User paramUser) {
-        mParamUser = paramUser;
     }
 }

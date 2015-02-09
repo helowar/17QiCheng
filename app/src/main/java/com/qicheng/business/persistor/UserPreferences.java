@@ -5,17 +5,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.qicheng.business.module.User;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
 class UserPreferences {
 	
 	public void set(User user) {
 		SharedPreferences.Editor editor = getPreferences().edit();
-		editor.putString("lastuid", user.getUserId());
-		editor.putString("lastpass", user.getPassWord());
+        editor.putString("lastuid", user.getUserId());
+        editor.putString("lastpass", user.getPassWord());
         editor.putString("lastuname",user.getUserName());
         editor.putString("lastcellnum",user.getCellNum());
         editor.putString("lasttoken",user.getToken());
+        editor.putString("lastportraiturl",user.getPortraitURL());
+        editor.putString("lastbirthday",user.getBirthday());
+        editor.putInt("lastgender",user.getGender());
+        editor.putString("lastnickname",user.getNickName());
 		editor.commit();
 	}
 
@@ -37,6 +42,10 @@ class UserPreferences {
         user.setUserName(sp.getString("lastuname",""));
         user.setCellNum(sp.getString("lastcellnum",""));
         user.setToken(sp.getString("lasttoken",""));
+        user.setBirthday(sp.getString("lastbirthday",""));
+        user.setPortraitURL(sp.getString("lastportraiturl",""));
+        user.setGender(sp.getInt("lastgender",1));
+        user.setNickName(sp.getString("lastnickname",""));
 		return user;
 	}
 	
