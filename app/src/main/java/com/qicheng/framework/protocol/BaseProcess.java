@@ -2,6 +2,8 @@ package com.qicheng.framework.protocol;
 
 import android.os.AsyncTask;
 
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
@@ -82,8 +84,22 @@ abstract public class BaseProcess {
         protected Void doInBackground(Void... params) {
 
             onCreate();
+            //从相对路径拼为绝对路径
+            String url = Const.BASE_URL+getRequestUrl();
+            //加入TOKEN参数
+            User cacheUser = Cache.getInstance().getUser();
+            String token;
+            if(cacheUser==null){
+                token = "";
+            }else{
+                token = cacheUser.getToken();
+            }
+            if(url.indexOf("?")==-1){
+                url=url+"?t="+token;
+            }else{
+                url=url+"&t="+token;
+            }
 
-            String url = getRequestUrl();
             String parameter = getInfoParameter();
             if (!StringUtil.isEmpty(parameter)) {
                 parameter = parameter.replace("\\/", "/");
