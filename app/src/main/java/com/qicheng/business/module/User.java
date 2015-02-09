@@ -21,6 +21,16 @@ public class User {
 
     private String verifyCode;
 
+    /**
+     * 最后登录时间
+     */
+    private String lastLoginTime;
+
+    /**
+     * 站点名称
+     */
+    private String stationName;
+
     public User() {
     }
 
@@ -83,5 +93,21 @@ public class User {
 
     public void setVerifyCode(String verifyCode) {
         this.verifyCode = verifyCode;
+    }
+
+    public String getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(String lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
 }

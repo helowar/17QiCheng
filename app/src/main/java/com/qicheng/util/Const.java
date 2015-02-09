@@ -59,6 +59,12 @@ public class Const {
 		
 		/** 转到top时需要选择的页面 */
 		public static final String SwitchPage = "page";
+
+        /** 迁移到Traveller页面的查询类型 */
+        public static final String TRAVELLER_QUERY_TYPE = "traveller_query_type";
+
+        /** 迁移到Traveller页面的查询值 */
+        public static final String TRAVELLER_QUERY_VALUE = "traveller_query_value";
 	}
 	
 	public static class DefaultValue {
@@ -119,8 +125,7 @@ public class Const {
 	
 	/** 消息每次获取条数 */
 	public static final int MessagFetchCount = 20;
-	
-	
+
 	/**
 	 * cache
 	 */
@@ -129,4 +134,120 @@ public class Const {
 
 	/** 藕丝数据的失效时间间隔，毫秒 */
 	public static final int OuserInvalidTimeout = 5 * 60 * 1000;
+
+    /**
+     * 服务端响应结果代码常量类
+     */
+    public static class ResponseResultCode {
+
+        /**
+         * 响应结果码 9999:内部异常
+         */
+        public static final int RESULT_EXCEPTION = 9999;
+
+        /**
+         * 响应结果码 0:成功
+         */
+        public static final int RESULT_SUCCESS = 0;
+
+        /**
+         * 响应结果码 1:失败
+         */
+        public static final int RESULT_FAIL = 1;
+
+        /**
+         * 响应结果码 2:非法调用
+         */
+        public static final int RESULT_ILLEGAL_CALL = 2;
+
+        /**
+         * 响应结果码 3:未登录
+         */
+        public static final int RESULT_NOT_LOGINED = 3;
+
+        /**
+         * 响应结果码 4:登录超时，请重登录
+         */
+        public static final int RESULT_LOGIN_TIMEOUT = 4;
+
+        /**
+         * 响应结果码 5:用户名为空
+         */
+        public static final int RESULT_USER_NAME_EMPTY = 5;
+
+        /**
+         * 响应结果码 6:用户密码为空
+         */
+        public static final int RESULT_PWD_EMPTY = 6;
+
+        /**
+         * 响应结果码 7:手机号码已存在
+         */
+        public static final int RESULT_CELL_NUM_EXIST = 7;
+
+        /**
+         * 响应结果码 8:手机号码不存在
+         */
+        public static final int RESULT_CELL_NUM_NOT_EXIST = 8;
+
+        /**
+         * 响应结果码 9:验证码错误
+         */
+        public static final int RESULT_VERIFY_CODE_ERROR = 9;
+
+        /**
+         * 响应结果码 10:验证码过期
+         */
+        public static final int RESULT_VERIFY_CODE_INVALID = 10;
+
+        /**
+         * 响应结果码 11:用户密码错误
+         */
+        public static final int RESULT_PWD_ERROR = 11;
+
+        /**
+         * 响应结果码 12:用户名不存在
+         */
+        public static final int RESULT_USER_NAME_NOT_EXIST = 12;
+
+        /**
+         * 响应结果码 13:该用户已无效
+         */
+        public static final int RESULT_USER_NAME_INVALID = 13;
+
+        /**
+         * 响应结果码 14:昵称已存在
+         */
+        public static final int RESULT_NICKNAME_EXIST = 14;
+    }
+
+    /**
+     * Traveller页面
+     */
+    /** 用户查询类型 0：车站 */
+    public static final byte USER_QUERY_TYPE_STATION = 0;
+
+    /** 用户查询类型 1：出发 */
+    public static final byte USER_QUERY_TYPE_BEGIN = 1;
+
+    /** 用户查询类型 2：到达 */
+    public static final byte USER_QUERY_TYPE_END = 2;
+
+    /** 用户查询类型 3：车次 */
+    public static final byte USER_QUERY_TYPE_TRAIN = 3;
+
+    /** 用户查询类型 4：未上车 */
+    public static final byte USER_QUERY_TYPE_NOT_ON_CAR = 4;
+
+    /** 用户查询类型 5：上车 */
+    public static final byte USER_QUERY_TYPE_ON_CAR = 5;
+
+    /** 用户查询类型 6：下车 */
+    public static final byte USER_QUERY_TYPE_OFF_CAR = 6;
+
+    /** 查询方向 0：往最新方向查询 */
+    public static final byte ORDER_BY_NEWEST = 0;
+
+    /** 查询方向 1：往最早方向查询 */
+    public static final byte ORDER_BY_EARLIEST = 1;
 }

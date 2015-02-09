@@ -26,6 +26,7 @@ public class LogicFactory {
 		User,
 		Share,
 		Emotion,
+        TravellerPerson,
 	}
 	
 	private Map<Type, BaseLogic.Factory> mFactorys = new HashMap<Type, BaseLogic.Factory>();
@@ -45,6 +46,7 @@ public class LogicFactory {
 		mFactorys.put(Type.User, new UserLogic.Factory());
 //		mFactorys.put(Type.Share, new ShareLogic.Factory());
 //		mFactorys.put(Type.Emotion, new EmotionLogic.Factory());
+        mFactorys.put(Type.TravellerPerson, new TravellerPersonLogic.Factory());
 	}
 	
 	public BaseLogic get(Type type) {
