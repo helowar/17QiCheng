@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qicheng">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".QichengApplication"
         android:allowBackup="true"
@@ -11,45 +10,40 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".business.ui.UsrInfoActivity"
-            android:label="@string/title_activity_usr_info"></activity>
+            android:label="@string/title_activity_usr_info" />
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
             android:name=".business.ui.MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:logo="@drawable/ic_user">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="标签"
             android:logo="@drawable/ic_user">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            </activity>
+        <activity
+            android:name=".business.ui.RegisterLabelEditActivity"
+            android:label="标签"
+            android:logo="@drawable/ic_user"></activity>
+        <activity
+            android:name=".business.ui.PersonalInformationActivity"
+            android:label="我的资料"
+            android:logo="@drawable/ic_user">
 
         </activity>
 
-        <activity android:name=".business.ui.RegisterLabelEditActivity"
-            android:label="标签"
-            android:logo="@drawable/ic_user">
-
-
-            </activity>
     </application>
 
 </manifest>
