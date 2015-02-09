@@ -16,7 +16,7 @@ public class VerifyCodeProcess extends BaseProcess {
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
 
-    private final String url = "http://192.168.1.107:8080/qps/user/verify_code_get.html";
+    private final String url = "/user/verify_code_get.html";
 
     private User mParamUser;
 
@@ -52,17 +52,7 @@ public class VerifyCodeProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch (value) {
-                case 0:
-                    setStatus(ProcessStatus.Status.Success);
-                    break;
-                case 1:
-                    setStatus(ProcessStatus.Status.IllegalRequest);
-                    break;
-                default:
-                    setStatus(ProcessStatus.Status.ErrUnkown);
-                    break;
-            }
+            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);

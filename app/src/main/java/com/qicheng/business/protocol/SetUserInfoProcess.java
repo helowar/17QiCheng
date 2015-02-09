@@ -22,15 +22,15 @@ public class SetUserInfoProcess extends BaseProcess{
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.SetUserInfoProcess");
 
-    private String url = "http://192.168.1.107:8080/qps/user/modify.html";
+    private String url = "http://192.168.1.107:8080/qps/user/add.html";
 
     private User mParamUser;
 
-    private ArrayList<LabelType> mLabelTypes;
+    private ArrayList<LabelType> mLabelTypes = new ArrayList<LabelType>();
 
     @Override
     protected String getRequestUrl() {
-        return url+"?token="+Cache.getInstance().getUser().getToken();
+        return url;
     }
 
     @Override
@@ -56,42 +56,26 @@ public class SetUserInfoProcess extends BaseProcess{
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch (value) {
-                case 0:
-                    setStatus(ProcessStatus.Status.Success);
-                    User cachedUser = Cache.getInstance().getUser();
-                    cachedUser.setNickName(mParamUser.getNickName());
-                    cachedUser.setGender(mParamUser.getGender());
-                    cachedUser.setPortraitURL(mParamUser.getPortraitURL());
-                    cachedUser.setBirthday(mParamUser.getBirthday());
-                    //刷新User缓存对象
-                    Cache.getInstance().setCacheUser(cachedUser);
-                    //获取标签列表
-                    JSONObject resultBody = o.getJSONObject("body");
-                    JSONArray arry = (JSONArray) o.opt("body");
-                    Gson gson = new Gson();
-                    for (int i = 0; i < arry.length(); i++) {
-                        Object type = arry.get(i);
-                        LabelType labelType = gson.fromJson(type.toString(), LabelType.class);
-                        mLabelTypes.add(labelType);
-                    }
-                    break;
-                case 1:
-                    setStatus(ProcessStatus.Status.IllegalRequest);
-                    break;
-                case 7:
-                    setStatus(ProcessStatus.Status.ErrExistCellNum);
-                    break;
-                case 9:
-                    setStatus(ProcessStatus.Status.ErrWrongVerCode);
-                    break;
-                case 10:
-                    setStatus(ProcessStatus.Status.ErrVerCodeExpire);
-                    break;
-                default:
-                    setStatus(ProcessStatus.Status.ErrUnkown);
-                    break;
+            if(value==0){
+                //TODO 需去除注释
+//                    User cachedUser = Cache.getInstance().getUser();
+//                    cachedUser.setNickName(mParamUser.getNickName());
+//                    cachedUser.setGender(mParamUser.getGender());
+//                    cachedUser.setPortraitURL(mParamUser.getPortraitURL());
+//                    cachedUser.setBirthday(mParamUser.getBirthday());
+//                    //刷新User缓存对象
+//                    Cache.getInstance().setCacheUser(cachedUser);
+                //获取标签列表
+//                    JSONObject resultBody = o.getJSONObject("body");
+                JSONArray arry = (JSONArray) o.opt("body");
+                Gson gson = new Gson();
+                for (int i = 0; i < arry.length(); i++) {
+                    Object type = arry.get(i);
+                    LabelType labelType = gson.fromJson(type.toString(), LabelType.class);
+                    mLabelTypes.add(labelType);
+                }
             }
+            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);

@@ -70,6 +70,54 @@ abstract public class BaseProcess {
     protected void onCreate() {
     }
 
+    protected void setProcessStatus(int resultCode){
+        switch (resultCode){
+            case Const.ResponseResultCode.RESULT_SUCCESS:
+                mStatus = ProcessStatus.Status.Success;
+                break;
+            case Const.ResponseResultCode.RESULT_FAIL:
+                mStatus = ProcessStatus.Status.ErrFailure;
+                break;
+            case Const.ResponseResultCode.RESULT_ILLEGAL_CALL:
+                mStatus = ProcessStatus.Status.IllegalRequest;
+                break;
+            case Const.ResponseResultCode.RESULT_NOT_LOGINED:
+                mStatus = ProcessStatus.Status.ErrNotLogin;
+                break;
+            case Const.ResponseResultCode.RESULT_LOGIN_TIMEOUT:
+                mStatus = ProcessStatus.Status.ErrLoginTimeOut;
+                break;
+            case Const.ResponseResultCode.RESULT_CELL_NUM_EXIST:
+                mStatus = ProcessStatus.Status.ErrExistCellNum;
+                break;
+            case Const.ResponseResultCode.RESULT_CELL_NUM_NOT_EXIST:
+                mStatus = ProcessStatus.Status.ErrCellNumNotExist;
+                break;
+            case Const.ResponseResultCode.RESULT_VERIFY_CODE_ERROR:
+                mStatus = ProcessStatus.Status.ErrWrongVerCode;
+                break;
+            case Const.ResponseResultCode.RESULT_VERIFY_CODE_INVALID:
+                mStatus = ProcessStatus.Status.ErrVerCodeExpire;
+                break;
+            case Const.ResponseResultCode.RESULT_PWD_ERROR:
+                mStatus = ProcessStatus.Status.ErrPass;
+                break;
+            case Const.ResponseResultCode.RESULT_USER_NAME_NOT_EXIST:
+                mStatus = ProcessStatus.Status.ErrUserNameNotExist;
+                break;
+            case Const.ResponseResultCode.RESULT_USER_NAME_INVALID:
+                mStatus = ProcessStatus.Status.ErrUidInvalid;
+                break;
+            case Const.ResponseResultCode.RESULT_NICKNAME_EXIST:
+                mStatus = ProcessStatus.Status.ErrVerCodeExpire;
+                break;
+            case Const.ResponseResultCode.RESULT_EXCEPTION:
+                mStatus = ProcessStatus.Status.ErrFailure;
+                break;
+
+        }
+    }
+
     private class AsyncComm extends AsyncTask<Void, Void, Void> {
 
         private String mRequestId = "";
@@ -154,5 +202,6 @@ abstract public class BaseProcess {
         protected void onPostExecute(Void result) {
             mListener.onResponse(mRequestId);
         }
+
     }
 }
