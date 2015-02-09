@@ -16,7 +16,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
-import com.qicheng.business.module.TravellerPerson;
+import com.qicheng.business.module.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class TravellerPersonFragment extends Fragment {
     /**
      * 车友列表
      */
-    private List<TravellerPerson> personList = new ArrayList<TravellerPerson>();
+    private List<User> personList = new ArrayList<User>();
 
     /**
      * 车友View的适配器
@@ -57,10 +57,10 @@ public class TravellerPersonFragment extends Fragment {
         super.onCreate(savedInstanceState);
         imageAdapter = new ImageAdapter();
         for (int i = 0; i < 2; i++) {
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
-            personList.add(new TravellerPerson());
+            personList.add(new User());
+            personList.add(new User());
+            personList.add(new User());
+            personList.add(new User());
         }
     }
 
@@ -122,7 +122,7 @@ public class TravellerPersonFragment extends Fragment {
                 personView = convertView;
             }
             ImageView imageView = (ImageView) personView.findViewById(R.id.traveller_person_img);
-            String portraitUrl = personList.get(position).getPortrait_url();
+            String portraitUrl = personList.get(position).getPortraitURL();
             if (portraitUrl == null) {
                 imageView.setImageResource(R.drawable.ic_default_portrait);
             } else {
@@ -167,10 +167,10 @@ public class TravellerPersonFragment extends Fragment {
                         return;
                     } else if (currentFirstVisiblePosition == firstVisiblePosition && firstLocationY == y) {
                         // 第二次拖至顶部
-                        personList.add(new TravellerPerson());
-                        personList.add(new TravellerPerson());
-                        personList.add(new TravellerPerson());
-                        personList.add(new TravellerPerson());
+                        personList.add(new User());
+                        personList.add(new User());
+                        personList.add(new User());
+                        personList.add(new User());
                         imageAdapter.notifyDataSetChanged();
                         personsGridView.smoothScrollToPosition(0);
                     }
@@ -190,10 +190,10 @@ public class TravellerPersonFragment extends Fragment {
                             return;
                         } else if (currentLastVisiblePosition == lastVisiblePosition && lastLocationY == y) {
                             // 第二次拖至底部
-                            personList.add(new TravellerPerson());
-                            personList.add(new TravellerPerson());
-                            personList.add(new TravellerPerson());
-                            personList.add(new TravellerPerson());
+                            personList.add(new User());
+                            personList.add(new User());
+                            personList.add(new User());
+                            personList.add(new User());
                             imageAdapter.notifyDataSetChanged();
                             personsGridView.smoothScrollToPosition(view.getCount());
                         }

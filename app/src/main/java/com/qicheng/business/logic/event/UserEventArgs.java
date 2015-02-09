@@ -4,6 +4,8 @@ import com.qicheng.business.module.User;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
+import java.util.List;
+
 /**
  * Created by NO1 on 2015/2/6.
  */
@@ -11,10 +13,19 @@ public class UserEventArgs extends StatusEventArgs {
 
     private User result = null;
 
+    /**
+     * 用户信息列表
+     */
+    private List<User> userList = null;
 
     public UserEventArgs(User user, OperErrorCode errCode) {
         super(errCode);
         result = user;
+    }
+
+    public UserEventArgs(List<User> userList, OperErrorCode errCode) {
+        super(errCode);
+        this.userList = userList;
     }
 
     /**
@@ -43,5 +54,9 @@ public class UserEventArgs extends StatusEventArgs {
     @Override
     public OperErrorCode getErrCode() {
         return super.getErrCode();
+    }
+
+    public List<User> getUserList() {
+        return userList;
     }
 }
