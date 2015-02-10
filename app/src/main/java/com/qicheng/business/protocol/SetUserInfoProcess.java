@@ -22,7 +22,7 @@ public class SetUserInfoProcess extends BaseProcess{
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.SetUserInfoProcess");
 
-    private String url = "http://192.168.1.107:8080/qps/user/add.html";
+    private String url = "/user/add.html";
 
     private User mParamUser;
 
@@ -57,16 +57,14 @@ public class SetUserInfoProcess extends BaseProcess{
             //获取状态码
             int value = o.optInt("result_code");
             if(value==0){
-                //TODO 需去除注释
-//                    User cachedUser = Cache.getInstance().getUser();
-//                    cachedUser.setNickName(mParamUser.getNickName());
-//                    cachedUser.setGender(mParamUser.getGender());
-//                    cachedUser.setPortraitURL(mParamUser.getPortraitURL());
-//                    cachedUser.setBirthday(mParamUser.getBirthday());
-//                    //刷新User缓存对象
-//                    Cache.getInstance().setCacheUser(cachedUser);
+                User cachedUser = Cache.getInstance().getUser();
+                cachedUser.setNickName(mParamUser.getNickName());
+                cachedUser.setGender(mParamUser.getGender());
+                cachedUser.setPortraitURL(mParamUser.getPortraitURL());
+                cachedUser.setBirthday(mParamUser.getBirthday());
+                //刷新User缓存对象
+                Cache.getInstance().setCacheUser(cachedUser);
                 //获取标签列表
-//                    JSONObject resultBody = o.getJSONObject("body");
                 JSONArray arry = (JSONArray) o.opt("body");
                 Gson gson = new Gson();
                 for (int i = 0; i < arry.length(); i++) {
