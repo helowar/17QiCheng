@@ -13,25 +13,14 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.qicheng.R;
-import com.qicheng.business.logic.LabelItemPriorityComparator;
-import com.qicheng.business.logic.LabelLogic;
-import com.qicheng.business.logic.LabelPriorityComparator;
-import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.event.LabelEventArgs;
 import com.qicheng.business.module.Label;
 import com.qicheng.business.module.LabelType;
-import com.qicheng.framework.event.EventArgs;
-import com.qicheng.framework.event.EventId;
-import com.qicheng.framework.event.EventListener;
-import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
-import com.qicheng.framework.ui.helper.Alert;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,7 +30,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     private final static String TAG = "Selected";
     private ArrayList<Label> labels = new ArrayList<Label>();
     private Button nextButton;
-    private List<LabelType> labelTypes;
+    private ArrayList<LabelType> labelTypes;
     private LinearLayout linearLayout;
 
     @Override
@@ -50,7 +39,8 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         setContentView(R.layout.activity_register_label_select);
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         //获取测试数据
-        labelTypes = getFakeResult();
+        Intent intent = getIntent();
+        labelTypes = (ArrayList<LabelType>) intent.getSerializableExtra("Label");
         //遍历各个type的标签
         for (int i = 0; i < labelTypes.size(); i++) {
             View view2 = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
@@ -82,34 +72,6 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         });
     }
 
-    /**
-     * 获取标签完整列表
-     */
-    private void getTagList() {
-        final LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
-        labelLogic.getLabelList(createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                OperErrorCode errCode = ((LabelEventArgs) args).getErrCode();
-                labelTypes = ((LabelEventArgs) args).getLabelType();
-                Collections.sort(labelTypes, new LabelPriorityComparator());
-                for (int i = 0; i < labelTypes.size(); i++) {
-                    Collections.sort(labelTypes.get(i).getTagList(), new LabelItemPriorityComparator());
-                }
-                Log.d("test", labelTypes.toString());
-
-                switch (errCode) {
-                    case Success:
-
-                        break;
-                    default:
-                        Alert.handleErrCode(errCode);
-                        Alert.Toast(getResources().getString(R.string.verify_code_send_failed_msg));
-                        break;
-                }
-            }
-        }));
-    }
 
     /**
      * 通过TextName生成TextView

@@ -15,7 +15,7 @@ public class LabelType implements Serializable {
 
     private int priority;
 
-    private ArrayList<LabelItem> tagList = new ArrayList<LabelItem>();
+    private ArrayList<LabelItem> tag_list = new ArrayList<LabelItem>();
 
     public String getId() {
         return id;
@@ -35,11 +35,11 @@ public class LabelType implements Serializable {
 
     public ArrayList<LabelItem> getTagList() {
 
-        return tagList;
+        return tag_list;
     }
 
     public void setTagList(ArrayList<LabelItem> tagList) {
-        this.tagList = tagList;
+        this.tag_list = tagList;
     }
 
     public int getPriority() {
@@ -56,7 +56,7 @@ public class LabelType implements Serializable {
         sb.append("id='").append(id).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", priority=").append(priority);
-        sb.append(", tagList=").append(tagList);
+        sb.append(", tagList=").append(tag_list);
         sb.append('}');
         return sb.toString();
     }

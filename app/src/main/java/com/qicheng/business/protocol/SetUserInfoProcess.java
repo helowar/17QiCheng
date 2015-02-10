@@ -57,13 +57,13 @@ public class SetUserInfoProcess extends BaseProcess{
             //获取状态码
             int value = o.optInt("result_code");
             if(value==0){
-                User cachedUser = Cache.getInstance().getUser();
-                cachedUser.setNickName(mParamUser.getNickName());
-                cachedUser.setGender(mParamUser.getGender());
-                cachedUser.setPortraitURL(mParamUser.getPortraitURL());
-                cachedUser.setBirthday(mParamUser.getBirthday());
-                //刷新User缓存对象
-                Cache.getInstance().setCacheUser(cachedUser);
+//                User cachedUser = Cache.getInstance().getUser();
+//                cachedUser.setNickName(mParamUser.getNickName());
+//                cachedUser.setGender(mParamUser.getGender());
+//                cachedUser.setPortraitURL(mParamUser.getPortraitURL());
+//                cachedUser.setBirthday(mParamUser.getBirthday());
+//                //刷新User缓存对象
+//                Cache.getInstance().setCacheUser(cachedUser);
                 //获取标签列表
                 JSONArray arry = (JSONArray) o.opt("body");
                 Gson gson = new Gson();

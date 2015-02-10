@@ -75,6 +75,8 @@ public class HttpComm {
         this.mCallback = callback;
 
         HttpPost request = new HttpPost(url);
+        request.setHeader("Accept", "application/json");
+        request.setHeader("Content-Type", "application/json;charset=utf-8");
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
         if (messages != null) {
@@ -116,12 +118,13 @@ public class HttpComm {
 
         if (!StringUtil.isEmpty(param)) {
             try {
-                byte[] paramBytes = param.getBytes();
+                byte[] paramBytes = param.getBytes("UTF-8");
                 BasicHttpEntity requestBody = new BasicHttpEntity();
                 requestBody.setContent(new ByteArrayInputStream(paramBytes));
                 requestBody.setContentLength(paramBytes.length);
                 request.setEntity(requestBody);
-
+                request.setHeader("Accept", "application/json");
+                request.setHeader("Content-Type", "application/json;charset=utf-8");
             } catch (Exception e) {
                 this.postEvent(null);
                 return;

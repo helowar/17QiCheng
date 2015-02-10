@@ -189,7 +189,7 @@ public class UserInfoInputFragment extends BaseFragment {
         param.setGender(gender);
         param.setPortraitURL(portraitUrl);
         param.setBirthday(birthday.toString());
-        userLogic.initUserInfo(param,new EventListener() {
+        userLogic.initUserInfo(param,createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
@@ -210,7 +210,7 @@ public class UserInfoInputFragment extends BaseFragment {
                         break;
                 }
             }
-        });
+        }));
         startLoading();
     }
 

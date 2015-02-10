@@ -15,6 +15,7 @@ import com.qicheng.business.protocol.SetUserInfoProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
@@ -84,7 +85,7 @@ public class UserLogic extends BaseLogic {
      * 在注册时初次设置用户基本信息
      *
      */
-    public void initUserInfo(final User param,final EventListener listener){
+    public void initUserInfo(final User param,final UIEventListener listener){
         final SetUserInfoProcess process = new SetUserInfoProcess();
         process.setParamUser(param);
         process.run(new ResponseListener() {
@@ -92,11 +93,9 @@ public class UserLogic extends BaseLogic {
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
-                User resultUser = new User();
-
-                UserEventArgs userEventArgs = new UserEventArgs(resultUser,errCode);
+                UserEventArgs userEventArgs = new UserEventArgs(errCode);
                 if(errCode==OperErrorCode.Success){
-                    resultUser.setLabelTypes(process.getLabelTypes());
+                    userEventArgs.setResultLabelTypes(process.getLabelTypes());
                 }
                 fireEvent(listener, userEventArgs);
             }
