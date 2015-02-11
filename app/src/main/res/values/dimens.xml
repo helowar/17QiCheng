@@ -17,4 +17,10 @@
     <dimen name="shadow_width">2dp</dimen>
 
     <integer name="num_cols">1</integer>
+
+    <dimen name="font_size_18sp">18sp</dimen>
+    <dimen name="avatars_view_height_100dp">100dp</dimen>
+    <dimen name="avatars_view_width_100dp">100dp</dimen>
+    <dimen name="avatars_view_height_90dp">90dp</dimen>
+    <dimen name="avatars_view_width_90dp">90dp</dimen>
 </resources>

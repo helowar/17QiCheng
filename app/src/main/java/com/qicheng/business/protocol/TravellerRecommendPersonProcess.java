@@ -12,19 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TravellerPersonProcess.java是启程APP的查询同路人接口处理类
+ * TravellerPersonProcess.java是启程APP的查询推荐同路人接口处理类
  *
  * @author 花树峰
- * @version 1.0 2015年2月5日
+ * @version 1.0 2015年2月9日
  */
-public class TravellerPersonProcess extends BaseProcess {
+public class TravellerRecommendPersonProcess extends BaseProcess {
 
-    private static Logger logger = new Logger("com.qicheng.business.protocol.TravellerPersonProcess");
+    private static Logger logger = new Logger("com.qicheng.business.protocol.TravellerRecommendPersonProcess");
 
     /**
-     * 获取普通用户一览接口URL
+     * 获取推荐用户一览接口URL
      */
-    private final String url = "/user/user_list.html";
+    private final String url = "/user/rmd_user_list.html";
 
     /**
      * 查询方向 0：往最新方向查询 1：往最早方向查询
@@ -46,19 +46,7 @@ public class TravellerPersonProcess extends BaseProcess {
     private int size = 8;
 
     /**
-     * 查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车
-     */
-    private byte queryType;
-
-    /**
-     * 查询值
-     * 当query_type=0、1或2时，该值为车站代码；
-     * 当query_type=3、4、5或6时，该值为车次。
-     */
-    private String queryValue;
-
-    /**
-     * 查询结果：用户信息列表
+     * 查询结果：推荐用户信息列表
      */
     private List<User> userList = null;
 
@@ -75,11 +63,9 @@ public class TravellerPersonProcess extends BaseProcess {
             o.put("order_by", orderBy);
             o.put("last_login_time", lastLoginTime);
             o.put("size", size);
-            o.put("query_type", queryType);
-            o.put("query_value", queryValue);
             return o.toString();
         } catch (Exception e) {
-            logger.e("组装传入查询普通用户参数异常");
+            logger.e("组装传入查询推荐用户参数异常");
         }
         return null;
     }
@@ -121,7 +107,7 @@ public class TravellerPersonProcess extends BaseProcess {
             }
         } catch (Exception e) {
             setStatus(ProcessStatus.Status.ErrException);
-            logger.e("处理查询普通用户响应结果时异常");
+            logger.e("处理查询推荐用户响应结果时异常");
         }
     }
 
@@ -130,9 +116,7 @@ public class TravellerPersonProcess extends BaseProcess {
         return null;
     }
 
-    public void setInfoParameter(byte queryType, String queryValue, byte orderBy, String lastLoginTime, int size) {
-        this.queryType = queryType;
-        this.queryValue = queryValue;
+    public void setInfoParameter(byte orderBy, String lastLoginTime, int size) {
         this.orderBy = orderBy;
         this.lastLoginTime = lastLoginTime;
         this.size = size;
