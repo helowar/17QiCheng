@@ -1,18 +1,15 @@
 package com.qicheng.business.logic;
 
-import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.UserEventArgs;
-import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.TravellerPersonProcess;
+import com.qicheng.business.protocol.TravellerRecommendPersonProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
-
-import java.util.List;
 
 /**
  * TravellerPersonLogic.java是启程APP的查询同路用户业务逻辑类。
@@ -45,32 +42,6 @@ public class TravellerPersonLogic extends BaseLogic {
     }
 
     /**
-     * 根据出发车站代码，查询含有该车站的行程所属用户信息。
-     *
-     * @param startStation  出发车站代码
-     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
-     * @param lastLoginTime 最后登录时间
-     * @param size          查询个数
-     * @param listener      查询结果事件监听器
-     */
-    public void queryUserByStartStation(String startStation, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_BEGIN, startStation, orderBy, lastLoginTime, size, listener);
-    }
-
-    /**
-     * 根据到达车站代码，查询含有该车站的行程所属用户信息。
-     *
-     * @param endStation    到达车站代码
-     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
-     * @param lastLoginTime 最后登录时间
-     * @param size          查询个数
-     * @param listener      查询结果事件监听器
-     */
-    public void queryUserByEndStation(String endStation, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_END, endStation, orderBy, lastLoginTime, size, listener);
-    }
-
-    /**
      * 根据车次，查询含有该车次的行程所属用户信息。
      *
      * @param train         车次
@@ -84,46 +55,7 @@ public class TravellerPersonLogic extends BaseLogic {
     }
 
     /**
-     * 根据车次，查询含有该车次的未上车的行程所属用户信息。
-     *
-     * @param train         车次
-     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
-     * @param lastLoginTime 最后登录时间
-     * @param size          查询个数
-     * @param listener      查询结果事件监听器
-     */
-    public void queryUserByNotOnCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_NOT_ON_CAR, train, orderBy, lastLoginTime, size, listener);
-    }
-
-    /**
-     * 根据车次，查询含有该车次的已上车的行程所属用户信息。
-     *
-     * @param train         车次
-     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
-     * @param lastLoginTime 最后登录时间
-     * @param size          查询个数
-     * @param listener      查询结果事件监听器
-     */
-    public void queryUserByOnCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_ON_CAR, train, orderBy, lastLoginTime, size, listener);
-    }
-
-    /**
-     * 根据车次，查询含有该车次的已下车的行程所属用户信息。
-     *
-     * @param train         车次
-     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
-     * @param lastLoginTime 最后登录时间
-     * @param size          查询个数
-     * @param listener      查询结果事件监听器
-     */
-    public void queryUserByOffCar(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_OFF_CAR, train, orderBy, lastLoginTime, size, listener);
-    }
-
-    /**
-     * 根据查询类型和查询值，查询对应的用户信息。
+     * 根据查询类型和查询值，查询对应的普通用户信息。
      *
      * @param queryType     查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车
      * @param queryValue    查询值
@@ -140,7 +72,32 @@ public class TravellerPersonLogic extends BaseLogic {
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
-                logger.d("查询用户信息列表结果码为：" + errCode);
+                logger.d("查询普通用户信息结果码为：" + errCode);
+
+                UserEventArgs userEventArgs = new UserEventArgs(process.getUserList(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
+
+    /**
+     * 查询推荐用户信息。
+     *
+     * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
+     * @param lastLoginTime 最后登录时间
+     * @param size          查询个数
+     * @param listener      查询结果事件监听器
+     */
+    public void queryRecommendUser(byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+        final TravellerRecommendPersonProcess process = new TravellerRecommendPersonProcess();
+        process.setInfoParameter(orderBy, lastLoginTime, size);
+        process.run("queryRecommendUser", new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("查询推荐用户信息结果码为：" + errCode);
 
                 UserEventArgs userEventArgs = new UserEventArgs(process.getUserList(), errCode);
                 // 发送事件

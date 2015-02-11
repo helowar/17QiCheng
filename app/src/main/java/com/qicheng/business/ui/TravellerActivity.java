@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,14 +17,27 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.TravellerPersonLogic;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
-import com.qicheng.framework.ui.HorizontalScrollListView;
+import com.qicheng.business.ui.component.HorizontalScrollListView;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TravellerActivity.java是启程APP的展现同路车友Activity类
+ *
+ * @author 花树峰
+ * @version 1.0 2015年2月1日
+ */
 public class TravellerActivity extends BaseActivity {
 
     private static final String STATE_PAUSE_ON_SCROLL = "STATE_PAUSE_ON_SCROLL";
@@ -46,11 +57,6 @@ public class TravellerActivity extends BaseActivity {
      * 推荐车友列表
      */
     private List<User> recommendPersonList = new ArrayList<User>();
-
-    /**
-     * 推荐车友适配器
-     */
-    private RecommendPersonAdapter recommendPersonAdapter = null;
 
     /**
      * 出发车友按钮
@@ -96,19 +102,17 @@ public class TravellerActivity extends BaseActivity {
     private FragmentTransaction fragmentTransaction = null;
 
     /**
-     * 查询类型
+     * 查询用户信息业务逻辑处理对象
      */
-    private byte queryType = 0;
-
-    /**
-     * 查询值
-     */
-    private String queryValue = null;
+    private TravellerPersonLogic logic = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traveller);
+        // 获取上一个Activity传递过来的查询值
+        Bundle extras = getIntent().getExtras();
+        String queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
         // 获取各种View对象
         recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
@@ -127,7 +131,15 @@ public class TravellerActivity extends BaseActivity {
                 .build();
         // 设置出发车友和到达车友区域里的各种View对象
         startTravellerFragment = new TravellerPersonFragment();
+        Bundle start = new Bundle();
+        start.putByte(Const.Intent.TRAVELLER_QUERY_TYPE, Const.USER_QUERY_TYPE_BEGIN);
+        start.putString(Const.Intent.TRAVELLER_QUERY_VALUE, queryValue);
+        startTravellerFragment.setArguments(start);
         endTravellerFragment = new TravellerPersonFragment();
+        Bundle end = new Bundle();
+        end.putByte(Const.Intent.TRAVELLER_QUERY_TYPE, Const.USER_QUERY_TYPE_END);
+        end.putString(Const.Intent.TRAVELLER_QUERY_VALUE, queryValue);
+        endTravellerFragment.setArguments(end);
         fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
         fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);
@@ -157,15 +169,29 @@ public class TravellerActivity extends BaseActivity {
                 endFrameLayout.setVisibility(View.VISIBLE);
             }
         });
-        // 获取上一个Activity传递过来的值
-        Bundle extras= getIntent().getExtras();
-        queryType = extras.getByte(Const.Intent.TRAVELLER_QUERY_TYPE);
-        queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
-    }
+        logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
+        // 查询最新推荐用户
+        logic.queryRecommendUser(Const.ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result = (UserEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    List<User> userList = result.getUserList();
+                    if (userList != null && userList.size() > 0) {
+                        User travellerPerson = null;
+                        for (int i = 0, size = userList.size(); i < size; i++) {
+                            travellerPerson = userList.get(i);
+                            recommendPersonList.add(travellerPerson);
+                            recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
+                        }
 
-    private void startUserActivity(int position) {
-        Intent intent = new Intent(this, LoginActivity.class);//TODO
-        startActivity(intent);
+                    }
+                }
+            }
+        }));
+        startLoading();
     }
 
     @Override
@@ -183,11 +209,6 @@ public class TravellerActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        for (int i = 0; i < 6; i++) {
-            User travellerPerson = new User();
-            travellerPerson.setStationName("杭州" + i);
-            recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
-        }
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
     }
 
@@ -238,11 +259,29 @@ public class TravellerActivity extends BaseActivity {
             if (!isFirstScrollToLeftEdge) {
                 isFirstScrollToLeftEdge = true;
             } else {
-                for (int i = 0; i < 3; i++) {
-                    User travellerPerson = new User();
-                    travellerPerson.setStationName("杭州" + i);
-                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson), 0);
-                }
+                // 查询最新推荐用户
+                User firstUser = recommendPersonList.get(0);
+                logic.queryRecommendUser(Const.ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                    @Override
+                    public void onEvent(EventId id, EventArgs args) {
+                        stopLoading();
+                        UserEventArgs result = (UserEventArgs) args;
+                        OperErrorCode errCode = result.getErrCode();
+                        if (errCode == OperErrorCode.Success) {
+                            List<User> userList = result.getUserList();
+                            if (userList != null && userList.size() > 0) {
+                                User travellerPerson = null;
+                                for (int i = 0, size = userList.size(); i < size; i++) {
+                                    travellerPerson = userList.get(i);
+                                    recommendPersonList.add(0, travellerPerson);
+                                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson), 0);
+                                }
+
+                            }
+                        }
+                    }
+                }));
+                startLoading();
             }
         }
 
@@ -251,11 +290,29 @@ public class TravellerActivity extends BaseActivity {
             if (!isFirstScrollToRightEdge) {
                 isFirstScrollToRightEdge = true;
             } else {
-                for (int i = 0; i < 3; i++) {
-                    User travellerPerson = new User();
-                    travellerPerson.setStationName("杭州" + i);
-                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
-                }
+                // 查询之前推荐用户
+                User lastUser = recommendPersonList.get(recommendPersonList.size() - 1);
+                logic.queryRecommendUser(Const.ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                    @Override
+                    public void onEvent(EventId id, EventArgs args) {
+                        stopLoading();
+                        UserEventArgs result = (UserEventArgs) args;
+                        OperErrorCode errCode = result.getErrCode();
+                        if (errCode == OperErrorCode.Success) {
+                            List<User> userList = result.getUserList();
+                            if (userList != null && userList.size() > 0) {
+                                User travellerPerson = null;
+                                for (int i = 0, size = userList.size(); i < size; i++) {
+                                    travellerPerson = userList.get(i);
+                                    recommendPersonList.add(travellerPerson);
+                                    recommendPersonsLayout.addView(createRecommendPersonView(travellerPerson));
+                                }
+
+                            }
+                        }
+                    }
+                }));
+                startLoading();
             }
         }
 
@@ -266,60 +323,10 @@ public class TravellerActivity extends BaseActivity {
         }
     }
 
-    public class RecommendPersonAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return recommendPersonList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return recommendPersonList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // 设置推荐车友View
-            final View recommendPerson;
-            ImageView imageView = null;
-            TextView textView = null;
-            User travellerPerson = null;
-            if (convertView == null) {
-                recommendPerson = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, parent, false);
-                imageView = (ImageView) recommendPerson.findViewById(R.id.traveller_recommend_person_img);
-                travellerPerson = recommendPersonList.get(position);
-                String portraitUrl = travellerPerson.getPortraitURL();
-                if (portraitUrl == null) {
-                    imageView.setImageResource(R.drawable.ic_default_portrait);
-                } else {
-                    imageLoader.displayImage(portraitUrl, imageView, options);
-                }
-                textView = (TextView) recommendPerson.findViewById(R.id.traveller_recommend_person_end);
-                textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getStationName());
-//                recommendPerson.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        startUserActivity(1);
-//                    }
-//                });
-            } else {
-                recommendPerson = convertView;
-            }
-            return recommendPerson;
-        }
-    }
-
     private View createRecommendPersonView(User travellerPerson) {
         // 创建推荐车友View
         View recommendPersonView;
         ImageView imageView = null;
-        TextView textView = null;
         recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
         imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
         String portraitUrl = travellerPerson.getPortraitURL();
@@ -328,8 +335,6 @@ public class TravellerActivity extends BaseActivity {
         } else {
             imageLoader.displayImage(portraitUrl, imageView, options);
         }
-        textView = (TextView) recommendPersonView.findViewById(R.id.traveller_recommend_person_end);
-        textView.setText(getString(R.string.traveller_to) + ' ' + travellerPerson.getStationName());
 //        recommendPersonView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -337,5 +342,10 @@ public class TravellerActivity extends BaseActivity {
 //            }
 //        });
         return recommendPersonView;
+    }
+
+    private void startUserActivity(int position) {
+        Intent intent = new Intent(this, LoginActivity.class);//TODO
+        startActivity(intent);
     }
 }
