@@ -7,41 +7,42 @@ import java.io.Serializable;
  */
 public class Label implements Serializable {
     private static final long serialVersionUID = 1L;
-    public int id;
-    public String name;
-    public int type;
 
-    public String getName() {
-        return name;
+    private String typeId;
+    private String itemId;
+    private String itemName;
+
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
-    public int getId() {
-        return id;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public int getType() {
-        return type;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
-
 
     @Override
     public String toString() {
-        return "Label{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type=" + type +
-                '}';
+        final StringBuilder sb = new StringBuilder("Label{");
+        sb.append("typeId='").append(typeId).append('\'');
+        sb.append(", itemId='").append(itemId).append('\'');
+        sb.append(", itemName='").append(itemName).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -30,7 +30,7 @@
     <string name="cell_num_already_exist_err_msg">手机号码已存在</string>
     <string name="nicky_name">昵称</string>
     <string name="gender_name">性别</string>
-    <string name="age_name">年龄</string>
+    <string name="age_name">生日</string>
     <string name="male_text">直男</string>
     <string name="female_text">软妹</string>
     <string name="portrait_name">头像</string>
@@ -50,6 +50,9 @@
     <string name="delete_selected">完成注册</string>
     <string name="already_add_label">已添加标签</string>
     <string name="portrait_save_failed">头像上传失败，请重试</string>
+    <string name="nick_name_warning">请设置昵称</string>
+    <string name="age_set_warning">请设置生日</string>
+    <string name="portrait_set_warning">未设置头像</string>
     <!-- Register Activity end -->
 
 
@@ -69,6 +72,8 @@
 
     <string name="title_activity_personal_information">我的动态</string>
     <string name="title_activity_add_trip">AddTrip</string>
-    <string name="hello_world">Hello world!</string>
+
+    <string name ="label_not_unique_reject">标签重复</string>
+    <string name ="label_reject">标签添加失败</string>
 
 </resources>

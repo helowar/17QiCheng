@@ -3,6 +3,8 @@ package com.qicheng.business.protocol;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.module.User;
 import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.protocol.FileImageUpload;
@@ -26,7 +28,7 @@ public class ImageUploadProcess {
     private static final Logger logger = new Logger("protocol");
     protected static final String STATUS_TAG = "result_code";
 
-    private static final String url ="http://192.168.1.107:8080/common/upload.html";
+    private static final String url ="/common/upload.html";
     /**
      * 文件用途
      */
@@ -74,7 +76,20 @@ public class ImageUploadProcess {
 
             onCreate();
 
-            String url = getRequestUrl();
+            String url = Const.BASE_URL+getRequestUrl();
+            //加入TOKEN参数
+            User cacheUser = Cache.getInstance().getUser();
+            String token;
+            if(cacheUser==null){
+                token = "";
+            }else{
+                token = cacheUser.getToken();
+            }
+            if(url.indexOf("?")==-1){
+                url=url+"?t="+token;
+            }else{
+                url=url+"&t="+token;
+            }
 
             if(StringUtil.isEmpty(url)) {
                 mStatus = ProcessStatus.Status.ErrUnkown;

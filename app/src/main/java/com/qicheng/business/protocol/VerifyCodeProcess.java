@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -15,7 +16,7 @@ public class VerifyCodeProcess extends BaseProcess {
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
 
-    private final String url = "http://192.168.1.107:8080/qps/user/verify_code_get.html";
+    private final String url = "/user/verify_code_get.html";
 
     private User mParamUser;
 
@@ -37,7 +38,7 @@ public class VerifyCodeProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             o.put("action_type", "0");
             o.put("cell_num", mParamUser.getCellNum());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,17 +52,7 @@ public class VerifyCodeProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch (value) {
-                case 0:
-                    setStatus(ProcessStatus.Status.Success);
-                    break;
-                case 1:
-                    setStatus(ProcessStatus.Status.IllegalRequest);
-                    break;
-                default:
-                    setStatus(ProcessStatus.Status.ErrUnkown);
-                    break;
-            }
+            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);

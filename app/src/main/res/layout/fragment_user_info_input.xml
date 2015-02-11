@@ -45,7 +45,7 @@
              android:maxHeight="39dp"/>-->
     </LinearLayout>
 
-    <LinearLayout style="@style/FormInputContainer">
+    <LinearLayout style="@style/FormInputContainer" android:layout_height="39dp">
 
         <TextView
             android:text="@string/gender_name"
@@ -89,6 +89,7 @@
 
         <TextView
             android:text="@string/portrait_name"
+            android:layout_height="39dp"
             style="@style/InputTitle" />
 
         <LinearLayout
@@ -100,8 +101,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_user_portrait"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 app:border_width="1dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait" />

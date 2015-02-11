@@ -1,5 +1,8 @@
 package com.qicheng.business.module;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by NO1 on 2015/1/18.
  */
@@ -20,6 +23,12 @@ public class User {
     private String verifyCode;
 
     private String nickName;
+
+    private String birthday;
+
+    private int gender;
+
+    private ArrayList<LabelType> mLabelTypes;
 
     /**
      * 最后登录时间
@@ -117,5 +126,29 @@ public class User {
 
     public void setStationName(String stationName) {
         this.stationName = stationName;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public ArrayList<LabelType> getLabelTypes() {
+        return mLabelTypes;
+    }
+
+    public void setLabelTypes(ArrayList<LabelType> labelTypes) {
+        mLabelTypes = labelTypes;
     }
 }

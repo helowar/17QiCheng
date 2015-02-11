@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -15,7 +16,7 @@ public class RegisterProcess extends BaseProcess {
 
     private static Logger logger = new Logger("com.qicheng.business.protocol.RegisterProcess");
 
-    private String url = "http://192.168.1.107:8080/qps/user/register.html";
+    private String url = "/user/register.html";
 
     private User mParamUser;
 
@@ -33,7 +34,7 @@ public class RegisterProcess extends BaseProcess {
             o.put("cell_num", mParamUser.getCellNum());
             o.put("pwd", mParamUser.getPassWord());
             o.put("verify_code", mParamUser.getVerifyCode());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,32 +48,24 @@ public class RegisterProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            switch (value) {
-                case 0:
-                    setStatus(ProcessStatus.Status.Success);
-                    JSONObject resultBody = o.getJSONObject("body");
-                    String token = resultBody.optString("token");
-                    String portraitUrl = resultBody.optString("portrait_url");
-                    // TODO: 持久化token及portraitUrl，缓存token及portraitImg
-                    logger.d("Get users token:" + token);
-                    logger.d("Get user portraitUrl" + portraitUrl);
-                    break;
-                case 1:
-                    setStatus(ProcessStatus.Status.IllegalRequest);
-                    break;
-                case 7:
-                    setStatus(ProcessStatus.Status.ErrExistCellNum);
-                    break;
-                case 9:
-                    setStatus(ProcessStatus.Status.ErrWrongVerCode);
-                    break;
-                case 10:
-                    setStatus(ProcessStatus.Status.ErrVerCodeExpire);
-                    break;
-                default:
-                    setStatus(ProcessStatus.Status.ErrUnkown);
-                    break;
+            if(value==0){
+                JSONObject resultBody = o.getJSONObject("body");
+                String token = resultBody.optString("token");
+                String portraitUrl = resultBody.optString("portrait_url");
+                logger.d("Get users token:" + token);
+                logger.d("Get user portraitUrl" + portraitUrl);
+                User user = new User();
+                user.setPortraitURL(portraitUrl);
+                user.setToken(token);
+                user.setCellNum(mParamUser.getCellNum());
+                user.setPassWord(mParamUser.getPassWord());
+                /**
+                 * 刷新缓存
+                 */
+                Cache.getInstance().clear();
+                Cache.getInstance().setCacheUser(user);
             }
+            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);

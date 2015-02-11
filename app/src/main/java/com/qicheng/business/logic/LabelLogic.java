@@ -1,6 +1,7 @@
 package com.qicheng.business.logic;
 
 import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.module.Label;
 import com.qicheng.business.module.LabelType;
 import com.qicheng.business.protocol.LabelProcess;
 import com.qicheng.business.protocol.ProcessStatus;
@@ -10,6 +11,7 @@ import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.ResponseListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NO3 on 2015/2/5.
@@ -24,32 +26,22 @@ public class LabelLogic extends BaseLogic {
         }
     }
 
-    ArrayList<LabelType> labelTypeLists;
+
 
     /**
-     * 直接获取用户标签
+     * 确定是否添加标签成功
      */
-    public void getLabelList(final EventListener listener) {
+    public void checkUpdate(List<Label> list,final EventListener listener) {
         final LabelProcess process = new LabelProcess();
+        List<Label> labelList = list;
+        process.setSelectLabelList(list);
         process.run(new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 //操作码转换
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
-                //接收标签列表和返回值
-                process.getFakeResult();
-                labelTypeLists = process.getList();
-                LabelEventArgs args = new LabelEventArgs(labelTypeLists, errCode);
-
-                if (errCode == OperErrorCode.Success) {
-                    /**
-                     *
-                     */
-                } else {
-
-                }
                 //发送事件
-                fireEvent(listener, args);
+                fireStatusEvent(listener, errCode);
 
             }
         });

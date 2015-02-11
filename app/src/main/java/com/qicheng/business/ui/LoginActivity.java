@@ -28,6 +28,8 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mPassWord;
 
+    private Button mRegisterButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,14 @@ public class LoginActivity extends BaseActivity {
             }
         }));
         mLoginButton = (Button) findViewById(R.id.button_login);
+        mRegisterButton = (Button)findViewById(R.id.button_register);
+        mRegisterButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),RegisterActivity.class));
+                finish();
+            }
+        });
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

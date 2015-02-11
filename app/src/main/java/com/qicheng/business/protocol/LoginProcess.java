@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
@@ -14,7 +15,7 @@ import org.json.JSONObject;
 public class LoginProcess extends BaseProcess {
 
     //服务端请求地址
-    private final String URL = "http://192.168.1.107:8080/qps/user/login.html";
+    private final String URL = "/user/login.html";
 
     //参数对象
     private User paramUser;
@@ -49,7 +50,7 @@ public class LoginProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             o.put("user_name", paramUser.getUserName());
             o.put("pwd", paramUser.getPassWord());
-            return RSACoder.getInstance().encryptByPublicKey(o.toString(), PersistorManager.getInstance().getPublicKey());
+            return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,34 +64,23 @@ public class LoginProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt(STATUS_TAG);
-            switch (value) {
-                case 0:
-                    setStatus(ProcessStatus.Status.Success);
-                    /**
-                     * 取出返回值
-                     */
-                    JSONObject body = JSONUtil.getResultBody(o);
-                    String token = body.optString("token");
-                    String nickname = body.optString("nickname");
-                    String url = body.optString("portrait_url");
-                    /**
-                     * 组装返回对象
-                     */
-                    resultUser = new User();
-                    resultUser.setToken(token);
-                    resultUser.setNickName(nickname);
-                    resultUser.setPortraitURL(url);
-                    break;
-                case -1:
-                    setStatus(ProcessStatus.Status.ErrPass);
-                    break;
-                case -2:
-                    setStatus(ProcessStatus.Status.ErrUid);
-                    break;
-                case -10:
-                    setStatus(ProcessStatus.Status.ErrException);
-                    break;
+            if(value==0){
+                /**
+                 * 取出返回值
+                 */
+                JSONObject body = JSONUtil.getResultBody(o);
+                String token = body.optString("token");
+                String nickname = body.optString("nickname");
+                String url = body.optString("portrait_url");
+                /**
+                 * 组装返回对象
+                 */
+                resultUser = new User();
+                resultUser.setToken(token);
+                resultUser.setNickName(nickname);
+                resultUser.setPortraitURL(url);
             }
+            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);

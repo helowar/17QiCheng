@@ -1,10 +1,14 @@
 package com.qicheng.business.module;
 
+import java.io.Serializable;
+
 /**
  * Created by NO3 on 2015/2/5.
  * 标签元素的实体类
  */
-public class LabelItem {
+public class LabelItem implements Serializable {
+
+
     private String id;
     private String name;
     private int priority;

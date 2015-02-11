@@ -55,6 +55,19 @@ public class ProcessStatus {
         ErrVerCodeExpire,
         /**上传文件为空*/
         ErrEmptyFile,
+        /**未登录*/
+        ErrNotLogin,
+        /**登录超时*/
+        ErrLoginTimeOut,
+        /**用户名为空*/
+        ErrEmptyUserName,
+        /**手机号码不存在*/
+        ErrCellNumNotExist,
+        /**昵称已存在*/
+        ErrNickNameExist,
+        /**用户名不存在*/
+        ErrUserNameNotExist,
+        ErrFailure,
 
     }
 

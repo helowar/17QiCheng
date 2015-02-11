@@ -2,6 +2,8 @@ package com.qicheng.framework.protocol;
 
 import android.os.AsyncTask;
 
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
@@ -68,6 +70,54 @@ abstract public class BaseProcess {
     protected void onCreate() {
     }
 
+    protected void setProcessStatus(int resultCode){
+        switch (resultCode){
+            case Const.ResponseResultCode.RESULT_SUCCESS:
+                mStatus = ProcessStatus.Status.Success;
+                break;
+            case Const.ResponseResultCode.RESULT_FAIL:
+                mStatus = ProcessStatus.Status.ErrFailure;
+                break;
+            case Const.ResponseResultCode.RESULT_ILLEGAL_CALL:
+                mStatus = ProcessStatus.Status.IllegalRequest;
+                break;
+            case Const.ResponseResultCode.RESULT_NOT_LOGINED:
+                mStatus = ProcessStatus.Status.ErrNotLogin;
+                break;
+            case Const.ResponseResultCode.RESULT_LOGIN_TIMEOUT:
+                mStatus = ProcessStatus.Status.ErrLoginTimeOut;
+                break;
+            case Const.ResponseResultCode.RESULT_CELL_NUM_EXIST:
+                mStatus = ProcessStatus.Status.ErrExistCellNum;
+                break;
+            case Const.ResponseResultCode.RESULT_CELL_NUM_NOT_EXIST:
+                mStatus = ProcessStatus.Status.ErrCellNumNotExist;
+                break;
+            case Const.ResponseResultCode.RESULT_VERIFY_CODE_ERROR:
+                mStatus = ProcessStatus.Status.ErrWrongVerCode;
+                break;
+            case Const.ResponseResultCode.RESULT_VERIFY_CODE_INVALID:
+                mStatus = ProcessStatus.Status.ErrVerCodeExpire;
+                break;
+            case Const.ResponseResultCode.RESULT_PWD_ERROR:
+                mStatus = ProcessStatus.Status.ErrPass;
+                break;
+            case Const.ResponseResultCode.RESULT_USER_NAME_NOT_EXIST:
+                mStatus = ProcessStatus.Status.ErrUserNameNotExist;
+                break;
+            case Const.ResponseResultCode.RESULT_USER_NAME_INVALID:
+                mStatus = ProcessStatus.Status.ErrUidInvalid;
+                break;
+            case Const.ResponseResultCode.RESULT_NICKNAME_EXIST:
+                mStatus = ProcessStatus.Status.ErrVerCodeExpire;
+                break;
+            case Const.ResponseResultCode.RESULT_EXCEPTION:
+                mStatus = ProcessStatus.Status.ErrFailure;
+                break;
+
+        }
+    }
+
     private class AsyncComm extends AsyncTask<Void, Void, Void> {
 
         private String mRequestId = "";
@@ -82,8 +132,23 @@ abstract public class BaseProcess {
         protected Void doInBackground(Void... params) {
 
             onCreate();
+            //从相对路径拼为绝对路径
+            String url = Const.BASE_URL+getRequestUrl();
+            //加入TOKEN参数
+            User cacheUser = Cache.getInstance().getUser();
+            String token;
+            if(cacheUser==null){
+                token = "";
+            }else{
+                token = cacheUser.getToken();
+            }
+            token="4PZYOXUT6AUS7RGFY7VV2C9ECC83WWWRLIA5K8V9WFTYJLUYKSN5HE7GM0X0M7BEOSPJ2WBYYRL";
+            if(url.indexOf("?")==-1){
+                url=url+"?t="+token;
+            }else{
+                url=url+"&t="+token;
+            }
 
-            String url = getRequestUrl();
             String parameter = getInfoParameter();
             if (!StringUtil.isEmpty(parameter)) {
                 parameter = parameter.replace("\\/", "/");
@@ -138,5 +203,6 @@ abstract public class BaseProcess {
         protected void onPostExecute(Void result) {
             mListener.onResponse(mRequestId);
         }
+
     }
 }
