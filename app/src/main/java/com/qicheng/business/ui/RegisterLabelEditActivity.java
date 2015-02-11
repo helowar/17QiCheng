@@ -15,11 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
-import com.qicheng.business.logic.LabelItemPriorityComparator;
 import com.qicheng.business.logic.LabelLogic;
-import com.qicheng.business.logic.LabelPriorityComparator;
 import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.event.LabelEventArgs;
 import com.qicheng.business.module.Label;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -30,7 +27,6 @@ import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 

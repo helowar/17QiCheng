@@ -42,7 +42,6 @@ public class LabelLogic extends BaseLogic {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 //发送事件
                 fireStatusEvent(listener, errCode);
-
             }
         });
 

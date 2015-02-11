@@ -23,19 +23,29 @@ public class LabelProcess extends BaseProcess {
 
     private List<Label> selectLabelList = new ArrayList<Label>();
 
-
+    /**
+     * 获取请求的url
+     *
+     * @return url
+     */
     @Override
     protected String getRequestUrl() {
         return url;
     }
 
+
+    /**
+     * 拼装json作为参数传入url中
+     *
+     * @return json字符串
+     */
     @Override
     protected String getInfoParameter() {
+
         JSONObject jsonObj = new JSONObject();
         JSONArray labelIds = new JSONArray();
         JSONArray personalTags = new JSONArray();
         try {
-
             for (int i = 0; i < selectLabelList.size(); i++) {
                 Label label = selectLabelList.get(i);
                 if (label.getTypeId() != null) {
@@ -53,6 +63,11 @@ public class LabelProcess extends BaseProcess {
         return null;
     }
 
+    /**
+     * 获取返回码
+     *
+     * @param result
+     */
     @Override
     protected void onResult(String result) {
         try {
@@ -61,7 +76,6 @@ public class LabelProcess extends BaseProcess {
             Log.d("tabel_result", result);
             //获取状态码
             int value = o.optInt("result_code");
-
             setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
