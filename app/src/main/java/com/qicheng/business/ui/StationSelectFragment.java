@@ -25,6 +25,9 @@ public class StationSelectFragment extends BaseFragment {
 
     private AutoBreakAndNextReverseLineViewGroup stationGroup;
 
+    private boolean startSet = false;
+    private boolean stopSet = false;
+
 
     public StationSelectFragment() {
         // Required empty public constructor
@@ -164,51 +167,64 @@ public class StationSelectFragment extends BaseFragment {
 
 
     private void setFakeStations(AutoBreakAndNextReverseLineViewGroup stationGroup){
-        stationGroup.addView(setTextViewToGroup("上海虹桥"));
-        stationGroup.addView(setTextViewToGroup("无锡"));
-        stationGroup.addView(setTextViewToGroup("苏州"));
-        stationGroup.addView(setTextViewToGroup("南京"));
-        stationGroup.addView(setTextViewToGroup("常州"));
-        stationGroup.addView(setTextViewToGroup("济南"));
-        stationGroup.addView(setTextViewToGroup("北京"));
-        stationGroup.addView(setTextViewToGroup("上海虹桥"));
-        stationGroup.addView(setTextViewToGroup("无锡"));
-        stationGroup.addView(setTextViewToGroup("苏州"));
-        stationGroup.addView(setTextViewToGroup("南京"));
-        stationGroup.addView(setTextViewToGroup("常州"));
-        stationGroup.addView(setTextViewToGroup("济南"));
-        stationGroup.addView(setTextViewToGroup("北京"));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("hgh","上海虹桥",0)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("wx","无锡",1)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("sz","苏州",2)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("nj","南京",3)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("cz","常州",4)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("jn","济南",5)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("bj","北京",6)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("hgh","上海虹桥",7)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("wx","无锡",8)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("sz","苏州",9)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("nj","南京",10)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("cz","常州",11)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("jn","济南",12)));
+        stationGroup.addView(setTextViewToGroup(new TrainStation("bj","北京",13)));
     }
 
-    public TextView setTextViewToGroup(String textId) {
+    public TextView setTextViewToGroup(TrainStation station) {
         TextView textView = new TextView(getActivity());
-        textView.setText(textId);
+        textView.setText(station.getStationName());
+        textView.setTag(station);
         textView.setBackgroundResource(R.drawable.bg_station_unselected);
         textView.setTextColor(getResources().getColor(R.color.main));
 //        final TrainStation station = new TrainStation();
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!v.isSelected()) {
-//                    label.setName(((TextView) v).getText().toString());
-
-                for(int i = 0;i<stationGroup.getChildCount();i++){
-                    TextView child = (TextView)stationGroup.getChildAt(i);
-                    child.setBackgroundResource(R.drawable.bg_station_unselected);
-                    child.setTextColor(getResources().getColor(R.color.main));
+                TrainStation station = (TrainStation)v.getTag();
+                int index = station.getIndex();
+                if(startSet&&stopSet==false){
+                    stopSet=true;//设置到达站
+                }else{
+                    //新设或重设起止站
+                    startSet = true;
+                    stopSet = false;
                 }
-                v.setBackgroundResource(R.drawable.bg_station_selected);
-                ((TextView) v).setTextColor(getResources().getColor(R.color.white));
-//                    v.setSelected(true);
-//                } else {
-//                    labels.remove(label);
-//                    v.setBackgroundResource(R.drawable.label_shape);
-//                    ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
-//                    v.setSelected(false);
-//                    if (labels.size() <= 0) {
-//                        nextButton.setEnabled(false);
-//                    }
-//                }
+                if (stopSet){
+                    v.setBackgroundResource(R.drawable.bg_station_selected);
+                    ((TextView) v).setTextColor(getResources().getColor(R.color.white));
+                    for(int i = index+1;i<stationGroup.getChildCount();i++){
+                        TextView child = (TextView)stationGroup.getChildAt(i);
+                        child.setBackgroundResource(R.drawable.bg_station_unavailable);
+                        child.setTextColor(getResources().getColor(R.color.main));
+                    }
+                }else{
+                    v.setBackgroundResource(R.drawable.bg_station_selected);
+                    ((TextView) v).setTextColor(getResources().getColor(R.color.white));
+                    for(int i = 0;i<index;i++){
+                        TextView child = (TextView)stationGroup.getChildAt(i);
+                        child.setBackgroundResource(R.drawable.bg_station_unavailable);
+                        child.setTextColor(getResources().getColor(R.color.main));
+                    }
+                    for(int i = index+1;i<stationGroup.getChildCount();i++){
+                        TextView child = (TextView)stationGroup.getChildAt(i);
+                        child.setBackgroundResource(R.drawable.bg_station_unselected);
+                        child.setTextColor(getResources().getColor(R.color.main));
+                    }
+                }
+
             }
         });
         return textView;

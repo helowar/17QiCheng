@@ -101,6 +101,10 @@ public class Const {
     public static class SharedPreferenceKey {
         public static final String DefaultName = "qicheng";
 
+        public static final String UserPreference = "user";
+
+        public static final String TrainPreference = "trains";
+
         public static final String FirstStartup = "v1_0_first";
     }
 
@@ -167,7 +171,7 @@ public class Const {
     /**
      * 消息每次获取条数
      */
-    public static final int MessagFetchCount = 20;
+    public static final int TripListFetchCount = 10;
 
     /**
      * cache

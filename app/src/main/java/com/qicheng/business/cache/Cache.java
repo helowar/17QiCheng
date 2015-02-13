@@ -3,6 +3,8 @@ package com.qicheng.business.cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 
+import java.util.Set;
+
 /**
  * Created by NO1 on 2015/1/18.
  */
@@ -52,5 +54,13 @@ public class Cache {
     public void setPublicKey(String publicKey) {
         this.publicKey = publicKey;
         PersistorManager.getInstance().savePublicKey(publicKey);
+    }
+
+    public void setTrainList(Set<String> trains){
+        PersistorManager.getInstance().setTrainList(trains);
+    }
+
+    public Set<String> getTrainList(){
+        return PersistorManager.getInstance().getTrainList();
     }
 }

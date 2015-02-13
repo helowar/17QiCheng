@@ -3,6 +3,20 @@
     package="com.qicheng">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--云之讯权限-->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!--云之讯SDK核心控制器-->
+    <service android:name="com.yzx.service.ConnectionControllerService" ></service>
+    <receiver android:name="com.yzx.service.AlarmReceiver" ></receiver>
+    <receiver android:name="com.yzx.service.MsgBackReceiver" ></receiver>
+
     <application
         android:name=".QichengApplication"
         android:allowBackup="true"
@@ -16,6 +30,10 @@
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        </activity>
+        <activity
+            android:name=".business.ui.MainActivity"
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,26 +41,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".business.ui.MainActivity"
-            android:label="@string/title_activity_main" />
-        <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="标签"
             android:logo="@drawable/ic_user">
-
-
-            </activity>
+        </activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="标签"
-            android:logo="@drawable/ic_user"></activity>
+            android:logo="@drawable/ic_user">
+
+        </activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="我的资料"
+            android:logo="@drawable/ic_user">
+
+        </activity>
+        <activity
+            android:name=".business.ui.AddTripActivity"
+            android:label="添加行程"
             android:logo="@drawable/ic_user">
 
         </activity>

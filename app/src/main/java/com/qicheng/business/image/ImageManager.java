@@ -63,7 +63,7 @@ public class ImageManager {
      * @param portraitUri
      * @param imageView
      */
-    public static void displayPortrait(String portraitUri, ImageAware imageView) {
+    public static void displayPortrait(String portraitUri, ImageView imageView) {
         if (StringUtil.isEmpty(portraitUri)) {
             imageView.setImageDrawable(Const.Application.getResources().getDrawable(R.drawable.ic_default_portrait));
             return;
@@ -79,7 +79,7 @@ public class ImageManager {
      * @param thumbnail   缩略图Drawable，可为null
      * @param progressBar 进度条，可为null
      */
-    public static void displayImageXlarge(String originUri, ImageAware imageView, final Drawable thumbnail, final ProgressBar progressBar) {
+    public static void displayImageXlarge(String originUri, ImageView imageView, final Drawable thumbnail, final ProgressBar progressBar) {
         if (StringUtil.isEmpty(originUri)) {
             imageView.setImageDrawable(Const.Application.getResources().getDrawable(R.drawable.ic_default_photo));
             return;
@@ -127,7 +127,7 @@ public class ImageManager {
      * @param imageUri
      * @param imageView
      */
-    public static void displayImageDefault(String imageUri, ImageAware imageView) {
+    public static void displayImageDefault(String imageUri, ImageView imageView) {
 
         displayImageComplete(imageUri, imageView, getDefaultCacheDisplayOption(), new ImageLoadingListener() {
             @Override
@@ -167,7 +167,7 @@ public class ImageManager {
      * @param loadingListener
      * @param progressListener
      */
-    public static void displayImageComplete(String imageUri, ImageAware imageView, DisplayImageOptions options, ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
+    public static void displayImageComplete(String imageUri, ImageView imageView, DisplayImageOptions options, ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
         ImageLoader.getInstance().displayImage(imageUri, imageView, options, loadingListener, progressListener);
     }
 

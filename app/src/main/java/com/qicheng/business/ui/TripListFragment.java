@@ -79,7 +79,7 @@ public class TripListFragment extends ListFragment {
     private void initFakeTrips() {
         for (int i = 0; i < 100; i++) {
             Trip trip = new Trip();
-            trip.setStartStation(i + "");
+//            trip.setStartStation(i + "");
             trip.setTrainCode("G4");
             trips.add(trip);
         }

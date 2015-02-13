@@ -14,6 +14,10 @@
     <string name="title_activity_main">行程</string>
     <string name="load_more">放开我就给你看更多</string>
     <string name="date_text">日期</string>
+    <string name="yes_zh_text">是</string>
+    <string name="no_zh_text">否</string>
+    <string name="yes_en_text">Yes</string>
+    <string name="no_en_text">No</string>
 
     <!-- <string name=""></string> -->
     <!-- Login Activity begin -->
@@ -59,6 +63,12 @@
     <!-- Trip Activity begin -->
     <string name="add_trip_text">添加行程</string>
     <string name="train_code_title">车次</string>
+    <string name="car_sharing_title">拼车</string>
+    <string name="have_car_sharing_text">供车</string>
+    <string name="wish_be_shared_text">求拼</string>
+    <string name="travel_together_title">同游</string>
+    <string name="stay_time_title">停留时间</string>
+    <string name="default_stay_time_value">1</string>
     <!-- Trip Activity end -->
 
 
