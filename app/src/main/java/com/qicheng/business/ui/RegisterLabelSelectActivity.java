@@ -142,51 +142,6 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<LabelType> getFakeResult() {
-        String r = "{\n" +
-                "    \"result_code\": \"0\", \n" +
-                "    \"body\": [\n" +
-                "        {\n" +
-                "            \"id\": \"XXXXXXXXXXXXXXXXXXA\",\n" +
-                "            \"name\": \"看电影\",\n" +
-                "            \"priority\": \"2\",\n" +
-                "            \"tagList\": [\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXAA\", \"name\": \"动作片\", \"priority\": \"2\"},\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXAB\", \"name\": \"恐怕片\", \"priority\": \"1\"},\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXAC\",\"name\": \"科幻片\", \"priority\": \"3\"}\n" +
-                "            ]\n" +
-                "        },\n" +
-                "        {\n" +
-                "            \"id\": \"XXXXXXXXXXXXXXXXXXB\",\n" +
-                "            \"name\": \"运动\",\n" +
-                "            \"priority\": \"1\",\n" +
-                "            \"tagList\": [\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXBA\", \"name\": \"网球\", \"priority\": \"3\"},\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXBB\", \"name\": \"羽毛球\", \"priority\": \"1\"},\n" +
-                "                {\"id\": \"XXXXXXXXXXXXXXXXBC\",\"name\": \"保龄球\", \"priority\": \"2\"}\n" +
-                "            ]\n" +
-                "        }\n" +
-                "    ]\n" +
-                "}\n";
-
-        List<LabelType> list = new ArrayList<LabelType>();
-        try {
-
-            Gson gson = new Gson();
-            JSONObject object = new JSONObject(r);
-            JSONArray arry = (JSONArray) object.opt("body");
-            for (int i = 0; i < arry.length(); i++) {
-                Object o = arry.get(i);
-                LabelType labelType = gson.fromJson(o.toString(), LabelType.class);
-                list.add(labelType);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-
-    }
 
 
 }

@@ -34,7 +34,7 @@ public class PersonalInformationActivity extends BaseActivity {
      */
     private void initSlidingMenu() {
         // 设置主界面视图
-        setContentView(R.layout.content_frame);
+        setContentView(R.layout.menu_content_frame);
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new TripListFragment()).commit();
 
         // 设置滑动菜单的属性值

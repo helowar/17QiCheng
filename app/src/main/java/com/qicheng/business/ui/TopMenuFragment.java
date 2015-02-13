@@ -1,13 +1,12 @@
 package com.qicheng.business.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.qicheng.R;
@@ -18,64 +17,86 @@ import com.qicheng.framework.ui.base.BaseFragment;
  *         功能描述：列表Fragment，用来显示列表视图
  */
 public class TopMenuFragment extends BaseFragment {
+    private View view;
+    private LinearLayout linearLayout;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list, null);
-        LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
-
-        View view2 = inflater.inflate(R.layout.personal_information_collection, null);
-        TextView text = (TextView) view2.findViewById(R.id.label_text);
-        text.setText("标签兴趣");
-        LabelViewGroup labelViewGroup2 = (LabelViewGroup) view2.findViewById(R.id.label_viewGroup);
-        labelViewGroup2.addView(setTextViewToGroup("美女"));
-        labelViewGroup2.addView(setTextViewToGroup("金融"));
-        labelViewGroup2.addView(setTextViewToGroup("白骨精"));
-        labelViewGroup2.addView(setTextViewToGroup("北京"));
-        labelViewGroup2.addView(setTextViewToGroup("小鲜肉"));
-        labelViewGroup2.addView(setTextViewToGroup("我是歌手"));
-        labelViewGroup2.addView(setTextViewToGroup("职业歌手职业歌手"));
-        linearLayout.addView(view2);
-
-
-        View photo = inflater.inflate(R.layout.personal_information_tabel, null);
-        TextView photoTitle = (TextView) photo.findViewById(R.id.table_text);
-        photoTitle.setText("我的相册");
-        LinearLayout liner = (LinearLayout) photo.findViewById(R.id.table_id);
-        View photos = inflater.inflate(R.layout.personal_information_photo, null);
-        GridView gridView = (GridView) photos.findViewById(R.id.photo_list);
-
-        ListAdapter listAdapter = new PersonalInformationPhotoAdapter(getActivity());
-        gridView.setAdapter(listAdapter);
-        liner.addView(gridView);
-        linearLayout.addView(photo);
-
-        View activity = inflater.inflate(R.layout.personal_information_acrivity_tabel, null);
-        TextView activityTitle = (TextView) activity.findViewById(R.id.table_text);
-        activityTitle.setText("我的动态");
-        linearLayout.addView(activity);
-
-        View friend = inflater.inflate(R.layout.personal_information_tabel, null);
-        TextView friendText = (TextView) friend.findViewById(R.id.table_text);
-        friendText.setText("交友资料");
-        linearLayout.addView(friend);
-
-
-        View account = inflater.inflate(R.layout.personal_information_tabel, null);
-        TextView accountText = (TextView) account.findViewById(R.id.table_text);
-        accountText.setText("账户设置");
-        linearLayout.addView(account);
-
+        initView(inflater);
         return view;
     }
 
 
-    public TextView setTextViewToGroup(String textId) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(textId);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextAppearance(getActivity(), R.style.personal_information_font);
-        textView.setBackgroundResource(R.drawable.personal_information_text_view_circle);
-        return textView;
+    /**
+     * 初始化View视图
+     *
+     * @param inflater
+     */
+    public void initView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.menu_list, null);
+        linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
+          /*个人资料menu*/
+        initViewItem(inflater, R.string.personal, R.drawable.ic_personal);
+        /*我的标签menu*/
+        initViewItem(inflater, R.string.my_label, R.drawable.ic_personal);
+        /*我的相册menu*/
+        initViewItem(inflater, R.string.my_photo, R.drawable.ic_personal);
+        /*我的动态menu*/
+        initViewItem(inflater, R.string.my_activity, R.drawable.ic_personal);
+        /*筛选设置menu*/
+        initViewItem(inflater, R.string.select_setting, R.drawable.ic_fliter);
+         /*账户设置menu*/
+        initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
+
     }
+
+    /**
+     * 创建menu元素并加入到布局文件中
+     *
+     * @param inflater
+     * @param stringID 字符串id
+     * @param resId    icon id
+     */
+
+    public void initViewItem(LayoutInflater inflater, final int stringID, int resId) {
+        View view = inflater.inflate(R.layout.personal_information_tabel, null);
+        TextView viewText = (TextView) view.findViewById(R.id.table_text);
+        viewText.setText(stringID);
+        ImageView personalImg = (ImageView) view.findViewById(R.id.table_img);
+        personalImg.setImageResource(resId);
+        /*绑定点击事件*/
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (stringID) {
+                    case R.string.personal:
+                        /*跳转到个人资料页面*/
+                        break;
+                    case R.string.my_label:
+                        /*跳转到我的标签*/
+                        Intent intent = new Intent(getActivity(),LabelModifyActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                        break;
+                    case R.string.my_photo:
+                       /*跳转到我的相册*/
+                        break;
+                    case R.string.my_activity:
+                        /*跳转到我的动态*/
+                        break;
+                    case R.string.select_setting:
+                         /*跳转到筛选设置*/
+                        break;
+                    case R.string.account_setting:
+                       /*跳转到账户设置*/
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        linearLayout.addView(view);
+    }
+
+
 
 }
