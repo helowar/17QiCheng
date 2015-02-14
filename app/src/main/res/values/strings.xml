@@ -71,13 +71,11 @@
     <string name="default_stay_time_value">1</string>
     <!-- Trip Activity end -->
 
-
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
     <string name="traveller_start_btn_text">出发车友</string>
     <string name="traveller_end_btn_text">到达车友</string>
-    <string name="traveller_to">至</string>
     <!-- Traveller Activity end -->
 
     <string name="title_activity_personal_information">我的动态</string>
@@ -95,7 +93,16 @@
 
     <!-- TopMenuFragment fragment end -->
 
-    <string name="title_activity_label_modify">LabelModifyActivity</string>
-    <string name="hello_world">Hello world!</string>
+    <!-- Passenger Activity begin -->
+    <string name="passenger_activity_title">同车人</string>
+    <string name="passenger_recommend_text">推荐</string>
+    <string name="passenger_not_on_btn_text">未上车</string>
+    <string name="passenger_on_btn_text">在上车</string>
+    <string name="passenger_off_btn_text">已下车</string>
+    <!-- Passenger Activity end -->
 
+    <!-- Social Fragment begin -->
+    <string name="social_recommend_text">推荐</string>
+    <string name="social_near_person_text">附近的人</string>
+    <!-- Social Fragment end -->
 </resources>

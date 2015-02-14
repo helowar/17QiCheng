@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity {
 
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
-    private UserinfoFragment userinfoFragment;
+    private UserInfoFragment userinfoFragment;
     private SocialFragment socialFragment;
     private ActyFragment actyFragment;
 
@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.rbMe:
                         if (userinfoFragment == null) {
-                            userinfoFragment = new UserinfoFragment();
+                            userinfoFragment = new UserInfoFragment();
                             getFragmentManager().beginTransaction().add(R.id.user_content, userinfoFragment)
                                     .commit();
                         }

@@ -43,7 +43,7 @@ public class Const {
         /**
          * ouser的uid
          */
-        public static final String Uid = "uid";
+        public static final String UID = "uid";
 
         /**
          * ouser的昵称
@@ -89,6 +89,11 @@ public class Const {
          * 迁移到Traveller页面的查询值
          */
         public static final String TRAVELLER_QUERY_VALUE = "traveller_query_value";
+
+        /**
+         * 用户头像URL
+         */
+        public static final String PORTRAIT_URL = "user_portrait_url";
     }
 
     public static class DefaultValue {
@@ -265,6 +270,11 @@ public class Const {
          * 响应结果码 14:昵称已存在
          */
         public static final int RESULT_NICKNAME_EXIST = 14;
+
+        /**
+         * 响应结果码 15:没有响应数据，即响应体(body)不存在
+         */
+        public static final int RESULT_BODY_IS_NOT_EXIST = 15;
     }
 
     /**
@@ -296,5 +306,15 @@ public class Const {
 
     /** 查询方向 1：往最早方向查询 */
     public static final byte ORDER_BY_EARLIEST = 1;
+
+    /**
+     * 图片加载器的滚动状态标识
+     */
+    public static final String STATE_PAUSE_ON_SCROLL = "STATE_PAUSE_ON_SCROLL";
+
+    /**
+     * 图片加载器的滑动状态标识
+     */
+    public static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
 }
