@@ -71,7 +71,7 @@ public class TripListProcess extends BaseProcess{
                         trip.setEndStationCode(jsonTrip.optString("end_station_code"));
                         trip.setStartTime(jsonTrip.optString("begin_time"));
                         trip.setStopTime(jsonTrip.optString("end_time"));
-                        trip.setOrderNum(jsonTrip.optString("order_num"));
+                        trip.setOrderNum(jsonTrip.optInt("order_num"));
                         trip.setStartUserList(getUserList(jsonTrip.has("begin_travellers") ? jsonTrip.optJSONArray("begin_travellers") : null));
                         trip.setStopUserList(getUserList(jsonTrip.has("end_travellers") ? jsonTrip.optJSONArray("end_travellers") : null));
                         trip.setTrainUserList(getUserList(jsonTrip.has("train_travellers") ? jsonTrip.optJSONArray("train_travellers") : null));

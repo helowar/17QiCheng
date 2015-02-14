@@ -11,9 +11,13 @@ public class TrainStation {
 
     private String leaveTime;
 
-    private String crossDays;
+    private int crossDays;
 
     private int index;
+
+    public TrainStation(){
+
+    }
 
     public TrainStation(String stationCode, String stationName,int index) {
         this.stationCode = stationCode;
@@ -53,11 +57,11 @@ public class TrainStation {
         this.leaveTime = leaveTime;
     }
 
-    public String getCrossDays() {
+    public int getCrossDays() {
         return crossDays;
     }
 
-    public void setCrossDays(String crossDays) {
+    public void setCrossDays(int crossDays) {
         this.crossDays = crossDays;
     }
 }

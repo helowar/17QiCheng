@@ -1,5 +1,6 @@
 package com.qicheng.business.logic.event;
 
+import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.module.Trip;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 public class TripEventArgs extends StatusEventArgs {
 
     private ArrayList<Trip> mTripList;
+
+    private ArrayList<TrainStation> mTrainStations;
 
     private Trip mTrip;
 
@@ -48,5 +51,13 @@ public class TripEventArgs extends StatusEventArgs {
 
     public void setTrip(Trip trip) {
         mTrip = trip;
+    }
+
+    public ArrayList<TrainStation> getTrainStations() {
+        return mTrainStations;
+    }
+
+    public void setTrainStations(ArrayList<TrainStation> trainStations) {
+        mTrainStations = trainStations;
     }
 }

@@ -18,6 +18,10 @@
     <string name="no_zh_text">否</string>
     <string name="yes_en_text">Yes</string>
     <string name="no_en_text">No</string>
+    <string name="year_text">年</string>
+    <string name="month_text">月</string>
+    <string name="day_text">日</string>
+    <string name="time_sep_icon">:</string>
 
     <!-- <string name=""></string> -->
     <!-- Login Activity begin -->
@@ -68,6 +72,7 @@
     <string name="wish_be_shared_text">求拼</string>
     <string name="travel_together_title">同游</string>
     <string name="stay_time_title">停留时间</string>
+    <string name="no_trip_msg">没有更多行程</string>
     <string name="default_stay_time_value">1</string>
     <!-- Trip Activity end -->
 

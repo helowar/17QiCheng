@@ -105,4 +105,8 @@ public class AddTripProcess extends BaseProcess {
         }
         return  userList;
     }
+
+    public Trip getResult() {
+        return result;
+    }
 }
