@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.framework.util.JSONUtil.STATUS_TAG;
+
 /**
  * TravellerPersonProcess.java是启程APP的查询同路人接口处理类。
  *
