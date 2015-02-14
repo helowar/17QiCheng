@@ -16,7 +16,7 @@ public class Trip implements Serializable {
 
     private String endStationName;
 
-    private String orderNum;
+    private int orderNum;
 
     private String tripDate;
 
@@ -94,11 +94,11 @@ public class Trip implements Serializable {
         this.endStationName = endStationName;
     }
 
-    public String getOrderNum() {
+    public int getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(String orderNum) {
+    public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
     }
 

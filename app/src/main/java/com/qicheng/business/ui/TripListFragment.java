@@ -2,7 +2,6 @@ package com.qicheng.business.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +11,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.image.ImageManager;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.TripLogic;
+import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.Trip;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -29,45 +41,26 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class TripListFragment extends ListFragment {
+public class TripListFragment extends BaseFragment {
 
     private static Logger logger = new Logger("TripListFragment");
     private static int REQUEST_CODE_ADD_TRIP = 0;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TripLogic logic;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int lastTrip;
+
 
     //记录当前展开的位置
     private int unfoledPosition = 0;
     //行程列表
-    private ArrayList<Trip> trips = new ArrayList<Trip>();
-
-    private ArrayList pageList = new ArrayList();
-
-    private int pageSize = 10;
+    private ArrayList<Trip> pageList = new ArrayList();
 
     private View footerView;
-
-    private OnFragmentInteractionListener mListener;
 
     private ListView mListView;
 
     private TripListAdapter mAdapter;
-
-    public static TripListFragment newInstance(String param1, String param2) {
-        TripListFragment fragment = new TripListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,25 +69,11 @@ public class TripListFragment extends ListFragment {
     public TripListFragment() {
     }
 
-    private void initFakeTrips() {
-        for (int i = 0; i < 100; i++) {
-            Trip trip = new Trip();
-//            trip.setStartStation(i + "");
-            trip.setTrainCode("G4");
-            trips.add(trip);
-        }
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFakeTrips();
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        logger.d("size of trips: " + trips.size());
+        logic =(TripLogic) LogicFactory.self().get(LogicFactory.Type.Trip);
         mAdapter = new TripListAdapter(pageList);
         loadMoreData();
         mAdapter.notifyDataSetChanged();
@@ -129,9 +108,87 @@ public class TripListFragment extends ListFragment {
      * @param inflater 从Activity获得
      * @param parent   上级View即行程记录
      */
-    private void addDetailView(LayoutInflater inflater, TableLayout parent) {
-        parent.addView(inflater.inflate(R.layout.trip_detail_row, null));
-        parent.addView(inflater.inflate(R.layout.trip_user_row, null));
+    private void addDetailView(int position,LayoutInflater inflater, TableLayout parent) {
+        /**
+         * 行程数据
+         */
+        Trip trip = pageList.get(position);
+        /**
+         * 获取行程详情控件
+         */
+        View tripDetailView = inflater.inflate(R.layout.trip_detail_row, null);
+        TextView viewStartStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_sstation);
+        TextView viewEndStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_estation);
+        TextView viewStartTime= (TextView)tripDetailView.findViewById(R.id.textview_detail_stime);
+        TextView viewEndTime= (TextView)tripDetailView.findViewById(R.id.textview_detail_etime);
+        TextView viewTrainCode= (TextView)tripDetailView.findViewById(R.id.textview_detail_traincode);
+        TextView viewTripDate= (TextView)tripDetailView.findViewById(R.id.textview_detail_date);
+        /**
+         * 控件赋值
+         */
+        viewStartStation.setText(trip.getStartStationName());
+        viewStartStation.setTag(trip.getStartStationCode());
+
+        viewEndStation.setText(trip.getEndStationName());
+        viewEndStation.setTag(trip.getEndStationCode());
+
+        viewStartTime.setText(getTimeForView(trip.getStartTime()));
+        viewEndTime.setText(getTimeForView(trip.getStopTime()));
+
+        viewTripDate.setText(getDateForView(trip.getStartTime()));
+        viewTrainCode.setText(trip.getTrainCode());
+        /**
+         * 获取行程用户列表控件
+         */
+        View tripUserView = inflater.inflate(R.layout.trip_user_row, null);
+        ArrayList<ImageView> viewUsers = new ArrayList<ImageView>();
+        ImageView viewUser1 =(ImageView) tripUserView.findViewById(R.id.image_user1);
+        viewUsers.add(viewUser1);
+        ImageView viewUser2 =(ImageView) tripUserView.findViewById(R.id.image_user2);
+        viewUsers.add(viewUser2);
+        ImageView viewUser3 =(ImageView) tripUserView.findViewById(R.id.image_user3);
+        viewUsers.add(viewUser3);
+        ImageView viewUser4 =(ImageView) tripUserView.findViewById(R.id.image_user4);
+        viewUsers.add(viewUser4);
+        ImageView viewUser5 =(ImageView) tripUserView.findViewById(R.id.image_user5);
+        viewUsers.add(viewUser5);
+        ImageView viewUser6 =(ImageView) tripUserView.findViewById(R.id.image_user6);
+        viewUsers.add(viewUser6);
+        ImageView viewUser7 =(ImageView) tripUserView.findViewById(R.id.image_user7);
+        viewUsers.add(viewUser7);
+        ImageView viewUser8 =(ImageView) tripUserView.findViewById(R.id.image_user8);
+        viewUsers.add(viewUser8);
+        ImageView viewUser9 =(ImageView) tripUserView.findViewById(R.id.image_user9);
+        viewUsers.add(viewUser9);
+        ImageView viewUser10 =(ImageView) tripUserView.findViewById(R.id.image_user10);
+        viewUsers.add(viewUser10);
+        ImageView viewUser11 =(ImageView) tripUserView.findViewById(R.id.image_user11);
+        viewUsers.add(viewUser11);
+        ImageView viewUser12 =(ImageView) tripUserView.findViewById(R.id.image_user12);
+        viewUsers.add(viewUser12);
+        /**
+         * 数据填充
+         */
+        if(trip.getStartUserList()!=null) {
+            ArrayList<String> startList = trip.getStartUserList();
+            for (int i = 0; i < startList.size(); i++) {
+                ImageManager.displayPortrait(startList.get(i),viewUsers.get(i));
+            }
+        }
+        if(trip.getTrainUserList()!=null){
+            ArrayList<String> trainList = trip.getTrainUserList();
+            for (int i = 0; i < trainList.size(); i++) {
+                ImageManager.displayPortrait(trainList.get(i),viewUsers.get(4+i));
+            }
+        }
+        if(trip.getStopUserList()!=null){
+            ArrayList<String> stopList = trip.getStopUserList();
+            for (int i = 0; i < stopList.size(); i++) {
+                ImageManager.displayPortrait(stopList.get(i),viewUsers.get(8+i));
+            }
+        }
+        parent.addView(tripDetailView);
+        parent.addView(tripUserView);
     }
 
     private class TripListAdapter extends ArrayAdapter<Trip> {
@@ -145,25 +202,46 @@ public class TripListFragment extends ListFragment {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_trip, null);
                 convertView.setTag("" + position);
-                ((TextView) convertView.findViewById(R.id.textview_start_station)).setText("" + position);
             } else {
+                //行程展开
                 if (position != unfoledPosition && ((TableLayout) convertView).getChildCount() > 1) {
                     ((TableLayout) convertView).removeViewAt(1);
                     ((TableLayout) convertView).removeViewAt(1);
                     logger.d("remove view in get view Tag: " + convertView.getTag());
                 } else if (position == unfoledPosition && ((TableLayout) convertView).getChildCount() < 2) {
-                    addDetailView(getActivity().getLayoutInflater(), (TableLayout) convertView);
+                    addDetailView(position,getActivity().getLayoutInflater(), (TableLayout) convertView);
                 }
             }
-//            ((TextView)convertView.findViewById(R.id.textview_start_station)).setText(trips.get(position).getStartStation());
-//            if(position==0&&lastPosition==0){
-//                logger.d("enter getview and lastposition = "+lastPosition);
-//                addDetailView( getActivity().getLayoutInflater(),(TableLayout)convertView);
-//            }
-
-
+            /**
+             * 行程数据
+             */
+            Trip lineTrip = pageList.get(position);
+            /**
+             * 获取一行Trip的各组件
+             */
+            TextView viewTrainCode = (TextView)convertView.findViewById(R.id.textview_train_code);
+            TextView viewTripDate = (TextView)convertView.findViewById(R.id.textview_trip_date);
+            TextView viewStartStation = (TextView)convertView.findViewById(R.id.textview_start_station);
+            TextView viewEndStation = (TextView)convertView.findViewById(R.id.textview_end_station);
+            /**
+             * 控件设置
+             */
+            viewTrainCode.setText(lineTrip.getTrainCode());
+            viewTripDate.setText(getDateForView(lineTrip.getStartTime()));
+            viewStartStation.setText(lineTrip.getStartStationName());
+            viewEndStation.setText(lineTrip.getEndStationName());
             return convertView;
         }
+    }
+
+    private String getDateForView(String dttm){
+        return dttm.substring(0,4)+getResources().getString(R.string.year_text)
+                +dttm.substring(4,6)+getResources().getString(R.string.month_text)
+                +dttm.substring(6,8)+getResources().getString(R.string.day_text);
+    }
+
+    private String getTimeForView(String dttm){
+        return dttm.substring(8,10)+getResources().getString(R.string.time_sep_icon)+dttm.substring(10);
     }
 
     @Override
@@ -172,6 +250,13 @@ public class TripListFragment extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_triplist, container, false);
 
         mListView = (ListView) view.findViewById(android.R.id.list);
+        AdapterView.OnItemClickListener mOnClickListener
+                = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                onListItemClick((ListView)parent, v, position, id);
+            }
+        };
+        mListView.setOnItemClickListener(mOnClickListener);
         footerView = inflater.inflate(R.layout.list_footer, null);
         //上拉刷新
         mListView.addFooterView(footerView);
@@ -209,11 +294,11 @@ public class TripListFragment extends ListFragment {
                 if (view.getLastVisiblePosition() + 1 == view.getCount()) {
                     lastIndex = true;
                 }
-                // 所有的条目已经和最大条数相等，则移除底部的View
-                if (view.getLastVisiblePosition() == trips.size()) {
-                    ((ListView) view).removeFooterView(footerView);
-                    Alert.Toast("别拉了！到底啦！");
-                }
+//                // 所有的条目已经和最大条数相等，则移除底部的View
+//                if (view.getLastVisiblePosition() == trips.size()) {
+//                    ((ListView) view).removeFooterView(footerView);
+//                    Alert.Toast("别拉了！到底啦！");
+//                }
             }
 
         });
@@ -222,16 +307,29 @@ public class TripListFragment extends ListFragment {
     }
 
     private void loadMoreData() {
-        int count = mAdapter.getCount();
-        if (count + pageSize <= trips.size()) {
-            for (int i = 0; i < pageSize; i++) {
-                pageList.add(trips.get(count + i));
+        logic.getPersonalTripList(lastTrip,createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                TripEventArgs result =  (TripEventArgs)args;
+                OperErrorCode errCode = result.getErrCode();
+                switch(errCode) {
+                    case Success:
+                        ArrayList<Trip> tripList = result.getTripList();
+                        pageList.addAll(tripList);
+                        lastTrip = tripList.get(tripList.size()-1).getOrderNum();
+                        mAdapter.notifyDataSetChanged();
+                        break;
+                    case NoDataFound:
+                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
+                        break;
+                    default:
+                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
+                        break;
+                }
             }
-        } else {
-            for (int i = count; i < trips.size(); i++) {
-                pageList.add(trips.get(i));
-            }
-        }
+        }));
+        startLoading();
     }
 
 
@@ -249,11 +347,9 @@ public class TripListFragment extends ListFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    @Override
-    public void onListItemClick(ListView list, View view, int position, long id) {
+    private void onListItemClick(ListView list, View view, int position, long id) {
 //        String tag = lastPosition+"";
 //        lastPosition= position;
 //        logger.d("now Tag: "+view.getTag());
@@ -261,7 +357,7 @@ public class TripListFragment extends ListFragment {
 //        logger.d("lastItem child count: "+lastItem.getChildCount());
         removeDetailView(list);
         unfoledPosition = position;
-        addDetailView(getActivity().getLayoutInflater(), (TableLayout) view);
+        addDetailView(position,getActivity().getLayoutInflater(), (TableLayout) view);
     }
 
     private void removeDetailView(ListView list) {
@@ -305,5 +401,4 @@ public class TripListFragment extends ListFragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
-
 }

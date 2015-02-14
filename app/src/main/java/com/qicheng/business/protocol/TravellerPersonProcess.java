@@ -2,6 +2,7 @@ package com.qicheng.business.protocol;
 
 import com.qicheng.business.module.User;
 import com.qicheng.framework.protocol.BaseProcess;
+import com.qicheng.framework.util.JSONUtil;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 
@@ -90,7 +91,7 @@ public class TravellerPersonProcess extends BaseProcess {
             // 取回的JSON结果
             JSONObject o = new JSONObject(result);
             // 获取状态码
-            int resultCode = o.optInt(STATUS_TAG);
+            int resultCode = o.optInt(JSONUtil.STATUS_TAG);
             switch (resultCode) {
                 case Const.ResponseResultCode.RESULT_SUCCESS:
                     // 获取查询结果：用户信息数组

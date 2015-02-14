@@ -2,6 +2,7 @@ package com.qicheng.business.cache;
 
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
+import com.qicheng.business.protocol.GetTrainListProcess;
 
 import java.util.Set;
 
@@ -40,6 +41,10 @@ public class Cache {
         mUserCache.onCreate();
         /*公钥缓存*/
         publicKey = PersistorManager.getInstance().getPublicKey();
+
+        GetTrainListProcess process = new GetTrainListProcess();
+        process.run();
+
     }
 
     public void setCacheUser(User user) {
