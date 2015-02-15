@@ -63,7 +63,7 @@ public class LoginProcess extends BaseProcess {
             //取回的JSON结果
             JSONObject o = new JSONObject(result);
             //获取状态码
-            int value = o.optInt(STATUS_TAG);
+            int value = o.optInt(JSONUtil.STATUS_TAG);
             if(value==0){
                 /**
                  * 取出返回值

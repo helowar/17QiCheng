@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity {
 
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
-    private UserinfoFragment userinfoFragment;
+    private VoucherFragment voucherFragment;
     private SocialFragment socialFragment;
     private ActyFragment actyFragment;
 
@@ -33,29 +33,6 @@ public class MainActivity extends BaseActivity {
         userToken = getIntent().getStringExtra("token");
         logger.d("Get the user token:" + userToken);
         initView();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void initView() {
@@ -77,7 +54,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
                 switch (checkedId) {
                     case R.id.rbMessage:
                         if (messageFragment == null) {
@@ -102,10 +78,10 @@ public class MainActivity extends BaseActivity {
                         }
                         activatedFrame(R.id.social_content);
                         break;
-                    case R.id.rbMe:
-                        if (userinfoFragment == null) {
-                            userinfoFragment = new UserinfoFragment();
-                            getFragmentManager().beginTransaction().add(R.id.user_content, userinfoFragment)
+                    case R.id.rbVoucher:
+                        if (voucherFragment == null) {
+                            voucherFragment = new VoucherFragment();
+                            getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
                                     .commit();
                         }
                         activatedFrame(R.id.user_content);

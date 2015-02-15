@@ -1,7 +1,6 @@
 package com.qicheng.business.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
@@ -25,21 +24,26 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
-import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.PORTRAIT_URL;
+import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
+import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
+import static com.qicheng.util.Const.Intent.UID;
+import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
+import static com.qicheng.util.Const.ORDER_BY_NEWEST;
+import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
+import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
+
 /**
- * TravellerPersonFragment.java是启程APP的展现同路车友Fragment类
+ * TravellerPersonFragment.java是启程APP的展现同路车友Fragment类。
  *
  * @author 花树峰
  * @version 1.0 2015年2月1日
  */
 public class TravellerPersonFragment extends BaseFragment {
-
-    private static final String STATE_PAUSE_ON_SCROLL = "STATE_PAUSE_ON_SCROLL";
-    private static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
     /**
      * 车友View
@@ -62,7 +66,6 @@ public class TravellerPersonFragment extends BaseFragment {
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private boolean pauseOnScroll = false;
     private boolean pauseOnFling = true;
-    private DisplayImageOptions options;
 
     /**
      * 查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车
@@ -85,18 +88,9 @@ public class TravellerPersonFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         imageAdapter = new ImageAdapter();
-        // 图片缓存加载选项值
-        options = new DisplayImageOptions.Builder()
-                .showStubImage(R.drawable.ic_default_portrait)
-                .showImageForEmptyUri(R.drawable.ic_default_portrait)
-                .showImageOnFail(R.drawable.ic_default_portrait)
-                .cacheInMemory()
-                .cacheOnDisc()
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
         Bundle bundle = getArguments();
-        queryType = bundle.getByte(Const.Intent.TRAVELLER_QUERY_TYPE);
-        queryValue = bundle.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
+        queryType = bundle.getByte(TRAVELLER_QUERY_TYPE);
+        queryValue = bundle.getString(TRAVELLER_QUERY_VALUE);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
     }
 
@@ -109,11 +103,11 @@ public class TravellerPersonFragment extends BaseFragment {
         personsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startUserActivity(position);
+                startUserInfoActivity(position);
             }
         });
         personsGridView.setOnScrollListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
-        logic.queryUser(queryType, queryValue, Const.ORDER_BY_NEWEST, null, 32, createUIEventListener(new EventListener() {
+        logic.queryUser(queryType, queryValue, ORDER_BY_NEWEST, null, 32, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
@@ -130,6 +124,25 @@ public class TravellerPersonFragment extends BaseFragment {
         }));
         startLoading();
         return personView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(STATE_PAUSE_ON_SCROLL)) {
+                pauseOnScroll = savedInstanceState.getBoolean(STATE_PAUSE_ON_SCROLL, false);
+            }
+            if (savedInstanceState.containsKey(STATE_PAUSE_ON_FLING)) {
+                pauseOnFling = savedInstanceState.getBoolean(STATE_PAUSE_ON_FLING, true);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(STATE_PAUSE_ON_SCROLL, pauseOnScroll);
+        outState.putBoolean(STATE_PAUSE_ON_FLING, pauseOnFling);
     }
 
     public class ImageAdapter extends BaseAdapter {
@@ -159,11 +172,7 @@ public class TravellerPersonFragment extends BaseFragment {
             }
             ImageView imageView = (ImageView) personView.findViewById(R.id.traveller_person_img);
             String portraitUrl = personList.get(position).getPortraitURL();
-            if (portraitUrl == null) {
-                imageView.setImageResource(R.drawable.ic_default_portrait);
-            } else {
-                imageLoader.displayImage(portraitUrl, imageView, options);
-            }
+            ImageManager.displayPortrait(portraitUrl, imageView);
             return personView;
         }
     }
@@ -204,7 +213,7 @@ public class TravellerPersonFragment extends BaseFragment {
                     } else if (currentFirstVisiblePosition == firstVisiblePosition && firstLocationY == y) {
                         User firstUser = personList.get(0);
                         // 第二次拖至顶部
-                        logic.queryUser(queryType, queryValue, Const.ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 8, createUIEventListener(new EventListener() {
+                        logic.queryUser(queryType, queryValue, ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 8, createUIEventListener(new EventListener() {
                             @Override
                             public void onEvent(EventId id, EventArgs args) {
                                 stopLoading();
@@ -240,7 +249,7 @@ public class TravellerPersonFragment extends BaseFragment {
                             // 第二次拖至底部
                             User lastUser = personList.get(personList.size() - 1);
                             // 第二次拖至顶部
-                            logic.queryUser(queryType, queryValue, Const.ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 8, createUIEventListener(new EventListener() {
+                            logic.queryUser(queryType, queryValue, ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 8, createUIEventListener(new EventListener() {
                                 @Override
                                 public void onEvent(EventId id, EventArgs args) {
                                     stopLoading();
@@ -271,8 +280,11 @@ public class TravellerPersonFragment extends BaseFragment {
         }
     }
 
-    private void startUserActivity(int position) {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);//TODO
+    private void startUserInfoActivity(int position) {
+        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+        User traveller = personList.get(position);
+        intent.putExtra(UID, traveller.getUserId());
+        intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
         startActivity(intent);
     }
 }

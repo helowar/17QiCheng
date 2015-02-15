@@ -9,9 +9,20 @@ public class TrainStation {
 
     private String stationName;
 
-    public TrainStation(String stationCode, String stationName) {
+    private String leaveTime;
+
+    private int crossDays;
+
+    private int index;
+
+    public TrainStation(){
+
+    }
+
+    public TrainStation(String stationCode, String stationName,int index) {
         this.stationCode = stationCode;
         this.stationName = stationName;
+        this.index = index;
     }
 
     public String getStationCode() {
@@ -28,5 +39,29 @@ public class TrainStation {
 
     public void setStationName(String stationName) {
         this.stationName = stationName;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getLeaveTime() {
+        return leaveTime;
+    }
+
+    public void setLeaveTime(String leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+
+    public int getCrossDays() {
+        return crossDays;
+    }
+
+    public void setCrossDays(int crossDays) {
+        this.crossDays = crossDays;
     }
 }

@@ -2,6 +2,8 @@ package com.qicheng.business.persistor;
 
 import com.qicheng.business.module.User;
 
+import java.util.Set;
+
 /**
  * Created by NO1 on 2015/1/20.
  */
@@ -30,4 +32,8 @@ public class PersistorManager {
     public void setUser(User user) {
         new UserPreferences().set(user);
     }
+
+    public void setTrainList(Set<String> trains){new TrainPreferences().set(trains);}
+
+    public Set<String> getTrainList(){return new TrainPreferences().get();}
 }

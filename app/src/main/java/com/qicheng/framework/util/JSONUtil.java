@@ -8,9 +8,10 @@ import org.json.JSONObject;
 public class JSONUtil {
 
     private static final String BODY_TAG = "body";
+    public static final String STATUS_TAG = "result_code";
 
     public static JSONObject getResultBody(JSONObject result) throws Exception {
-        if (result != null) {
+        if (result != null && result.has("body")) {
             return result.getJSONObject("body");
         }
         return null;

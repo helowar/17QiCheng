@@ -14,12 +14,153 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <!--列车线路图-->
             <com.qicheng.business.ui.component.AutoBreakAndNextReverseLineViewGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/station_view_group" />
+            <!--行程中的属性-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/FormInputContainerWithBorder"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/common_gap"
+                android:layout_marginRight="@dimen/common_gap">
+            <LinearLayout style="@style/FormInputContainer"
+                android:layout_marginTop="@dimen/common_gap"
+                android:layout_height="39dp">
 
+                <TextView
+                    android:text="@string/car_sharing_title"
+                    style="@style/InputTitle" />
+
+                <RadioGroup
+                    android:id="@+id/radiobutton_car_sharing"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="18dp">
+                    <RadioButton
+                        android:id="@+id/radiobutton_wish"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        style="@style/GeneralRadioButton"
+                        android:text="@string/wish_be_shared_text"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                    <RadioButton
+                        android:id="@+id/radiobutton_share"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        style="@style/GeneralRadioButton"
+                        android:text="@string/have_car_sharing_text"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/half_gap"/>
+                    <RadioButton
+                        android:id="@+id/radiobutton_no"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        style="@style/GeneralRadioButton"
+                        android:text="@string/no_en_text"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/half_gap"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormInputContainer" android:layout_height="39dp">
+                <TextView
+                    android:text="@string/travel_together_title"
+                    style="@style/InputTitle" />
+                <RadioGroup
+                    android:id="@+id/radiobutton_travel_together"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="18dp">
+                    <RadioButton
+                        android:id="@+id/radiobutton_travel_yes"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        style="@style/GeneralRadioButton"
+                        android:text="@string/yes_en_text"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+                    <RadioButton
+                        android:id="@+id/radiobutton_travel_no"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        style="@style/GeneralRadioButton"
+                        android:text="@string/no_en_text"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/half_gap"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout style="@style/FormInputContainer"
+                android:layout_marginBottom="@dimen/common_gap"
+                android:layout_height="39dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:text="@string/stay_time_title"
+                    style="@style/InputTitle"
+                    android:textSize="14sp"/>
+                <TextView
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="@dimen/zero"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/decrease_stay_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_left_arrow"/>
+                <EditText
+                    android:id="@+id/edittext_stay_time"
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/default_stay_time_value"
+                    android:editable="false"
+                    android:layout_weight="3"
+                    style="@style/FormEdittext"/>
+                <ImageView
+                    android:id="@+id/increase_stay_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_right_arrow"/>
+                <TextView
+                    android:layout_width="@dimen/zero"
+                    android:layout_height="@dimen/zero"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/double_gap">
+    <Button
+        android:id="@+id/button_login"
+        android:layout_height="@dimen/input_title_height"
+        style="@style/NormalButton"
+        android:text="@string/txt_confirm"
+        android:layout_marginRight="60dp"
+        android:layout_weight="1"
+        />
+    </LinearLayout>
+    </LinearLayout>

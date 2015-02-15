@@ -78,4 +78,9 @@ public enum OperErrorCode {
 
     FileUpLoadFailed,
 
+    /**
+     * 未找到数据
+     */
+    NoDataFound,
+
 }

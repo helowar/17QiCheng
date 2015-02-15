@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,16 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qicheng.R;
+import com.qicheng.framework.ui.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link UserinfoFragment.OnFragmentInteractionListener} interface
+ * {@link VoucherFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UserinfoFragment#newInstance} factory method to
+ * Use the {@link VoucherFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserinfoFragment extends Fragment {
+public class VoucherFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,11 +37,11 @@ public class UserinfoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserinfoFragment.
+     * @return A new instance of fragment VoucherFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static UserinfoFragment newInstance(String param1, String param2) {
-        UserinfoFragment fragment = new UserinfoFragment();
+    public static VoucherFragment newInstance(String param1, String param2) {
+        VoucherFragment fragment = new VoucherFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -47,7 +49,7 @@ public class UserinfoFragment extends Fragment {
         return fragment;
     }
 
-    public UserinfoFragment() {
+    public VoucherFragment() {
         // Required empty public constructor
     }
 
@@ -64,13 +66,24 @@ public class UserinfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_userinfo, container, false);
+        return inflater.inflate(R.layout.fragment_voucher, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 

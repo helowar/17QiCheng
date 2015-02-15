@@ -37,16 +37,17 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_BEGIN;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_END;
+import static com.qicheng.util.Const.USER_QUERY_TYPE_NOT_ON_CAR;
+import static com.qicheng.util.Const.USER_QUERY_TYPE_OFF_CAR;
+import static com.qicheng.util.Const.USER_QUERY_TYPE_ON_CAR;
 
 /**
- * TravellerActivity.java是启程APP的展现同路车友Activity类。
+ * TravellerActivity.java是启程APP的展现同车乘客Activity类。
  *
  * @author 花树峰
  * @version 1.0 2015年2月1日
  */
-public class TravellerActivity extends BaseActivity {
+public class PassengerActivity extends BaseActivity {
 
     /**
      * 推荐车友View
@@ -64,24 +65,34 @@ public class TravellerActivity extends BaseActivity {
     private List<User> recommendPersonList = new ArrayList<User>();
 
     /**
-     * 出发车友按钮
+     * 未上车车友按钮
      */
-    private Button startBtn = null;
+    private Button notOnBtn = null;
 
     /**
-     * 到达车友按钮
+     * 上车车友按钮
      */
-    private Button endBtn = null;
+    private Button onBtn = null;
 
     /**
-     * 出发车友FrameLayout
+     * 下车车友按钮
      */
-    private FrameLayout startFrameLayout = null;
+    private Button offBtn = null;
 
     /**
-     * 到达车友FrameLayout
+     * 未上车车友FrameLayout
      */
-    private FrameLayout endFrameLayout = null;
+    private FrameLayout notOnFrameLayout = null;
+
+    /**
+     * 上车车友FrameLayout
+     */
+    private FrameLayout onFrameLayout = null;
+
+    /**
+     * 下车车友FrameLayout
+     */
+    private FrameLayout offFrameLayout = null;
 
     /**
      * 图片加载器及其相关参数
@@ -91,14 +102,19 @@ public class TravellerActivity extends BaseActivity {
     private boolean pauseOnFling = true;
 
     /**
-     * 出发车友Fragment
+     * 未上车车友Fragment
      */
-    private TravellerPersonFragment startTravellerFragment = null;
+    private TravellerPersonFragment notOnTravellerFragment = null;
 
     /**
-     * 到达车友Fragment
+     * 未上车车友Fragment
      */
-    private TravellerPersonFragment endTravellerFragment = null;
+    private TravellerPersonFragment onTravellerFragment = null;
+
+    /**
+     * 下车车友Fragment
+     */
+    private TravellerPersonFragment offTravellerFragment = null;
 
     /**
      * Fragment事物管理对象
@@ -113,58 +129,87 @@ public class TravellerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traveller);
+        setContentView(R.layout.activity_passenger);
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
-        String queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
-        //String queryValue = "SHHQ";
+        //String queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
+        String queryValue = "G1234";
         // 获取各种View对象
-        recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
-        recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
-        startBtn = (Button) findViewById(R.id.traveller_start_btn);
-        endBtn = (Button) findViewById(R.id.traveller_end_btn);
-        startFrameLayout = (FrameLayout) findViewById(R.id.traveller_start_Layout);
-        endFrameLayout = (FrameLayout) findViewById(R.id.traveller_end_Layout);
+        recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.passenger_recommend_persons_view);
+        recommendPersonsLayout = (LinearLayout) findViewById(R.id.passenger_recommend_persons_layout);
+        notOnBtn = (Button) findViewById(R.id.passenger_not_on_btn);
+        onBtn = (Button) findViewById(R.id.passenger_on_btn);
+        offBtn = (Button) findViewById(R.id.passenger_off_btn);
+        notOnFrameLayout = (FrameLayout) findViewById(R.id.passenger_not_on_Layout);
+        onFrameLayout = (FrameLayout) findViewById(R.id.passenger_on_Layout);
+        offFrameLayout = (FrameLayout) findViewById(R.id.passenger_off_Layout);
         // 设置推荐车友滚动停止监听器
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
-        // 设置出发车友和到达车友区域里的各种View对象
-        startTravellerFragment = new TravellerPersonFragment();
-        Bundle start = new Bundle();
-        start.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_BEGIN);
-        start.putString(TRAVELLER_QUERY_VALUE, queryValue);
-        startTravellerFragment.setArguments(start);
-        endTravellerFragment = new TravellerPersonFragment();
-        Bundle end = new Bundle();
-        end.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_END);
-        end.putString(TRAVELLER_QUERY_VALUE, queryValue);
-        endTravellerFragment.setArguments(end);
+        // 设置未上车车友、上车车友和下车车友区域里的各种View对象
+        notOnTravellerFragment = new TravellerPersonFragment();
+        Bundle notOn = new Bundle();
+        notOn.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_NOT_ON_CAR);
+        notOn.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        notOnTravellerFragment.setArguments(notOn);
+        onTravellerFragment = new TravellerPersonFragment();
+        Bundle on = new Bundle();
+        on.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_ON_CAR);
+        on.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        onTravellerFragment.setArguments(on);
+        offTravellerFragment = new TravellerPersonFragment();
+        Bundle off = new Bundle();
+        off.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_OFF_CAR);
+        off.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        offTravellerFragment.setArguments(off);
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
-        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);
+        fragmentTransaction.add(R.id.passenger_not_on_Layout, notOnTravellerFragment);
+        fragmentTransaction.add(R.id.passenger_on_Layout, onTravellerFragment);
+        fragmentTransaction.add(R.id.passenger_off_Layout, offTravellerFragment);
         fragmentTransaction.commit();
-        startFrameLayout.setVisibility(View.VISIBLE);
-        endFrameLayout.setVisibility(View.GONE);
-        // 设置出发车友和到达车友按钮监听事件
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        notOnFrameLayout.setVisibility(View.VISIBLE);
+        onFrameLayout.setVisibility(View.GONE);
+        offFrameLayout.setVisibility(View.GONE);
+        // 设置未上车车友、上车车友和下车车友按钮监听事件
+        notOnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endBtn.setBackgroundResource(R.drawable.bg_form_input_container);
-                endBtn.setTextColor(getResources().getColor(R.color.main));
-                startBtn.setBackgroundColor(getResources().getColor(R.color.main));
-                startBtn.setTextColor(getResources().getColor(R.color.white));
-                endFrameLayout.setVisibility(View.GONE);
-                startFrameLayout.setVisibility(View.VISIBLE);
+                notOnBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                notOnBtn.setTextColor(getResources().getColor(R.color.white));
+                onBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                onBtn.setTextColor(getResources().getColor(R.color.main));
+                offBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                offBtn.setTextColor(getResources().getColor(R.color.main));
+                notOnFrameLayout.setVisibility(View.VISIBLE);
+                onFrameLayout.setVisibility(View.GONE);
+                offFrameLayout.setVisibility(View.GONE);
             }
         });
-        endBtn.setOnClickListener(new View.OnClickListener() {
+        onBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startBtn.setBackgroundResource(R.drawable.bg_form_input_container);
-                startBtn.setTextColor(getResources().getColor(R.color.main));
-                endBtn.setBackgroundColor(getResources().getColor(R.color.main));
-                endBtn.setTextColor(getResources().getColor(R.color.white));
-                startFrameLayout.setVisibility(View.GONE);
-                endFrameLayout.setVisibility(View.VISIBLE);
+                notOnBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                notOnBtn.setTextColor(getResources().getColor(R.color.main));
+                onBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                onBtn.setTextColor(getResources().getColor(R.color.white));
+                offBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                offBtn.setTextColor(getResources().getColor(R.color.main));
+                notOnFrameLayout.setVisibility(View.GONE);
+                onFrameLayout.setVisibility(View.VISIBLE);
+                offFrameLayout.setVisibility(View.GONE);
+            }
+        });
+        offBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notOnBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                notOnBtn.setTextColor(getResources().getColor(R.color.main));
+                onBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                onBtn.setTextColor(getResources().getColor(R.color.main));
+                offBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                offBtn.setTextColor(getResources().getColor(R.color.white));
+                notOnFrameLayout.setVisibility(View.GONE);
+                onFrameLayout.setVisibility(View.GONE);
+                offFrameLayout.setVisibility(View.VISIBLE);
             }
         });
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
@@ -205,9 +250,14 @@ public class TravellerActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_traveller, menu);
+        getMenuInflater().inflate(R.menu.menu_passenger, menu);
         return true;
     }
 
@@ -317,9 +367,12 @@ public class TravellerActivity extends BaseActivity {
 
     private View createRecommendPersonView(final User traveller) {
         // 创建推荐车友View
-        View recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
-        ImageView imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
-        ImageManager.displayPortrait(traveller.getPortraitURL(), imageView);
+        View recommendPersonView;
+        ImageView imageView = null;
+        recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
+        imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
+        String portraitUrl = traveller.getPortraitURL();
+        ImageManager.displayPortrait(portraitUrl, imageView);
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

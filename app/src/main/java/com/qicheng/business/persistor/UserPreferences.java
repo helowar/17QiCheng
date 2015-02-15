@@ -54,7 +54,7 @@ class UserPreferences {
 	}
 	
 	private SharedPreferences getPreferences() {
-		return Const.Application.getSharedPreferences("user", Context.MODE_PRIVATE);
+		return Const.Application.getSharedPreferences(Const.SharedPreferenceKey.UserPreference, Context.MODE_PRIVATE);
 	}
 }
 

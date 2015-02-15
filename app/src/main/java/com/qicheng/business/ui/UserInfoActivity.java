@@ -7,12 +7,12 @@ import android.view.MenuItem;
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
 
-public class UsrInfoActivity extends BaseActivity {
+public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usr_info);
+        setContentView(R.layout.activity_user_info);
     }
 
 

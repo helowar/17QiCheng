@@ -11,8 +11,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.framework.util.JSONUtil.STATUS_TAG;
+
 /**
- * TravellerPersonProcess.java是启程APP的查询推荐同路人接口处理类
+ * TravellerPersonProcess.java是启程APP的查询推荐同路人接口处理类。
  *
  * @author 花树峰
  * @version 1.0 2015年2月9日
@@ -77,37 +79,27 @@ public class TravellerRecommendPersonProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             // 获取状态码
             int resultCode = o.optInt(STATUS_TAG);
-            switch (resultCode) {
-                case Const.ResponseResultCode.RESULT_SUCCESS:
-                    // 获取查询结果：用户信息数组
-                    JSONArray userArray = o.has("body") ? o.optJSONArray("body") : null;
-                    if (userArray != null && userArray.length() > 0) {
-                        int length = userArray.length();
-                        userList = new ArrayList<User>(length);
-                        for (int i = 0; i < length; i++) {
-                            o = userArray.getJSONObject(i);
-                            User user = new User();
-                            user.setUserId(o.optString("user_id"));
-                            user.setPortraitURL(o.optString("portrait_url"));
-                            user.setLastLoginTime(o.optString("last_login_time"));
-                            userList.add(user);
-                        }
+            setProcessStatus(resultCode);
+            if(resultCode == Const.ResponseResultCode.RESULT_SUCCESS) {
+                // 获取查询结果：用户信息数组
+                JSONArray userArray = o.has("body") ? o.optJSONArray("body") : null;
+                if (userArray != null && userArray.length() > 0) {
+                    int length = userArray.length();
+                    userList = new ArrayList<User>(length);
+                    for (int i = 0; i < length; i++) {
+                        o = userArray.getJSONObject(i);
+                        User user = new User();
+                        user.setUserId(o.optString("user_id"));
+                        user.setPortraitURL(o.optString("portrait_url"));
+                        user.setLastLoginTime(o.optString("last_login_time"));
+                        userList.add(user);
                     }
-                    setStatus(ProcessStatus.Status.Success);
-                    break;
-                case Const.ResponseResultCode.RESULT_ILLEGAL_CALL:
-                    setStatus(ProcessStatus.Status.IllegalRequest);
-                    break;
-                case Const.ResponseResultCode.RESULT_EXCEPTION:
-                    setStatus(ProcessStatus.Status.ErrException);
-                    break;
-                default:
-                    setStatus(ProcessStatus.Status.ErrUnkown);
-                    break;
+                }
             }
         } catch (Exception e) {
             setStatus(ProcessStatus.Status.ErrException);
             logger.e("处理查询推荐用户响应结果时异常");
+            e.printStackTrace();
         }
     }
 

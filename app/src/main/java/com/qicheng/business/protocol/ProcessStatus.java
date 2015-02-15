@@ -68,6 +68,8 @@ public class ProcessStatus {
         /**用户名不存在*/
         ErrUserNameNotExist,
         ErrFailure,
+        /**未找到数据*/
+        InfoNoData,
 
     }
 
@@ -97,6 +99,8 @@ public class ProcessStatus {
                 return OperErrorCode.CellNumExist;
             case ErrEmptyFile:
                 return OperErrorCode.FileUpLoadFailed;
+            case InfoNoData:
+                return OperErrorCode.NoDataFound;
             default:
                 return OperErrorCode.Unknown;
         }
