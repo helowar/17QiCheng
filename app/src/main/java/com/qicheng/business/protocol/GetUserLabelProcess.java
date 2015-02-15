@@ -41,7 +41,7 @@ public class GetUserLabelProcess extends BaseProcess {
             o = new JSONObject(result);
             Log.d("tabel_result", result);
             //获取状态码
-            int value = o.optInt(STATUS_TAG);
+            int value = o.optInt(JSONUtil.STATUS_TAG);
 
             /**
              * 取出返回值

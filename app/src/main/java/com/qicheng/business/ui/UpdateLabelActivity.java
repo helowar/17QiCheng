@@ -158,11 +158,13 @@ public class UpdateLabelActivity extends BaseActivity {
             textView.setSelected(true);
             textView.setTextColor(getResources().getColor(R.color.white));
             textView.setBackgroundResource(R.drawable.label_select_shape);
-            listView.add(textView);
+
         } else {
             textView.setTextAppearance(this, R.style.labelStyle);
             textView.setBackgroundResource(R.drawable.label_shape);
         }
+        listView.add(textView);
+        Log.d("view", listView.toString());
         //定义临时的类，存储typeId，itemId，itemName
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
