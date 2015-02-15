@@ -34,7 +34,7 @@ import java.util.List;
 public class UpdateLabelActivity extends BaseActivity {
     private ArrayList<View> listView = new ArrayList<View>();
     private ArrayList<Label> labels = new ArrayList<Label>();
-    private Button nextButton;
+    private Button commitButton;
     private ArrayList<LabelType> labelTypes;
     private LinearLayout linearLayout;
     private EditText addEditText;
@@ -66,6 +66,7 @@ public class UpdateLabelActivity extends BaseActivity {
                 LabelItem item = labelType.getTagList().get(j);
                 TextView labelTextView = setTextViewToGroup(item.getName(), item.getIsSelected());   //将标签的类型Id和标签Id添加到textView的Tag中
                 Label label = new Label();
+                //如果label的id不为空，说明它是选择标签，负责是自定义标签
                 if (item.getId() != null) {
                     label.setItemId(item.getId());
                     label.setItemName(item.getName());
@@ -73,6 +74,7 @@ public class UpdateLabelActivity extends BaseActivity {
                 } else {
                     label.setItemName(item.getName());
                 }
+                //为textView设置Tag
                 labelTextView.setTag(label);
                 labelViewGroup2.addView(labelTextView);
             }
@@ -119,8 +121,9 @@ public class UpdateLabelActivity extends BaseActivity {
             }
         });
 
-        nextButton = (Button) findViewById(R.id.button_commit);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+        /*操作提交修改按钮*/
+        commitButton = (Button) findViewById(R.id.button_commit);
+        commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = null;
@@ -209,7 +212,7 @@ public class UpdateLabelActivity extends BaseActivity {
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     v.setSelected(true);
                     if (listView.size() > 0) {
-                        nextButton.setEnabled(true);
+                        commitButton.setEnabled(true);
                     }
                 } else {
                     listView.remove(v);
@@ -218,7 +221,7 @@ public class UpdateLabelActivity extends BaseActivity {
                     ((TextView) v).setTextColor(getResources().getColor(R.color.gray_text));
                     v.setSelected(false);
                     if (listView.size() <= 0) {
-                        nextButton.setEnabled(false);
+                        commitButton.setEnabled(false);
                     }
                 }
             }

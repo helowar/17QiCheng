@@ -1,9 +1,7 @@
 package com.qicheng.business.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +14,6 @@ import com.qicheng.R;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.LabelEventArgs;
-import com.qicheng.business.module.Label;
 import com.qicheng.business.module.LabelItem;
 import com.qicheng.business.module.LabelType;
 import com.qicheng.business.ui.component.LabelViewGroup;
@@ -26,9 +23,7 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class LabelModifyActivity extends BaseActivity {
 
@@ -41,7 +36,6 @@ public class LabelModifyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_modify);
-
         initLayout();
     }
 
@@ -86,13 +80,13 @@ public class LabelModifyActivity extends BaseActivity {
 
     public void initLayout() {
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
-        //获取测试数据
+        //获取传过来的所有标签
         Intent intent = getIntent();
         selectedLabel = (ArrayList<LabelItem>) intent.getSerializableExtra("Labels");
-        //遍历各个type的标签
+        //初始化已选标签的ViewGroup
         View selectView = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         LabelViewGroup selectLabelViewGroup = (LabelViewGroup) selectView.findViewById(R.id.label_viewGroup);
-
+        //初始化个人标签的ViewGroup
         View personalView = getLayoutInflater().inflate(R.layout.layout_label_collection, null);
         LabelViewGroup personalLabelViewGroup = (LabelViewGroup) personalView.findViewById(R.id.label_viewGroup);
         for (int i = 0; i < selectedLabel.size(); i++) {
@@ -113,11 +107,13 @@ public class LabelModifyActivity extends BaseActivity {
         }
         linearLayout.addView(selectView);
         linearLayout.addView(personalView);
+
+        //为按钮绑定事件
         modifyButton = (Button) findViewById(R.id.button_modify_label);
         modifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               jumpToModifyLabel();
+                jumpToModifyLabel();
             }
         });
     }
@@ -132,7 +128,10 @@ public class LabelModifyActivity extends BaseActivity {
         return textView;
     }
 
-    public void jumpToModifyLabel(){
+    /**
+     * 跳转到修改标签的Activity中
+     */
+    public void jumpToModifyLabel() {
         LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
         labelLogic.getLabelList(createUIEventListener(new EventListener() {
             @Override
@@ -143,24 +142,25 @@ public class LabelModifyActivity extends BaseActivity {
                     case Success:
                         Intent intent = new Intent(getActivity(), UpdateLabelActivity.class);
                         ArrayList<LabelType> labelTypeList = labelEventArgs.getLabel();
-                        for (int i = 0; i <labelTypeList.size() ; i++) {
+                        //遍历判断哪些标签已选，如果已选为其加上标志
+                        for (int i = 0; i < labelTypeList.size(); i++) {
                             ArrayList<LabelItem> labels = labelTypeList.get(i).getTagList();
-                            for (int j = 0; j <labels.size() ; j++) {
+                            for (int j = 0; j < labels.size(); j++) {
                                 LabelItem item = labels.get(j);
                                 String itemId = item.getId();
-                                for (int k = 0; k <selectedLabel.size() ; k++) {
-                                    String selectId =selectedLabel.get(k).getId();
-                                    if(itemId.equals(selectId)){
+                                for (int k = 0; k < selectedLabel.size(); k++) {
+                                    String selectId = selectedLabel.get(k).getId();
+                                    if (itemId.equals(selectId)) {
                                         item.setIsSelected(1);
                                     }
                                 }
                             }
                         }
                         LabelType personal = new LabelType();
-                        ArrayList<LabelItem> tagList= new ArrayList<LabelItem>();
-                        for (int i = 0; i <selectedLabel.size() ; i++) {
-                           LabelItem item = selectedLabel.get(i);
-                            if(item.getId()==null){
+                        ArrayList<LabelItem> tagList = new ArrayList<LabelItem>();
+                        for (int i = 0; i < selectedLabel.size(); i++) {
+                            LabelItem item = selectedLabel.get(i);
+                            if (item.getId() == null) {
                                 item.setIsSelected(1);
                                 tagList.add(item);
                             }
@@ -168,7 +168,6 @@ public class LabelModifyActivity extends BaseActivity {
                         personal.setName("自定义标签");
                         personal.setTagList(tagList);
                         labelTypeList.add(personal);
-
                         intent.putExtra("Labels", labelTypeList);
                         startActivity(intent);
                         break;
