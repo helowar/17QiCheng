@@ -150,7 +150,6 @@ public class LabelModifyActivity extends BaseActivity {
                                 String itemId = item.getId();
                                 for (int k = 0; k <selectedLabel.size() ; k++) {
                                     String selectId =selectedLabel.get(k).getId();
-                                    Log.d("isselect",selectId+" "+itemId);
                                     if(itemId.equals(selectId)){
                                         item.setIsSelected(1);
                                     }
