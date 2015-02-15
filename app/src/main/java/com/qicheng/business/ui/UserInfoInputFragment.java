@@ -421,13 +421,4 @@ public class UserInfoInputFragment extends BaseFragment {
         }));
         startLoading();
     }
-
-
-    private void setUserInformation(){
-        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
-
-
-
-    }
-
 }

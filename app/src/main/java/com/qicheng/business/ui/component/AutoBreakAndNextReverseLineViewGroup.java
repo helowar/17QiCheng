@@ -5,13 +5,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 /**
  * Created by NO1 on 2015/2/7.
  */
-public class AutoBreakAndNextReverseLineViewGroup extends ViewGroup {
+public class AutoBreakAndNextReverseLineViewGroup extends LinearLayout {
 
     private final static String TAG = "ABANRLViewGroup";
 

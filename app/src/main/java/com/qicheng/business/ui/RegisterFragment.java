@@ -106,6 +106,18 @@ public class RegisterFragment extends BaseFragment {
                 if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
                     Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
                 } else {
+                    //重新获取的倒计时开启
+                    mVerifyCodeButton.setEnabled(false);
+
+                    timer = new CountDownTimer(60000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            mVerifyCodeButton.setText(millisUntilFinished / 1000 + getResources().getString(R.string.verify_code_wait_msg));
+                        }
+                        public void onFinish() {
+                            mVerifyCodeButton.setEnabled(true);
+                            mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
+                        }
+                    }.start();
                     /**
                      * 获取验证码
                      */
@@ -206,19 +218,6 @@ public class RegisterFragment extends BaseFragment {
                 switch (errCode) {
                     case Success:
                         Alert.Toast(getResources().getString(R.string.verify_code_send_success_msg));
-                        //重新获取的倒计时开启
-                        mVerifyCodeButton.setEnabled(false);
-
-                        timer = new CountDownTimer(60000, 1000) {
-                            public void onTick(long millisUntilFinished) {
-                                mVerifyCodeButton.setText(millisUntilFinished / 1000 + getResources().getString(R.string.verify_code_wait_msg));
-                            }
-
-                            public void onFinish() {
-                                mVerifyCodeButton.setEnabled(true);
-                                mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
-                            }
-                        }.start();
                         break;
                     default:
                         Alert.handleErrCode(errCode);

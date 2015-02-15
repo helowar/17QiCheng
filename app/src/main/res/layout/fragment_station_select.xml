@@ -14,11 +14,11 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <!--列车线路图-->
+            <!--列车线路图
             <com.qicheng.business.ui.component.AutoBreakAndNextReverseLineViewGroup
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/station_view_group" />
+                android:id="@+id/station_view_group" />-->
             <!--行程中的属性-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/double_gap">
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_add"
         android:layout_height="@dimen/input_title_height"
         style="@style/NormalButton"
         android:text="@string/txt_confirm"

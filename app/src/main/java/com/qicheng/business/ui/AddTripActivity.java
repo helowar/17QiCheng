@@ -15,7 +15,6 @@ public class AddTripActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_trip);
-        getFragmentManager().beginTransaction().add(R.id.trip_add_fragment,new StationSelectFragment()).commit();
-
+        getFragmentManager().beginTransaction().add(R.id.trip_add_fragment,new TrainPickFragment()).commit();
     }
 }

@@ -74,6 +74,8 @@
     <string name="stay_time_title">停留时间</string>
     <string name="no_trip_msg">没有更多行程</string>
     <string name="default_stay_time_value">1</string>
+    <string name="no_such_train_err">车次不存在，请确认后再次输入</string>
+    <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
 
 

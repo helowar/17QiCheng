@@ -1,9 +1,11 @@
 package com.qicheng.business.module;
 
+import java.io.Serializable;
+
 /**
  * Created by NO1 on 2015/2/6.
  */
-public class TrainStation {
+public class TrainStation implements Serializable{
 
     private String stationCode;
 
