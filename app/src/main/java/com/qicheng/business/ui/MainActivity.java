@@ -19,7 +19,7 @@ public class MainActivity extends BaseActivity {
 
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
-    private UserinfoFragment userinfoFragment;
+    private VoucherFragment voucherFragment;
     private SocialFragment socialFragment;
     private ActyFragment actyFragment;
 
@@ -78,10 +78,10 @@ public class MainActivity extends BaseActivity {
                         }
                         activatedFrame(R.id.social_content);
                         break;
-                    case R.id.rbMe:
-                        if (userinfoFragment == null) {
-                            userinfoFragment = new UserinfoFragment();
-                            getFragmentManager().beginTransaction().add(R.id.user_content, userinfoFragment)
+                    case R.id.rbVoucher:
+                        if (voucherFragment == null) {
+                            voucherFragment = new VoucherFragment();
+                            getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
                                     .commit();
                         }
                         activatedFrame(R.id.user_content);

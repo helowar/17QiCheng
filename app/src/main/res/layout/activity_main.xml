@@ -96,7 +96,7 @@
             style="@style/bottomTab" />
 
         <RadioButton
-            android:id="@+id/rbMe"
+            android:id="@+id/rbVoucher"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -105,7 +105,7 @@
             android:drawableTop="@drawable/tab_selector_userinfo"
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
-            android:text="我"
+            android:text="代金券"
             style="@style/bottomTab" />
     </RadioGroup>
 

@@ -11,17 +11,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.qicheng.R;
 import com.qicheng.business.module.Label;
 import com.qicheng.business.module.LabelType;
+import com.qicheng.business.ui.component.LabelViewGroup;
 import com.qicheng.framework.ui.base.BaseActivity;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 标签选择Activity
@@ -32,11 +28,13 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     private Button nextButton;
     private ArrayList<LabelType> labelTypes;
     private LinearLayout linearLayout;
+    public static RegisterLabelSelectActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_select);
+        instance=this;
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         //获取测试数据
         Intent intent = getIntent();
@@ -54,8 +52,8 @@ public class RegisterLabelSelectActivity extends BaseActivity {
             for (int j = 0; j < labelType.getTagList().size(); j++) {
                 TextView labelTextView = setTextViewToGroup(labelType.getTagList().get(j).getName());
                 //将标签的类型Id和标签Id添加到textView的Tag中
-                String[] ids = new String[]{labelType.getId(), labelType.getTagList().get(j).getId()};
-                labelTextView.setTag(ids);
+                String itemId = labelType.getTagList().get(j).getId();
+                labelTextView.setTag(itemId);
                 labelViewGroup2.addView(labelTextView);
             }
             linearLayout.addView(view2);
@@ -92,9 +90,9 @@ public class RegisterLabelSelectActivity extends BaseActivity {
                 //如果TextView被选择了取出Tag中的数据，添加到list中用于传递到下一级别
                 if (!v.isSelected()) {
                     label.setItemName(((TextView) v).getText().toString());
-                    String[] ids = (String[]) v.getTag();
-                    label.setTypeId(ids[0]);
-                    label.setItemId(ids[1]);
+                    String itemId = (String) v.getTag();
+                    label.setItemId(itemId);
+                    label.setTypeId("1");
                     Log.d("ttt", label.toString());
                     labels.add(label);
                     //替换TextView的样式

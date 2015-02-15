@@ -6,6 +6,15 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
+
+    <EditText
+        android:id="@+id/edit_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/please_add_label"
+        style="@style/FormEdittext" />
+
+
     <ScrollView
         android:id="@+id/label_scroll"
         android:layout_width="match_parent"
@@ -25,11 +34,12 @@
     <LinearLayout style="@style/FormInputContainer">
 
         <Button
-            android:id="@+id/button_modify_label"
+            android:id="@+id/button_commit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/modify_label"
+            android:text="@string/commit_modify"
             style="@style/NormalButton" />
     </LinearLayout>
 
 </LinearLayout>
+

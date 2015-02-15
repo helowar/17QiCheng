@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/social_fragment_layout"
+    android:id="@+id/passenger_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -13,24 +12,24 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/social_recommend_text"
+            android:id="@+id/passenger_recommend_text"
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
             android:padding="@dimen/half_gap"
-            android:text="@string/social_recommend_text"
+            android:text="@string/passenger_recommend_text"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_18sp" />
 
         <com.qicheng.business.ui.component.HorizontalScrollListView
-            android:id="@+id/social_recommend_persons_view"
+            android:id="@+id/passenger_recommend_persons_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/social_recommend_persons_layout"
+                android:id="@+id/passenger_recommend_persons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/half_gap"
@@ -39,26 +38,58 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/social_text_layout"
+        android:id="@+id/passenger_btn_layout"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
 
-        <TextView
-            android:id="@+id/social_near_person_text"
+        <Button
+            android:id="@+id/passenger_not_on_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/main"
+            android:text="@string/passenger_not_on_btn_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_18sp" />
+
+        <Button
+            android:id="@+id/passenger_on_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
-            android:text="@string/social_near_person_text"
+            android:text="@string/passenger_on_btn_text"
+            android:textColor="@color/main"
+            android:textSize="@dimen/font_size_18sp" />
+
+        <Button
+            android:id="@+id/passenger_off_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_form_input_container"
+            android:text="@string/passenger_off_btn_text"
             android:textColor="@color/main"
             android:textSize="@dimen/font_size_18sp" />
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/social_near_person_Layout"
+        android:id="@+id/passenger_not_on_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+
+    <FrameLayout
+        android:id="@+id/passenger_on_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+
+    <FrameLayout
+        android:id="@+id/passenger_off_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
