@@ -82,10 +82,15 @@
     <string name="my_activity">我的动态</string>
     <string name="select_setting">筛选设置</string>
     <string name="account_setting">账户设置</string>
-
     <!-- TopMenuFragment fragment end -->
 
-    <string name="title_activity_label_modify">LabelModifyActivity</string>
-    <string name="hello_world">Hello world!</string>
+
+    <!-- LabelModifyActivity fragment begin -->
+    <string name="title_activity_label_modify">我的标签</string>
+    <string name="title_activity_update_label">我的标签</string>
+    <string name="commit_modify">提交修改</string>
+    <string name="modify_label">修改标签</string>
+    <!-- LabelModifyActivity fragment end -->
+
 
 </resources>

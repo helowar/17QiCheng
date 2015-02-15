@@ -12,6 +12,15 @@ public class LabelItem implements Serializable {
     private String id;
     private String name;
     private int priority;
+    private int isSelected;
+
+    public int getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public String getId() {
         return id;
@@ -43,6 +52,7 @@ public class LabelItem implements Serializable {
         sb.append("id='").append(id).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", priority=").append(priority);
+        sb.append(", isSelected=").append(isSelected);
         sb.append('}');
         return sb.toString();
     }

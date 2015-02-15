@@ -1,5 +1,6 @@
 package com.qicheng.business.logic.event;
 
+import com.qicheng.business.module.LabelItem;
 import com.qicheng.business.module.LabelType;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
@@ -13,19 +14,23 @@ import java.util.List;
  */
 public class LabelEventArgs extends StatusEventArgs {
 
-    private List<LabelType> labelType;
+    private ArrayList label;
 
-    public LabelEventArgs(List<LabelType> value) {
+
+
+
+
+    public LabelEventArgs(ArrayList value) {
         super(OperErrorCode.Success);
-        labelType = value;
+        label = value;
     }
 
-    public LabelEventArgs(ArrayList<LabelType> value, OperErrorCode errCode) {
+    public LabelEventArgs(ArrayList value, OperErrorCode errCode) {
         super(errCode);
-        labelType = value;
+        label = value;
     }
 
-    public List<LabelType> getLabelType() {
-        return labelType;
+    public ArrayList getLabel() {
+        return label;
     }
 }
