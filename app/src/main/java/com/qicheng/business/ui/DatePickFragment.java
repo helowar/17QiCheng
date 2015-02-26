@@ -67,6 +67,7 @@ public class DatePickFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sendResult(Activity.RESULT_OK);
+                        dismiss();
                     }
                 }).create();
     }

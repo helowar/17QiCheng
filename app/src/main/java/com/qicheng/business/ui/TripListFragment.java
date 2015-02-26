@@ -32,7 +32,6 @@ import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 public class TripListFragment extends BaseFragment {
 
     private static Logger logger = new Logger("TripListFragment");
-    private static int REQUEST_CODE_ADD_TRIP = 0;
+    private static final int REQUEST_CODE_ADD_TRIP = 0;
 
     private TripLogic logic;
 
@@ -95,7 +94,7 @@ public class TripListFragment extends BaseFragment {
                 //TODO:行程统计
                 return super.onOptionsItemSelected(item);
             case R.id.action_add:
-                startActivityForResult(new Intent(getActivity(),AddTripActivity.class),REQUEST_CODE_ADD_TRIP);
+                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -400,5 +399,24 @@ public class TripListFragment extends BaseFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //结果码不等于取消时候
+        if (resultCode != Activity.RESULT_CANCELED) {
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_TRIP :
+                    Trip trip = (Trip)data.getSerializableExtra(StationSelectFragment.EXTRA_TRIP);
+                    addNewTrip(trip);
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void addNewTrip(Trip trip){
+        pageList.add(0,trip);
+        mAdapter.notifyDataSetChanged();
     }
 }

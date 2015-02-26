@@ -21,10 +21,6 @@ public class AutoBreakAndNextReverseLineViewGroup extends LinearLayout {
 
     private final static int SIDE_MARGIN=80;
 
-    private int hStartPoint;
-
-    private int vStartPoint;
-
     private ArrayList<View> rightTurnedNodes = new ArrayList<View>();
 
     private ArrayList<View> leftTurnedNodes = new ArrayList<View>();
@@ -75,8 +71,8 @@ public class AutoBreakAndNextReverseLineViewGroup extends LinearLayout {
         /**
          * ViewGroup起始点
          */
-        this.hStartPoint = l;
-        this.vStartPoint = t;
+        int hStartPoint = l;
+        int vStartPoint = t;
         /**
          * 子View排布计算所用参数
          */

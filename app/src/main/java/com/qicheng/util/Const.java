@@ -127,7 +127,7 @@ public class Const {
             .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.107:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;

@@ -78,6 +78,7 @@
     <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
 
+
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
@@ -107,6 +108,7 @@
     <string name="modify_label">修改标签</string>
     <!-- LabelModifyActivity fragment end -->
 
+
     <!-- Passenger Activity begin -->
     <string name="passenger_activity_title">同车人</string>
     <string name="passenger_recommend_text">推荐</string>
@@ -115,8 +117,15 @@
     <string name="passenger_off_btn_text">已下车</string>
     <!-- Passenger Activity end -->
 
+
     <!-- Social Fragment begin -->
     <string name="social_recommend_text">推荐</string>
     <string name="social_near_person_text">附近的人</string>
     <!-- Social Fragment end -->
+    <string name="title_activity_train_select">TrainSelectActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_test_activity_main">TestActivityMain</string>
+    <string name="title_activity_test_activity_child">TestActivityChild</string>
+    <string name="title_activity_chat">ChatActivity</string>
+
 </resources>

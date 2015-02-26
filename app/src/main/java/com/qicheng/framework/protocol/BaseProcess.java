@@ -142,7 +142,6 @@ abstract public class BaseProcess {
             }else{
                 token = cacheUser.getToken();
             }
-            token="4PZYOXUT6AUS7RGFY7VV2C9ECBHHI5MX7XK6IUGAKCF43396MYUNRIL3TDD11EJ1WQPFQMU5NX6";
             if(url.indexOf("?")==-1){
                 url=url+"?t="+token;
             }else{

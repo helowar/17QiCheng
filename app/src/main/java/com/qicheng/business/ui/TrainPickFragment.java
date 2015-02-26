@@ -27,6 +27,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TripLogic;
 import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.TrainStation;
+import com.qicheng.business.module.Trip;
 import com.qicheng.business.protocol.GetTrainInfoProcess;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -36,8 +37,10 @@ import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.StringUtil;
+import com.qicheng.util.Const;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,9 +48,10 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TrainPickFragment extends BaseFragment {
+public class TrainPickFragment extends BaseFragment  implements Serializable{
     /* 请求码 */
     private static final int DATE_REQUEST_CODE = 0;
+    private static final int TRIP_REQUEST_CODE = 1;
 
     private EditText mTripDate;
     private AutoCompleteTextView mTrainCode;
@@ -64,8 +68,8 @@ public class TrainPickFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View convertView = inflater.inflate(R.layout.fragment_train_pick, container, false);
         mTrainCode = (AutoCompleteTextView)convertView.findViewById(R.id.editText_train_code);
@@ -119,15 +123,13 @@ public class TrainPickFragment extends BaseFragment {
                         switch(errCode) {
                             case Success:
                                 ArrayList<TrainStation> stations = result.getTrainStations();
-                                Bundle bundle = new Bundle();
-                                bundle.putString("trainCode",mTrainCode.getText().toString());
-                                bundle.putString("tripDate",paramTripDate.toString());
-                                bundle.putSerializable("stationList",stations);
-                                Fragment stationSelect = new StationSelectFragment();
-                                stationSelect.setArguments(bundle);
-                                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
-                                transaction.remove(getFragment());
-                                transaction.add(R.id.trip_add_fragment, stationSelect).commit();
+                                Intent intent = new Intent();
+                                intent.putExtra("trainCode",mTrainCode.getText().toString());
+                                intent.putExtra("tripDate", paramTripDate.toString());
+                                intent.putExtra("stationList", stations);
+                                intent.setClass(getActivity(), AddTripActivity.class);
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(intent, TRIP_REQUEST_CODE);
                                 break;
                             default:
                                 Alert.Toast(getResources().getString(R.string.no_such_train_err));
@@ -161,6 +163,10 @@ public class TrainPickFragment extends BaseFragment {
                     Date date = (Date) data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
                     updateTripDate(date);
                     break;
+                case TRIP_REQUEST_CODE:
+                    sendResult(Const.ResponseResultCode.RESULT_SUCCESS,data);
+                    getActivity().finish();
+                    break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -193,4 +199,9 @@ public class TrainPickFragment extends BaseFragment {
         }
 
     }
+
+    private void sendResult(int resultCode,Intent i) {
+        getActivity().setResult(resultCode,i);
+    }
+
 }
