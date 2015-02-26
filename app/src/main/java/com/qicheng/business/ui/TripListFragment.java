@@ -258,7 +258,7 @@ public class TripListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_triplist, container, false);
+        View view = inflater.inflate(R.layout.fragment_triplist_list, container, false);
 
         mListView = (ListView) view.findViewById(android.R.id.list);
         AdapterView.OnItemClickListener mOnClickListener

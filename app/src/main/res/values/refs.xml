@@ -7,6 +7,4 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item name="fragment_triplist" type="layout">@layout/fragment_triplist_list</item>
-
 </resources>
