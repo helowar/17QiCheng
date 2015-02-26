@@ -70,8 +70,8 @@ abstract public class BaseProcess {
     protected void onCreate() {
     }
 
-    protected void setProcessStatus(int resultCode){
-        switch (resultCode){
+    protected void setProcessStatus(int resultCode) {
+        switch (resultCode) {
             case Const.ResponseResultCode.RESULT_SUCCESS:
                 mStatus = ProcessStatus.Status.Success;
                 break;
@@ -142,6 +142,7 @@ abstract public class BaseProcess {
             }else{
                 token = cacheUser.getToken();
             }
+            //token="4JC6ZIXW9RDO8GDQT6SCJG1O9EXFHP92YT4W4LHY8RNZLWYLNZM4T8YRUILUVAZLSEC7PEAU0DX";
             if(url.indexOf("?")==-1){
                 url=url+"?t="+token;
             }else{

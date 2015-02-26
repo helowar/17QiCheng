@@ -81,27 +81,27 @@ public class TripListFragment extends BaseFragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(getResources().getString(R.string.title_activity_main));
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-        ActionBar bar = getActivity().getActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                //TODO:行程统计
-                return super.onOptionsItemSelected(item);
-            case R.id.action_add:
-                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
+//
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_main, menu);
+//        ActionBar bar = getActivity().getActionBar();
+//        bar.setDisplayHomeAsUpEnabled(true);
+//    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                //TODO:行程统计
+//                return super.onOptionsItemSelected(item);
+//            case R.id.action_add:
+//                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//
+//    }
 
     /**
      * 为单个行程增加详情和用户列表，响应点击事件

@@ -32,11 +32,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateLabelActivity extends BaseActivity {
+    /*
+    用户存储选中的View
+     */
     private ArrayList<View> listView = new ArrayList<View>();
+    /*
+    用于保存需要更新的标签
+     */
     private ArrayList<Label> labels = new ArrayList<Label>();
+    /*
+    提交按钮
+     */
     private Button commitButton;
+    /*
+    传递过来的已选标签和自定义标签
+     */
     private ArrayList<LabelType> labelTypes;
+    /*
+    布局
+     */
     private LinearLayout linearLayout;
+    /*
+    文本编辑框
+     */
     private EditText addEditText;
 
     @Override

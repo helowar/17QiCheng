@@ -114,9 +114,10 @@ public class RegisterLabelEditActivity extends BaseActivity {
                  * 遍历自定义ViewGroup中的并传递数据
                  */
                 for (int i = 0; i < labelViewGroup.getChildCount(); i++) {
-                    Log.d("re", labelViewGroup.getChildAt(i).getTag().toString());
                     labelData.add((Label) labelViewGroup.getChildAt(i).getTag());
                 }
+
+
                 updateLabelList(labelData);
             }
         });
