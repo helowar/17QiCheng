@@ -301,6 +301,9 @@ public class Const {
     /** 用户查询类型 6：下车 */
     public static final byte USER_QUERY_TYPE_OFF_CAR = 6;
 
+    /** 用户查询类型 7：附近 */
+    public static final byte USER_QUERY_TYPE_NEAR = 7;
+
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;
 

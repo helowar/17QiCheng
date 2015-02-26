@@ -1,3 +1,10 @@
 <component name="CopyrightManager">
-  <settings default="" />
+  <settings default="QiCheng">
+    <module2copyright>
+      <element module="All" copyright="QiCheng" />
+    </module2copyright>
+    <LanguageOptions name="JAVA">
+      <option name="fileTypeOverride" value="3" />
+    </LanguageOptions>
+  </settings>
 </component>
