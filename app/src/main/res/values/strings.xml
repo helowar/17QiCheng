@@ -106,6 +106,8 @@
     <string name="title_activity_update_label">我的标签</string>
     <string name="commit_modify">提交修改</string>
     <string name="modify_label">修改标签</string>
+    <string name="check_label">至少选择三个标签</string>
+    <string name="personal_label_title">自定义标签</string>
     <!-- LabelModifyActivity fragment end -->
 
 

@@ -55,12 +55,14 @@ public class LabelProcess extends BaseProcess {
                 }
             }
             jsonObj.put("tag_ids", labelIds);
-            jsonObj.put("personal_tags", personalTags);
-            return jsonObj.toString();
+            if (personalTags.length() > 0) {
+                jsonObj.put("personal_tags", personalTags);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return jsonObj.toString();
     }
 
     /**
