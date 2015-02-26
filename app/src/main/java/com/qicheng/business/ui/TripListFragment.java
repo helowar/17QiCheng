@@ -30,7 +30,9 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 
 
 import java.util.ArrayList;
@@ -234,13 +236,23 @@ public class TripListFragment extends BaseFragment {
     }
 
     private String getDateForView(String dttm){
+        if(dttm.indexOf(DateTimeUtil.date_separator)!=-1){
+            String s = dttm.substring(0,10);
+            s = s.replaceFirst(DateTimeUtil.date_separator,getResources().getString(R.string.year_text));
+            s = s.replaceFirst(DateTimeUtil.date_separator,getResources().getString(R.string.month_text));
+            s = s+getResources().getString(R.string.day_text);
+            return s;
+        }
         return dttm.substring(0,4)+getResources().getString(R.string.year_text)
                 +dttm.substring(4,6)+getResources().getString(R.string.month_text)
                 +dttm.substring(6,8)+getResources().getString(R.string.day_text);
     }
 
     private String getTimeForView(String dttm){
-        return dttm.substring(8,10)+getResources().getString(R.string.time_sep_icon)+dttm.substring(10);
+        if(dttm.indexOf(DateTimeUtil.time_separator)!=-1){
+            return dttm.substring(11);
+        }
+        return dttm.substring(8,10)+DateTimeUtil.time_separator+dttm.substring(10);
     }
 
     @Override

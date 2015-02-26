@@ -66,6 +66,7 @@
 
     <!-- Trip Activity begin -->
     <string name="add_trip_text">添加行程</string>
+    <string name="train_pick_activity_title">设置车次</string>
     <string name="train_code_title">车次</string>
     <string name="car_sharing_title">拼车</string>
     <string name="have_car_sharing_text">供车</string>

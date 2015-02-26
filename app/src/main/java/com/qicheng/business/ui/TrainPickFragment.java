@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -64,8 +66,17 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
         // Required empty public constructor
     }
 
-    //TODO 需要增加ActionBar菜单支持
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        getActivity().setTitle(getResources().getString(R.string.train_pick_activity_title));
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //TODO 需要增加ActionBar菜单支持
+    }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -73,7 +84,7 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
         // Inflate the layout for this fragment
         View convertView = inflater.inflate(R.layout.fragment_train_pick, container, false);
         mTrainCode = (AutoCompleteTextView)convertView.findViewById(R.id.editText_train_code);
-        //自动补充TextView adapter
+        //自动完成TextView adapter
         String[] s = Cache.getInstance().getTrainList().toArray(new String[0]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,s);
         mTrainCode.setAdapter(adapter);

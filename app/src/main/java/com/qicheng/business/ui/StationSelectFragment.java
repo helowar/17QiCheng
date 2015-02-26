@@ -83,7 +83,6 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        logger.d("Get Target Fragment from Activity:"+getTargetFragment().getClass().toString());
         Intent intent = getActivity().getIntent();
         Bundle args = intent.getExtras();
         /**
