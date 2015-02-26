@@ -27,7 +27,7 @@
     </RelativeLayout>
 
 
-    <com.qicheng.business.ui.LabelViewGroup
+    <com.qicheng.business.ui.component.LabelViewGroup
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"

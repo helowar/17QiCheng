@@ -5,23 +5,21 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 /**
  * Created by NO1 on 2015/2/7.
  */
-public class AutoBreakAndNextReverseLineViewGroup extends ViewGroup {
+public class AutoBreakAndNextReverseLineViewGroup extends LinearLayout {
 
     private final static String TAG = "ABANRLViewGroup";
 
     public final static int VIEW_MARGIN = 100;
 
     private final static int SIDE_MARGIN=80;
-
-    private int hStartPoint;
-
-    private int vStartPoint;
 
     private ArrayList<View> rightTurnedNodes = new ArrayList<View>();
 
@@ -73,8 +71,8 @@ public class AutoBreakAndNextReverseLineViewGroup extends ViewGroup {
         /**
          * ViewGroup起始点
          */
-        this.hStartPoint = l;
-        this.vStartPoint = t;
+        int hStartPoint = l;
+        int vStartPoint = t;
         /**
          * 子View排布计算所用参数
          */

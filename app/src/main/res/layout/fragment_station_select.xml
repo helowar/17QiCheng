@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
         <LinearLayout
             android:id="@+id/label_scroll_root"
             android:orientation="vertical"
@@ -155,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/double_gap">
     <Button
-        android:id="@+id/button_login"
+        android:id="@+id/button_add"
         android:layout_height="@dimen/input_title_height"
         style="@style/NormalButton"
         android:text="@string/txt_confirm"

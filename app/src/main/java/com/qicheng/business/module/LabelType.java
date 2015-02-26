@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class LabelType implements Serializable {
 
-    private String id;
+
 
     private String name;
 
@@ -17,13 +17,6 @@ public class LabelType implements Serializable {
 
     private ArrayList<LabelItem> tag_list = new ArrayList<LabelItem>();
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -53,10 +46,9 @@ public class LabelType implements Serializable {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LabelType{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", name='").append(name).append('\'');
+        sb.append("name='").append(name).append('\'');
         sb.append(", priority=").append(priority);
-        sb.append(", tagList=").append(tag_list);
+        sb.append(", tag_list=").append(tag_list);
         sb.append('}');
         return sb.toString();
     }

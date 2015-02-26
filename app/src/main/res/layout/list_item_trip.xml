@@ -24,7 +24,8 @@
                     android:id="@+id/textview_train_code"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="G3"
+                    android:layout_marginLeft="8dp"
+                    android:text="D9033"
                     android:paddingTop="8dp"
                     style="@style/NormalTripItemText"/>
                 <TextView

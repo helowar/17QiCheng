@@ -1,4 +1,4 @@
-package com.qicheng.business.ui;
+package com.qicheng.business.ui.component;
 
 import android.content.Context;
 import android.util.AttributeSet;

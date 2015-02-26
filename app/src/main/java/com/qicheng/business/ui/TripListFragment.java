@@ -30,9 +30,10 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 public class TripListFragment extends BaseFragment {
 
     private static Logger logger = new Logger("TripListFragment");
-    private static int REQUEST_CODE_ADD_TRIP = 0;
+    private static final int REQUEST_CODE_ADD_TRIP = 0;
 
     private TripLogic logic;
 
@@ -80,27 +81,27 @@ public class TripListFragment extends BaseFragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(getResources().getString(R.string.title_activity_main));
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-        ActionBar bar = getActivity().getActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                //TODO:行程统计
-                return super.onOptionsItemSelected(item);
-            case R.id.action_add:
-                startActivityForResult(new Intent(getActivity(),AddTripActivity.class),REQUEST_CODE_ADD_TRIP);
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
+//
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_main, menu);
+//        ActionBar bar = getActivity().getActionBar();
+//        bar.setDisplayHomeAsUpEnabled(true);
+//    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                //TODO:行程统计
+//                return super.onOptionsItemSelected(item);
+//            case R.id.action_add:
+//                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//
+//    }
 
     /**
      * 为单个行程增加详情和用户列表，响应点击事件
@@ -235,19 +236,29 @@ public class TripListFragment extends BaseFragment {
     }
 
     private String getDateForView(String dttm){
+        if(dttm.indexOf(DateTimeUtil.date_separator)!=-1){
+            String s = dttm.substring(0,10);
+            s = s.replaceFirst(DateTimeUtil.date_separator,getResources().getString(R.string.year_text));
+            s = s.replaceFirst(DateTimeUtil.date_separator,getResources().getString(R.string.month_text));
+            s = s+getResources().getString(R.string.day_text);
+            return s;
+        }
         return dttm.substring(0,4)+getResources().getString(R.string.year_text)
                 +dttm.substring(4,6)+getResources().getString(R.string.month_text)
                 +dttm.substring(6,8)+getResources().getString(R.string.day_text);
     }
 
     private String getTimeForView(String dttm){
-        return dttm.substring(8,10)+getResources().getString(R.string.time_sep_icon)+dttm.substring(10);
+        if(dttm.indexOf(DateTimeUtil.time_separator)!=-1){
+            return dttm.substring(11);
+        }
+        return dttm.substring(8,10)+DateTimeUtil.time_separator+dttm.substring(10);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_triplist, container, false);
+        View view = inflater.inflate(R.layout.fragment_triplist_list, container, false);
 
         mListView = (ListView) view.findViewById(android.R.id.list);
         AdapterView.OnItemClickListener mOnClickListener
@@ -400,5 +411,24 @@ public class TripListFragment extends BaseFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //结果码不等于取消时候
+        if (resultCode != Activity.RESULT_CANCELED) {
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_TRIP :
+                    Trip trip = (Trip)data.getSerializableExtra(StationSelectFragment.EXTRA_TRIP);
+                    addNewTrip(trip);
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void addNewTrip(Trip trip){
+        pageList.add(0,trip);
+        mAdapter.notifyDataSetChanged();
     }
 }

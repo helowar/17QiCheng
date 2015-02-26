@@ -127,7 +127,7 @@ public class Const {
             .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.107:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -197,14 +197,14 @@ public class Const {
         public static final int RESULT_EXCEPTION = 9999;
 
         /**
-         * 响应结果码 0:成功
+         * 响应结果码 1:成功
          */
-        public static final int RESULT_SUCCESS = 0;
+        public static final int RESULT_SUCCESS = 1;
 
         /**
-         * 响应结果码 1:失败
+         * 响应结果码 -1:失败
          */
-        public static final int RESULT_FAIL = 1;
+        public static final int RESULT_FAIL = -1;
 
         /**
          * 响应结果码 2:非法调用

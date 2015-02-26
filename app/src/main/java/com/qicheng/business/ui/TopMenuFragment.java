@@ -10,6 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.LabelLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 
 /**
@@ -73,9 +80,7 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
-                        Intent intent = new Intent(getActivity(),LabelModifyActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
+                        getUserLabel();
                         break;
                     case R.string.my_photo:
                        /*跳转到我的相册*/
@@ -97,6 +102,23 @@ public class TopMenuFragment extends BaseFragment {
         linearLayout.addView(view);
     }
 
-
+    public void getUserLabel() {
+        LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
+        labelLogic.getUserLabel(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                LabelEventArgs labelEventArgs =(LabelEventArgs)args;
+                OperErrorCode errCode =labelEventArgs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
+                        intent.putExtra("Labels",labelEventArgs.getLabel());
+                        startActivity(intent);
+                        getActivity().finish();
+                        break;
+                }
+            }
+        }));
+    }
 
 }

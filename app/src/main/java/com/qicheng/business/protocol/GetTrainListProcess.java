@@ -1,9 +1,13 @@
 package com.qicheng.business.protocol;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.qicheng.business.cache.Cache;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,6 +52,7 @@ public class GetTrainListProcess extends BaseProcess {
                     trainCodeSet.add((trains.getString(i)));
                 }
                 Cache.getInstance().setTrainList(trainCodeSet);
+                logger.d("Success get and cache the train list with the length:"+trainCodeSet.size());
             }
             setProcessStatus(value);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.qicheng.R;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.module.Label;
+import com.qicheng.business.ui.component.LabelViewGroup;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -112,9 +114,10 @@ public class RegisterLabelEditActivity extends BaseActivity {
                  * 遍历自定义ViewGroup中的并传递数据
                  */
                 for (int i = 0; i < labelViewGroup.getChildCount(); i++) {
-                    Log.d("re", labelViewGroup.getChildAt(i).getTag().toString());
                     labelData.add((Label) labelViewGroup.getChildAt(i).getTag());
                 }
+
+
                 updateLabelList(labelData);
             }
         });
@@ -186,6 +189,8 @@ public class RegisterLabelEditActivity extends BaseActivity {
                     case Success:
                         Intent intent = new Intent(getActivity(),MainActivity.class);
                         startActivity(intent);
+                        ActivityManager manager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
+                        RegisterLabelSelectActivity.instance.finish();
                         finish();
                         break;
                     default:

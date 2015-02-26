@@ -13,7 +13,7 @@ import java.util.Set;
 public class TrainPreferences {
 
     public void set(Set<String> trainSet) {
-        getPreferences().edit().putStringSet(Const.SharedPreferenceKey.TrainPreference,trainSet);
+        getPreferences().edit().putStringSet(Const.SharedPreferenceKey.TrainPreference,trainSet).commit();
     }
 
     public Set<String> get(){
