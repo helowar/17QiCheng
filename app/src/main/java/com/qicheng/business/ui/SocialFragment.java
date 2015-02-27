@@ -7,7 +7,6 @@
 
 package com.qicheng.business.ui;
 
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,17 +17,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.module.Location;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
@@ -108,40 +105,6 @@ public class SocialFragment extends BaseFragment {
      */
     private TravellerPersonLogic logic = null;
 
-    /**
-     * 百度定位SDK相关对象
-     */
-    private LocationClient locationClient = null;
-    private BDLocationListener locationListener = null;
-
-    /**
-     * 经度
-     */
-    private double longitude;
-
-    /**
-     * 纬度
-     */
-    private double latitude;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        locationClient = new LocationClient(getActivity().getApplicationContext());
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setCoorType("bd09ll");
-        option.setOpenGps(true);
-        option.setProdName("17QiCheng");
-        locationClient.setLocOption(option);
-        locationListener = new SocialLocationListener();
-        locationClient.registerLocationListener(locationListener);
-        locationClient.start();
-        if(locationClient.isStarted()) {
-            locationClient.requestLocation();
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +124,8 @@ public class SocialFragment extends BaseFragment {
         nearPersonTravellerFragment = new TravellerPersonFragment();
         Bundle nearPerson = new Bundle();
         nearPerson.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_NEAR);
+        Location location = Cache.getInstance().getUser().getLocation();
+        queryValue = location.getLongitude() + '|' + location.getLatitude();
         nearPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         nearPersonTravellerFragment.setArguments(nearPerson);
         fragmentTransaction = getFragmentManager().beginTransaction();
@@ -210,21 +175,6 @@ public class SocialFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_PAUSE_ON_SCROLL, pauseOnScroll);
         outState.putBoolean(STATE_PAUSE_ON_FLING, pauseOnFling);
-    }
-
-    @Override
-    public void onDetach() {
-        locationClient.stop();
-        locationClient = null;
-        super.onDetach();
-    }
-
-    public class SocialLocationListener implements BDLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation bdLocation) {
-            longitude = bdLocation.getLongitude();
-            latitude = bdLocation.getLatitude();
-        }
     }
 
     public class TravellerOnScrollListener extends PauseOnScrollListener implements HorizontalScrollListView.OnScrollStopListener {

@@ -40,7 +40,13 @@ public class User {
      */
     private String stationName;
 
+    /**
+     * 用户位置信息
+     */
+    private Location location;
+
     public User() {
+        location = new Location();
     }
 
     public User(String userName, String passWord) {
@@ -150,5 +156,9 @@ public class User {
 
     public void setLabelTypes(ArrayList<LabelType> labelTypes) {
         mLabelTypes = labelTypes;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }
