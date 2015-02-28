@@ -1,6 +1,7 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import com.qicheng.R;
 import com.qicheng.business.module.Label;
 import com.qicheng.business.ui.component.BadgeView;
+import com.qicheng.business.service.LocationService;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
 import com.slidingmenu.lib.SlidingMenu;
@@ -49,7 +51,8 @@ public class MainActivity extends BaseActivity {
         logger.d("Get the user token:" + userToken);
        // initView();
         initSlidingMenu();
-
+        Intent locationService = new Intent(this, LocationService.class);
+        startService(locationService);
     }
 
     public void initView() {
@@ -147,6 +150,13 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent locationService = new Intent(this, LocationService.class);
+        stopService(locationService);
+        super.onDestroy();
     }
 
     private class RadioButtonOnClickListener implements View.OnClickListener{

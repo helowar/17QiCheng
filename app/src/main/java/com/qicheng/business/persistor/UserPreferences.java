@@ -21,6 +21,10 @@ class UserPreferences {
         editor.putString("lastbirthday",user.getBirthday());
         editor.putInt("lastgender",user.getGender());
         editor.putString("lastnickname",user.getNickName());
+        editor.putString("lastLongitude", user.getLocation().getLongitude());
+        editor.putString("lastLatitude", user.getLocation().getLatitude());
+        editor.putFloat("lastDirection", user.getLocation().getDirection());
+        editor.putString("lastCity", user.getLocation().getCity());
 		editor.commit();
 	}
 
@@ -46,6 +50,10 @@ class UserPreferences {
         user.setPortraitURL(sp.getString("lastportraiturl",""));
         user.setGender(sp.getInt("lastgender",1));
         user.setNickName(sp.getString("lastnickname",""));
+        user.getLocation().setLongitude(sp.getString("lastLongitude", ""));
+        user.getLocation().setLatitude(sp.getString("lastLatitude", ""));
+        user.getLocation().setDirection(sp.getFloat("lastDirection", 0));
+        user.getLocation().setCity(sp.getString("lastCity", ""));
 		return user;
 	}
 	

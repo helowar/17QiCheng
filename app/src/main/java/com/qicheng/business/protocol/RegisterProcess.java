@@ -54,7 +54,7 @@ public class RegisterProcess extends BaseProcess {
                 String portraitUrl = resultBody.optString("portrait_url");
                 logger.d("Get users token:" + token);
                 logger.d("Get user portraitUrl" + portraitUrl);
-                User user = new User();
+                User user = Cache.getInstance().getUser();
                 user.setPortraitURL(portraitUrl);
                 user.setToken(token);
                 user.setCellNum(mParamUser.getCellNum());
@@ -63,7 +63,7 @@ public class RegisterProcess extends BaseProcess {
                  * 刷新缓存
                  */
                 Cache.getInstance().clear();
-                Cache.getInstance().setCacheUser(user);
+                Cache.getInstance().refreshCacheUser();
             }
             setProcessStatus(value);
         } catch (Exception e) {

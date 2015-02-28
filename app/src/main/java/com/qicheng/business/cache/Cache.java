@@ -27,19 +27,13 @@ public class Cache {
         return mUser;
     }
 
-    public void setUser(User mUser) {
-        this.mUser = mUser;
-    }
-
     public void clear() {
-        setUser(null);
-
     }
 
     public void onCreate() {
         /*用户对象缓存*/
         mUserCache.onCreate();
-        mUser= mUserCache.getCashedUser();
+        mUser = mUserCache.getCashedUser();
         /*公钥缓存*/
         publicKey = PersistorManager.getInstance().getPublicKey();
 
@@ -48,9 +42,8 @@ public class Cache {
 
     }
 
-    public void setCacheUser(User user) {
-        mUser = user;
-        mUserCache.setCache(user);
+    public void refreshCacheUser() {
+        mUserCache.setCache(mUser);
     }
 
     public String getPublicKey() {

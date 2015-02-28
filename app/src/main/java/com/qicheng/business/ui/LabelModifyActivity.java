@@ -140,7 +140,7 @@ public class LabelModifyActivity extends BaseActivity {
                 OperErrorCode errCode = labelEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        Intent intent = new Intent(getActivity(), UpdateLabelActivity.class);
+                        Intent intent = new Intent(getActivity(), LabelUpdateActivity.class);
                         ArrayList<LabelType> labelTypeList = labelEventArgs.getLabel();
                         //遍历判断哪些标签已选，如果已选为其加上标志
                         for (int i = 0; i < labelTypeList.size(); i++) {

@@ -41,7 +41,7 @@
     <LinearLayout
         android:id="@+id/social_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
@@ -51,6 +51,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:paddingLeft="@dimen/form_padding"
+            android:paddingBottom="@dimen/half_gap"
             android:background="@drawable/bg_form_input_container"
             android:text="@string/social_near_person_text"
             android:textColor="@color/main"

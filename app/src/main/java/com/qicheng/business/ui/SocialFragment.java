@@ -1,3 +1,10 @@
+/*
+ * Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+ * This software is the confidential and proprietary information of QiCheng, Inc.
+ * You shall not disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into with QiCheng.
+ */
+
 package com.qicheng.business.ui;
 
 import android.app.FragmentTransaction;
@@ -13,10 +20,12 @@ import android.widget.LinearLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.module.Location;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
@@ -36,7 +45,7 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_BEGIN;
+import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
 
 /**
  * SocialFragment.java是启程APP的交友Fragment类。
@@ -86,7 +95,8 @@ public class SocialFragment extends BaseFragment {
     /**
      * 查询值
      * 当query_type=0、1或2时，该值为车站代码；
-     * 当query_type=3、4、5或6时，该值为车次。
+     * 当query_type=3、4、5或6时，该值为车次；
+     * 当query_type=7时，该值为经纬度，其格式为：经度 + | + 纬度。
      */
     private String queryValue;
 
@@ -98,8 +108,6 @@ public class SocialFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        queryValue = bundle.getString(TRAVELLER_QUERY_VALUE);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
     }
 
@@ -115,7 +123,9 @@ public class SocialFragment extends BaseFragment {
         // 设置附近车友区域里的各种View对象
         nearPersonTravellerFragment = new TravellerPersonFragment();
         Bundle nearPerson = new Bundle();
-        nearPerson.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_BEGIN);
+        nearPerson.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NEAR);
+        Location location = Cache.getInstance().getUser().getLocation();
+        queryValue = location.getLongitude() + '|' + location.getLatitude() + '|' + location.getCity();
         nearPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         nearPersonTravellerFragment.setArguments(nearPerson);
         fragmentTransaction = getFragmentManager().beginTransaction();
@@ -271,7 +281,7 @@ public class SocialFragment extends BaseFragment {
     }
 
     private void startUserInfoActivity(User traveller) {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
         intent.putExtra(UID, traveller.getUserId());
         intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
         startActivity(intent);

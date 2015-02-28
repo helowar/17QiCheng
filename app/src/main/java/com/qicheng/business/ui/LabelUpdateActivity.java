@@ -31,7 +31,7 @@ import com.qicheng.framework.ui.helper.Alert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateLabelActivity extends BaseActivity {
+public class LabelUpdateActivity extends BaseActivity {
     /*
     用户存储选中的View
      */
@@ -268,4 +268,12 @@ public class UpdateLabelActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        //点击返回键关闭滑动菜单
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        this.startActivity(intent);
+    }
+
 }

@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 友盟权限 -->
+    <!--友盟权限-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 云之讯权限 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -15,6 +15,17 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- 百度定位SDK权限 -->
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".QichengApplication"
@@ -28,7 +39,15 @@
 
         <receiver android:name="com.yzx.service.AlarmReceiver" />
         <receiver android:name="com.yzx.service.MsgBackReceiver" />
-        <!-- activity config begin -->
+        <!-- 百度定位SDK服务器 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
+        <service
+            android:name=".business.service.LocationService"
+            android:enabled="true" />
+        <!--activity config begin-->
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
@@ -84,6 +103,16 @@
             android:name=".business.ui.ChatActivity"
             android:label="@string/title_activity_chat" >
         </activity>
+        <activity
+            android:name=".business.ui.PassengerActivity"
+            android:label="@string/passenger_activity_title"
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.TravellerActivity"
+            android:label="@string/traveller_activity_title"
+            android:logo="@drawable/ic_user" >
+        </activity>
         <!-- activity config end -->
 
 
@@ -94,6 +123,11 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Self" />
+        <!-- 百度定位SDK配置项 -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="hzs4mPQSEt4liOG9xVb2esgO" />
+
     </application>
 
 </manifest>

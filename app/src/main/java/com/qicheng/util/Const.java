@@ -127,7 +127,7 @@ public class Const {
             .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.100:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -295,26 +295,32 @@ public class Const {
     /**
      * Traveller页面
      */
-    /** 用户查询类型 0：车站 */
-    public static final byte USER_QUERY_TYPE_STATION = 0;
+    /** 查询类型 0：车站 */
+    public static final byte QUERY_TYPE_STATION = 0;
 
-    /** 用户查询类型 1：出发 */
-    public static final byte USER_QUERY_TYPE_BEGIN = 1;
+    /** 查询类型 1：出发 */
+    public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /** 用户查询类型 2：到达 */
-    public static final byte USER_QUERY_TYPE_END = 2;
+    /** 查询类型 2：到达 */
+    public static final byte QUERY_TYPE_END = 2;
 
-    /** 用户查询类型 3：车次 */
-    public static final byte USER_QUERY_TYPE_TRAIN = 3;
+    /** 查询类型 3：车次 */
+    public static final byte QUERY_TYPE_TRAIN = 3;
 
-    /** 用户查询类型 4：未上车 */
-    public static final byte USER_QUERY_TYPE_NOT_ON_CAR = 4;
+    /** 查询类型 4：未上车 */
+    public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
-    /** 用户查询类型 5：上车 */
-    public static final byte USER_QUERY_TYPE_ON_CAR = 5;
+    /** 查询类型 5：上车 */
+    public static final byte QUERY_TYPE_ON_CAR = 5;
 
-    /** 用户查询类型 6：下车 */
-    public static final byte USER_QUERY_TYPE_OFF_CAR = 6;
+    /** 查询类型 6：下车 */
+    public static final byte QUERY_TYPE_OFF_CAR = 6;
+
+    /** 查询类型 7：附近 */
+    public static final byte QUERY_TYPE_NEAR = 7;
+
+    /** 查询类型 8：城市 */
+    public static final byte QUERY_TYPE_CITY = 8;
 
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;

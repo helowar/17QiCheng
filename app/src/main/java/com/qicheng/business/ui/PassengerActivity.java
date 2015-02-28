@@ -1,3 +1,10 @@
+/*
+ * Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+ * This software is the confidential and proprietary information of QiCheng, Inc.
+ * You shall not disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into with QiCheng.
+ */
+
 package com.qicheng.business.ui;
 
 import android.app.FragmentTransaction;
@@ -37,9 +44,9 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_NOT_ON_CAR;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_OFF_CAR;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_ON_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_NOT_ON_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_OFF_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_ON_CAR;
 
 /**
  * TravellerActivity.java是启程APP的展现同车乘客Activity类。
@@ -148,17 +155,17 @@ public class PassengerActivity extends BaseActivity {
         // 设置未上车车友、上车车友和下车车友区域里的各种View对象
         notOnTravellerFragment = new TravellerPersonFragment();
         Bundle notOn = new Bundle();
-        notOn.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_NOT_ON_CAR);
+        notOn.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NOT_ON_CAR);
         notOn.putString(TRAVELLER_QUERY_VALUE, queryValue);
         notOnTravellerFragment.setArguments(notOn);
         onTravellerFragment = new TravellerPersonFragment();
         Bundle on = new Bundle();
-        on.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_ON_CAR);
+        on.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_ON_CAR);
         on.putString(TRAVELLER_QUERY_VALUE, queryValue);
         onTravellerFragment.setArguments(on);
         offTravellerFragment = new TravellerPersonFragment();
         Bundle off = new Bundle();
-        off.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_OFF_CAR);
+        off.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_OFF_CAR);
         off.putString(TRAVELLER_QUERY_VALUE, queryValue);
         offTravellerFragment.setArguments(off);
         fragmentTransaction = getFragmentManager().beginTransaction();
