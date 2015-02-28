@@ -3,8 +3,6 @@ package com.qicheng.business.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
@@ -28,7 +26,7 @@ public class Welcome extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        CountDownTimer timer = new CountDownTimer(2000, 1000) {
+        CountDownTimer timer = new CountDownTimer(5000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
             public void onFinish() {

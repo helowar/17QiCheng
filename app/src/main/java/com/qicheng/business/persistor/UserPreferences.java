@@ -11,6 +11,7 @@ import com.qicheng.util.Const;
 class UserPreferences {
 	
 	public void set(User user) {
+
 		SharedPreferences.Editor editor = getPreferences().edit();
         editor.putString("lastuid", user.getUserId());
         editor.putString("lastpass", user.getPassWord());
@@ -30,7 +31,7 @@ class UserPreferences {
 
     public void setPublicKey(String publicKey){
         SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putString("publicKey", publicKey).apply();
+        editor.putString("publicKey", publicKey).commit();
     }
 
     public String getPublicKey(){

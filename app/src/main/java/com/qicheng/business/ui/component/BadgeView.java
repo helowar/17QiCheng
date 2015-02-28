@@ -251,4 +251,8 @@ public class BadgeView extends TextView {
     private int dip2Px(float dip) {
         return (int) (dip * getContext().getResources().getDisplayMetrics().density + 0.5f);
     }
+
+    public void setMaxCount(int maxCount) {
+        mMaxCount = maxCount;
+    }
 }

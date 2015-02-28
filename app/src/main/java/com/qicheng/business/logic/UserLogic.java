@@ -60,6 +60,9 @@ public class UserLogic extends BaseLogic {
         Cache.getInstance().clear();
         //登录所用的数据
         final User user = new User(uid, password);
+        User cachedUser = Cache.getInstance().getUser();
+        cachedUser.setUserId(uid);
+        cachedUser.setPassWord(password);
         //登录后台交互过程
         final LoginProcess process = new LoginProcess();
         process.setParamUser(user);
@@ -112,7 +115,11 @@ public class UserLogic extends BaseLogic {
 
                 UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(), errCode);
                 if (errCode == OperErrorCode.Success) {
-                    Cache.getInstance().setCacheUser(process.getResultUser());
+                    User user = Cache.getInstance().getUser();
+                    user.setToken(process.getResultUser().getToken());
+                    user.setNickName(process.getResultUser().getNickName());
+                    user.setPortraitURL(process.getResultUser().getPortraitURL());
+                    Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
                 fireEvent(listener, userEventArgs);

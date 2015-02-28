@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity {
         ticketRb = (RadioButton)findViewById(R.id.rbTicket);
         //附加Badge
         messageBadge = new BadgeView(getActivity());
+        messageBadge.setMaxCount(99);
         messageBadge.setHideOnNull(true);
         messageBadge.setBadgeMargin(4);
         messageBadge.setTargetView(messageRb);
