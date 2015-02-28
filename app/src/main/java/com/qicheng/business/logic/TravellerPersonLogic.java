@@ -38,7 +38,7 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param listener      查询结果事件监听器
      */
     public void queryUserByStation(String station, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_STATION, station, orderBy, lastLoginTime, size, listener);
+        queryUser(Const.QUERY_TYPE_STATION, station, orderBy, lastLoginTime, size, listener);
     }
 
     /**
@@ -51,7 +51,7 @@ public class TravellerPersonLogic extends BaseLogic {
      * @param listener      查询结果事件监听器
      */
     public void queryUserByTrain(String train, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
-        queryUser(Const.USER_QUERY_TYPE_TRAIN, train, orderBy, lastLoginTime, size, listener);
+        queryUser(Const.QUERY_TYPE_TRAIN, train, orderBy, lastLoginTime, size, listener);
     }
 
     /**

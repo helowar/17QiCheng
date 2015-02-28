@@ -37,8 +37,8 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_BEGIN;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_END;
+import static com.qicheng.util.Const.QUERY_TYPE_BEGIN;
+import static com.qicheng.util.Const.QUERY_TYPE_END;
 
 /**
  * TravellerActivity.java是启程APP的展现同路车友Activity类。
@@ -130,12 +130,12 @@ public class TravellerActivity extends BaseActivity {
         // 设置出发车友和到达车友区域里的各种View对象
         startTravellerFragment = new TravellerPersonFragment();
         Bundle start = new Bundle();
-        start.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_BEGIN);
+        start.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_BEGIN);
         start.putString(TRAVELLER_QUERY_VALUE, queryValue);
         startTravellerFragment.setArguments(start);
         endTravellerFragment = new TravellerPersonFragment();
         Bundle end = new Bundle();
-        end.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_END);
+        end.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_END);
         end.putString(TRAVELLER_QUERY_VALUE, queryValue);
         endTravellerFragment.setArguments(end);
         fragmentTransaction = getFragmentManager().beginTransaction();

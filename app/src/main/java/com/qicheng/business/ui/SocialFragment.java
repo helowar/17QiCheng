@@ -45,7 +45,7 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.USER_QUERY_TYPE_NEAR;
+import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
 
 /**
  * SocialFragment.java是启程APP的交友Fragment类。
@@ -123,9 +123,9 @@ public class SocialFragment extends BaseFragment {
         // 设置附近车友区域里的各种View对象
         nearPersonTravellerFragment = new TravellerPersonFragment();
         Bundle nearPerson = new Bundle();
-        nearPerson.putByte(TRAVELLER_QUERY_TYPE, USER_QUERY_TYPE_NEAR);
+        nearPerson.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NEAR);
         Location location = Cache.getInstance().getUser().getLocation();
-        queryValue = location.getLongitude() + '|' + location.getLatitude();
+        queryValue = location.getLongitude() + '|' + location.getLatitude() + '|' + location.getCity();
         nearPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         nearPersonTravellerFragment.setArguments(nearPerson);
         fragmentTransaction = getFragmentManager().beginTransaction();

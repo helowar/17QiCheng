@@ -16,6 +16,9 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.LocationLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.module.User;
 
 /**
@@ -31,17 +34,23 @@ public class LocationService extends Service {
      */
     private LocationClient locationClient = null;
 
+    /**
+     * 查询用户信息业务逻辑处理对象
+     */
+    private LocationLogic logic = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        logic = (LocationLogic) LogicFactory.self().get(LogicFactory.Type.Location);
         locationClient = new LocationClient(getApplicationContext());
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setCoorType("bd09ll");
         option.setOpenGps(true);
         option.setProdName("17QiCheng");
-        // 每间隔5分钟取一次地理位置信息
-        option.setScanSpan(300000);
+        // 每间隔30分钟取一次地理位置信息
+        option.setScanSpan(1800000);
         option.setIsNeedAddress(true);
         option.setNeedDeviceDirect(true);
         locationClient.setLocOption(option);
@@ -54,7 +63,10 @@ public class LocationService extends Service {
                 // 纬度
                 user.getLocation().setLatitude(String.valueOf(bdLocation.getLatitude()));
                 user.getLocation().setDirection(bdLocation.getDirection());
+                user.getLocation().setCity(bdLocation.getCity());
                 Cache.getInstance().refreshCacheUser();
+                // 上报用户位置信息到服务端
+                logic.report(user.getLocation());
             }
         });
         locationClient.start();

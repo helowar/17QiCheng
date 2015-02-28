@@ -31,6 +31,11 @@ public class Location {
      */
     private float direction;
 
+    /**
+     * 城市名称
+     */
+    private String city;
+
     public String getLongitude() {
         return longitude;
     }
@@ -53,5 +58,13 @@ public class Location {
 
     public void setDirection(float direction) {
         this.direction = direction;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
