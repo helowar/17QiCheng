@@ -6,10 +6,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.qicheng.R;
 import com.qicheng.business.module.Label;
+import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
 import com.slidingmenu.lib.SlidingMenu;
@@ -20,7 +22,15 @@ public class MainActivity extends BaseActivity {
 
     private static Logger logger = new Logger("com.qicheng.business.ui.MainActivity");
 
-    private RadioGroup myTabRg;
+    private RadioButton tripRb;
+    private RadioButton actyRb;
+    private RadioButton socialRb;
+    private RadioButton messageRb;
+    private RadioButton ticketRb;
+
+    BadgeView messageBadge;
+    BadgeView ticketBadge;
+
 
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
@@ -46,67 +56,44 @@ public class MainActivity extends BaseActivity {
         tripFragment = new TripListFragment();
         getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
         findViewById(R.id.trip_content).setVisibility(View.VISIBLE);
-        myTabRg = (RadioGroup) findViewById(R.id.tab_menu);
-        myTabRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            private void activatedFrame(int id) {
-                findViewById(R.id.trip_content).setVisibility(View.GONE);
-                findViewById(R.id.social_content).setVisibility(View.GONE);
-                findViewById(R.id.acty_content).setVisibility(View.GONE);
-                findViewById(R.id.message_content).setVisibility(View.GONE);
-                findViewById(R.id.user_content).setVisibility(View.GONE);
-
-                findViewById(id).setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.rbMessage:
-                        if (messageFragment == null) {
-                            messageFragment = new MessageFragment();
-                            getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment)
-                                    .commit();
-                        }
-                        activatedFrame(R.id.message_content);
-                        break;
-                    case R.id.rbTrip:
-                        if (tripFragment == null) {
-                            tripFragment = new TripListFragment();
-                            getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
-                        }
-                        activatedFrame(R.id.trip_content);
-                        break;
-                    case R.id.rbSocial:
-                        if (socialFragment == null) {
-                            socialFragment = new SocialFragment();
-                            getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment)
-                                    .commit();
-                        }
-                        activatedFrame(R.id.social_content);
-                        break;
-                    case R.id.rbVoucher:
-                        if (voucherFragment == null) {
-                            voucherFragment = new VoucherFragment();
-                            getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
-                                    .commit();
-                        }
-                        activatedFrame(R.id.user_content);
-                        break;
-                    case R.id.rbActy:
-                        if (actyFragment == null) {
-                            actyFragment = new ActyFragment();
-                            getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment)
-                                    .commit();
-                        }
-                        activatedFrame(R.id.acty_content);
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-        });
+        tripRb = (RadioButton)findViewById(R.id.rbTrip);
+        actyRb = (RadioButton)findViewById(R.id.rbSocial);
+        socialRb = (RadioButton)findViewById(R.id.rbActy);
+        messageRb = (RadioButton)findViewById(R.id.rbMessage);
+        ticketRb = (RadioButton)findViewById(R.id.rbTicket);
+        //附加Badge
+        messageBadge = new BadgeView(getActivity());
+        messageBadge.setHideOnNull(true);
+        messageBadge.setBadgeMargin(4);
+        messageBadge.setTargetView(messageRb);
+        messageBadge.setBadgeCount(100);
+        ticketBadge = new BadgeView(getActivity());
+        ticketBadge.setHideOnNull(true);
+        ticketBadge.setBadgeMargin(4);
+        ticketBadge.setTargetView(ticketRb);
+        ticketBadge.setBadgeCount(8);
+        BadgeView tripBadge = new BadgeView(getActivity());
+        tripBadge.setHideOnNull(true);
+        tripBadge.setBadgeMargin(4);
+        tripBadge.setTargetView(tripRb);
+        tripBadge.setText("0");
+        BadgeView actyBadge = new BadgeView(getActivity());
+        actyBadge.setHideOnNull(true);
+        actyBadge.setBadgeMargin(4);
+        actyBadge.setTargetView(actyRb);
+        actyBadge.setText("0");
+        BadgeView socialBadge = new BadgeView(getActivity());
+        socialBadge.setHideOnNull(true);
+        socialBadge.setBadgeMargin(4);
+        socialBadge.setTargetView(socialRb);
+        socialBadge.setText("0");
+        //添加点击监听器
+        View.OnClickListener checkedListener = new RadioButtonOnClickListener();
+        tripRb.setOnClickListener(checkedListener);
+        actyRb.setOnClickListener(checkedListener);
+        socialRb.setOnClickListener(checkedListener);
+        messageRb.setOnClickListener(checkedListener);
+        ticketRb.setOnClickListener(checkedListener);
     }
 
 
@@ -161,4 +148,91 @@ public class MainActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private class RadioButtonOnClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            tripRb.setChecked(false);
+            actyRb.setChecked(false);
+            socialRb.setChecked(false);
+            messageRb.setChecked(false);
+            ticketRb.setChecked(false);
+            RadioButton target = (RadioButton)v;
+            target.setChecked(true);
+            onCheckedChanged(target.getId());
+        }
+    }
+
+    private void activatedFrame(int id) {
+        findViewById(R.id.trip_content).setVisibility(View.GONE);
+        findViewById(R.id.social_content).setVisibility(View.GONE);
+        findViewById(R.id.acty_content).setVisibility(View.GONE);
+        findViewById(R.id.message_content).setVisibility(View.GONE);
+        findViewById(R.id.user_content).setVisibility(View.GONE);
+
+        findViewById(id).setVisibility(View.VISIBLE);
+    }
+
+    private void onCheckedChanged(int checkedId) {
+        switch (checkedId) {
+            case R.id.rbMessage:
+                if (messageFragment == null) {
+                    messageFragment = new MessageFragment();
+                    getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment)
+                            .commit();
+                }
+                activatedFrame(R.id.message_content);
+                break;
+            case R.id.rbTrip:
+                if (tripFragment == null) {
+                    tripFragment = new TripListFragment();
+                    getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
+                }
+                activatedFrame(R.id.trip_content);
+                break;
+            case R.id.rbSocial:
+                if (socialFragment == null) {
+                    socialFragment = new SocialFragment();
+                    getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment)
+                            .commit();
+                }
+                activatedFrame(R.id.social_content);
+                break;
+            case R.id.rbTicket:
+                if (voucherFragment == null) {
+                    voucherFragment = new VoucherFragment();
+                    getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
+                            .commit();
+                }
+                activatedFrame(R.id.user_content);
+                break;
+            case R.id.rbActy:
+                if (actyFragment == null) {
+                    actyFragment = new ActyFragment();
+                    getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment)
+                            .commit();
+                }
+                activatedFrame(R.id.acty_content);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void incrementMessageCount(int increment){
+        messageBadge.incrementBadgeCount(increment);
+    }
+
+    public void decrementMessageCount(int decrement){
+        messageBadge.decrementBadgeCount(decrement);
+    }
+
+    public void incrementTicketCount(int increment){
+        ticketBadge.incrementBadgeCount(increment);
+    }
+
+    public void decrementTicketCount(int decrement){
+        ticketBadge.decrementBadgeCount(decrement);
+    }
+
 }

@@ -39,6 +39,7 @@ public class Cache {
     public void onCreate() {
         /*用户对象缓存*/
         mUserCache.onCreate();
+        mUser= mUserCache.getCashedUser();
         /*公钥缓存*/
         publicKey = PersistorManager.getInstance().getPublicKey();
 

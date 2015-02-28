@@ -20,6 +20,7 @@ import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
 import java.io.BufferedOutputStream;
@@ -79,6 +80,41 @@ public class UserLogic extends BaseLogic {
             }
         });
 
+    }
+
+    public void loginWithCache(final EventListener listener){
+        User cachedUser = Cache.getInstance().getUser();
+        if(cachedUser == null||StringUtil.isEmpty(Cache.getInstance().getPublicKey())){
+            OperErrorCode errorCode = OperErrorCode.NotLogin;
+            fireStatusEvent(listener,errorCode);
+            return;
+        }
+        if(StringUtil.isEmpty(cachedUser.getUserId())||StringUtil.isEmpty(cachedUser.getPassWord())){
+            OperErrorCode errorCode = OperErrorCode.NotLogin;
+            fireStatusEvent(listener,errorCode);
+            return;
+        }
+        //登录所用的数据
+        final User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
+        //登录后台交互过程
+        final LoginProcess process = new LoginProcess();
+        process.setParamUser(user);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("login process response, " + errCode);
+
+                UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(), errCode);
+                if (errCode == OperErrorCode.Success) {
+                    Cache.getInstance().setCacheUser(process.getResultUser());
+                }
+                //发送事件
+                fireEvent(listener, userEventArgs);
+
+            }
+        });
     }
 
     /**

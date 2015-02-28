@@ -83,4 +83,6 @@ public enum OperErrorCode {
      */
     NoDataFound,
 
+    NotLogin,
+
 }

@@ -187,6 +187,21 @@ public class Const {
     public static final int PhotoMaxTryTime = 3;
 
     /**
+     * Activity ResultCode
+     */
+    public static class ActivityResultCode {
+        /**
+         * 响应结果码 1:成功
+         */
+        public static final int RESULT_SUCCESS = 1;
+
+        /**
+         * 响应结果码 -1:失败
+         */
+        public static final int RESULT_FAIL = -1;
+    }
+
+    /**
      * 服务端响应结果代码常量类
      */
     public static class ResponseResultCode {
@@ -197,14 +212,14 @@ public class Const {
         public static final int RESULT_EXCEPTION = 9999;
 
         /**
-         * 响应结果码 1:成功
+         * 响应结果码 0:成功
          */
-        public static final int RESULT_SUCCESS = 1;
+        public static final int RESULT_SUCCESS = 0;
 
         /**
-         * 响应结果码 -1:失败
+         * 响应结果码 1:失败
          */
-        public static final int RESULT_FAIL = -1;
+        public static final int RESULT_FAIL = 1;
 
         /**
          * 响应结果码 2:非法调用

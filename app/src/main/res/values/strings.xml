@@ -13,6 +13,7 @@
     <string name="password_is_empty">请输入密码</string>
     <string name="title_activity_main">行程</string>
     <string name="load_more">放开我就给你看更多</string>
+    <string name="no_more">到底了，别拉了！</string>
     <string name="date_text">日期</string>
     <string name="yes_zh_text">是</string>
     <string name="no_zh_text">否</string>
@@ -67,6 +68,7 @@
     <!-- Trip Activity begin -->
     <string name="add_trip_text">添加行程</string>
     <string name="train_pick_activity_title">设置车次</string>
+    <string name="station_select_activity_title">行程设置</string>
     <string name="train_code_title">车次</string>
     <string name="car_sharing_title">拼车</string>
     <string name="have_car_sharing_text">供车</string>
@@ -130,5 +132,6 @@
     <string name="title_activity_test_activity_main">TestActivityMain</string>
     <string name="title_activity_test_activity_child">TestActivityChild</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_welcome">启程</string>
 
 </resources>

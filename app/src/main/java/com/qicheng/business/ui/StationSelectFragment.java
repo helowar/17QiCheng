@@ -1,6 +1,7 @@
 package com.qicheng.business.ui;
 
 
+import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -11,6 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -78,6 +82,33 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
 
     public StationSelectFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        ActionBar bar = getActivity().getActionBar();
+        if(bar!=null){
+            bar.setTitle(getResources().getString(R.string.station_select_activity_title));
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                getActivity().finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
@@ -178,7 +209,7 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                             OperErrorCode errCode = result.getErrCode();
                             switch(errCode) {
                                 case Success:
-                                    sendResult(Const.ResponseResultCode.RESULT_SUCCESS,result.getTrip());
+                                    sendResult(Const.ActivityResultCode.RESULT_SUCCESS,result.getTrip());
                                     getActivity().finish();
                                     break;
                                 default:

@@ -1,6 +1,7 @@
 package com.qicheng.business.ui;
 
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -70,12 +72,27 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle(getResources().getString(R.string.train_pick_activity_title));
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //TODO 需要增加ActionBar菜单支持
+        inflater.inflate(R.menu.menu_main, menu);
+        ActionBar bar = getActivity().getActionBar();
+        if(bar!=null){
+            bar.setTitle(getResources().getString(R.string.train_pick_activity_title));
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                getActivity().finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override

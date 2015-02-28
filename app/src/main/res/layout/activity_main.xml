@@ -96,7 +96,7 @@
             style="@style/bottomTab" />
 
         <RadioButton
-            android:id="@+id/rbVoucher"
+            android:id="@+id/rbTicket"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

@@ -17,7 +17,7 @@ public class AutoBreakAndNextReverseLineViewGroup extends LinearLayout {
 
     private final static String TAG = "ABANRLViewGroup";
 
-    public final static int VIEW_MARGIN = 100;
+    public final static int VIEW_MARGIN = 80;
 
     private final static int SIDE_MARGIN=80;
 

@@ -24,6 +24,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TripLogic;
 import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.Trip;
+import com.qicheng.business.ui.component.ListFootView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -39,8 +40,6 @@ import java.util.ArrayList;
 
 /**
  * 行程列表展示Fragment
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
  */
 public class TripListFragment extends BaseFragment {
 
@@ -51,13 +50,15 @@ public class TripListFragment extends BaseFragment {
 
     private int lastTrip;
 
+    private boolean noFurtherData = false;
+
 
     //记录当前展开的位置
     private int unfoledPosition = 0;
     //行程列表
     private ArrayList<Trip> pageList = new ArrayList();
 
-    private View footerView;
+    private ListFootView footerView;
 
     private ListView mListView;
 
@@ -76,32 +77,31 @@ public class TripListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         logic =(TripLogic) LogicFactory.self().get(LogicFactory.Type.Trip);
         mAdapter = new TripListAdapter(pageList);
-        loadMoreData();
-        mAdapter.notifyDataSetChanged();
         setHasOptionsMenu(true);
         getActivity().setTitle(getResources().getString(R.string.title_activity_main));
     }
 //
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_main, menu);
-//        ActionBar bar = getActivity().getActionBar();
-//        bar.setDisplayHomeAsUpEnabled(true);
-//    }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case android.R.id.home:
-//                //TODO:行程统计
-//                return super.onOptionsItemSelected(item);
-//            case R.id.action_add:
-//                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//
-//    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_trip_list, menu);
+        ActionBar bar = getActivity().getActionBar();
+        if(bar!=null){
+            bar.setTitle("我的行程");
+//        bar.setLogo();
+            bar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_add:
+                startActivityForResult(new Intent(getActivity(),TrainSelectActivity.class),REQUEST_CODE_ADD_TRIP);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     /**
      * 为单个行程增加详情和用户列表，响应点击事件
@@ -235,6 +235,11 @@ public class TripListFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 服务端提供的日期时间格式转换
+     * @param dttm
+     * @return
+     */
     private String getDateForView(String dttm){
         if(dttm.indexOf(DateTimeUtil.date_separator)!=-1){
             String s = dttm.substring(0,10);
@@ -248,6 +253,11 @@ public class TripListFragment extends BaseFragment {
                 +dttm.substring(6,8)+getResources().getString(R.string.day_text);
     }
 
+    /**
+     * 服务端提供的日期时间格式转换
+     * @param dttm
+     * @return
+     */
     private String getTimeForView(String dttm){
         if(dttm.indexOf(DateTimeUtil.time_separator)!=-1){
             return dttm.substring(11);
@@ -268,9 +278,10 @@ public class TripListFragment extends BaseFragment {
             }
         };
         mListView.setOnItemClickListener(mOnClickListener);
-        footerView = inflater.inflate(R.layout.list_footer, null);
+        footerView = ListFootView.Factory.newListFootView(inflater);
+        footerView.hide();
         //上拉刷新
-        mListView.addFooterView(footerView);
+        mListView.addFooterView(footerView.getView());
         // Set the adapter
         mListView.setAdapter(mAdapter);
         /**
@@ -301,9 +312,12 @@ public class TripListFragment extends BaseFragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //已到最后
-
                 if (view.getLastVisiblePosition() + 1 == view.getCount()) {
                     lastIndex = true;
+                    footerView.show();
+                }
+                if (noFurtherData) {
+                    footerView.reachBottomWithMsg(R.string.no_more);
                 }
 //                // 所有的条目已经和最大条数相等，则移除底部的View
 //                if (view.getLastVisiblePosition() == trips.size()) {
@@ -313,7 +327,7 @@ public class TripListFragment extends BaseFragment {
             }
 
         });
-        // Set OnItemClickListener so we can be notified on item clicks
+        loadMoreData();
         return view;
     }
 
@@ -321,7 +335,7 @@ public class TripListFragment extends BaseFragment {
         logic.getPersonalTripList(lastTrip,createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
+                footerView.hide();
                 TripEventArgs result =  (TripEventArgs)args;
                 OperErrorCode errCode = result.getErrCode();
                 switch(errCode) {
@@ -332,15 +346,15 @@ public class TripListFragment extends BaseFragment {
                         mAdapter.notifyDataSetChanged();
                         break;
                     case NoDataFound:
-                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
+//                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
+                        noFurtherData = true;
                         break;
                     default:
-                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
+//                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
                         break;
                 }
             }
         }));
-        startLoading();
     }
 
 
@@ -384,34 +398,6 @@ public class TripListFragment extends BaseFragment {
         }
     }
 
-
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
-    public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
-
-        if (emptyView instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
-        }
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
