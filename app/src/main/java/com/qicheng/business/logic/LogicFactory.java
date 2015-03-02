@@ -19,6 +19,7 @@ public class LogicFactory {
         Label,
         Trip,
         Location,
+        Dyn,
 	}
 	
 	private Map<Type, BaseLogic.Factory> mFactorys = new HashMap<Type, BaseLogic.Factory>();
@@ -42,6 +43,7 @@ public class LogicFactory {
         mFactorys.put(Type.TravellerPerson, new TravellerPersonLogic.Factory());
         mFactorys.put(Type.Trip,new TripLogic.Factory());
         mFactorys.put(Type.Location,new LocationLogic.Factory());
+        mFactorys.put(Type.Dyn,new DynLogic.Factory());
 	}
 	
 	public BaseLogic get(Type type) {

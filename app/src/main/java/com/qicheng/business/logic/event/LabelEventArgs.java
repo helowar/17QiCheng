@@ -1,12 +1,9 @@
 package com.qicheng.business.logic.event;
 
-import com.qicheng.business.module.LabelItem;
-import com.qicheng.business.module.LabelType;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by NO3 on 2015/2/5.
@@ -15,9 +12,6 @@ import java.util.List;
 public class LabelEventArgs extends StatusEventArgs {
 
     private ArrayList label;
-
-
-
 
 
     public LabelEventArgs(ArrayList value) {

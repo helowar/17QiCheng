@@ -1,0 +1,40 @@
+package com.qicheng.business.logic;
+
+import com.qicheng.business.logic.event.DynEventAargs;
+import com.qicheng.business.protocol.GetDynListProcess;
+import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.ui.ActyFragment;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.logic.BaseLogic;
+import com.qicheng.framework.protocol.ResponseListener;
+
+/**
+ * Created by NO3 on 2015/2/28.
+ */
+public class DynLogic extends BaseLogic {
+
+    /*工厂方法创建DynLogic*/
+    static class Factory implements BaseLogic.Factory {
+        @Override
+        public BaseLogic create() {
+            return new DynLogic();
+        }
+    }
+
+    /*获取动态列表的Logic方法*/
+    public void getDynList(ActyFragment.DynSearch dynSearch, final EventListener listener) {
+        final GetDynListProcess process = new GetDynListProcess();
+        process.setDynSearch(dynSearch);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                DynEventAargs dynEventAargs = new DynEventAargs(process.getDynList(), errCode);
+                fireEvent(listener, dynEventAargs);
+            }
+        });
+
+    }
+
+}

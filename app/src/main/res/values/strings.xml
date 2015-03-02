@@ -148,4 +148,16 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_welcome">启程</string>
 
+    <!--ActivityFragment begin -->
+    <string name="activity_title">动态</string>
+    <string name="activity_search_text">筛选动态</string>
+    <string name="add_activity_text">添加动态</string>
+    <string name="activity_newest_btn_text">最新</string>
+    <string name="activity_nearby_btn_text">附近</string>
+    <string name="activity_search_hint_text">请输入关键字</string>
+    <string name="activity_reject">获取动态失败</string>
+    <string name="activity_noMoreData">没有更多动态了</string>
+    <!--ActivityFragment end-->
+
+
 </resources>
