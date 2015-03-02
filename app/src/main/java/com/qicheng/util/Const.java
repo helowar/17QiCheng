@@ -322,6 +322,9 @@ public class Const {
     /** 查询类型 8：城市 */
     public static final byte QUERY_TYPE_CITY = 8;
 
+    /** 查询类型 9：我的 */
+    public static final byte QUERY_TYPE_MY = 9;
+
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;
 

@@ -125,7 +125,7 @@ public class SocialFragment extends BaseFragment {
         Bundle nearPerson = new Bundle();
         nearPerson.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NEAR);
         Location location = Cache.getInstance().getUser().getLocation();
-        queryValue = location.getLongitude() + '|' + location.getLatitude() + '|' + location.getCity();
+        queryValue = location.getLongitude() + '|' + location.getLatitude();
         nearPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         nearPersonTravellerFragment.setArguments(nearPerson);
         fragmentTransaction = getFragmentManager().beginTransaction();
