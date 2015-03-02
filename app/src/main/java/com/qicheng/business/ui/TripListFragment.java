@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
 
@@ -138,34 +140,53 @@ public class TripListFragment extends BaseFragment {
 
         viewTripDate.setText(getDateForView(trip.getStartTime()));
         viewTrainCode.setText(trip.getTrainCode());
+        //取得窗口属性
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //窗口的宽度
+        int screenWidth = dm.widthPixels;
+        int sumWidth = screenWidth-UIUtil.dip2Px(getResources().getDimension(R.dimen.common_gap)*2+10,getResources().getDisplayMetrics().density);
+        int width = sumWidth/6;
         /**
          * 获取行程用户列表控件
          */
         View tripUserView = inflater.inflate(R.layout.trip_user_row, null);
         ArrayList<ImageView> viewUsers = new ArrayList<ImageView>();
         ImageView viewUser1 =(ImageView) tripUserView.findViewById(R.id.image_user1);
+        setImageViewWidth(viewUser1,width);
         viewUsers.add(viewUser1);
         ImageView viewUser2 =(ImageView) tripUserView.findViewById(R.id.image_user2);
+        setImageViewWidth(viewUser2,width);
         viewUsers.add(viewUser2);
         ImageView viewUser3 =(ImageView) tripUserView.findViewById(R.id.image_user3);
+        setImageViewWidth(viewUser3,width);
         viewUsers.add(viewUser3);
         ImageView viewUser4 =(ImageView) tripUserView.findViewById(R.id.image_user4);
+        setImageViewWidth(viewUser4,width);
         viewUsers.add(viewUser4);
         ImageView viewUser5 =(ImageView) tripUserView.findViewById(R.id.image_user5);
+        setImageViewWidth(viewUser5,width);
         viewUsers.add(viewUser5);
         ImageView viewUser6 =(ImageView) tripUserView.findViewById(R.id.image_user6);
+        setImageViewWidth(viewUser6,width);
         viewUsers.add(viewUser6);
         ImageView viewUser7 =(ImageView) tripUserView.findViewById(R.id.image_user7);
+        setImageViewWidth(viewUser7,width);
         viewUsers.add(viewUser7);
         ImageView viewUser8 =(ImageView) tripUserView.findViewById(R.id.image_user8);
+        setImageViewWidth(viewUser8,width);
         viewUsers.add(viewUser8);
         ImageView viewUser9 =(ImageView) tripUserView.findViewById(R.id.image_user9);
+        setImageViewWidth(viewUser9,width);
         viewUsers.add(viewUser9);
         ImageView viewUser10 =(ImageView) tripUserView.findViewById(R.id.image_user10);
+        setImageViewWidth(viewUser10,width);
         viewUsers.add(viewUser10);
         ImageView viewUser11 =(ImageView) tripUserView.findViewById(R.id.image_user11);
+        setImageViewWidth(viewUser11,width);
         viewUsers.add(viewUser11);
         ImageView viewUser12 =(ImageView) tripUserView.findViewById(R.id.image_user12);
+        setImageViewWidth(viewUser12,width);
         viewUsers.add(viewUser12);
         /**
          * 数据填充
@@ -416,5 +437,11 @@ public class TripListFragment extends BaseFragment {
     private void addNewTrip(Trip trip){
         pageList.add(0,trip);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void setImageViewWidth(ImageView view,int width){
+        ViewGroup.LayoutParams params =  view.getLayoutParams();
+        params.height=width;
+        params.width=width;
     }
 }

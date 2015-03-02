@@ -3,10 +3,10 @@
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:id="@+id/trip_users_row">
+android:id="@+id/trip_users_row" android:background="@color/white">
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="60dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_weight="1"
@@ -16,10 +16,6 @@ android:id="@+id/trip_users_row">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/image_user1"
@@ -38,20 +34,12 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_user3"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -70,15 +58,11 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="60dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_weight="1"
@@ -87,6 +71,7 @@ android:id="@+id/trip_users_row">
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             >
             <TextView
                 android:layout_width="@dimen/zero"
@@ -110,10 +95,6 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -142,15 +123,11 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="60dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_weight="1"
@@ -182,10 +159,6 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -214,10 +187,6 @@ android:id="@+id/trip_users_row">
                 android:layout_height="30dp"
                 app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait"/>
-            <TextView
-                android:layout_width="@dimen/zero"
-                android:layout_height="30dp"
-                android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
 
