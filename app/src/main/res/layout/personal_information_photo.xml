@@ -6,6 +6,4 @@
     android:layout_marginLeft="20dp"
     android:numColumns="4"
     android:scrollbars="vertical">
-
-
 </GridView>

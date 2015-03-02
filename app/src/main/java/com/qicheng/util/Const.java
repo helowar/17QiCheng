@@ -338,4 +338,10 @@ public class Const {
      */
     public static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
+
+    public static final int INDEX_TRIP=1;
+    public static final int INDEX_SOCIAL=2;
+    public static final int INDEX_ACTIVITY=3;
+    public static final int INDEX_MESSAGE=4;
+    public static final int INDEX_VOUCHER=5;
 }
