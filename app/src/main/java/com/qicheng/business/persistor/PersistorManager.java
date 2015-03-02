@@ -36,4 +36,12 @@ public class PersistorManager {
     public void setTrainList(Set<String> trains){new TrainPreferences().set(trains);}
 
     public Set<String> getTrainList(){return new TrainPreferences().get();}
+
+    public void setTripRelatedCityList(String cityList){ new TripRelatedPreferences().setCityList(cityList);}
+
+    public void setTripRelatedTrainList(String trainList){ new TripRelatedPreferences().setTrainList(trainList);}
+
+    public String getTripRelatedCityList(){return new TripRelatedPreferences().getCityList();}
+
+    public String getTripRelatedTrainList(){return new TripRelatedPreferences().getTrainList();}
 }
