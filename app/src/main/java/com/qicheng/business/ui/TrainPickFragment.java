@@ -3,16 +3,12 @@ package com.qicheng.business.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Environment;
+import android.app.FragmentManager;
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,8 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
@@ -33,22 +27,18 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TripLogic;
 import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.TrainStation;
-import com.qicheng.business.module.Trip;
-import com.qicheng.business.protocol.GetTrainInfoProcess;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -63,7 +53,7 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
     private AutoCompleteTextView mTrainCode;
     private Button mNextButton;
 
-    private StringBuffer paramTripDate = new StringBuffer();
+    private String paramTripDate;
 
 
     public TrainPickFragment() {
@@ -157,9 +147,9 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
                             case Success:
                                 ArrayList<TrainStation> stations = result.getTrainStations();
                                 Intent intent = new Intent();
-                                intent.putExtra("trainCode",mTrainCode.getText().toString());
-                                intent.putExtra("tripDate", paramTripDate.toString());
-                                intent.putExtra("stationList", stations);
+                                intent.putExtra(StationSelectFragment.PARAM_TRAIN_CODE_KEY, mTrainCode.getText().toString());
+                                intent.putExtra(StationSelectFragment.PARAM_TRIP_DATE_KEY, paramTripDate);
+                                intent.putExtra(StationSelectFragment.PARAM_STATION_LIST_KEY, stations);
                                 intent.setClass(getActivity(), AddTripActivity.class);
                                 intent.setAction(Intent.ACTION_GET_CONTENT);
                                 startActivityForResult(intent, TRIP_REQUEST_CODE);
@@ -197,7 +187,7 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
                     updateTripDate(date);
                     break;
                 case TRIP_REQUEST_CODE:
-                    sendResult(Const.ResponseResultCode.RESULT_SUCCESS,data);
+                    sendResult(Const.ActivityResultCode.RESULT_SUCCESS,data);
                     getActivity().finish();
                     break;
             }
@@ -210,27 +200,11 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
      * @param date
      */
     private void updateTripDate(Date date) {
-        StringBuffer dateText = new StringBuffer();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        dateText.append(calendar.get(Calendar.YEAR));
-        paramTripDate.append(calendar.get(Calendar.YEAR));
-        dateText.append("年");
-        dateText.append(calendar.get(Calendar.MONTH) + 1);
-        if(Calendar.MONTH + 1<10){
-            paramTripDate.append("0"+(calendar.get(Calendar.MONTH) + 1));
-        }else {
-            paramTripDate.append((calendar.get(Calendar.MONTH) + 1));
-        }
-        dateText.append("月");
-        dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
-        paramTripDate.append(calendar.get(Calendar.DAY_OF_MONTH));
-        dateText.append("日");
-        mTripDate.setText(dateText.toString());
+        paramTripDate = DateTimeUtil.formatByyyyyMMdd(date);
+        mTripDate.setText(DateTimeUtil.formatByyyyyMMddChinese(date));
         if(!StringUtil.isEmpty(mTrainCode.getText().toString())){
             mNextButton.setEnabled(true);
         }
-
     }
 
     private void sendResult(int resultCode,Intent i) {
