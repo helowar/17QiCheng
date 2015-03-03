@@ -22,6 +22,7 @@ import android.widget.TextView;
 //import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
 import com.qicheng.R;
+import com.qicheng.business.ui.ChatActivity;
 import com.qicheng.framework.ui.base.BaseActivity;
 
 public class AlertDialog extends BaseActivity {

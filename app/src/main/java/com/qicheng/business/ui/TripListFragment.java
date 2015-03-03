@@ -104,7 +104,7 @@ public class TripListFragment extends BaseFragment {
         /**
          * 行程数据
          */
-        Trip trip = pageList.get(position);
+        final Trip trip = pageList.get(position);
         /**
          * 获取行程详情控件
          */
@@ -139,7 +139,38 @@ public class TripListFragment extends BaseFragment {
         /**
          * 获取行程用户列表控件
          */
+
         View tripUserView = inflater.inflate(R.layout.trip_user_row, null);
+        /*跳转至查看出发站旅客列表*/
+        tripUserView.findViewById(R.id.home_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),TravellerActivity.class);
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getStartStationCode());
+                startActivity(i);
+            }
+        });
+        /*跳转至查看到达站旅客列表*/
+        tripUserView.findViewById(R.id.dest_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),TravellerActivity.class);
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getEndStationCode());
+                startActivity(i);
+            }
+        });
+        /*跳转至查看同车旅客列表*/
+        tripUserView.findViewById(R.id.train_users).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),PassengerActivity.class);
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getEndStationCode());
+                startActivity(i);
+            }
+        });
         ArrayList<ImageView> viewUsers = new ArrayList<ImageView>();
         ImageView viewUser1 =(ImageView) tripUserView.findViewById(R.id.image_user1);
         setImageViewWidth(viewUser1,width);
