@@ -54,7 +54,6 @@ public class LabelLogic extends BaseLogic {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(getUserLabelProcess.getStatus());
                 LabelEventArgs labelEventArgs = new LabelEventArgs(getUserLabelProcess.getLabels(),errCode);
                 fireEvent(listener,labelEventArgs);
-
             }
         });
     }

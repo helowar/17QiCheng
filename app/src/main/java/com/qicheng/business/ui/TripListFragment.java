@@ -82,18 +82,7 @@ public class TripListFragment extends BaseFragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(getResources().getString(R.string.title_activity_main));
     }
-//
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_trip_list, menu);
-        ActionBar bar = getActivity().getActionBar();
-        if(bar!=null){
-            bar.setTitle("我的行程");
-//        bar.setLogo();
-            bar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

@@ -62,7 +62,7 @@ public class TripListProcess extends BaseProcess{
                 if(jsonArrayTripList!=null){
                     mTripList = new ArrayList<Trip>();
                     for(int i = 0;i<jsonArrayTripList.length();i++){
-                        JSONObject jsonTrip = (JSONObject)jsonArrayTripList.getJSONObject(i);
+                        JSONObject jsonTrip = jsonArrayTripList.getJSONObject(i);
                         Trip trip = new Trip();
                         trip.setTrainCode(jsonTrip.optString("train_name"));
                         trip.setStartStationName(jsonTrip.optString("begin_station_name"));

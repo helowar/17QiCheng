@@ -1,13 +1,14 @@
 package com.qicheng.business.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.qicheng.R;
+import com.qicheng.framework.ui.base.BaseActivity;
 
-public class ChatActivity extends Activity {
+public class ChatActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,5 +37,10 @@ public class ChatActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

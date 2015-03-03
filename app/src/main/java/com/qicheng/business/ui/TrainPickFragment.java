@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -105,7 +107,11 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
         String[] s = Cache.getInstance().getTrainList().toArray(new String[0]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,s);
         mTrainCode.setAdapter(adapter);
+        InputFilter[] filters = new InputFilter[1];
+        filters[0]= new InputFilter.AllCaps();
+        mTrainCode.setFilters(filters);
         mTrainCode.addTextChangedListener( new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 //do noting
@@ -113,7 +119,6 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //do nothing
             }
 
             @Override

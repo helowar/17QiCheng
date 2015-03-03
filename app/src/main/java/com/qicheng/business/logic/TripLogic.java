@@ -1,9 +1,12 @@
 package com.qicheng.business.logic;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.Trip;
 import com.qicheng.business.protocol.AddTripProcess;
 import com.qicheng.business.protocol.GetTrainInfoProcess;
+import com.qicheng.business.protocol.GetTripRelatedCityList;
+import com.qicheng.business.protocol.GetTripRelatedTrainList;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.TripListProcess;
 import com.qicheng.framework.event.EventListener;
@@ -11,6 +14,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.framework.util.StringUtil;
 
 /**
  * Created by NO1 on 2015/2/11.
@@ -86,9 +90,32 @@ public class TripLogic extends BaseLogic{
                 tripEventArgs.setTrip(process.getResult());
                 //发送事件
                 fireEvent(listener, tripEventArgs);
+                if(errCode == OperErrorCode.Success){
+                    refreshTripRelatedCache();
+                }
             }
         });
+    }
 
+    public void refreshTripRelatedCache(){
+        final GetTripRelatedCityList cityProcess = new GetTripRelatedCityList();
+        cityProcess.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                if(!StringUtil.isEmpty(cityProcess.result)){
+                    Cache.getInstance().refreshTripRelatedCityCache(cityProcess.result);
+                }
+            }
+        });
+        final GetTripRelatedTrainList trainProcess = new GetTripRelatedTrainList();
+        trainProcess.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                if(!StringUtil.isEmpty(trainProcess.result)){
+                    Cache.getInstance().refreshTripRelatedTrainCache(trainProcess.result);
+                }
+            }
+        });
     }
 
     /**

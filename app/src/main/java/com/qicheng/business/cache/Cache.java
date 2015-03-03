@@ -1,9 +1,13 @@
 package com.qicheng.business.cache;
 
+import com.qicheng.business.module.City;
+import com.qicheng.business.module.Train;
+import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.module.User;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.business.protocol.GetTrainListProcess;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,6 +25,8 @@ public class Cache {
     private User mUser;
     private String publicKey;
 
+    private TripRelatedCache mTripRelatedCache = new TripRelatedCache();
+
     private UserCache mUserCache = new UserCache();
 
     public User getUser() {
@@ -36,6 +42,8 @@ public class Cache {
         mUser = mUserCache.getCashedUser();
         /*公钥缓存*/
         publicKey = PersistorManager.getInstance().getPublicKey();
+        /*行程相关数据缓存*/
+        mTripRelatedCache.onCreate();
 
         GetTrainListProcess process = new GetTrainListProcess();
         process.run();
@@ -62,4 +70,32 @@ public class Cache {
     public Set<String> getTrainList(){
         return PersistorManager.getInstance().getTrainList();
     }
+
+    public List<City> getTripRelatedCityCache() {
+        return mTripRelatedCache.getCitys();
+    }
+
+    public List<Train> getTripRelatedTrainCache(){
+        return mTripRelatedCache.getTrains();
+    }
+
+    public void refreshTripRelatedCityCache(String c){
+        mTripRelatedCache.setCityCache(c);
+    }
+
+    public void refreshTripRelatedTrainCache(String t){
+        mTripRelatedCache.setTrainCache(t);
+    }
+
+    public void addStationsToCityCache(String cityCode,List<TrainStation> stations){
+        List<City> cityList = mTripRelatedCache.getCitys();
+        for(int i=0;i<cityList.size();i++ ){
+            City c = cityList.get(i);
+            if(c.getCityCode().equals(cityCode)){
+                c.setStationList(stations);
+                return;
+            }
+        }
+    }
+
 }

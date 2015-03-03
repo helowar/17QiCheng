@@ -1,5 +1,8 @@
 package com.qicheng.framework.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,5 +60,11 @@ public class StringUtil {
         Matcher m = p.matcher(mobiles);
 //        System.out.println(m.matches() + "---");
         return m.matches();
+    }
+
+    public static Date stringToDate(String str) throws ParseException {
+        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date d = sim.parse(str);
+        return d;
     }
 }

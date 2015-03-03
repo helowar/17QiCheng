@@ -81,6 +81,20 @@
     <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
 
+    <!--Chat Activity begin-->
+    <string name="button_pushtotalk">按住说话</string>
+    <string name="button_send">发送</string>
+    <string name="attach_take_pic">拍照</string>
+    <string name="attach_picture">图片</string>
+    <string name="attach_location">位置</string>
+    <string name="attach_video">视频</string>
+    <string name="attach_coupon">票券</string>
+    <string name="attach_voice_call">语音电话</string>
+    <string name="attach_video_call">视频通话</string>
+    <string name="move_up_to_cancel">手指上滑，取消发送</string>
+    <string name="prompt">提示</string>
+    <!--Chat Activity end-->
+
 
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
@@ -133,5 +147,17 @@
     <string name="title_activity_test_activity_child">TestActivityChild</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_welcome">启程</string>
+
+    <!--ActivityFragment begin -->
+    <string name="activity_title">动态</string>
+    <string name="activity_search_text">筛选动态</string>
+    <string name="add_activity_text">添加动态</string>
+    <string name="activity_newest_btn_text">最新</string>
+    <string name="activity_nearby_btn_text">附近</string>
+    <string name="activity_search_hint_text">请输入关键字</string>
+    <string name="activity_reject">获取动态失败</string>
+    <string name="activity_noMoreData">没有更多动态了</string>
+    <!--ActivityFragment end-->
+
 
 </resources>

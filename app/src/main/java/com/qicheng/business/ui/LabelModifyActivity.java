@@ -72,7 +72,8 @@ public class LabelModifyActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(false);
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -170,10 +171,12 @@ public class LabelModifyActivity extends BaseActivity {
                         labelTypeList.add(personal);
                         intent.putExtra("Labels", labelTypeList);
                         startActivity(intent);
+                        finish();
                         break;
                 }
             }
         }));
     }
+
 
 }

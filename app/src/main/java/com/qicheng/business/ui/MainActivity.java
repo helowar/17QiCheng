@@ -6,19 +6,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.qicheng.R;
-import com.qicheng.business.module.Label;
-import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.business.service.LocationService;
+import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
-
-import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -33,7 +30,6 @@ public class MainActivity extends BaseActivity {
     BadgeView messageBadge;
     BadgeView ticketBadge;
 
-
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
     private VoucherFragment voucherFragment;
@@ -43,27 +39,34 @@ public class MainActivity extends BaseActivity {
     private String userToken;
     private SlidingMenu menu;
 
+    private int index = Const.INDEX_TRIP;
+
+    public static MainActivity instanceState;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_main);
+        // setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
         logger.d("Get the user token:" + userToken);
-       // initView();
+        // initView();
         initSlidingMenu();
         Intent locationService = new Intent(this, LocationService.class);
         startService(locationService);
+        instanceState = this;
+
     }
 
     public void initView() {
         tripFragment = new TripListFragment();
         getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
         findViewById(R.id.trip_content).setVisibility(View.VISIBLE);
-        tripRb = (RadioButton)findViewById(R.id.rbTrip);
-        actyRb = (RadioButton)findViewById(R.id.rbSocial);
-        socialRb = (RadioButton)findViewById(R.id.rbActy);
-        messageRb = (RadioButton)findViewById(R.id.rbMessage);
-        ticketRb = (RadioButton)findViewById(R.id.rbTicket);
+        tripRb = (RadioButton) findViewById(R.id.rbTrip);
+        actyRb = (RadioButton) findViewById(R.id.rbSocial);
+        socialRb = (RadioButton) findViewById(R.id.rbActy);
+        messageRb = (RadioButton) findViewById(R.id.rbMessage);
+        ticketRb = (RadioButton) findViewById(R.id.rbTicket);
         //附加Badge
         messageBadge = new BadgeView(getActivity());
         messageBadge.setMaxCount(99);
@@ -98,6 +101,7 @@ public class MainActivity extends BaseActivity {
         socialRb.setOnClickListener(checkedListener);
         messageRb.setOnClickListener(checkedListener);
         ticketRb.setOnClickListener(checkedListener);
+
     }
 
 
@@ -107,7 +111,7 @@ public class MainActivity extends BaseActivity {
     private void initSlidingMenu() {
         // 设置主界面视图
         setContentView(R.layout.activity_main);
-       // getFragmentManager().beginTransaction().replace(R.id.content_frame, new TripListFragment()).commit();
+        // getFragmentManager().beginTransaction().replace(R.id.content_frame, new TripListFragment()).commit();
         initView();
         // 设置滑动菜单的属性值
         menu = new SlidingMenu(this);
@@ -134,7 +138,26 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        /*判断当前是哪个fragment并设置actionbar*/
+        switch (index) {
+            case Const.INDEX_TRIP:
+                getMenuInflater().inflate(R.menu.menu_main, menu);
+                getActivity().setTitle(getResources().getString(R.string.title_activity_main));
+                break;
+            case Const.INDEX_SOCIAL:
+                getActivity().setTitle("交友");
+                break;
+            case Const.INDEX_ACTIVITY:
+                getMenuInflater().inflate(R.menu.menu_activity, menu);
+                getActivity().setTitle(getResources().getString(R.string.activity_title));
+                break;
+            case Const.INDEX_MESSAGE:
+                getActivity().setTitle("消息");
+                break;
+            case Const.INDEX_VOUCHER:
+                getActivity().setTitle("代金券");
+                break;
+        }
         ActionBar actionBar = this.getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         return true;
@@ -145,8 +168,6 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
-            //startActivity(intent);
             menu.toggle();
             return true;
         }
@@ -160,7 +181,7 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    private class RadioButtonOnClickListener implements View.OnClickListener{
+    private class RadioButtonOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             tripRb.setChecked(false);
@@ -168,7 +189,7 @@ public class MainActivity extends BaseActivity {
             socialRb.setChecked(false);
             messageRb.setChecked(false);
             ticketRb.setChecked(false);
-            RadioButton target = (RadioButton)v;
+            RadioButton target = (RadioButton) v;
             target.setChecked(true);
             onCheckedChanged(target.getId());
         }
@@ -180,13 +201,14 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.acty_content).setVisibility(View.GONE);
         findViewById(R.id.message_content).setVisibility(View.GONE);
         findViewById(R.id.user_content).setVisibility(View.GONE);
-
         findViewById(id).setVisibility(View.VISIBLE);
     }
 
     private void onCheckedChanged(int checkedId) {
         switch (checkedId) {
             case R.id.rbMessage:
+                index = Const.INDEX_MESSAGE;
+                getActivity().invalidateOptionsMenu();
                 if (messageFragment == null) {
                     messageFragment = new MessageFragment();
                     getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment)
@@ -195,6 +217,8 @@ public class MainActivity extends BaseActivity {
                 activatedFrame(R.id.message_content);
                 break;
             case R.id.rbTrip:
+                index = Const.INDEX_TRIP;
+                getActivity().invalidateOptionsMenu();
                 if (tripFragment == null) {
                     tripFragment = new TripListFragment();
                     getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
@@ -202,6 +226,8 @@ public class MainActivity extends BaseActivity {
                 activatedFrame(R.id.trip_content);
                 break;
             case R.id.rbSocial:
+                index = Const.INDEX_SOCIAL;
+                getActivity().invalidateOptionsMenu();
                 if (socialFragment == null) {
                     socialFragment = new SocialFragment();
                     getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment)
@@ -210,6 +236,8 @@ public class MainActivity extends BaseActivity {
                 activatedFrame(R.id.social_content);
                 break;
             case R.id.rbTicket:
+                index = Const.INDEX_VOUCHER;
+                getActivity().invalidateOptionsMenu();
                 if (voucherFragment == null) {
                     voucherFragment = new VoucherFragment();
                     getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
@@ -218,6 +246,8 @@ public class MainActivity extends BaseActivity {
                 activatedFrame(R.id.user_content);
                 break;
             case R.id.rbActy:
+                index = Const.INDEX_ACTIVITY;
+                getActivity().invalidateOptionsMenu();
                 if (actyFragment == null) {
                     actyFragment = new ActyFragment();
                     getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment)
@@ -230,19 +260,19 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void incrementMessageCount(int increment){
+    public void incrementMessageCount(int increment) {
         messageBadge.incrementBadgeCount(increment);
     }
 
-    public void decrementMessageCount(int decrement){
+    public void decrementMessageCount(int decrement) {
         messageBadge.decrementBadgeCount(decrement);
     }
 
-    public void incrementTicketCount(int increment){
+    public void incrementTicketCount(int increment) {
         ticketBadge.incrementBadgeCount(increment);
     }
 
-    public void decrementTicketCount(int decrement){
+    public void decrementTicketCount(int decrement) {
         ticketBadge.decrementBadgeCount(decrement);
     }
 
