@@ -2,6 +2,7 @@ package com.qicheng.business.logic;
 
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.protocol.GetDynListProcess;
+import com.qicheng.business.protocol.InteractProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.ui.ActyFragment;
 import com.qicheng.framework.event.EventListener;
@@ -35,6 +36,20 @@ public class DynLogic extends BaseLogic {
             }
         });
 
+    }
+
+    public void interact(String id,byte action,final EventListener listener){
+        final InteractProcess process = new InteractProcess();
+        process.setId(id);
+        process.setAction(action);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                DynEventAargs dynEventAargs = new DynEventAargs(errCode);
+                fireEvent(listener, dynEventAargs);
+            }
+        });
     }
 
 }

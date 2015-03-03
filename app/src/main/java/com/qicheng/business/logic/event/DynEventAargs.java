@@ -20,17 +20,20 @@ public class DynEventAargs extends StatusEventArgs {
     private ArrayList<Dyn> dynList;
 
 
+    public DynEventAargs(OperErrorCode errorCode) {
+        super(errorCode);
+    }
+
     public DynEventAargs(ArrayList value) {
         super(OperErrorCode.Success);
         dynList = value;
     }
 
-    public DynEventAargs(ArrayList value, OperErrorCode errCode ) {
+    public DynEventAargs(ArrayList value, OperErrorCode errCode) {
         super(errCode);
         dynList = value;
 
     }
-
 
 
     public ArrayList<Dyn> getDynList() {
