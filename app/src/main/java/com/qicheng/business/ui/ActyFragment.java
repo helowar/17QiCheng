@@ -25,12 +25,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
+import com.qicheng.business.module.City;
 import com.qicheng.business.module.Dyn;
-import com.qicheng.business.module.DynBean;
+import com.qicheng.business.module.Location;
+import com.qicheng.business.module.Train;
 import com.qicheng.business.ui.component.DynListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -57,13 +60,18 @@ public class ActyFragment extends BaseFragment {
     private LinearLayout searchLinearLayout;
     private View searchView;
     private int index = -1;
-    private List<DynBean> dynList = DynModel.getDynList();
     private List<Dyn> dynSearchList = new ArrayList<Dyn>();
-    private String[] cities = {"广州", "上海", "北京", "香港", "澳门"};
+    /*城市列表*/
+    private List<City> cityList;
+    private String[] cities;
+    private List<Train> trainList;
+    private String[] trains;
     /*搜索条件*/
     private DynSearch dynSearch = new DynSearch();
-    ;
     private ArrayList<Dyn> dynArrayList;
+    private List<Dyn> newData;
+
+    private String title;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,25 +150,35 @@ public class ActyFragment extends BaseFragment {
                 switch (position) {
                     /*当position的位置为0时是按城市搜索最新动态*/
                     case 0:
+                        cityList = Cache.getInstance().getTripRelatedCityCache();
                         searchByCity();
-                        dynSearch = new DynSearch();
-                        dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
-                        dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
-                        dynSearch.setQueryValue("城市代码");
+                        dynSearchList.clear();
                         break;
                     /*当position的位置为1时是按车次搜索最新动态*/
                     case 1:
-                        searchLinearLayout.setVisibility(View.GONE);
+                        trainList = Cache.getInstance().getTripRelatedTrainCache();
+                        searchByTrain();
+                        dynSearchList.clear();
                         break;
                     /*当position的位置为2时是按最新搜索最新动态*/
                     case 2:
                         dynSearchList = new ArrayList<Dyn>();
                         dynSearch = new DynSearch();
+                        title = "最新";
+                        getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
                         break;
                     /*当position的位置为3时是按附近搜索最新动态*/
                     case 3:
+                        title = "最近";
+                        /*配置当前搜索条件*/
+                        dynSearch = new DynSearch();
+                        dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
+                        Location location = Cache.getInstance().getUser().getLocation();
+                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|' );
+                        getActivity().invalidateOptionsMenu();
+                        getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
                         break;
                     default:
@@ -173,16 +191,6 @@ public class ActyFragment extends BaseFragment {
         return view;
     }
 
-    /*获取更多动态*/
-
-    private void loadMoreData(int flag) {
-        if (flag == 0) {
-            dynList.addAll(0, DynModel.getDynList());
-        } else if (flag == 1) {
-            dynList.addAll(DynModel.getDynList());
-        }
-        listAdapter.notifyDataSetChanged();
-    }
 
     /*搜索GridView是否存在的标志，默认不存在*/
     private int isVisible = View.GONE;
@@ -215,47 +223,78 @@ public class ActyFragment extends BaseFragment {
 
 
     /**
+     * 通过车次作为搜索条件搜索
+     */
+    public void searchByTrain() {
+        if (trainList != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("请选择车次");
+            //    指定下拉列表的显示数据
+            //    设置一个下拉的列表选择项
+            trains = new String[trainList.size()];
+            for (int i = 0; i < trainList.size(); i++) {
+                trains[i] = trainList.get(i).getTrainCode();
+            }
+            builder.setItems(trains, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    index = which;
+                    ActionBar actionBar = getActivity().getActionBar();
+                    Toast.makeText(getActivity(), "选择的车次为：" + trains[which], Toast.LENGTH_SHORT).show();
+                    title = trains[which];
+                    getActivity().invalidateOptionsMenu();
+                    searchLinearLayout.setVisibility(View.GONE);
+                    dynSearch = new DynSearch();
+                    dynSearch.setQueryType(Const.QUERY_TYPE_TRAIN);
+                    dynSearch.setQueryValue(trainList.get(which).getTrainCode());
+                    getDynList(dynSearch);
+                }
+            });
+            builder.show();
+        } else {
+            Alert.Toast("您当前没有与行程相关的城市");
+        }
+    }
+
+
+    /**
      * 通过城市作为搜索条件搜索
      */
     public void searchByCity() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("请选择城市");
-        //    指定下拉列表的显示数据
-        //    设置一个下拉的列表选择项
-        builder.setItems(cities, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                index = which;
-                ActionBar actionBar = getActivity().getActionBar();
-                Toast.makeText(getActivity(), "选择的城市为：" + cities[which], Toast.LENGTH_SHORT).show();
-                getActivity().invalidateOptionsMenu();
-                searchLinearLayout.setVisibility(View.GONE);
+        if (cityList != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("请选择城市");
+            //    指定下拉列表的显示数据
+            //    设置一个下拉的列表选择项
+            cities = new String[cityList.size()];
+            for (int i = 0; i < cityList.size(); i++) {
+                cities[i] = cityList.get(i).getCityName();
             }
-        });
-        builder.show();
+            builder.setItems(cities, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    index = which;
+                    ActionBar actionBar = getActivity().getActionBar();
+                    Toast.makeText(getActivity(), "选择的城市为：" + cities[which], Toast.LENGTH_SHORT).show();
+                    title = cities[which];
+                    getActivity().invalidateOptionsMenu();
+                    searchLinearLayout.setVisibility(View.GONE);
+                    dynSearch = new DynSearch();
+                    dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
+                    dynSearch.setQueryValue(cityList.get(which).getCityCode());
+                    getDynList(dynSearch);
+                }
+            });
+            builder.show();
+        } else {
+            Alert.Toast("您当前没有与行程相关的城市");
+        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem item = menu.getItem(0);
-        switch (index) {
-            case 0:
-                item.setTitle(cities[0]);
-                break;
-            case 1:
-                item.setTitle(cities[1]);
-                break;
-            case 2:
-                item.setTitle(cities[2]);
-                break;
-            case 3:
-                item.setTitle(cities[3]);
-                break;
-            case 4:
-                item.setTitle(cities[4]);
-                break;
-
-        }
+        item.setTitle(title);
     }
 
     /*获取动态列表*/
@@ -271,29 +310,19 @@ public class ActyFragment extends BaseFragment {
                 Byte type = dynSearchCondition.getQueryType();
                 switch (errCode) {
                     case Success:
-                        List<Dyn> newData = dynEventAargs.getDynList();
-
-                        if (dynSearchList.size() == 0 && type == null && orderBy == Const.ORDER_BY_NEWEST) {
-                            /**
-                             * 场景刚刚进入动态列表，当动态的列表为空，并且查询类型为空，并且查询方向为最新
-                             */
-                            dynSearchList = newData;
-                            listAdapter.setDataList(dynSearchList);
-                            listAdapter.notifyDataSetChanged();
-                        } else if (dynSearchList.size() > 0 && type == null && orderBy == Const.ORDER_BY_NEWEST) {
-                            /*
-                            场景最新动态列表，上拉刷新
-                             */
-                            dynSearchList.addAll(0, newData);
-                            listAdapter.notifyDataSetChanged();
-                        } else if (dynSearchList.size() > 0 && type == null && orderBy == Const.ORDER_BY_EARLIEST) {
-                            /*
-                            场景：下拉刷新动态列表
-                             */
-                            dynSearchList.addAll(newData);
-                            listAdapter.notifyDataSetChanged();
+                        newData = dynEventAargs.getDynList();
+                        if (type == null) {
+                            refreshSearchList(orderBy);
+                        } else {
+                            switch (type) {
+                                case Const.QUERY_TYPE_CITY:
+                                    refreshSearchList(orderBy);
+                                    break;
+                                case Const.QUERY_TYPE_TRAIN:
+                                    refreshSearchList(orderBy);
+                                    break;
+                            }
                         }
-
                         break;
                     case NoDataFound:
                         Alert.handleErrCode(errCode);
@@ -306,6 +335,38 @@ public class ActyFragment extends BaseFragment {
                 }
             }
         }));
+
+
+    }
+
+    /**
+     * 刷新动态，判断是上拉刷新还是下拉更多
+     *
+     * @param orderBy
+     */
+    public void refreshSearchList(int orderBy) {
+
+        if (dynSearchList.size() == 0 && orderBy == Const.ORDER_BY_NEWEST) {
+            /**
+             * 场景刚刚进入动态列表，当动态的列表为空，并且查询类型为空，并且查询方向为最新
+             */
+            dynSearchList = newData;
+            listAdapter.setDataList(dynSearchList);
+            listAdapter.notifyDataSetChanged();
+        } else if (dynSearchList.size() > 0 && orderBy == Const.ORDER_BY_NEWEST) {
+                            /*
+                            场景最新动态列表，上拉刷新
+                             */
+            dynSearchList.addAll(0, newData);
+            listAdapter.notifyDataSetChanged();
+        } else if (dynSearchList.size() > 0 && orderBy == Const.ORDER_BY_EARLIEST) {
+                            /*
+                            场景：下拉刷新动态列表
+                             */
+            dynSearchList.addAll(newData);
+            listAdapter.notifyDataSetChanged();
+        }
+
     }
 
 

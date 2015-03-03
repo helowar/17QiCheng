@@ -44,7 +44,19 @@ public class GetDynListProcess extends BaseProcess {
             if (queryType != null) {
                 switch (queryType) {
                     case Const.QUERY_TYPE_CITY:
-                        //do something
+                        spliceParameter(o);
+                        logger.e("组装传入搜索城市动态参数成功");
+                        logger.d(o.toString());
+                        break;
+                    case Const.QUERY_TYPE_TRAIN:
+                        spliceParameter(o);
+                        logger.e("组装传入搜索车次动态参数成功");
+                        logger.d(o.toString());
+                        break;
+                    case Const.QUERY_TYPE_NEAR:
+                        spliceParameter(o);
+                        logger.e("组装传入搜索附近动态参数成功");
+                        logger.d(o.toString());
                         break;
                     //....
                     default:
@@ -53,8 +65,8 @@ public class GetDynListProcess extends BaseProcess {
                 }
             } else {
                 o.put("order_by", dynSearch.getOrderBy());
-                if(dynSearch.getOrderNum()!=0){
-                    o.put("order_num",dynSearch.getOrderNum());
+                if (dynSearch.getOrderNum() != 0) {
+                    o.put("order_num", dynSearch.getOrderNum());
                 }
             }
             return o.toString();
@@ -133,5 +145,16 @@ public class GetDynListProcess extends BaseProcess {
         this.dynList = dynList;
     }
 
+    /**
+     * 当搜索的type不为空的时候拼接Json字符串
+     */
+    public void spliceParameter(JSONObject o) throws Exception {
+        o.put("order_by", dynSearch.getOrderBy());
+        o.put("query_type", dynSearch.getQueryType());
+        o.put("query_value", dynSearch.getQueryValue());
+        if (dynSearch.getOrderNum() != 0) {
+            o.put("order_num", dynSearch.getOrderNum());
+        }
+    }
 
 }
