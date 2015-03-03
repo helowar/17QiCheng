@@ -2,6 +2,7 @@ package com.qicheng;
 
 import android.app.Application;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -9,6 +10,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
+
+import java.io.File;
 
 public class QichengApplication extends Application {
 
@@ -31,8 +34,9 @@ public class QichengApplication extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .discCacheFileCount(60)//Set max cache file count in SD card
+                .diskCache(new UnlimitedDiscCache(new File(Const.WorkDir+"img/")))
+                .diskCacheFileNameGenerator(new Md5FileNameGenerator())
+                .diskCacheFileCount(100)
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .build();
 

@@ -9,6 +9,16 @@ import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener{
+    /**
+     * ContextMenu结果代码
+     */
+    public static final int RESULT_CODE_COPY = 1;
+    public static final int RESULT_CODE_DELETE = 2;
+    public static final int RESULT_CODE_FORWARD = 3;
+    public static final int RESULT_CODE_OPEN = 4;
+    public static final int RESULT_CODE_DWONLOAD = 5;
+    public static final int RESULT_CODE_TO_CLOUD = 6;
+    public static final int RESULT_CODE_EXIT_GROUP = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

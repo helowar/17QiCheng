@@ -52,9 +52,9 @@
 //import com.qicheng.R;
 //import com.qicheng.util.Const;
 //import com.qicheng.business.ui.chat.activity.AlertDialog;
-//import com.easemob.chatuidemo.activity.BaiduMapActivity;
-//import com.easemob.chatuidemo.activity.ChatActivity;
-//import com.easemob.chatuidemo.activity.ContextMenu;
+//import com.qicheng.business.ui.chat.activity.BaiduMapActivity;
+//import com.qicheng.business.ui.ChatActivity;
+//import com.qicheng.business.ui.chat.activity.ContextMenu;
 //import com.easemob.chatuidemo.activity.ShowBigImage;
 //import com.easemob.chatuidemo.activity.ShowNormalFileActivity;
 //import com.easemob.chatuidemo.activity.ShowVideoActivity;
