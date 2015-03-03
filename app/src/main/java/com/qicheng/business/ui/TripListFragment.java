@@ -167,7 +167,7 @@ public class TripListFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent i = new Intent();
                 i.setClass(getActivity(),PassengerActivity.class);
-                i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getEndStationCode());
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getTrainCode());
                 startActivity(i);
             }
         });
