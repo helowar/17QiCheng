@@ -32,6 +32,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,8 +140,7 @@ public class PassengerActivity extends BaseActivity {
         setContentView(R.layout.activity_passenger);
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
-        //String queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
-        String queryValue = "G1234";
+        String queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
         // 获取各种View对象
         recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.passenger_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.passenger_recommend_persons_layout);

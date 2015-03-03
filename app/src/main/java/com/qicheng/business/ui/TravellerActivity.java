@@ -117,7 +117,6 @@ public class TravellerActivity extends BaseActivity {
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
         String queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
-        //String queryValue = "SHHQ";
         // 获取各种View对象
         recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
