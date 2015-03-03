@@ -197,7 +197,7 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                     param.setEndStationCode(mStopStation.getStationCode());
                     param.setEndStationName(mStopStation.getStationName());
                     param.setStartTime(mTripDate + mStartStation.getLeaveTime().replace(":", ""));
-                    param.setStopTime(getEndDttm(mStopStation.getLeaveTime(),mTripDate,mStopStation.getCrossDays()));
+                    param.setStopTime(getEndDttm(mStopStation.getLeaveTime(),mTripDate,mStopStation.getCrossDays()-mStartStation.getCrossDays()));
                     param.setCarSharing(mCarSharing);
                     param.setTravelTogether(mTravelTogether);
                     param.setStayDays(mStayDays);
