@@ -40,8 +40,7 @@ public class TripRelatedCache {
         mTrains = new ArrayList<Train>();
         if(!StringUtil.isEmpty(jsonCitys)){
            try{
-               JSONObject jsonObject = new JSONObject(jsonCitys);
-               JSONArray cityArray = jsonObject.optJSONArray("body");
+               JSONArray cityArray = new JSONArray(jsonCitys);
                for(int i = 0;i<cityArray.length();i++){
                    JSONObject jc = cityArray.optJSONObject(i);
                    City c = new City();
@@ -55,8 +54,7 @@ public class TripRelatedCache {
         }
         if(!StringUtil.isEmpty(jsonTrain)){
             try{
-                JSONObject jsonObject = new JSONObject(jsonTrain);
-                JSONArray trainArray = jsonObject.optJSONArray("body");
+                JSONArray trainArray = new JSONArray(jsonTrain);
                 for(int i = 0;i<trainArray.length();i++){
                     String jt = trainArray.optString(i);
                     Train t = new Train();
