@@ -290,6 +290,11 @@ public class Const {
          * 响应结果码 15:没有响应数据，即响应体(body)不存在
          */
         public static final int RESULT_BODY_IS_NOT_EXIST = 15;
+
+        /**
+         * 响应结果码 16:没有权限
+         */
+        public static final int RESULT_NOT_PERMIT = 16;
     }
 
     /**
@@ -341,4 +346,23 @@ public class Const {
      */
     public static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
+    /**
+     * 互动操作 0：赞
+     */
+    public static final byte INTERACT_ACTION_LIKED = 0;
+
+    /**
+     * 互动操作 1：取消赞
+     */
+    public static final byte INTERACT_ACTION_CANCEL = 1;
+
+    /**
+     * 互动操作 2：分享
+     */
+    public static final byte INTERACT_ACTION_SHARED = 2;
+
+    /**
+     * 互动操作 3：举报
+     */
+    public static final byte INTERACT_ACTION_REPORTED = 3;
 }
