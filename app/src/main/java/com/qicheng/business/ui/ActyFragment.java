@@ -83,10 +83,12 @@ public class ActyFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_acty, container, false);
         searchView = inflater.inflate(R.layout.dyn_search_edit_layout, container, false);
         dynListView = (DynListView) view.findViewById(R.id.dynlist);
         listAdapter = new DynListViewAdapter(getActivity().getApplicationContext());
+
         getDynList(dynSearch);
         dynListView.setAdapter(listAdapter);
 
@@ -176,7 +178,7 @@ public class ActyFragment extends BaseFragment {
                         dynSearch = new DynSearch();
                         dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
                         Location location = Cache.getInstance().getUser().getLocation();
-                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|' );
+                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|');
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
@@ -239,7 +241,6 @@ public class ActyFragment extends BaseFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     index = which;
-                    ActionBar actionBar = getActivity().getActionBar();
                     Toast.makeText(getActivity(), "选择的车次为：" + trains[which], Toast.LENGTH_SHORT).show();
                     title = trains[which];
                     getActivity().invalidateOptionsMenu();
@@ -274,7 +275,6 @@ public class ActyFragment extends BaseFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     index = which;
-                    ActionBar actionBar = getActivity().getActionBar();
                     Toast.makeText(getActivity(), "选择的城市为：" + cities[which], Toast.LENGTH_SHORT).show();
                     title = cities[which];
                     getActivity().invalidateOptionsMenu();
@@ -299,6 +299,7 @@ public class ActyFragment extends BaseFragment {
 
     /*获取动态列表*/
     public void getDynList(final DynSearch dynSearchCondition) {
+
         DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
         dynLogic.getDynList(dynSearchCondition, createUIEventListener(new EventListener() {
             @Override
@@ -337,6 +338,26 @@ public class ActyFragment extends BaseFragment {
         }));
 
 
+    }
+
+    /*点赞分享次数*/
+    public void interact(String id, byte action) {
+        DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
+        dynLogic.interact(id, action, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                DynEventAargs dynEventAargs = (DynEventAargs) args;
+                OperErrorCode errCode = dynEventAargs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        break;
+                    default:
+                        Alert.handleErrCode(errCode);
+                        Alert.Toast(getResources().getString(R.string.activity_reject));
+                        break;
+                }
+            }
+        }));
     }
 
     /**
@@ -410,7 +431,7 @@ public class ActyFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
@@ -423,6 +444,12 @@ public class ActyFragment extends BaseFragment {
                 holder.likeNum = (TextView) convertView.findViewById(R.id.liketime);
                 holder.shareNum = (TextView) convertView.findViewById(R.id.sharetime);
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
+                Dyn dyn = dynSearchList.get(position);
+                if (dyn.getIsLiked() ==1) {
+                    holder.likeimg.setImageResource(R.drawable.ic_liked);
+                } else {
+                    holder.likeimg.setImageResource(R.drawable.ic_like);
+                }
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
                 convertView.setTag(holder);
@@ -449,8 +476,23 @@ public class ActyFragment extends BaseFragment {
             holder.likeimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
-
+                    Dyn dyn = dynSearchList.get(position);
+                    Log.d("isLiked",dyn.getIsLiked()+" "+dyn.getLikedNum());
+                    if (dyn.getIsLiked() == Const.INTERACT_ACTION_LIKED) {
+                        holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
+                        String id = dyn.getActivityId();
+                        byte action = Const.INTERACT_ACTION_LIKED;
+                        interact(id, action);
+                        holder.likeimg.setImageResource(R.drawable.ic_liked);
+                        dyn.setIsLiked(Const.INTERACT_ACTION_CANCEL);
+                    } else {
+                        holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) - 1) + "");
+                        String id = dyn.getActivityId();
+                        byte action = Const.INTERACT_ACTION_CANCEL;
+                        holder.likeimg.setImageResource(R.drawable.ic_like);
+                        interact(id, action);
+                        dyn.setIsLiked(Const.INTERACT_ACTION_LIKED);
+                    }
                 }
             });
 
