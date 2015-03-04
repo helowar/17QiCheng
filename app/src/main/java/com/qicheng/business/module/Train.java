@@ -23,4 +23,12 @@ public class Train implements Serializable {
     public void setTrainCode(String trainCode) {
         mTrainCode = trainCode;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Train{");
+        sb.append("mTrainCode='").append(mTrainCode).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

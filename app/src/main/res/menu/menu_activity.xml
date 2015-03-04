@@ -7,15 +7,16 @@
         android:id="@+id/activity_title"
         android:title="@string/activity_newest_btn_text"
         android:showAsAction="always">
+        <!--
         <menu>
             <item
                 android:id="@+id/city1"
-                android:title="北京南" />
+                android:title="北京南"/>
             <item
                 android:id="@+id/city2"
                 android:title="北京西" />
         </menu>
-
+            -->
     </item>
 
     <item
