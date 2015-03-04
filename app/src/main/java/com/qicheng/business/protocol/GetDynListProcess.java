@@ -101,7 +101,7 @@ public class GetDynListProcess extends BaseProcess {
                         dyn.setLikedNum(jsonDyn.optInt("liked_num"));
                         dyn.setSharedNum(jsonDyn.optInt("shared_num"));
                         dyn.setIsLiked(jsonDyn.optInt("is_liked"));
-                        dyn.setIsShared(jsonDyn.optInt("is_shared"));
+                        //dyn.setIsShared(jsonDyn.optInt("is_shared"));
                         dyn.setCreateTime(StringUtil.stringToDate(jsonDyn.optString("create_time")));
                         dyn.setOrderNum(jsonDyn.optInt("order_num"));
                         JSONArray jsonFileArray = jsonDyn.has("files") ? o.optJSONArray("files") : null;

@@ -65,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -97,8 +96,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/activity_grid_view"
+            android:orientation="horizontal"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+
             android:layout_marginTop="6dp">
 
             <GridView
@@ -124,8 +130,7 @@
         android:layout_height="wrap_content"
         android:padding="6dp"
         android:divider="@null"
-        android:dividerHeight="6dp"
-        />
+        android:dividerHeight="6dp" />
 
 
 </LinearLayout>

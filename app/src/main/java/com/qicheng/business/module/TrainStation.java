@@ -79,4 +79,13 @@ public class TrainStation implements Serializable{
     public void setEnterTime(String enterTime) {
         this.enterTime = enterTime;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TrainStation{");
+        sb.append("stationCode='").append(stationCode).append('\'');
+        sb.append(", stationName='").append(stationName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
