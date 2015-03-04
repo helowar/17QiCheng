@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qicheng.business.ui.TravellerActivity">
+    tools:context="com.qicheng.business.ui.MainActivity">
+    <item
+        android:id="@+id/user_query"
+        android:title="@string/query_text"
+        android:icon="@drawable/search"
+        android:showAsAction="always"
+        android:orderInCategory="1" />
     <item
         android:id="@+id/gender"
         android:showAsAction="always"
-        android:title="@string/select_text">
+        android:title="@string/select_text"
+        android:orderInCategory="2">
         <menu>
             <group android:checkableBehavior="single">
                 <item

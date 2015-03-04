@@ -145,7 +145,8 @@ public class MainActivity extends BaseActivity {
                 getActivity().setTitle(getResources().getString(R.string.title_activity_main));
                 break;
             case Const.INDEX_SOCIAL:
-                getActivity().setTitle("交友");
+                getMenuInflater().inflate(R.menu.menu_social, menu);
+                getActivity().setTitle(getResources().getString(R.string.social_fragment_title));
                 break;
             case Const.INDEX_ACTIVITY:
                 getMenuInflater().inflate(R.menu.menu_activity, menu);

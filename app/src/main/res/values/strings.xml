@@ -25,8 +25,10 @@
     <string name="month_text">月</string>
     <string name="day_text">日</string>
     <string name="time_sep_icon">:</string>
-    <!--非用户信息-->
+    <!-- 非用户信息 -->
     <string name="please_check">key 验证出错! 请在 AndroidManifest.xml 文件中检查 key 设置</string>
+    <string name="select_text">筛选</string>
+    <string name="query_text">搜索</string>
 
     <!-- <string name=""></string> -->
     <!-- Login Activity begin -->
@@ -85,7 +87,8 @@
     <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
 
-    <!--Chat Activity begin-->
+
+    <!-- Chat Activity begin -->
     <string name="button_pushtotalk">按住说话</string>
     <string name="button_send">发送</string>
     <string name="attach_take_pic">拍照</string>
@@ -97,17 +100,17 @@
     <string name="attach_video_call">视频通话</string>
     <string name="move_up_to_cancel">手指上滑，取消发送</string>
     <string name="prompt">提示</string>
-    <!--Chat Activity end-->
-    <!--Context Menu-->
+    <!-- Chat Activity end -->
+    <!-- Context Menu -->
     <string name="delete_message">删除消息</string>
     <string name="copy_message">复制消息</string>
     <string name="delete_voice">删除语音</string>
     <string name="delete_video">删除视频</string>
     <string name="forward">转发</string>
-    <!--Baidu map Activity begin-->
+    <!-- Baidu map Activity begin -->
     <string name="location_message">位置信息</string>
     <string name="Making_sure_your_location">正在确定你的位置...</string>
-    <!--Baidu map Activity end-->
+    <!-- Baidu map Activity end -->
 
 
     <!-- Traveller Activity begin -->
@@ -152,6 +155,7 @@
 
 
     <!-- Social Fragment begin -->
+    <string name="social_fragment_title">交友</string>
     <string name="social_recommend_text">推荐</string>
     <string name="social_near_person_text">附近的人</string>
     <!-- Social Fragment end -->
@@ -162,7 +166,7 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="title_activity_welcome">启程</string>
 
-    <!--ActivityFragment begin -->
+    <!-- ActivityFragment begin -->
     <string name="activity_title">动态</string>
     <string name="activity_search_text">筛选动态</string>
     <string name="add_activity_text">添加动态</string>
@@ -171,7 +175,10 @@
     <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
     <string name="activity_noMoreData">没有更多动态了</string>
-    <!--ActivityFragment end-->
+    <!-- ActivityFragment end -->
 
+    <!-- UserQueryActivity begin -->
+    <string name="user_query_activity_title">查询用户</string>
+    <!-- UserQueryActivity end -->
 
 </resources>

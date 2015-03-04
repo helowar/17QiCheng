@@ -143,6 +143,7 @@ public class TripListFragment extends BaseFragment {
                 Intent i = new Intent();
                 i.setClass(getActivity(),TravellerActivity.class);
                 i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getStartStationCode());
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_NAME,trip.getStartStationName());
                 startActivity(i);
             }
         });
@@ -153,6 +154,7 @@ public class TripListFragment extends BaseFragment {
                 Intent i = new Intent();
                 i.setClass(getActivity(),TravellerActivity.class);
                 i.putExtra(Const.Intent.TRAVELLER_QUERY_VALUE,trip.getEndStationCode());
+                i.putExtra(Const.Intent.TRAVELLER_QUERY_NAME,trip.getEndStationName());
                 startActivity(i);
             }
         });

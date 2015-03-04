@@ -1,5 +1,7 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +16,12 @@ import android.widget.LinearLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.module.QueryValue;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
@@ -25,20 +29,22 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.qicheng.util.Const.Intent.PORTRAIT_URL;
+import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_NAME;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
 import static com.qicheng.util.Const.Intent.UID;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
-import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
-import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 import static com.qicheng.util.Const.QUERY_TYPE_BEGIN;
 import static com.qicheng.util.Const.QUERY_TYPE_END;
+import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
+import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 
 /**
  * TravellerActivity.java是启程APP的展现同路车友Activity类。
@@ -47,6 +53,16 @@ import static com.qicheng.util.Const.QUERY_TYPE_END;
  * @version 1.0 2015年2月1日
  */
 public class TravellerActivity extends BaseActivity {
+
+    /**
+     * 出发车友Fragment标签
+     */
+    private static final String START_TRAVELLER_FRAGMENT_TAG = "start_traveller_fragment_tag";
+
+    /**
+     * 到达车友Fragment标签
+     */
+    private static final String END_TRAVELLER_FRAGMENT_TAG = "end_traveller_fragment_tag";
 
     /**
      * 推荐车友View
@@ -117,6 +133,8 @@ public class TravellerActivity extends BaseActivity {
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
         String queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
+        String queryName = extras.getString(TRAVELLER_QUERY_NAME);
+        setTitle(queryName + " " + getTitle());
         // 获取各种View对象
         recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
@@ -138,8 +156,8 @@ public class TravellerActivity extends BaseActivity {
         end.putString(TRAVELLER_QUERY_VALUE, queryValue);
         endTravellerFragment.setArguments(end);
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
-        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);
+        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment, START_TRAVELLER_FRAGMENT_TAG);
+        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment, END_TRAVELLER_FRAGMENT_TAG);
         fragmentTransaction.commit();
         startFrameLayout.setVisibility(View.VISIBLE);
         endFrameLayout.setVisibility(View.GONE);
@@ -168,26 +186,7 @@ public class TravellerActivity extends BaseActivity {
         });
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
         // 查询最新推荐用户
-        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
-                UserEventArgs result = (UserEventArgs) args;
-                OperErrorCode errCode = result.getErrCode();
-                if (errCode == OperErrorCode.Success) {
-                    List<User> userList = result.getUserList();
-                    if (userList != null && userList.size() > 0) {
-                        User traveller = null;
-                        for (int i = 0, size = userList.size(); i < size; i++) {
-                            traveller = userList.get(i);
-                            recommendPersonList.add(traveller);
-                            recommendPersonsLayout.addView(createRecommendPersonView(traveller));
-                        }
-
-                    }
-                }
-            }
-        }));
+        refreshRecommendPerson();
         startLoading();
     }
 
@@ -205,23 +204,49 @@ public class TravellerActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_traveller, menu);
+        ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        User user = Cache.getInstance().getUser();
+        int genderQueryValue = user.getQueryValue().getGender();
+        if(genderQueryValue == Const.SEX_MAN) {
+            menu.findItem(R.id.male).setChecked(true);
+        } else if(genderQueryValue == Const.SEX_FEMALE) {
+            menu.findItem(R.id.female).setChecked(true);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        int gender = -1;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+            case R.id.male:
+                item.setChecked(true);
+                gender = Const.SEX_MAN;
+                break;
+            case R.id.female:
+                item.setChecked(true);
+                gender = Const.SEX_FEMALE;
+                break;
         }
-
+        QueryValue queryValue = Cache.getInstance().getUser().getQueryValue();
+        if ((gender == Const.SEX_MAN || gender == Const.SEX_FEMALE) && gender != queryValue.getGender()) {
+            queryValue.setGender(gender);
+            Cache.getInstance().refreshCacheUser();
+            refreshRecommendPerson();
+            FragmentManager manager = getFragmentManager();
+            TravellerPersonFragment fragment = null;
+            fragment = (TravellerPersonFragment) manager.findFragmentByTag(START_TRAVELLER_FRAGMENT_TAG);
+            fragment.refreshPerson();
+            fragment = (TravellerPersonFragment) manager.findFragmentByTag(END_TRAVELLER_FRAGMENT_TAG);
+            fragment.refreshPerson();
+            startLoading();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -261,13 +286,10 @@ public class TravellerActivity extends BaseActivity {
                         if (errCode == OperErrorCode.Success) {
                             List<User> userList = result.getUserList();
                             if (userList != null && userList.size() > 0) {
-                                User traveller = null;
-                                for (int i = 0, size = userList.size(); i < size; i++) {
-                                    traveller = userList.get(i);
-                                    recommendPersonList.add(0, traveller);
-                                    recommendPersonsLayout.addView(createRecommendPersonView(traveller), 0);
+                                recommendPersonList.addAll(0, userList);
+                                for (int i = userList.size() - 1; i > -1; i--) {
+                                    recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)), 0);
                                 }
-
                             }
                         }
                     }
@@ -292,13 +314,10 @@ public class TravellerActivity extends BaseActivity {
                         if (errCode == OperErrorCode.Success) {
                             List<User> userList = result.getUserList();
                             if (userList != null && userList.size() > 0) {
-                                User traveller = null;
+                                recommendPersonList.addAll(userList);
                                 for (int i = 0, size = userList.size(); i < size; i++) {
-                                    traveller = userList.get(i);
-                                    recommendPersonList.add(traveller);
-                                    recommendPersonsLayout.addView(createRecommendPersonView(traveller));
+                                    recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)));
                                 }
-
                             }
                         }
                     }
@@ -312,6 +331,31 @@ public class TravellerActivity extends BaseActivity {
             isFirstScrollToLeftEdge = false;
             isFirstScrollToRightEdge = false;
         }
+    }
+
+    /**
+     * 刷新整个页面里的推荐用户。
+     */
+    private void refreshRecommendPerson() {
+        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result = (UserEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    List<User> userList = result.getUserList();
+                    if (userList != null && userList.size() > 0) {
+                        recommendPersonList.clear();
+                        recommendPersonList.addAll(userList);
+                        recommendPersonsLayout.removeAllViews();
+                        for (int i = 0, size = userList.size(); i < size; i++) {
+                            recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)));
+                        }
+                    }
+                }
+            }
+        }));
     }
 
     private View createRecommendPersonView(final User traveller) {

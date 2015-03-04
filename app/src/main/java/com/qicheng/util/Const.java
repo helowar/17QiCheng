@@ -102,6 +102,11 @@ public class Const {
         public static final String TRAVELLER_QUERY_VALUE = "traveller_query_value";
 
         /**
+         * 迁移到Traveller页面的查询名称
+         */
+        public static final String TRAVELLER_QUERY_NAME = "traveller_query_name";
+
+        /**
          * 用户头像URL
          */
         public static final String PORTRAIT_URL = "user_portrait_url";
@@ -140,7 +145,7 @@ public class Const {
             .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.100:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -384,4 +389,15 @@ public class Const {
      * 互动操作 3：举报
      */
     public static final byte INTERACT_ACTION_REPORTED = 3;
+
+    /**
+     * 性别 1:男
+     */
+    public static final byte SEX_MAN = 1;
+
+    /**
+     * 性别 0:女
+     */
+    public static final byte SEX_FEMALE = 0;
+
 }

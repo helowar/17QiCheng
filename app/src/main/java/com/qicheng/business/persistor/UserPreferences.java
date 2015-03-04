@@ -26,6 +26,7 @@ class UserPreferences {
         editor.putString("lastLatitude", user.getLocation().getLatitude());
         editor.putFloat("lastDirection", user.getLocation().getDirection());
         editor.putString("lastCity", user.getLocation().getCity());
+        editor.putInt("genderQueryValue", user.getQueryValue().getGender());
 		editor.commit();
 	}
 
@@ -55,6 +56,7 @@ class UserPreferences {
         user.getLocation().setLatitude(sp.getString("lastLatitude", ""));
         user.getLocation().setDirection(sp.getFloat("lastDirection", 0));
         user.getLocation().setCity(sp.getString("lastCity", ""));
+        user.getQueryValue().setGender(sp.getInt("genderQueryValue", -1));
 		return user;
 	}
 	
