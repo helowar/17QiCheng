@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
@@ -65,6 +66,7 @@ public class TravellerRecommendPersonProcess extends BaseProcess {
             o.put("order_by", orderBy);
             o.put("last_login_time", lastLoginTime);
             o.put("size", size);
+            o.put("gender", Cache.getInstance().getUser().getQueryValue().getGender());
             return o.toString();
         } catch (Exception e) {
             logger.e("组装传入查询推荐用户参数异常");

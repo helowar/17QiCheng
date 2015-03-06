@@ -107,21 +107,7 @@ public class TravellerPersonFragment extends BaseFragment {
             }
         });
         personsGridView.setOnScrollListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
-        logic.queryUser(queryType, queryValue, ORDER_BY_NEWEST, null, 32, createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
-                UserEventArgs result = (UserEventArgs) args;
-                OperErrorCode errCode = result.getErrCode();
-                if (errCode == OperErrorCode.Success) {
-                    List<User> userList = result.getUserList();
-                    if (userList != null && userList.size() > 0) {
-                        personList.addAll(userList);
-                        imageAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-        }));
+        refreshPerson();
         startLoading();
         return personView;
     }
@@ -278,6 +264,28 @@ public class TravellerPersonFragment extends BaseFragment {
                 lastLocationY = 0;
             }
         }
+    }
+
+    /**
+     * 刷新整个页面里的用户。
+     */
+    public void refreshPerson() {
+        logic.queryUser(queryType, queryValue, ORDER_BY_NEWEST, null, 32, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result = (UserEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    List<User> userList = result.getUserList();
+                    if (userList != null && userList.size() > 0) {
+                        personList.clear();
+                        personList.addAll(userList);
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        }));
     }
 
     private void startUserInfoActivity(int position) {

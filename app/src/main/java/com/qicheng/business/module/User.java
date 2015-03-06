@@ -45,8 +45,14 @@ public class User {
      */
     private Location location;
 
+    /**
+     * 用户查询值
+     */
+    private QueryValue queryValue;
+
     public User() {
         location = new Location();
+        queryValue = new QueryValue();
     }
 
     public User(String userName, String passWord) {
@@ -160,5 +166,9 @@ public class User {
 
     public Location getLocation() {
         return location;
+    }
+
+    public QueryValue getQueryValue() {
+        return queryValue;
     }
 }
