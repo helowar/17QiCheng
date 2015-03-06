@@ -39,9 +39,6 @@ public class DynEventAargs extends StatusEventArgs {
 
     }
 
-
-
-
     public ArrayList<Dyn> getDynList() {
         return dynList;
     }

@@ -63,7 +63,7 @@ public class StringUtil {
     }
 
     public static Date stringToDate(String str) throws ParseException {
-        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sim = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = sim.parse(str);
         return d;
     }
