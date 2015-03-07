@@ -134,7 +134,7 @@
                     android:text="@string/default_stay_time_value"
                     android:editable="false"
                     android:layout_weight="3"
-                    style="@style/FormEdittext"/>
+                    style="@style/FormEditText"/>
                 <ImageView
                     android:id="@+id/increase_stay_time"
                     android:layout_width="wrap_content"

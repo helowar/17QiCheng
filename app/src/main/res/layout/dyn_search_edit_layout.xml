@@ -7,7 +7,7 @@
         android:id="@+id/search_edit_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        style="@style/FormEdittext"
+        style="@style/FormEditText"
         android:background="@drawable/bg_form_input_container"
-        android:hint="@string/activity_search_hint_text" />
+        android:hint="@string/search_hint_text" />
 </LinearLayout>

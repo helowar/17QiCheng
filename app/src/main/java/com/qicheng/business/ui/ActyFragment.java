@@ -185,7 +185,7 @@ public class ActyFragment extends BaseFragment {
                         dynSearch = new DynSearch();
                         dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
                         Location location = Cache.getInstance().getUser().getLocation();
-                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|');
+                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude());
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);

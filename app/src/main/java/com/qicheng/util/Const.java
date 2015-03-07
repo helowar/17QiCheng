@@ -315,9 +315,9 @@ public class Const {
         public static final int RESULT_NOT_PERMIT = 16;
     }
 
-    /**
-     * Traveller页面
-     */
+    /** 查询类型 -1：全站 */
+    public static final byte QUERY_TYPE_ALL = -1;
+
     /** 查询类型 0：车站 */
     public static final byte QUERY_TYPE_STATION = 0;
 

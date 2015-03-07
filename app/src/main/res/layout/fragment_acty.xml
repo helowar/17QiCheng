@@ -79,9 +79,9 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                style="@style/FormEdittext"
+                style="@style/FormEditText"
                 android:background="@drawable/bg_form_input_container"
-                android:hint="@string/activity_search_hint_text" />
+                android:hint="@string/search_hint_text" />
 
             <TextView
                 android:layout_width="wrap_content"

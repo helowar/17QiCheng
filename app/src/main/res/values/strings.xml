@@ -29,8 +29,10 @@
     <string name="please_check">key 验证出错! 请在 AndroidManifest.xml 文件中检查 key 设置</string>
     <string name="select_text">筛选</string>
     <string name="query_text">搜索</string>
+    <string name="search_hint_text">请输入关键字</string>
+    <string name="newest_btn_text">最新</string>
+    <string name="nearby_btn_text">附近</string>
 
-    <!-- <string name=""></string> -->
     <!-- Login Activity begin -->
     <string name="pwd_text">密码</string>
     <string name="pwd_hint_msg">请设置密码</string>
@@ -170,9 +172,6 @@
     <string name="activity_title">动态</string>
     <string name="activity_search_text">筛选动态</string>
     <string name="add_activity_text">添加动态</string>
-    <string name="activity_newest_btn_text">最新</string>
-    <string name="activity_nearby_btn_text">附近</string>
-    <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
     <string name="activity_noMoreData">没有更多动态了</string>
     <!-- ActivityFragment end -->

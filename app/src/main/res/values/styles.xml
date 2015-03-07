@@ -87,7 +87,7 @@
         <item name="android:textColor">@drawable/button_text_color</item>
     </style>
     <!--form中的textInput样式 -->
-    <style name="FormEdittext">
+    <style name="FormEditText">
         <item name="android:singleLine">true</item>
         <item name="android:layout_marginRight">1dp</item>
         <item name="android:layout_marginTop">1dp</item>

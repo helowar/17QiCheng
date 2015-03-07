@@ -57,7 +57,7 @@ public class TravellerPersonLogic extends BaseLogic {
     /**
      * 根据查询类型和查询值，查询对应的普通用户信息。
      *
-     * @param queryType     查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车
+     * @param queryType     查询类型 -1：全站 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车 7：附近 8：城市
      * @param queryValue    查询值
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
@@ -73,7 +73,6 @@ public class TravellerPersonLogic extends BaseLogic {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("查询普通用户信息结果码为：" + errCode);
-
                 UserEventArgs userEventArgs = new UserEventArgs(process.getUserList(), errCode);
                 // 发送事件
                 fireEvent(listener, userEventArgs);
@@ -98,7 +97,6 @@ public class TravellerPersonLogic extends BaseLogic {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("查询推荐用户信息结果码为：" + errCode);
-
                 UserEventArgs userEventArgs = new UserEventArgs(process.getUserList(), errCode);
                 // 发送事件
                 fireEvent(listener, userEventArgs);
