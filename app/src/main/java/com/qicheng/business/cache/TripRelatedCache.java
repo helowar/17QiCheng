@@ -9,6 +9,7 @@ package com.qicheng.business.cache;
 
 import com.qicheng.business.module.City;
 import com.qicheng.business.module.Train;
+import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.framework.util.StringUtil;
 
@@ -41,7 +42,7 @@ public class TripRelatedCache {
         if(!StringUtil.isEmpty(jsonCitys)){
            try{
                JSONArray cityArray = new JSONArray(jsonCitys);
-               for(int i = 0;i<cityArray.length();i++){
+               for (int i = 0, length = cityArray.length(); i < length; i++) {
                    JSONObject jc = cityArray.optJSONObject(i);
                    City c = new City();
                    c.setCityCode(jc.optString("code"));
@@ -55,7 +56,7 @@ public class TripRelatedCache {
         if(!StringUtil.isEmpty(jsonTrain)){
             try{
                 JSONArray trainArray = new JSONArray(jsonTrain);
-                for(int i = 0;i<trainArray.length();i++){
+                for (int i = 0, length = trainArray.length(); i < length; i++) {
                     String jt = trainArray.optString(i);
                     Train t = new Train();
                     t.setTrainCode(jt);
@@ -73,7 +74,7 @@ public class TripRelatedCache {
         mCitys.clear();
         try{
             JSONArray cityArray = new JSONArray(citys);
-            for(int i = 0;i<cityArray.length();i++){
+            for (int i = 0, length = cityArray.length(); i < length; i++) {
                 JSONObject jc = cityArray.optJSONObject(i);
                 City c = new City();
                 c.setCityCode(jc.optString("code"));
@@ -91,7 +92,7 @@ public class TripRelatedCache {
         mTrains.clear();
         try{
             JSONArray trainArray = new JSONArray(trains);
-            for(int i = 0;i<trainArray.length();i++){
+            for (int i = 0, length = trainArray.length(); i < length; i++) {
                 String jt = trainArray.optString(i);
                 Train t = new Train();
                 t.setTrainCode(jt);
@@ -102,11 +103,36 @@ public class TripRelatedCache {
         }
     }
 
+    public void setStationCache(String cityCode, String stations) {
+        PersistorManager.getInstance().setTripRelatedStationList(cityCode, stations);
+    }
+
     public List<City> getCitys() {
         return mCitys;
     }
 
     public List<Train> getTrains() {
         return mTrains;
+    }
+
+    public List<TrainStation> getStations(String cityCode) {
+        String stations = PersistorManager.getInstance().getTripRelatedStationList(cityCode);
+        if (StringUtil.isEmpty(stations)) {
+            return null;
+        }
+        List<TrainStation> stationList = new ArrayList<TrainStation>();
+        try {
+            JSONArray stationArray = new JSONArray(stations);
+            for (int i = 0, length = stationArray.length(); i < length; i++) {
+                JSONObject stationJsonObj = stationArray.getJSONObject(i);
+                TrainStation station = new TrainStation();
+                station.setStationName(stationJsonObj.optString("name"));
+                station.setStationCode(stationJsonObj.optString("code"));
+                stationList.add(station);
+            }
+        } catch (JSONException ex) {
+            //do nothing
+        }
+        return stationList;
     }
 }

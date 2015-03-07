@@ -32,6 +32,16 @@
     <string name="search_hint_text">请输入关键字</string>
     <string name="newest_btn_text">最新</string>
     <string name="nearby_btn_text">附近</string>
+    <string name="all_text">全部</string>
+    <string name="please_select_city_text">请选择城市</string>
+    <string name="selected_city_text">您选择的城市为：</string>
+    <string name="have_no_city_text">您当前没有与行程相关的城市</string>
+    <string name="please_select_train_text">请选择车次</string>
+    <string name="selected_train_text">您选择的车次为：</string>
+    <string name="have_no_train_text">您当前没有与行程相关的车次</string>
+    <string name="please_select_station_text">请选择车站</string>
+    <string name="selected_station_text">您选择的车站为：</string>
+    <string name="have_no_station_text">您选择的城市没有车站</string>
 
     <!-- Login Activity begin -->
     <string name="pwd_text">密码</string>

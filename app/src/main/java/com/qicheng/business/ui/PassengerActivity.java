@@ -270,7 +270,9 @@ public class PassengerActivity extends BaseActivity {
         actionBar.setHomeButtonEnabled(true);
         User user = Cache.getInstance().getUser();
         int genderQueryValue = user.getQueryValue().getGender();
-        if (genderQueryValue == Const.SEX_MAN) {
+        if (genderQueryValue == Const.SEX_ALL) {
+            menu.findItem(R.id.gender_all).setChecked(true);
+        } else if (genderQueryValue == Const.SEX_MAN) {
             menu.findItem(R.id.male).setChecked(true);
         } else if (genderQueryValue == Const.SEX_FEMALE) {
             menu.findItem(R.id.female).setChecked(true);
@@ -283,6 +285,10 @@ public class PassengerActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
+            case R.id.gender_all:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_ALL);
                 break;
             case R.id.male:
                 item.setChecked(true);

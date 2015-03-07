@@ -13,6 +13,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,13 +26,20 @@ import android.widget.Toast;
 import com.qicheng.R;
 import com.qicheng.business.adapter.QueryParamsGridViewAdapter;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.StationLogic;
+import com.qicheng.business.logic.event.StationEventAargs;
 import com.qicheng.business.module.City;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.QueryValue;
 import com.qicheng.business.module.Train;
+import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.module.User;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
@@ -88,34 +96,50 @@ public class UserQueryActivity extends BaseActivity {
     /**
      * 城市名称列表
      */
-    private String [] cityNames = null;
+    private String[] cityNames = null;
 
     /**
      * 城市名称列表
      */
-    private String [] cityCodes = null;
+    private String[] cityCodes = null;
 
     /**
      * 车次列表
      */
-    private String [] trains = null;
+    private String[] trains = null;
+
+    /**
+     * 车站列表
+     */
+    private List<TrainStation> stationList = null;
 
     /**
      * 查询车站信息业务逻辑处理对象
      */
-    private StationLogic logic = null;
+    private StationLogic stationLogic = null;
+
+    /**
+     * 页面标题
+     */
+    private String title = null;
+
+    /**
+     * 当前查询类型是否是城市
+     */
+    private boolean isCityQueryType = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_query);
+        title = getResources().getString(R.string.newest_btn_text);
         queryParamsGridView = (GridView) findViewById(R.id.query_params_grid_view);
         userFrameLayout = (FrameLayout) findViewById(R.id.user_query_users_Layout);
         // 设置用户区域里的各种View对象
         userFragment = new TravellerPersonFragment();
         Bundle queryParams = new Bundle();
         queryParams.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_ALL);
-        queryParams.putString(TRAVELLER_QUERY_VALUE, "");
+        queryParams.putString(TRAVELLER_QUERY_VALUE, null);
         userFragment.setArguments(queryParams);
         fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.user_query_users_Layout, userFragment, USER_FRAGMENT_TAG);
@@ -137,19 +161,23 @@ public class UserQueryActivity extends BaseActivity {
                         break;
                     /*当position的位置为2时是按最新搜索用户*/
                     case 2:
+                        title = getResources().getString(R.string.newest_btn_text);
                         getActivity().invalidateOptionsMenu();
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
                         refreshPerson(Const.QUERY_TYPE_ALL, null);
+                        isCityQueryType = false;
                         break;
                     /*当position的位置为3时是按附近搜索用户*/
                     case 3:
+                        title = getResources().getString(R.string.nearby_btn_text);
                         getActivity().invalidateOptionsMenu();
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
                         Location location = Cache.getInstance().getUser().getLocation();
                         String queryValue = location.getLongitude() + '|' + location.getLatitude();
                         refreshPerson(Const.QUERY_TYPE_NEAR, queryValue);
+                        isCityQueryType = false;
                         break;
                     default:
                         queryParamsLayout.setVisibility(View.GONE);
@@ -174,7 +202,7 @@ public class UserQueryActivity extends BaseActivity {
         for (int i = 0; i < size; i++) {
             trains[i] = trainList.get(i).getTrainCode();
         }
-        logic = (StationLogic) LogicFactory.self().get(LogicFactory.Type.Station);
+        stationLogic = (StationLogic) LogicFactory.self().get(LogicFactory.Type.Station);
     }
 
     @Override
@@ -185,11 +213,14 @@ public class UserQueryActivity extends BaseActivity {
         actionBar.setHomeButtonEnabled(true);
         User user = Cache.getInstance().getUser();
         int genderQueryValue = user.getQueryValue().getGender();
-        if (genderQueryValue == Const.SEX_MAN) {
+        if (genderQueryValue == Const.SEX_ALL) {
+            menu.findItem(R.id.gender_all).setChecked(true);
+        } else if (genderQueryValue == Const.SEX_MAN) {
             menu.findItem(R.id.male).setChecked(true);
         } else if (genderQueryValue == Const.SEX_FEMALE) {
             menu.findItem(R.id.female).setChecked(true);
         }
+        menu.findItem(R.id.user_query_title).setTitle(title);
         return true;
     }
 
@@ -211,6 +242,10 @@ public class UserQueryActivity extends BaseActivity {
                         break;
                 }
                 break;
+            case R.id.gender_all:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_ALL);
+                break;
             case R.id.male:
                 item.setChecked(true);
                 refreshPerson(Const.SEX_MAN);
@@ -218,6 +253,11 @@ public class UserQueryActivity extends BaseActivity {
             case R.id.female:
                 item.setChecked(true);
                 refreshPerson(Const.SEX_FEMALE);
+                break;
+            case R.id.user_query_title:
+                if (isCityQueryType) {
+                    searchByStation();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -229,20 +269,28 @@ public class UserQueryActivity extends BaseActivity {
     private void searchByCity() {
         if (cityNames != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("请选择城市");
+            builder.setTitle(getResources().getString(R.string.please_select_city_text));
             builder.setItems(cityNames, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(), "选择的城市为：" + cityNames[which], Toast.LENGTH_SHORT).show();
+                    title = cityNames[which];
+                    Toast.makeText(getActivity(), getResources().getString(R.string.selected_city_text) + title, Toast.LENGTH_SHORT).show();
                     getActivity().invalidateOptionsMenu();
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
-                    refreshPerson(Const.QUERY_TYPE_CITY, cityCodes[which]);
+                    String cityCode = cityCodes[which];
+                    isCityQueryType = true;
+                    refreshPerson(Const.QUERY_TYPE_CITY, cityCode);
+                    // 获取当前城市里的车站列表
+                    stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
+                    if (stationList == null) {
+                        getStationList(cityCode);
+                    }
                 }
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的城市");
+            Alert.Toast(getResources().getString(R.string.have_no_city_text));
         }
     }
 
@@ -252,12 +300,14 @@ public class UserQueryActivity extends BaseActivity {
     private void searchByTrain() {
         if (trains != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("请选择车次");
+            builder.setTitle(getResources().getString(R.string.please_select_train_text));
             builder.setItems(trains, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(getActivity(), "选择的车次为：" + trains[which], Toast.LENGTH_SHORT).show();
+                    title = trains[which];
+                    Toast.makeText(getActivity(), getResources().getString(R.string.selected_train_text) + title, Toast.LENGTH_SHORT).show();
                     getActivity().invalidateOptionsMenu();
+                    isCityQueryType = false;
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
                     refreshPerson(Const.QUERY_TYPE_TRAIN, trains[which]);
@@ -265,8 +315,58 @@ public class UserQueryActivity extends BaseActivity {
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的车次");
+            Alert.Toast(getResources().getString(R.string.have_no_train_text));
         }
+    }
+
+    /**
+     * 根据选择的车站查询用户。
+     */
+    public void searchByStation() {
+        if (stationList != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(getResources().getString(R.string.please_select_station_text));
+            int size = stationList.size();
+            final String[] stationNames = new String[size];
+            for (int i = 0; i < size; i++) {
+                stationNames[i] = stationList.get(i).getStationName();
+            }
+            builder.setItems(stationNames, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    title = stationNames[which];
+                    Toast.makeText(getActivity(), getResources().getString(R.string.selected_station_text) + title, Toast.LENGTH_SHORT).show();
+                    getActivity().invalidateOptionsMenu();
+                    isCityQueryType = false;
+                    queryParamsLayout.setVisibility(View.GONE);
+                    isVisible = View.GONE;
+                    refreshPerson(Const.QUERY_TYPE_STATION, stationList.get(which).getStationCode());
+                }
+            });
+            builder.show();
+        } else {
+            Alert.Toast(getResources().getString(R.string.have_no_station_text));
+        }
+    }
+
+    /**
+     * 根据城市代码，获取该城市里的车站列表。
+     *
+     * @param cityCode 城市代码
+     */
+    private void getStationList(String cityCode) {
+        stationLogic.queryStationByCityCode(cityCode, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                StationEventAargs stationEventAargs = (StationEventAargs) args;
+                OperErrorCode errCode = stationEventAargs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        stationList = stationEventAargs.getStationList();
+                        break;
+                }
+            }
+        }));
     }
 
     /**
@@ -290,7 +390,7 @@ public class UserQueryActivity extends BaseActivity {
     /**
      * 刷新整个页面里的用户。
      *
-     * @param queryType 查询类型
+     * @param queryType  查询类型
      * @param queryValue 查询值
      */
     private void refreshPerson(byte queryType, String queryValue) {

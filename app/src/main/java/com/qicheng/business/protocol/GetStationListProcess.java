@@ -7,6 +7,7 @@
 
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.TrainStation;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
@@ -30,7 +31,7 @@ public class GetStationListProcess extends BaseProcess {
 
     public String trainResult;
 
-    private ArrayList<TrainStation> stationList = new ArrayList<TrainStation>();
+    private List<TrainStation> stationList = null;
 
     @Override
     protected String getRequestUrl() {
@@ -62,18 +63,18 @@ public class GetStationListProcess extends BaseProcess {
                 /**
                  * 获取列表并缓存
                  */
-
-                JSONArray jsonArrayStationList = o.has("body") ? o.optJSONArray("body") : null;
-                if (jsonArrayStationList != null) {
-                    for (int i = 0; i < jsonArrayStationList.length(); i++) {
-                        JSONObject stationJsonObj = (JSONObject) jsonArrayStationList.get(i);
+                JSONArray stationJsonArray = o.has("body") ? o.optJSONArray("body") : null;
+                if (stationJsonArray != null) {
+                    stationList = new ArrayList<TrainStation>();
+                    for (int i = 0, length = stationJsonArray.length(); i < length; i++) {
+                        JSONObject stationJsonObj = stationJsonArray.getJSONObject(i);
                         TrainStation station = new TrainStation();
                         station.setStationName(stationJsonObj.optString("name"));
                         station.setStationCode(stationJsonObj.optString("code"));
                         stationList.add(station);
                     }
+                    Cache.getInstance().refreshTripRelatedStationCache(cityCode, o.getString("body"));
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,11 +104,11 @@ public class GetStationListProcess extends BaseProcess {
         this.trainResult = trainResult;
     }
 
-    public ArrayList<TrainStation> getStationList() {
+    public List<TrainStation> getStationList() {
         return stationList;
     }
 
-    public void setStationList(ArrayList<TrainStation> stationList) {
+    public void setStationList(List<TrainStation> stationList) {
         this.stationList = stationList;
     }
 }

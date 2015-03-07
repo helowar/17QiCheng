@@ -9,14 +9,19 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
+                    android:id="@+id/gender_all"
+                    android:icon="@drawable/ic_select_gender"
+                    android:orderInCategory="1"
+                    android:title="@string/all_text" />
+                <item
                     android:id="@+id/male"
                     android:icon="@drawable/ic_select_male"
-                    android:orderInCategory="1"
+                    android:orderInCategory="2"
                     android:title="@string/male_text" />
                 <item
                     android:id="@+id/female"
                     android:icon="@drawable/ic_select_female"
-                    android:orderInCategory="2"
+                    android:orderInCategory="3"
                     android:title="@string/female_text" />
             </group>
         </menu>

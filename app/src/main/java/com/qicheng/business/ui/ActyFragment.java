@@ -324,18 +324,9 @@ public class ActyFragment extends BaseFragment {
                     dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
                     dynSearch.setQueryValue(cityList.get(which).getCityCode());
                     getDynList(dynSearch);
-                    //stationList = cityList.get(which).getStationList();
-
-                    List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
-                    for (int i = 0; i < cityListCache.size(); i++) {
-                        City c = cityListCache.get(i);
-                        if (c.getCityCode().equals(cityCodes[which])) {
-                            stationList = c.getStationList();
-                        }
-                    }
+                    stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
                     if (stationList == null) {
-                        getStationList(cityCodes[which]);
-                        Cache.getInstance().addStationsToCityCache(cityCodes[which], stationList);
+                        getStationList(cityCode);
                     }
                 }
             });

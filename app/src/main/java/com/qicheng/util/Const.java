@@ -391,6 +391,11 @@ public class Const {
     public static final byte INTERACT_ACTION_REPORTED = 3;
 
     /**
+     * 性别 -1:全部
+     */
+    public static final byte SEX_ALL = -1;
+
+    /**
      * 性别 1:男
      */
     public static final byte SEX_MAN = 1;
