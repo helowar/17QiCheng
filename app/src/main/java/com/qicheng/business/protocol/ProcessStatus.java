@@ -70,6 +70,7 @@ public class ProcessStatus {
         ErrFailure,
         /**未找到数据*/
         InfoNoData,
+        ResultNotPermit,
 
     }
 
@@ -101,6 +102,8 @@ public class ProcessStatus {
                 return OperErrorCode.FileUpLoadFailed;
             case InfoNoData:
                 return OperErrorCode.NoDataFound;
+            case ResultNotPermit:
+                return OperErrorCode.ResultNotPermit;
             default:
                 return OperErrorCode.Unknown;
         }

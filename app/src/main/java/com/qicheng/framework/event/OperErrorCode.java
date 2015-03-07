@@ -85,4 +85,6 @@ public enum OperErrorCode {
 
     NotLogin,
 
+    ResultNotPermit,
+
 }

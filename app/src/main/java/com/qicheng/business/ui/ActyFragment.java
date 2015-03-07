@@ -45,6 +45,7 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,11 +73,12 @@ public class ActyFragment extends BaseFragment {
     private String[] cityCodes;
     /*搜索条件*/
     private DynSearch dynSearch = new DynSearch();
-    private ArrayList<Dyn> dynArrayList;
     private List<Dyn> newData;
-
+    /*动态的类型*/
     private String title;
     private String cityCode;
+
+    private static final int ADD_SUCCESS = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,6 +156,7 @@ public class ActyFragment extends BaseFragment {
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                isVisible = View.GONE;
                 switch (position) {
                     /*当position的位置为0时是按城市搜索最新动态*/
                     case 0:
@@ -193,7 +196,6 @@ public class ActyFragment extends BaseFragment {
                         break;
                     default:
                         searchLinearLayout.setVisibility(View.GONE);
-                        cityCode = null;
                         break;
                 }
 
@@ -212,7 +214,14 @@ public class ActyFragment extends BaseFragment {
             case android.R.id.home:
                 return super.onOptionsItemSelected(item);
             case R.id.activity_add:
-                startActivity(new Intent(getActivity(), DynPublishActivity.class));
+                Intent intent = new Intent(getActivity(), DynPublishActivity.class);
+                if (dynSearch.queryType != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putByte("query_type", dynSearch.getQueryType());
+                    bundle.putString("query_value", dynSearch.getQueryValue());
+                    intent.putExtras(bundle);
+                }
+                startActivityForResult(intent, 0);
                 break;
             case R.id.activity_search:
                 searchLinearLayout = (LinearLayout) view.findViewById(R.id.activity_search_list);
@@ -228,7 +237,9 @@ public class ActyFragment extends BaseFragment {
                 }
                 break;
             case R.id.activity_title:
-                searchByTrainStation();
+                if (cityCode != null) {
+                    searchByTrainStation();
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -236,6 +247,20 @@ public class ActyFragment extends BaseFragment {
         return false;
     }
 
+    /*添加动态完成后，捕获返回值后的操作*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("result", requestCode + " " + resultCode);
+        switch (resultCode) {
+            case ADD_SUCCESS:
+                getDynList(dynSearch);
+                break;
+        }
+        if (data != null) {
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     /**
      * 通过车次作为搜索条件搜索
@@ -300,17 +325,17 @@ public class ActyFragment extends BaseFragment {
                     dynSearch.setQueryValue(cityList.get(which).getCityCode());
                     getDynList(dynSearch);
                     //stationList = cityList.get(which).getStationList();
+
+                    List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
+                    for (int i = 0; i < cityListCache.size(); i++) {
+                        City c = cityListCache.get(i);
+                        if (c.getCityCode().equals(cityCodes[which])) {
+                            stationList = c.getStationList();
+                        }
+                    }
                     if (stationList == null) {
                         getStationList(cityCodes[which]);
                         Cache.getInstance().addStationsToCityCache(cityCodes[which], stationList);
-                    } else {
-                        List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
-                        for (int i = 0; i < cityListCache.size(); i++) {
-                            City c = cityListCache.get(i);
-                            if (c.getCityCode().equals(cityCodes[which])) {
-                                stationList = c.getStationList();
-                            }
-                        }
                     }
                 }
             });
@@ -340,12 +365,13 @@ public class ActyFragment extends BaseFragment {
                     index = which;
                     Toast.makeText(getActivity(), "选择的车站为：" + stations[which], Toast.LENGTH_SHORT).show();
                     title = stations[which];
+                    cityCode = null;
                     getActivity().invalidateOptionsMenu();
                     searchLinearLayout.setVisibility(View.GONE);
-//                    dynSearch = new DynSearch();
-//                    dynSearch.setQueryType(Const.QUERY_TYPE_TRAIN);
-//                    dynSearch.setQueryValue(trainList.get(which).getTrainCode());
-                    //  getDynList(dynSearch);
+                    dynSearch = new DynSearch();
+                    dynSearch.setQueryType(Const.QUERY_TYPE_STATION);
+                    dynSearch.setQueryValue(stationList.get(which).getStationCode());
+                    getDynList(dynSearch);
                 }
             });
             builder.show();
@@ -546,6 +572,9 @@ public class ActyFragment extends BaseFragment {
             if (thumbnailUrl != null) {
 //            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                holder.photo.setVisibility(View.VISIBLE);
+            }else {
+                holder.photo.setVisibility(View.GONE);
             }
 
             holder.content.setText(bean.getContent());
@@ -657,7 +686,8 @@ public class ActyFragment extends BaseFragment {
     /**
      * 动态搜索类
      */
-    public class DynSearch {
+    public class DynSearch implements Serializable {
+
         private int orderBy;
         private int orderNum;
         private int size = 10;
