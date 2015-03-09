@@ -1,13 +1,31 @@
 package com.qicheng.business.logic;
 
+import android.graphics.Bitmap;
+
 import com.qicheng.business.logic.event.DynEventAargs;
+import com.qicheng.business.logic.event.StationEventAargs;
+import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.module.User;
+import com.qicheng.business.protocol.AddDynProcess;
 import com.qicheng.business.protocol.GetDynListProcess;
+import com.qicheng.business.protocol.GetStationListProcess;
+import com.qicheng.business.protocol.ImageUploadProcess;
+import com.qicheng.business.protocol.InteractProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.ui.ActyFragment;
+import com.qicheng.business.ui.DynPublishActivity;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
 import com.qicheng.framework.protocol.ResponseListener;
+import com.qicheng.util.Const;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * Created by NO3 on 2015/2/28.
@@ -36,5 +54,91 @@ public class DynLogic extends BaseLogic {
         });
 
     }
+
+    /*动态互动逻辑方法，包含点赞，取消赞，分享*/
+    public void interact(String id, byte action, final EventListener listener) {
+        final InteractProcess process = new InteractProcess();
+        process.setId(id);
+        process.setAction(action);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                DynEventAargs dynEventAargs = new DynEventAargs(errCode);
+                fireEvent(listener, dynEventAargs);
+            }
+        });
+    }
+
+    /*通过城市代码会哦去车站的列表*/
+    public void getStationList(String cityCode, final EventListener listener) {
+        final GetStationListProcess process = new GetStationListProcess();
+        process.setCityCode(cityCode);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                StationEventAargs stationEventAargs = new StationEventAargs(process.getStationList(), errCode);
+                fireEvent(listener, stationEventAargs);
+            }
+        });
+    }
+
+    /*添加动态的逻辑Logic方法*/
+    public void addDyn(DynPublishActivity.DynBody dynBody, final EventListener listener) {
+        final AddDynProcess process = new AddDynProcess();
+        process.setDynBody(dynBody);
+
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                DynEventAargs dynEventAargs = new DynEventAargs(errCode);
+                fireEvent(listener, dynEventAargs);
+            }
+        });
+    }
+
+    /**
+     * 保存动态图片文件
+     *
+     * @param photo
+     */
+    public void saveDynPicture(Bitmap photo, final EventListener listener) {
+        File dir = new File(Const.WorkDir);
+        if (!dir.exists() || !dir.isDirectory()) {
+            dir.mkdirs();
+        }
+        final File myCaptureFile = new File(dir + UUID.randomUUID().toString() + ".jpg");
+        OperErrorCode errCode = null;
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(
+                    new FileOutputStream(myCaptureFile));
+            photo.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+            bos.flush();
+            bos.close();
+        } catch (FileNotFoundException e) {
+            errCode = OperErrorCode.FileUpLoadFailed;
+        } catch (IOException e) {
+            errCode = OperErrorCode.FileUpLoadFailed;
+        }
+        final ImageUploadProcess process = new ImageUploadProcess();
+        process.run(null, ImageUploadProcess.USAGE_PORTRAIT, myCaptureFile, new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                User resultUser = new User();
+
+                UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
+                if (errCode == OperErrorCode.Success) {
+                    resultUser.setPortraitURL(process.getResultUrl());
+                }
+                fireEvent(listener, userEventArgs);
+            }
+        });
+
+    }
+
 
 }

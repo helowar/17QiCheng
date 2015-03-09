@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.qicheng.business.ui.UserQueryActivity">
+    <item
+        android:id="@+id/user_query_title"
+        android:title="@string/newest_btn_text"
+        android:showAsAction="always"
+        android:orderInCategory="1" />
+    <item
+        android:id="@+id/user_query_button"
+        android:title="@string/query_text"
+        android:icon="@drawable/search"
+        android:showAsAction="always"
+        android:orderInCategory="2" />
+    <item
+        android:id="@+id/gender"
+        android:showAsAction="always"
+        android:title="@string/select_text"
+        android:orderInCategory="3">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/gender_all"
+                    android:icon="@drawable/ic_select_gender"
+                    android:orderInCategory="1"
+                    android:title="@string/all_text" />
+                <item
+                    android:id="@+id/male"
+                    android:icon="@drawable/ic_select_male"
+                    android:orderInCategory="2"
+                    android:title="@string/male_text" />
+                <item
+                    android:id="@+id/female"
+                    android:icon="@drawable/ic_select_female"
+                    android:orderInCategory="3"
+                    android:title="@string/female_text" />
+            </group>
+        </menu>
+    </item>
+</menu>

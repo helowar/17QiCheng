@@ -27,20 +27,27 @@ public class TripRelatedPreferences {
         return Const.Application.getSharedPreferences(Const.SharedPreferenceKey.TripRelatedPreference, Context.MODE_PRIVATE);
     }
 
-    public void setCityList(String cityList){
-        getPreferences().edit().putString(city_list_key,cityList).commit();
+    public void setCityList(String cityList) {
+        getPreferences().edit().putString(city_list_key, cityList).commit();
     }
 
-    public void setTrainList(String trainList){
-        getPreferences().edit().putString(train_list_key,trainList).commit();
+    public void setTrainList(String trainList) {
+        getPreferences().edit().putString(train_list_key, trainList).commit();
     }
 
-    public String getCityList(){
-        return getPreferences().getString(city_list_key,"");
+    public void setStationList(String cityCode, String stationList) {
+        getPreferences().edit().putString(cityCode, stationList).commit();
     }
 
-    public String getTrainList(){
-        return getPreferences().getString(train_list_key,"");
+    public String getCityList() {
+        return getPreferences().getString(city_list_key, "");
     }
 
+    public String getTrainList() {
+        return getPreferences().getString(train_list_key, "");
+    }
+
+    public String getStationList(String cityCode) {
+        return getPreferences().getString(cityCode, "");
+    }
 }

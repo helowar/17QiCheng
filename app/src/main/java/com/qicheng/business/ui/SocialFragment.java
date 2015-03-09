@@ -7,10 +7,15 @@
 
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -26,6 +31,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.Location;
+import com.qicheng.business.module.QueryValue;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
@@ -33,6 +39,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +50,9 @@ import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
 import static com.qicheng.util.Const.Intent.UID;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
+import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
-import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
 
 /**
  * SocialFragment.java是启程APP的交友Fragment类。
@@ -54,6 +61,11 @@ import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
  * @version 1.0 2015年2月1日
  */
 public class SocialFragment extends BaseFragment {
+
+    /**
+     * 附近车友Fragment标签
+     */
+    private static final String NEAR_TRAVELLER_FRAGMENT_TAG = "near_traveller_fragment_tag";
 
     /**
      * 推荐车友View
@@ -108,6 +120,7 @@ public class SocialFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
     }
 
@@ -129,31 +142,12 @@ public class SocialFragment extends BaseFragment {
         nearPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         nearPersonTravellerFragment.setArguments(nearPerson);
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.social_near_person_Layout, nearPersonTravellerFragment);
+        fragmentTransaction.add(R.id.social_near_person_Layout, nearPersonTravellerFragment, NEAR_TRAVELLER_FRAGMENT_TAG);
         fragmentTransaction.commit();
         nearPersonFrameLayout.setVisibility(View.VISIBLE);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
         // 查询最新推荐用户
-        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
-                UserEventArgs result = (UserEventArgs) args;
-                OperErrorCode errCode = result.getErrCode();
-                if (errCode == OperErrorCode.Success) {
-                    List<User> userList = result.getUserList();
-                    if (userList != null && userList.size() > 0) {
-                        User traveller = null;
-                        for (int i = 0, size = userList.size(); i < size; i++) {
-                            traveller = userList.get(i);
-                            recommendPersonList.add(traveller);
-                            recommendPersonsLayout.addView(createRecommendPersonView(traveller));
-                        }
-
-                    }
-                }
-            }
-        }));
+        refreshRecommendPerson();
         startLoading();
         return socialView;
     }
@@ -175,6 +169,45 @@ public class SocialFragment extends BaseFragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_PAUSE_ON_SCROLL, pauseOnScroll);
         outState.putBoolean(STATE_PAUSE_ON_FLING, pauseOnFling);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        User user = Cache.getInstance().getUser();
+        int genderQueryValue = user.getQueryValue().getGender();
+        if (genderQueryValue == Const.SEX_ALL) {
+            menu.findItem(R.id.gender_all).setChecked(true);
+        } else if (genderQueryValue == Const.SEX_MAN) {
+            menu.findItem(R.id.male).setChecked(true);
+        } else if (genderQueryValue == Const.SEX_FEMALE) {
+            menu.findItem(R.id.female).setChecked(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getActivity().finish();
+                break;
+            case R.id.gender_all:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_ALL);
+                break;
+            case R.id.male:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_MAN);
+                break;
+            case R.id.female:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_FEMALE);
+                break;
+            case R.id.user_query:
+                Intent intent = new Intent(getActivity(), UserQueryActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class TravellerOnScrollListener extends PauseOnScrollListener implements HorizontalScrollListView.OnScrollStopListener {
@@ -213,13 +246,10 @@ public class SocialFragment extends BaseFragment {
                         if (errCode == OperErrorCode.Success) {
                             List<User> userList = result.getUserList();
                             if (userList != null && userList.size() > 0) {
-                                User traveller = null;
-                                for (int i = 0, size = userList.size(); i < size; i++) {
-                                    traveller = userList.get(i);
-                                    recommendPersonList.add(0, traveller);
-                                    recommendPersonsLayout.addView(createRecommendPersonView(traveller), 0);
+                                recommendPersonList.addAll(0, userList);
+                                for (int i = userList.size() - 1; i > -1; i--) {
+                                    recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)), 0);
                                 }
-
                             }
                         }
                     }
@@ -244,13 +274,10 @@ public class SocialFragment extends BaseFragment {
                         if (errCode == OperErrorCode.Success) {
                             List<User> userList = result.getUserList();
                             if (userList != null && userList.size() > 0) {
-                                User traveller = null;
+                                recommendPersonList.addAll(userList);
                                 for (int i = 0, size = userList.size(); i < size; i++) {
-                                    traveller = userList.get(i);
-                                    recommendPersonList.add(traveller);
-                                    recommendPersonsLayout.addView(createRecommendPersonView(traveller));
+                                    recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)));
                                 }
-
                             }
                         }
                     }
@@ -264,6 +291,50 @@ public class SocialFragment extends BaseFragment {
             isFirstScrollToLeftEdge = false;
             isFirstScrollToRightEdge = false;
         }
+    }
+
+    /**
+     * 刷新整个页面里的用户。
+     *
+     * @param gender 性别
+     */
+    private void refreshPerson(int gender) {
+        QueryValue queryValue = Cache.getInstance().getUser().getQueryValue();
+        if (gender != queryValue.getGender()) {
+            queryValue.setGender(gender);
+            Cache.getInstance().refreshCacheUser();
+            refreshRecommendPerson();
+            FragmentManager manager = getFragmentManager();
+            TravellerPersonFragment fragment = null;
+            fragment = (TravellerPersonFragment) manager.findFragmentByTag(NEAR_TRAVELLER_FRAGMENT_TAG);
+            fragment.refreshPerson();
+            startLoading();
+        }
+    }
+
+    /**
+     * 刷新整个页面里的推荐用户。
+     */
+    private void refreshRecommendPerson() {
+        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserEventArgs result = (UserEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    List<User> userList = result.getUserList();
+                    if (userList != null && userList.size() > 0) {
+                        recommendPersonList.clear();
+                        recommendPersonList.addAll(userList);
+                        recommendPersonsLayout.removeAllViews();
+                        for (int i = 0, size = userList.size(); i < size; i++) {
+                            recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)));
+                        }
+                    }
+                }
+            }
+        }));
     }
 
     private View createRecommendPersonView(final User traveller) {

@@ -1,8 +1,7 @@
 package com.qicheng.business.ui;
 
-
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
+import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -10,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -27,7 +23,6 @@ import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TripLogic;
 import com.qicheng.business.logic.event.TripEventArgs;
-import com.qicheng.business.module.Label;
 import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.module.Trip;
 import com.qicheng.business.ui.component.AutoBreakAndNextReverseLineViewGroup;
@@ -37,10 +32,9 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,9 +54,9 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
     /**
      * 参数Key
      */
-    private static final String PARAM_TRAIN_CODE_KEY = "trainCode";
-    private static final String PARAM_TRIP_DATE_KEY = "tripDate";
-    private static final String PARAM_STATION_LIST_KEY = "stationList";
+    public static final String PARAM_TRAIN_CODE_KEY = "trainCode";
+    public static final String PARAM_TRIP_DATE_KEY = "tripDate";
+    public static final String PARAM_STATION_LIST_KEY = "stationList";
 
     private String mTrainCode;
     private String mTripDate;
@@ -197,7 +191,7 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                     param.setEndStationCode(mStopStation.getStationCode());
                     param.setEndStationName(mStopStation.getStationName());
                     param.setStartTime(mTripDate + mStartStation.getLeaveTime().replace(":", ""));
-                    param.setStopTime(getEndDttm(mStopStation.getLeaveTime(),mTripDate,mStopStation.getCrossDays()-mStartStation.getCrossDays()));
+                    param.setStopTime(getEndDttm(mStopStation.getEnterTime(), mTripDate, mStopStation.getCrossDays() - mStartStation.getCrossDays()));
                     param.setCarSharing(mCarSharing);
                     param.setTravelTogether(mTravelTogether);
                     param.setStayDays(mStayDays);
@@ -439,25 +433,13 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
         getActivity().setResult(resultCode,i);
     }
 
-    private String getEndDttm(String endTime,String startDate,int crossDays){
-        StringBuffer result = new StringBuffer();
-        Calendar c = Calendar.getInstance();
-        c.set(Integer.parseInt(startDate.substring(0,4)),Integer.parseInt(startDate.substring(4,6)),Integer.parseInt(startDate.substring(6)));
-        c.add(Calendar.DAY_OF_MONTH,crossDays);
-        result.append(c.get(Calendar.YEAR));
-        int month = c.get(Calendar.MONTH)+1;
-        if(month<10){
-            result.append("0");
+    private String getEndDttm(String endTime, String startDate, int crossDays) {
+        if(crossDays > 0) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(DateTimeUtil.parseByyyyyMMdd(startDate));
+            c.add(Calendar.DAY_OF_YEAR, crossDays);
+            startDate = DateTimeUtil.formatByyyyyMMdd(c.getTime());
         }
-        result.append(month);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        if(day<10){
-            result.append("0");
-        }
-        result.append(day);
-        result.append(endTime.replace(":",""));
-        return result.toString();
+        return startDate + endTime.replace(":","");
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.qicheng.business.ui;
 
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,10 +29,12 @@ import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
+import com.qicheng.business.logic.event.StationEventAargs;
 import com.qicheng.business.module.City;
 import com.qicheng.business.module.Dyn;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
+import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.ui.component.DynListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -44,6 +45,7 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,12 +68,17 @@ public class ActyFragment extends BaseFragment {
     private String[] cities;
     private List<Train> trainList;
     private String[] trains;
+    private List<TrainStation> stationList;
+    private String[] stations;
+    private String[] cityCodes;
     /*搜索条件*/
     private DynSearch dynSearch = new DynSearch();
-    private ArrayList<Dyn> dynArrayList;
     private List<Dyn> newData;
-
+    /*动态的类型*/
     private String title;
+    private String cityCode;
+
+    private static final int ADD_SUCCESS = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,10 +90,12 @@ public class ActyFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_acty, container, false);
         searchView = inflater.inflate(R.layout.dyn_search_edit_layout, container, false);
         dynListView = (DynListView) view.findViewById(R.id.dynlist);
         listAdapter = new DynListViewAdapter(getActivity().getApplicationContext());
+
         getDynList(dynSearch);
         dynListView.setAdapter(listAdapter);
 
@@ -104,7 +113,6 @@ public class ActyFragment extends BaseFragment {
                         dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
                         dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
                         getDynList(dynSearch);
-                        //list.add("刷新后添加的内容");
                         return null;
                     }
 
@@ -116,6 +124,7 @@ public class ActyFragment extends BaseFragment {
                 }.execute(null, null, null);
             }
 
+            /*获取更多动态信息*/
             @Override
             public void toLastRefresh() {
                 new AsyncTask<Void, Void, Void>() {
@@ -147,6 +156,7 @@ public class ActyFragment extends BaseFragment {
         searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                isVisible = View.GONE;
                 switch (position) {
                     /*当position的位置为0时是按城市搜索最新动态*/
                     case 0:
@@ -159,6 +169,7 @@ public class ActyFragment extends BaseFragment {
                         trainList = Cache.getInstance().getTripRelatedTrainCache();
                         searchByTrain();
                         dynSearchList.clear();
+                        cityCode = null;
                         break;
                     /*当position的位置为2时是按最新搜索最新动态*/
                     case 2:
@@ -168,6 +179,7 @@ public class ActyFragment extends BaseFragment {
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
+                        cityCode = null;
                         break;
                     /*当position的位置为3时是按附近搜索最新动态*/
                     case 3:
@@ -176,10 +188,11 @@ public class ActyFragment extends BaseFragment {
                         dynSearch = new DynSearch();
                         dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
                         Location location = Cache.getInstance().getUser().getLocation();
-                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|' );
+                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude());
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
+                        cityCode = null;
                         break;
                     default:
                         searchLinearLayout.setVisibility(View.GONE);
@@ -201,7 +214,14 @@ public class ActyFragment extends BaseFragment {
             case android.R.id.home:
                 return super.onOptionsItemSelected(item);
             case R.id.activity_add:
-                startActivity(new Intent(getActivity(), DynPublishActivity.class));
+                Intent intent = new Intent(getActivity(), DynPublishActivity.class);
+                if (dynSearch.queryType != null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putByte("query_type", dynSearch.getQueryType());
+                    bundle.putString("query_value", dynSearch.getQueryValue());
+                    intent.putExtras(bundle);
+                }
+                startActivityForResult(intent, 0);
                 break;
             case R.id.activity_search:
                 searchLinearLayout = (LinearLayout) view.findViewById(R.id.activity_search_list);
@@ -215,12 +235,32 @@ public class ActyFragment extends BaseFragment {
                         isVisible = View.GONE;
                         break;
                 }
+                break;
+            case R.id.activity_title:
+                if (cityCode != null) {
+                    searchByTrainStation();
+                }
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return false;
     }
 
+    /*添加动态完成后，捕获返回值后的操作*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("result", requestCode + " " + resultCode);
+        switch (resultCode) {
+            case ADD_SUCCESS:
+                getDynList(dynSearch);
+                break;
+        }
+        if (data != null) {
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     /**
      * 通过车次作为搜索条件搜索
@@ -239,7 +279,6 @@ public class ActyFragment extends BaseFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     index = which;
-                    ActionBar actionBar = getActivity().getActionBar();
                     Toast.makeText(getActivity(), "选择的车次为：" + trains[which], Toast.LENGTH_SHORT).show();
                     title = trains[which];
                     getActivity().invalidateOptionsMenu();
@@ -252,7 +291,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的城市");
+            Alert.Toast("您当前没有与行程相关的车次");
         }
     }
 
@@ -267,22 +306,28 @@ public class ActyFragment extends BaseFragment {
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             cities = new String[cityList.size()];
+            cityCodes = new String[cityList.size()];
             for (int i = 0; i < cityList.size(); i++) {
                 cities[i] = cityList.get(i).getCityName();
+                cityCodes[i] = cityList.get(i).getCityCode();
             }
             builder.setItems(cities, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     index = which;
-                    ActionBar actionBar = getActivity().getActionBar();
                     Toast.makeText(getActivity(), "选择的城市为：" + cities[which], Toast.LENGTH_SHORT).show();
                     title = cities[which];
+                    cityCode = cityCodes[which];
                     getActivity().invalidateOptionsMenu();
                     searchLinearLayout.setVisibility(View.GONE);
                     dynSearch = new DynSearch();
                     dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
                     dynSearch.setQueryValue(cityList.get(which).getCityCode());
                     getDynList(dynSearch);
+                    stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
+                    if (stationList == null) {
+                        getStationList(cityCode);
+                    }
                 }
             });
             builder.show();
@@ -291,14 +336,70 @@ public class ActyFragment extends BaseFragment {
         }
     }
 
+
+    /**
+     * 通过车站作为搜索条件搜索
+     */
+    public void searchByTrainStation() {
+        if (stationList != null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("请选择车站");
+            //    指定下拉列表的显示数据
+            //    设置一个下拉的列表选择项
+            stations = new String[stationList.size()];
+            for (int i = 0; i < stationList.size(); i++) {
+                stations[i] = stationList.get(i).getStationName();
+            }
+            builder.setItems(stations, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    index = which;
+                    Toast.makeText(getActivity(), "选择的车站为：" + stations[which], Toast.LENGTH_SHORT).show();
+                    title = stations[which];
+                    cityCode = null;
+                    getActivity().invalidateOptionsMenu();
+                    searchLinearLayout.setVisibility(View.GONE);
+                    dynSearch = new DynSearch();
+                    dynSearch.setQueryType(Const.QUERY_TYPE_STATION);
+                    dynSearch.setQueryValue(stationList.get(which).getStationCode());
+                    getDynList(dynSearch);
+                }
+            });
+            builder.show();
+        } else {
+            Alert.Toast("该城市没有车站");
+        }
+    }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem item = menu.getItem(0);
         item.setTitle(title);
     }
 
+
+    public void getStationList(final String cityCode) {
+        DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
+        dynLogic.getStationList(cityCode, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                StationEventAargs stationEventAargs = (StationEventAargs) args;
+                OperErrorCode errCode = stationEventAargs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        stationList = stationEventAargs.getStationList();
+                        Log.d("StatinList", stationList.toString());
+                        break;
+                }
+            }
+        }));
+    }
+
+
     /*获取动态列表*/
     public void getDynList(final DynSearch dynSearchCondition) {
+
         DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
         dynLogic.getDynList(dynSearchCondition, createUIEventListener(new EventListener() {
             @Override
@@ -327,6 +428,7 @@ public class ActyFragment extends BaseFragment {
                     case NoDataFound:
                         Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_noMoreData));
+                        listAdapter.notifyDataSetChanged();
                         break;
                     default:
                         Alert.handleErrCode(errCode);
@@ -337,6 +439,26 @@ public class ActyFragment extends BaseFragment {
         }));
 
 
+    }
+
+    /*点赞分享次数*/
+    public void interact(String id, byte action) {
+        DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
+        dynLogic.interact(id, action, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                DynEventAargs dynEventAargs = (DynEventAargs) args;
+                OperErrorCode errCode = dynEventAargs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        break;
+                    default:
+                        Alert.handleErrCode(errCode);
+                        Alert.Toast(getResources().getString(R.string.activity_reject));
+                        break;
+                }
+            }
+        }));
     }
 
     /**
@@ -376,6 +498,8 @@ public class ActyFragment extends BaseFragment {
     public class DynListViewAdapter extends BaseAdapter {
         private Context mContext;
         private List<Dyn> dataList;
+        /*是否赞过的标志*/
+        private boolean flag;
 
         public DynListViewAdapter(Context mContext) {
             super();
@@ -410,7 +534,7 @@ public class ActyFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
@@ -439,18 +563,44 @@ public class ActyFragment extends BaseFragment {
             if (thumbnailUrl != null) {
 //            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                holder.photo.setVisibility(View.VISIBLE);
+            }else {
+                holder.photo.setVisibility(View.GONE);
             }
+
             holder.content.setText(bean.getContent());
 
             Integer likeNum = bean.getLikedNum();
             Integer shareNum = bean.getSharedNum();
             holder.likeNum.setText(likeNum.toString());
             holder.shareNum.setText(shareNum.toString());
+            /*初始化时是否被赞过*/
+            if (bean.getIsLiked() == 1) {
+                holder.likeimg.setImageResource(R.drawable.ic_liked);
+            } else {
+                holder.likeimg.setImageResource(R.drawable.ic_like);
+            }
+
             holder.likeimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
-
+                    String id = bean.getActivityId();
+                    /*赞与取消赞的逻辑*/
+                    if (bean.getIsLiked() == Const.INTERACT_ACTION_LIKED) {
+                        holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
+                        byte action = Const.INTERACT_ACTION_LIKED;
+                        interact(id, action);
+                        holder.likeimg.setImageResource(R.drawable.ic_liked);
+                        bean.setIsLiked(Const.INTERACT_ACTION_CANCEL);
+                        bean.setLikedNum((Integer.valueOf(holder.likeNum.getText().toString())));
+                    } else {
+                        holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) - 1) + "");
+                        byte action = Const.INTERACT_ACTION_CANCEL;
+                        holder.likeimg.setImageResource(R.drawable.ic_like);
+                        interact(id, action);
+                        bean.setIsLiked(Const.INTERACT_ACTION_LIKED);
+                        bean.setLikedNum((Integer.valueOf(holder.likeNum.getText().toString())));
+                    }
                 }
             });
 
@@ -467,6 +617,12 @@ public class ActyFragment extends BaseFragment {
                     }
                     shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
                     mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    //分享后分享数字加一
+                    String id = bean.getActivityId();
+                    holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
+                    byte action = Const.INTERACT_ACTION_SHARED;
+                    interact(id, action);
+                    bean.setSharedNum((Integer.valueOf(holder.shareNum.getText().toString())));
                 }
             });
             holder.weixin.setOnClickListener(new View.OnClickListener() {
@@ -521,7 +677,8 @@ public class ActyFragment extends BaseFragment {
     /**
      * 动态搜索类
      */
-    public class DynSearch {
+    public class DynSearch implements Serializable {
+
         private int orderBy;
         private int orderNum;
         private int size = 10;

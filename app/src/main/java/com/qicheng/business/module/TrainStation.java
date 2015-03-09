@@ -11,6 +11,11 @@ public class TrainStation implements Serializable{
 
     private String stationName;
 
+    /**
+     * 进站时间,格式:HH:mm
+     */
+    private String enterTime;
+
     private String leaveTime;
 
     private int crossDays;
@@ -65,5 +70,22 @@ public class TrainStation implements Serializable{
 
     public void setCrossDays(int crossDays) {
         this.crossDays = crossDays;
+    }
+
+    public String getEnterTime() {
+        return enterTime;
+    }
+
+    public void setEnterTime(String enterTime) {
+        this.enterTime = enterTime;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TrainStation{");
+        sb.append("stationCode='").append(stationCode).append('\'');
+        sb.append(", stationName='").append(stationName).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

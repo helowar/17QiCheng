@@ -1,5 +1,6 @@
 package com.qicheng.business.protocol;
 
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
@@ -79,6 +80,7 @@ public class TravellerPersonProcess extends BaseProcess {
             o.put("size", size);
             o.put("query_type", queryType);
             o.put("query_value", queryValue);
+            o.put("gender", Cache.getInstance().getUser().getQueryValue().getGender());
             return o.toString();
         } catch (Exception e) {
             logger.e("组装传入查询普通用户参数异常");

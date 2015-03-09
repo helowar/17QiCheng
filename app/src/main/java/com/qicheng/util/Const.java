@@ -102,6 +102,11 @@ public class Const {
         public static final String TRAVELLER_QUERY_VALUE = "traveller_query_value";
 
         /**
+         * 迁移到Traveller页面的查询名称
+         */
+        public static final String TRAVELLER_QUERY_NAME = "traveller_query_name";
+
+        /**
          * 用户头像URL
          */
         public static final String PORTRAIT_URL = "user_portrait_url";
@@ -136,11 +141,10 @@ public class Const {
     // 调试
     public static final boolean FakeProtocol = false;
 
-    public static final String WorkDir = Environment
-            .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
+    public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.100:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -308,11 +312,16 @@ public class Const {
          * 响应结果码 16:没有权限
          */
         public static final int RESULT_NOT_PERMIT = 16;
+
+        /**
+         * 响应结果码 17:注册本系统账户成功，但注册IM账户失败
+         */
+        public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
     }
 
-    /**
-     * Traveller页面
-     */
+    /** 查询类型 -1：全站 */
+    public static final byte QUERY_TYPE_ALL = -1;
+
     /** 查询类型 0：车站 */
     public static final byte QUERY_TYPE_STATION = 0;
 
@@ -384,4 +393,20 @@ public class Const {
      * 互动操作 3：举报
      */
     public static final byte INTERACT_ACTION_REPORTED = 3;
+
+    /**
+     * 性别 -1:全部
+     */
+    public static final byte SEX_ALL = -1;
+
+    /**
+     * 性别 1:男
+     */
+    public static final byte SEX_MAN = 1;
+
+    /**
+     * 性别 0:女
+     */
+    public static final byte SEX_FEMALE = 0;
+
 }

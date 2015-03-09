@@ -18,7 +18,7 @@
             android:id="@+id/editText_nickyName"
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
-            style="@style/FormEdittext"
+            style="@style/FormEditText"
             android:nextFocusUp="@+id/editText_age"
             android:layout_weight="1" />
     </LinearLayout>
@@ -34,7 +34,7 @@
             android:id="@+id/editText_age"
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
-            style="@style/FormEdittext"
+            style="@style/FormEditText"
             android:editable="false"
             android:layout_weight="1" />
         <!-- <ImageButton

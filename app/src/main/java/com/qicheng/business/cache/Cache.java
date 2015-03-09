@@ -79,6 +79,10 @@ public class Cache {
         return mTripRelatedCache.getTrains();
     }
 
+    public List<TrainStation> getTripRelatedStationCache(String cityCode) {
+        return mTripRelatedCache.getStations(cityCode);
+    }
+
     public void refreshTripRelatedCityCache(String c){
         mTripRelatedCache.setCityCache(c);
     }
@@ -87,15 +91,7 @@ public class Cache {
         mTripRelatedCache.setTrainCache(t);
     }
 
-    public void addStationsToCityCache(String cityCode,List<TrainStation> stations){
-        List<City> cityList = mTripRelatedCache.getCitys();
-        for(int i=0;i<cityList.size();i++ ){
-            City c = cityList.get(i);
-            if(c.getCityCode().equals(cityCode)){
-                c.setStationList(stations);
-                return;
-            }
-        }
+    public void refreshTripRelatedStationCache(String cityCode, String stations) {
+        mTripRelatedCache.setStationCache(cityCode, stations);
     }
-
 }

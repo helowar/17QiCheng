@@ -58,6 +58,11 @@ public class GetDynListProcess extends BaseProcess {
                         logger.e("组装传入搜索附近动态参数成功");
                         logger.d(o.toString());
                         break;
+                    case Const.QUERY_TYPE_STATION:
+                        spliceParameter(o);
+                        logger.e("组装传入搜索车站动态参数成功");
+                        logger.d(o.toString());
+                        break;
                     //....
                     default:
                         o.put("order_by", dynSearch.getOrderBy());
@@ -87,7 +92,7 @@ public class GetDynListProcess extends BaseProcess {
                 JSONArray jsonArrayDynList = o.has("body") ? o.optJSONArray("body") : null;
                 if (jsonArrayDynList != null) {
                     dynList = new ArrayList<Dyn>();
-                    for (int i = 0; i < jsonArrayDynList.length(); i++) {
+                    for (int i = 0, size = jsonArrayDynList.length(); i < size; i++) {
                         JSONObject jsonDyn = (JSONObject) jsonArrayDynList.getJSONObject(i);
                         Dyn dyn = new Dyn();
                         dyn.setUserId(jsonDyn.optString("user_id"));
@@ -101,10 +106,10 @@ public class GetDynListProcess extends BaseProcess {
                         dyn.setLikedNum(jsonDyn.optInt("liked_num"));
                         dyn.setSharedNum(jsonDyn.optInt("shared_num"));
                         dyn.setIsLiked(jsonDyn.optInt("is_liked"));
-                        dyn.setIsShared(jsonDyn.optInt("is_shared"));
+                        //dyn.setIsShared(jsonDyn.optInt("is_shared"));
                         dyn.setCreateTime(StringUtil.stringToDate(jsonDyn.optString("create_time")));
                         dyn.setOrderNum(jsonDyn.optInt("order_num"));
-                        JSONArray jsonFileArray = jsonDyn.has("files") ? o.optJSONArray("files") : null;
+                        JSONArray jsonFileArray = jsonDyn.has("files") ? jsonDyn.optJSONArray("files") : null;
                         if (jsonFileArray != null && jsonFileArray.length() > 0) {
                             JSONObject jsonFile = (JSONObject) jsonFileArray.getJSONObject(0);
                             dyn.setFileType(jsonFile.optInt("file_type"));

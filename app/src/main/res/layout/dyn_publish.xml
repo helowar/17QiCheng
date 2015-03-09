@@ -2,21 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/unavailable"
+    android:background="@color/white"
     android:orientation="vertical">
 
 
-        <com.qicheng.business.ui.RichEdit
-            android:id="@+id/msg_write_content"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:autoLink="all"
-            android:gravity="left|top"
-            android:hint="请输入内容..."
-            android:minHeight="150dp"
-            android:background="@color/white" />
+    <com.qicheng.business.ui.component.RichEdit
+        android:id="@+id/msg_write_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoLink="all"
+        android:gravity="left|top"
+        android:hint="此时此刻..."
+        android:minHeight="150dp"
+        android:paddingLeft="5dp"
+        android:background="@color/white" />
 
+    <ImageView
+        android:id="@+id/activity_pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_default_photo"
+        android:background="@drawable/bg_pic_angle"
+        android:layout_marginLeft="5dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+       />
 
 
     <TextView
@@ -24,6 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:paddingLeft="5dp"
         android:text="您还能输入119个字符" />
 
     <LinearLayout

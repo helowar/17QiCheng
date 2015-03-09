@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--友盟权限-->
+    <!-- 友盟权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 云之讯权限 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -41,13 +41,14 @@
         <service
             android:name=".business.service.LocationService"
             android:enabled="true" />
-        <!--activity config begin-->
+        <!-- activity config begin -->
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -106,6 +107,11 @@
             android:name=".business.ui.TravellerActivity"
             android:label="@string/traveller_activity_title"
             android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.UserQueryActivity"
+            android:label="@string/user_query_activity_title"
+            android:logo="@drawable/ic_user">
         </activity>
         <!-- activity config end -->
 

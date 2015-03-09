@@ -59,6 +59,7 @@ public class GetTrainInfoProcess extends BaseProcess {
                         TrainStation station = new TrainStation();
                         station.setStationName(body.getJSONObject(i).getString("station_name"));
                         station.setStationCode(body.getJSONObject(i).getString("station_code"));
+                        station.setEnterTime(body.getJSONObject(i).getString("enter_time"));
                         station.setLeaveTime(body.getJSONObject(i).getString("leave_time"));
                         station.setIndex(body.getJSONObject(i).getInt("order_num"));
                         station.setCrossDays(body.getJSONObject(i).getInt("cross_days"));
