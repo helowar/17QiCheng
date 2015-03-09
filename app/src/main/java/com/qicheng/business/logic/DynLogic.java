@@ -82,8 +82,6 @@ public class DynLogic extends BaseLogic {
                 fireEvent(listener, stationEventAargs);
             }
         });
-
-
     }
 
     /*添加动态的逻辑Logic方法*/

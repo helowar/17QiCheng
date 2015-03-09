@@ -360,7 +360,7 @@ public class ActyFragment extends BaseFragment {
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             stations = new String[stationList.size()];
-            for (int i = 0, size = stationList.size(); i < size; i++) {
+            for (int i = 0; i < stationList.size(); i++) {
                 stations[i] = stationList.get(i).getStationName();
             }
             builder.setItems(stations, new DialogInterface.OnClickListener() {
@@ -380,7 +380,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast(getResources().getString(R.string.activity_no_station));
+            Alert.Toast("该城市没有车站");
         }
     }
 
@@ -512,6 +512,7 @@ public class ActyFragment extends BaseFragment {
         private Context mContext;
         private List<Dyn> dataList;
         /*是否赞过的标志*/
+        private boolean flag;
 
         public DynListViewAdapter(Context mContext) {
             super();
@@ -546,7 +547,7 @@ public class ActyFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(final int position, View convertView, final ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
@@ -572,27 +573,18 @@ public class ActyFragment extends BaseFragment {
             holder.name.setText(bean.getNickName());
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
-
             if (thumbnailUrl != null) {
+//            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
                 holder.photo.setVisibility(View.VISIBLE);
-                holder.photo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String fileUrl = bean.getFileUrl();
-                        Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                        intent.putExtra("imgurl", fileUrl);
-                        startActivity(intent);
-                    }
-                });
-            } else {
+            }else {
                 holder.photo.setVisibility(View.GONE);
             }
 
             holder.content.setText(bean.getContent());
 
             Integer likeNum = bean.getLikedNum();
-            final Integer shareNum = bean.getSharedNum();
+            Integer shareNum = bean.getSharedNum();
             holder.likeNum.setText(likeNum.toString());
             holder.shareNum.setText(shareNum.toString());
             /*初始化时是否被赞过*/
@@ -630,25 +622,14 @@ public class ActyFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     if (bean.getThumbnailUrl() != null) {
-                        try {
-                            Drawable drawable = holder.photo.getDrawable();
-                            Bitmap bitmap = BitmapUtils.drawableToBitamp(drawable);
-                            String path = BitmapUtils.saveImg(bitmap, "shareimg");
-                            shareIntent.setType("image/*");
-                            Uri u = Uri.parse(path);
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, u);
-                            shareIntent.putExtra("sms_body", bean.getContent());
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra("sms_body", bean.getContent());
                     } else {
                         shareIntent.setType("text/plain");
                     }
                     shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "启程分享");
-                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getActivity().startActivity(Intent.createChooser(shareIntent, "MainActivity"));
+                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     //分享后分享数字加一
                     String id = bean.getActivityId();
                     holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");

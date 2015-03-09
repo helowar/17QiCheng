@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/please_add_label"
-        style="@style/FormEdittext" />
+        style="@style/FormEditText" />
 
 
     <ScrollView

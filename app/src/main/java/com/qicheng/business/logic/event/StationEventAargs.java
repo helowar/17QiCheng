@@ -11,33 +11,22 @@ import com.qicheng.business.module.TrainStation;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by NO3 on 2015/2/28.
  */
 public class StationEventAargs extends StatusEventArgs {
 
-    private ArrayList<TrainStation> stationList;
+    private List<TrainStation> stationList;
 
-
-    public StationEventAargs(OperErrorCode errorCode) {
-        super(errorCode);
-    }
-
-    public StationEventAargs(ArrayList value) {
-        super(OperErrorCode.Success);
-        stationList = value;
-    }
-
-    public StationEventAargs(ArrayList value, OperErrorCode errCode) {
+    public StationEventAargs(List value, OperErrorCode errCode) {
         super(errCode);
         stationList = value;
 
     }
 
-
-    public ArrayList<TrainStation> getStationList() {
+    public List<TrainStation> getStationList() {
         return stationList;
     }
 }

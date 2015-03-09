@@ -210,9 +210,11 @@ public class TravellerActivity extends BaseActivity {
         actionBar.setHomeButtonEnabled(true);
         User user = Cache.getInstance().getUser();
         int genderQueryValue = user.getQueryValue().getGender();
-        if(genderQueryValue == Const.SEX_MAN) {
+        if (genderQueryValue == Const.SEX_ALL) {
+            menu.findItem(R.id.gender_all).setChecked(true);
+        } else if (genderQueryValue == Const.SEX_MAN) {
             menu.findItem(R.id.male).setChecked(true);
-        } else if(genderQueryValue == Const.SEX_FEMALE) {
+        } else if (genderQueryValue == Const.SEX_FEMALE) {
             menu.findItem(R.id.female).setChecked(true);
         }
         return true;
@@ -220,32 +222,22 @@ public class TravellerActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int gender = -1;
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                finish();
+                break;
+            case R.id.gender_all:
+                item.setChecked(true);
+                refreshPerson(Const.SEX_ALL);
                 break;
             case R.id.male:
                 item.setChecked(true);
-                gender = Const.SEX_MAN;
+                refreshPerson(Const.SEX_MAN);
                 break;
             case R.id.female:
                 item.setChecked(true);
-                gender = Const.SEX_FEMALE;
+                refreshPerson(Const.SEX_FEMALE);
                 break;
-        }
-        QueryValue queryValue = Cache.getInstance().getUser().getQueryValue();
-        if ((gender == Const.SEX_MAN || gender == Const.SEX_FEMALE) && gender != queryValue.getGender()) {
-            queryValue.setGender(gender);
-            Cache.getInstance().refreshCacheUser();
-            refreshRecommendPerson();
-            FragmentManager manager = getFragmentManager();
-            TravellerPersonFragment fragment = null;
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(START_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(END_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
-            startLoading();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -356,6 +348,27 @@ public class TravellerActivity extends BaseActivity {
                 }
             }
         }));
+    }
+
+    /**
+     * 刷新整个页面里的用户。
+     *
+     * @param gender 性别
+     */
+    private void refreshPerson(int gender) {
+        QueryValue queryValue = Cache.getInstance().getUser().getQueryValue();
+        if (gender != queryValue.getGender()) {
+            queryValue.setGender(gender);
+            Cache.getInstance().refreshCacheUser();
+            refreshRecommendPerson();
+            FragmentManager manager = getFragmentManager();
+            TravellerPersonFragment fragment = null;
+            fragment = (TravellerPersonFragment) manager.findFragmentByTag(START_TRAVELLER_FRAGMENT_TAG);
+            fragment.refreshPerson();
+            fragment = (TravellerPersonFragment) manager.findFragmentByTag(END_TRAVELLER_FRAGMENT_TAG);
+            fragment.refreshPerson();
+            startLoading();
+        }
     }
 
     private View createRecommendPersonView(final User traveller) {

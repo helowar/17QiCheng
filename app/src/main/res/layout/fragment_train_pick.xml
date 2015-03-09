@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/editText_train_code"
             android:nextFocusUp="@+id/editText_date"
-            style="@style/FormEdittext"
+            style="@style/FormEditText"
             android:layout_weight="1"
             />
     </LinearLayout>
@@ -29,7 +29,7 @@
             android:id="@+id/editText_date"
             android:layout_width="@dimen/zero"
             android:layout_height="match_parent"
-            style="@style/FormEdittext"
+            style="@style/FormEditText"
             android:editable="false"
             android:layout_weight="1"/>
     </LinearLayout>

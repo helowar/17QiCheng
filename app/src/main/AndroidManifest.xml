@@ -119,7 +119,7 @@
         <activity
             android:name=".business.ui.UserQueryActivity"
             android:label="@string/user_query_activity_title"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user">
         </activity>
         <!-- activity config end -->
 

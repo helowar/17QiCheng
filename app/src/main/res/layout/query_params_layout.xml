@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/query_params_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_6dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/query_params_keyword_edit_text"
+            style="@style/FormEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin_6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_form_input_container"
+            android:hint="@string/search_hint_text" />
+
+        <TextView
+            android:id="@+id/query_params_cancel_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/layout_margin_20dp"
+            android:layout_marginRight="@dimen/layout_margin_20dp"
+            android:text="@string/txt_cancel"
+            android:textColor="@color/main"
+            android:textSize="@dimen/font_size_18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin_6dp"
+        android:background="@color/white">
+
+        <GridView
+            android:id="@+id/query_params_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="4"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth" />
+    </LinearLayout>
+</LinearLayout>

@@ -5,7 +5,7 @@
 
     <item
         android:id="@+id/activity_title"
-        android:title="@string/activity_newest_btn_text"
+        android:title="@string/newest_btn_text"
         android:showAsAction="always">
         <!--
         <menu>
