@@ -103,8 +103,6 @@
                 android:id="@+id/img_user_portrait"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                app:border_width="1dp"
-                app:border_color="@color/main"
                 android:src="@drawable/ic_default_portrait" />
 
             <TextView

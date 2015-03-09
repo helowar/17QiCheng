@@ -18,6 +18,7 @@ public class QichengApplication extends Application {
     private BaseActivity mShowingActivity = null;
     private BaseActivity mCurrentActivity = null;
 
+
     @Override
     public void onCreate() {
         super.onCreate();

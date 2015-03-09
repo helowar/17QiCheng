@@ -6,6 +6,7 @@
     <color name="unavailable_transparent">#99E7E5E5</color>
     <color name="gray_line">#F6F6F6</color>
     <color name="gray_text">#9B9B9B</color>
+    <color name="white">#FFF</color>
 
     <color name="btn_gray_normal">#c0c0c0</color>
     <color name="btn_gray_pressed_status">#b5b5b6</color>
@@ -17,12 +18,14 @@
 
     <color name="black_text">#202020</color>
 
-
+    <!--Chat-->
     <color name="yellow_button">#F6AB00</color>
     <color name="light_gray">#F6F2EF</color>
     <color name="gray_bk">#BAB6AD</color>
+    <color name="grid_state_pressed">#1Affffff</color>
+    <color name="grid_state_focused">#80000000</color>
+    <color name="error_item_color">#F6EBE6</color>
 
-    <color name="white">#FFF</color>
 
     <!-- 正在进行的友约的状态标签的背景色 -->
     <color name="ing_appoint_bg">#98D6A6</color>
