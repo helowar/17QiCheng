@@ -171,5 +171,10 @@ public class ImageManager {
         ImageLoader.getInstance().displayImage(imageUri, imageView, options, loadingListener, progressListener);
     }
 
+    public static  Bitmap loadImageSync(String imageUri){
+        Bitmap bitmap=ImageLoader.getInstance().loadImageSync(imageUri);
+        return bitmap;
+    }
+
 
 }

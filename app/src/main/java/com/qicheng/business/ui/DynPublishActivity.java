@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -37,10 +38,15 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.Logger;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DynPublishActivity extends BaseActivity {
@@ -68,6 +74,10 @@ public class DynPublishActivity extends BaseActivity {
 
     private static final int ADD_SUCCESS = 0;
     private Bitmap bitmap;
+
+    private Uri uri;
+
+    private Bitmap uploadBitmap;
 
     private String dynPictureUrl;
 
@@ -124,6 +134,7 @@ public class DynPublishActivity extends BaseActivity {
                 startLoading();
                 if (flag) {
                     saveDynPictuer(bitmap);
+
                 } else {
                     DynBody body = new DynBody();
                     addDyn(body);
@@ -132,6 +143,9 @@ public class DynPublishActivity extends BaseActivity {
             }
         });
 
+
+        ActionBar actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -139,27 +153,20 @@ public class DynPublishActivity extends BaseActivity {
         if (resultCode != Activity.RESULT_CANCELED) {
             switch (requestCode) {
                 case IMAGE_REQUEST_CODE:
-                    showPic(data.getData());
+                    uri = data.getData();
+                    showPic(uri);
                     break;
                 case CAMERA_REQUEST_CODE:
                     if (hasSdcard()) {
                         File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
                         File tempFile = new File(path, IMAGE_FILE_NAME);
-                        showPic(Uri.fromFile(tempFile));
-                        logger.d(Uri.fromFile(tempFile).toString());
+                        uri = Uri.fromFile(tempFile);
+                        showPic(uri);
+
                     } else {
                         Alert.Toast("未找到存储卡，无法存储照片！");
                     }
                     break;
-//                case RESULT_REQUEST_CODE: //图片缩放完成后
-//                    if (data != null) {
-//                        getImageToView(data);
-//                    }
-//                    break;
-//                case DATE_REQUEST_CODE:
-//                    Date date = (Date) data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
-//                    updateBirthDate(date);
-//                    break;
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -169,7 +176,6 @@ public class DynPublishActivity extends BaseActivity {
     private void showPic(Uri uri) {
         Log.e("uri", uri.toString());
         try {
-            //edit.setText(Html.fromHtml(("<img src='" + uri.toString() + "'/>"), imageGetter, null));
             picture.setImageDrawable(imageGetter.getDrawable(uri.toString()));
             picture.setVisibility(View.VISIBLE);
             flag = true;
@@ -185,15 +191,8 @@ public class DynPublishActivity extends BaseActivity {
         public Drawable getDrawable(String source) {
             ContentResolver cr = DynPublishActivity.this.getContentResolver();
             try {
-                Uri u = Uri.parse(source);
-                BitmapFactory.Options opts = new BitmapFactory.Options();
-                opts.inPreferredConfig = Bitmap.Config.RGB_565;
-                opts.inPurgeable = true;
-                opts.inInputShareable = true;
-                opts.inJustDecodeBounds = true;
-                opts.inSampleSize = 2;
-                opts.inJustDecodeBounds = false;
-                bitmap = BitmapFactory.decodeStream(cr.openInputStream(u), null, opts);
+                logger.d(source);
+                bitmap= BitmapUtils.getThumbUploadPath(cr, source, 1000);
                 BitmapDrawable d = new BitmapDrawable(bitmap);
                 d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                 return d;
@@ -219,7 +218,7 @@ public class DynPublishActivity extends BaseActivity {
                 OperErrorCode errCode = result.getErrCode();
                 switch (errCode) {
                     case Success:
-                        logger.d("Portrait file url:" + result.getResult().getPortraitURL());
+                        logger.d("Dyn file url:" + result.getResult().getPortraitURL());
                         dynPictureUrl = result.getResult().getPortraitURL();
                         DynBody body = new DynBody();
                         List<DynFile> files = new ArrayList<DynFile>();
@@ -230,10 +229,10 @@ public class DynPublishActivity extends BaseActivity {
                         addDyn(body);
                         break;
                     case FileUpLoadFailed:
-                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        Alert.Toast("动态图片上传失败");
                         break;
                     default:
-                        Alert.Toast(getResources().getString(R.string.portrait_save_failed));
+                        Alert.Toast("动态图片上传失败");
                         break;
                 }
             }
@@ -279,7 +278,7 @@ public class DynPublishActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_add:
+            case android.R.id.home:
                 DynPublishActivity.this.finish();
             default:
                 return super.onOptionsItemSelected(item);
@@ -292,7 +291,7 @@ public class DynPublishActivity extends BaseActivity {
     private void showImgPickDialog() {
 
         new AlertDialog.Builder(this)
-                .setTitle("设置头像")
+                .setTitle("添加动态图片")
                 .setItems(items, new DialogInterface.OnClickListener() {
 
                     @Override
@@ -341,6 +340,11 @@ public class DynPublishActivity extends BaseActivity {
             return false;
         }
     }
+
+
+
+
+
 
     /**
      * 发布动态要传给后台的参数

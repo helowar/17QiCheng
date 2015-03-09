@@ -2,9 +2,13 @@ package com.qicheng.business.ui;
 
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -42,6 +46,7 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
@@ -253,11 +258,10 @@ public class ActyFragment extends BaseFragment {
         Log.d("result", requestCode + " " + resultCode);
         switch (resultCode) {
             case ADD_SUCCESS:
+                dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
                 getDynList(dynSearch);
                 break;
-        }
-        if (data != null) {
-
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -272,7 +276,7 @@ public class ActyFragment extends BaseFragment {
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             trains = new String[trainList.size()];
-            for (int i = 0; i < trainList.size(); i++) {
+            for (int i = 0, size = trainList.size(); i < size; i++) {
                 trains[i] = trainList.get(i).getTrainCode();
             }
             builder.setItems(trains, new DialogInterface.OnClickListener() {
@@ -291,7 +295,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的车次");
+            Alert.Toast(getResources().getString(R.string.activity_no_train));
         }
     }
 
@@ -327,7 +331,7 @@ public class ActyFragment extends BaseFragment {
                     //stationList = cityList.get(which).getStationList();
 
                     List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
-                    for (int i = 0; i < cityListCache.size(); i++) {
+                    for (int i = 0, size = cityListCache.size(); i < size; i++) {
                         City c = cityListCache.get(i);
                         if (c.getCityCode().equals(cityCodes[which])) {
                             stationList = c.getStationList();
@@ -341,7 +345,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的城市");
+            Alert.Toast(getResources().getString(R.string.activity_no_city));
         }
     }
 
@@ -356,7 +360,7 @@ public class ActyFragment extends BaseFragment {
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             stations = new String[stationList.size()];
-            for (int i = 0; i < stationList.size(); i++) {
+            for (int i = 0, size = stationList.size(); i < size; i++) {
                 stations[i] = stationList.get(i).getStationName();
             }
             builder.setItems(stations, new DialogInterface.OnClickListener() {
@@ -376,7 +380,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("该城市没有车站");
+            Alert.Toast(getResources().getString(R.string.activity_no_station));
         }
     }
 
@@ -508,7 +512,6 @@ public class ActyFragment extends BaseFragment {
         private Context mContext;
         private List<Dyn> dataList;
         /*是否赞过的标志*/
-        private boolean flag;
 
         public DynListViewAdapter(Context mContext) {
             super();
@@ -543,7 +546,7 @@ public class ActyFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, final ViewGroup parent) {
             final ViewHolder holder;
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
@@ -569,18 +572,27 @@ public class ActyFragment extends BaseFragment {
             holder.name.setText(bean.getNickName());
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
+
             if (thumbnailUrl != null) {
-//            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
                 holder.photo.setVisibility(View.VISIBLE);
-            }else {
+                holder.photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String fileUrl = bean.getFileUrl();
+                        Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
+                        intent.putExtra("imgurl", fileUrl);
+                        startActivity(intent);
+                    }
+                });
+            } else {
                 holder.photo.setVisibility(View.GONE);
             }
 
             holder.content.setText(bean.getContent());
 
             Integer likeNum = bean.getLikedNum();
-            Integer shareNum = bean.getSharedNum();
+            final Integer shareNum = bean.getSharedNum();
             holder.likeNum.setText(likeNum.toString());
             holder.shareNum.setText(shareNum.toString());
             /*初始化时是否被赞过*/
@@ -618,14 +630,25 @@ public class ActyFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     if (bean.getThumbnailUrl() != null) {
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra("sms_body", bean.getContent());
+                        try {
+                            Drawable drawable = holder.photo.getDrawable();
+                            Bitmap bitmap = BitmapUtils.drawableToBitamp(drawable);
+                            String path = BitmapUtils.saveImg(bitmap, "shareimg");
+                            shareIntent.setType("image/*");
+                            Uri u = Uri.parse(path);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, u);
+                            shareIntent.putExtra("sms_body", bean.getContent());
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         shareIntent.setType("text/plain");
                     }
                     shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
-                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "启程分享");
+                    shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().startActivity(Intent.createChooser(shareIntent, "MainActivity"));
                     //分享后分享数字加一
                     String id = bean.getActivityId();
                     holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
