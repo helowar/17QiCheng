@@ -141,8 +141,7 @@ public class Const {
     // 调试
     public static final boolean FakeProtocol = false;
 
-    public static final String WorkDir = Environment
-            .getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
+    public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
     public static final String BASE_URL = "http://192.168.1.102:8080/qps";
@@ -313,6 +312,11 @@ public class Const {
          * 响应结果码 16:没有权限
          */
         public static final int RESULT_NOT_PERMIT = 16;
+
+        /**
+         * 响应结果码 17:注册本系统账户成功，但注册IM账户失败
+         */
+        public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
     }
 
     /** 查询类型 -1：全站 */
