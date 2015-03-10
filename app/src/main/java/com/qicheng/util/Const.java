@@ -163,7 +163,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
+    public static final String BASE_URL = "http://112.16.76.119:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
