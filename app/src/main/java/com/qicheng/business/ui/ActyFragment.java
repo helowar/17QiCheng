@@ -440,12 +440,10 @@ public class ActyFragment extends BaseFragment {
                         }
                         break;
                     case NoDataFound:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_noMoreData));
                         listAdapter.notifyDataSetChanged();
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
@@ -467,7 +465,6 @@ public class ActyFragment extends BaseFragment {
                     case Success:
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
@@ -556,6 +553,7 @@ public class ActyFragment extends BaseFragment {
                 holder.portraitl = (ImageView) convertView.findViewById(R.id.portrait);
                 holder.name = (TextView) convertView.findViewById(R.id.name);
                 holder.pasttime = (TextView) convertView.findViewById(R.id.pasttime);
+                convertView.findViewById(R.id.activity_delete).setVisibility(View.GONE);
                 holder.content = (TextView) convertView.findViewById(R.id.content);
                 holder.photo = (ImageView) convertView.findViewById(R.id.photo);
                 holder.likeNum = (TextView) convertView.findViewById(R.id.liketime);
@@ -678,6 +676,11 @@ public class ActyFragment extends BaseFragment {
              * 发布的文字
              */
             private TextView content;
+
+            /**
+             * 删除
+             */
+            private TextView delete;
             /**
              * 发布的图片
              */

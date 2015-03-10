@@ -7,12 +7,12 @@ import com.qicheng.business.logic.event.StationEventAargs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.AddDynProcess;
+import com.qicheng.business.protocol.DeleteDynProcess;
 import com.qicheng.business.protocol.GetDynListProcess;
 import com.qicheng.business.protocol.GetStationListProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.InteractProcess;
 import com.qicheng.business.protocol.ProcessStatus;
-import com.qicheng.business.ui.ActyFragment;
 import com.qicheng.business.ui.DynPublishActivity;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventListener;
@@ -41,7 +41,12 @@ public class DynLogic extends BaseLogic {
         }
     }
 
-    /*获取动态列表的Logic方法*/
+    /**
+     * 获取动态列表的Logic方法
+     *
+     * @param dynSearch
+     * @param listener
+     */
     public void getDynList(DynSearch dynSearch, final EventListener listener) {
         final GetDynListProcess process = new GetDynListProcess();
         process.setDynSearch(dynSearch);
@@ -56,7 +61,13 @@ public class DynLogic extends BaseLogic {
 
     }
 
-    /*动态互动逻辑方法，包含点赞，取消赞，分享*/
+    /**
+     * 动态互动逻辑方法，包含点赞，取消赞，分享
+     *
+     * @param id
+     * @param action
+     * @param listener
+     */
     public void interact(String id, byte action, final EventListener listener) {
         final InteractProcess process = new InteractProcess();
         process.setId(id);
@@ -71,7 +82,12 @@ public class DynLogic extends BaseLogic {
         });
     }
 
-    /*通过城市代码会哦去车站的列表*/
+    /**
+     * 通过城市代码获取车站的列表
+     *
+     * @param cityCode
+     * @param listener
+     */
     public void getStationList(String cityCode, final EventListener listener) {
         final GetStationListProcess process = new GetStationListProcess();
         process.setCityCode(cityCode);
@@ -85,7 +101,12 @@ public class DynLogic extends BaseLogic {
         });
     }
 
-    /*添加动态的逻辑Logic方法*/
+    /**
+     * 删除动态的逻辑Logic方法
+     *
+     * @param dynBody
+     * @param listener
+     */
     public void addDyn(DynPublishActivity.DynBody dynBody, final EventListener listener) {
         final AddDynProcess process = new AddDynProcess();
         process.setDynBody(dynBody);
@@ -99,6 +120,27 @@ public class DynLogic extends BaseLogic {
             }
         });
     }
+
+    /**
+     * 删除动态的逻辑Logic方法
+     *
+     * @param activityId
+     * @param listener
+     */
+    public void deleteDyn(String activityId, final EventListener listener) {
+        final DeleteDynProcess process = new DeleteDynProcess();
+        process.setActivityId(activityId);
+
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                DynEventAargs dynEventAargs = new DynEventAargs(errCode);
+                fireEvent(listener, dynEventAargs);
+            }
+        });
+    }
+
 
     /**
      * 保存动态图片文件

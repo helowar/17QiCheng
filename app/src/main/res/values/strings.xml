@@ -231,11 +231,13 @@
     <!-- ActivityFragment begin -->
     <string name="activity_title">动态</string>
     <string name="activity_search_text">筛选动态</string>
+    <string name="activity_delete_text">删除</string>
     <string name="add_activity_text">添加动态</string>
     <string name="activity_newest_btn_text">最新</string>
     <string name="activity_nearby_btn_text">附近</string>
     <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
+    <string name="activity_delete_reject">删除动态失败</string>
     <string name="activity_noMoreData">没有更多动态了</string>
     <string name="activity_no_station">该城市没有车站</string>
     <string name="activity_no_city">您当前没有与行程相关的城市</string>

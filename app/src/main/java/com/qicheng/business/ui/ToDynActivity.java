@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -62,6 +63,8 @@ public class ToDynActivity extends BaseActivity {
     /*动态的类型*/
     private DynSearch dynSearch = new DynSearch();
     private static final int ADD_SUCCESS = 0;
+
+    private int deleteIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,12 +221,10 @@ public class ToDynActivity extends BaseActivity {
                         }
                         break;
                     case NoDataFound:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_noMoreData));
                         listAdapter.notifyDataSetChanged();
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
@@ -287,13 +288,38 @@ public class ToDynActivity extends BaseActivity {
                     case Success:
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
             }
         }));
     }
+
+    /**
+     * 删除动态
+     *
+     * @param activityId
+     */
+    private void deleteDyn(String activityId) {
+        DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
+        dynLogic.deleteDyn(activityId, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                DynEventAargs dynEventAargs = (DynEventAargs) args;
+                OperErrorCode errCode = dynEventAargs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        dynSearchList.remove(deleteIndex);
+                        listAdapter.notifyDataSetChanged();
+                        break;
+                    default:
+                        Alert.Toast(getResources().getString(R.string.activity_delete_reject));
+                        break;
+                }
+            }
+        }));
+    }
+
 
 
     /**
@@ -340,6 +366,7 @@ public class ToDynActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
+            final Dyn bean = dataList.get(position);
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
                 holder = new ViewHolder();
@@ -353,12 +380,30 @@ public class ToDynActivity extends BaseActivity {
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
+                if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
+                    convertView.findViewById(R.id.activity_delete).setVisibility(View.GONE);
+                } else {
+                    holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
+                    holder.delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+//                            new AlertDialog.Builder(getActivity())
+//                                    .setNegativeButton(android.R.string.cancel,null)
+//                                    .setPositiveButton(android.R.string.ok, this)
+//                                    .create();
+                            deleteIndex = position;
+
+                            deleteDyn(bean.getActivityId());
+                            listAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            final Dyn bean = dataList.get(position);
             String userPortrait = bean.getPortraitUrl();
             ImageManager.displayPortrait(userPortrait, holder.portraitl);
             holder.name.setText(bean.getNickName());
@@ -368,6 +413,14 @@ public class ToDynActivity extends BaseActivity {
 //            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
                 holder.photo.setVisibility(View.VISIBLE);
+                holder.photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
+                        intent.putExtra("imgurl", bean.getFileUrl());
+                        startActivity(intent);
+                    }
+                });
             } else {
                 holder.photo.setVisibility(View.GONE);
             }
@@ -422,12 +475,12 @@ public class ToDynActivity extends BaseActivity {
 //                    }
 //                    shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
 //                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-//                    //分享后分享数字加一
-//                    String id = bean.getActivityId();
-//                    holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
-//                    byte action = Const.INTERACT_ACTION_SHARED;
-//                    interact(id, action);
-//                    bean.setSharedNum((Integer.valueOf(holder.shareNum.getText().toString())));
+                    //分享后分享数字加一
+                    String id = bean.getActivityId();
+                    holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
+                    byte action = Const.INTERACT_ACTION_SHARED;
+                    interact(id, action);
+                    bean.setSharedNum((Integer.valueOf(holder.shareNum.getText().toString())));
                 }
             });
             holder.weixin.setOnClickListener(new View.OnClickListener() {
@@ -465,6 +518,8 @@ public class ToDynActivity extends BaseActivity {
              * 点赞次数
              */
             private ImageView likeimg;
+
+            private TextView delete;
             private TextView likeNum;
 
             /**

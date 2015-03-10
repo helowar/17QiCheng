@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">﻿
+    <item
+        android:state_pressed="true"
+        android:drawable="@color/unavailable" />
+
+    <item
+        android:state_pressed="false"
+        android:drawable="@color/white" />
+</selector>
