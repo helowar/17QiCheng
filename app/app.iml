@@ -9,6 +9,7 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugTest" />
@@ -84,16 +85,24 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 17 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="easemobchat_2.1.5" level="project" />
     <orderEntry type="library" exported="" name="android-support-v4" level="project" />
-    <orderEntry type="library" exported="" name="universal-image-loader-1.9.3-with-sources" level="project" />
+    <orderEntry type="library" exported="" name="easemobchat_2.1.5" level="project" />
     <orderEntry type="library" exported="" name="slidingmenu" level="project" />
+    <orderEntry type="library" exported="" name="universal-image-loader-1.9.3-with-sources" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-QQ-2.5.8" level="project" />
+    <orderEntry type="library" exported="" name="mframework" level="project" />
+    <orderEntry type="library" exported="" name="umeng_sdk" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.5.8" level="project" />
+    <orderEntry type="library" exported="" name="httpmime-4.1.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Core-2.5.8" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.5.8" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="locSDK_5.01" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="qps-crypt-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_v3_2_0" level="project" />
-    <orderEntry type="library" exported="" name="umeng_sdk" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.1.1" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.5.8" level="project" />
   </component>
 </module>
 

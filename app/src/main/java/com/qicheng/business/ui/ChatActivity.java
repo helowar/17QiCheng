@@ -54,6 +54,7 @@ import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
+import com.qicheng.QichengApplication;
 import com.qicheng.R;
 import com.qicheng.business.ui.chat.ExpressionAdapter;
 import com.qicheng.business.ui.chat.ExpressionPagerAdapter;
@@ -561,7 +562,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             return;
         }
         //TODO 需修改
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), //DemoApplication.getInstance().getUserName()
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), QichengApplication.getInstance().getUserName()
                 + System.currentTimeMillis() + ".jpg");
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
