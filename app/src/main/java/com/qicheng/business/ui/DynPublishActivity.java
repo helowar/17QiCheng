@@ -31,6 +31,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.DynFile;
+import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.RichEdit;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -53,7 +54,7 @@ public class DynPublishActivity extends BaseActivity {
     private RichEdit edit;
     private TextView surplus;
     private ImageView camera, picture, publish;
-    private ActyFragment.DynSearch dynSearch;
+    private DynSearch dynSearch;
     private static Logger logger = new Logger("com.qicheng.business.protocol.DynPublishActivity");
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
@@ -142,8 +143,6 @@ public class DynPublishActivity extends BaseActivity {
 
             }
         });
-
-
         ActionBar actionBar = this.getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
@@ -280,9 +279,11 @@ public class DynPublishActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 DynPublishActivity.this.finish();
+                break;
             default:
-                return super.onOptionsItemSelected(item);
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

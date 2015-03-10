@@ -14,6 +14,7 @@ import com.qicheng.business.protocol.InteractProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.ui.ActyFragment;
 import com.qicheng.business.ui.DynPublishActivity;
+import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
@@ -41,7 +42,7 @@ public class DynLogic extends BaseLogic {
     }
 
     /*获取动态列表的Logic方法*/
-    public void getDynList(ActyFragment.DynSearch dynSearch, final EventListener listener) {
+    public void getDynList(DynSearch dynSearch, final EventListener listener) {
         final GetDynListProcess process = new GetDynListProcess();
         process.setDynSearch(dynSearch);
         process.run(new ResponseListener() {

@@ -173,6 +173,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
                 //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
                 //startActivity(intent);
                 onBackPressed();
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

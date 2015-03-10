@@ -15,6 +15,18 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- shareSDK权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
     <!-- 百度定位SDK权限 -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -43,6 +55,7 @@
             android:name=".business.service.LocationService"
             android:enabled="true" />
         <!-- activity config begin -->
+
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
@@ -53,74 +66,68 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.qicheng.framework.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.ui.UserInfoActivity"
             android:label="@string/title_activity_usr_info" />
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".business.ui.MainActivity"
             android:label="@string/title_activity_main"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="actionbar_title_label"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="@string/actionbar_title_label"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="我的资料"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="adjustResize|adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".business.ui.DynPublishActivity"
             android:label="@string/actionbar_title_publish_dyn"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".business.ui.AddTripActivity"
             android:label="添加行程"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.TrainSelectActivity"
-            android:label="@string/title_activity_train_select" >
-        </activity>
+            android:label="@string/title_activity_train_select" />
         <activity
             android:name=".business.ui.ChatActivity"
-            android:label="@string/title_activity_chat" >
-        </activity>
+            android:label="@string/title_activity_chat" />
         <activity
             android:name=".business.ui.PassengerActivity"
             android:label="@string/passenger_activity_title"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.TravellerActivity"
             android:label="@string/traveller_activity_title"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.UserQueryActivity"
             android:label="@string/user_query_activity_title"
-            android:logo="@drawable/ic_user">
-        </activity>
+            android:logo="@drawable/ic_user" />
         <!-- activity config end -->
 
 
@@ -138,18 +145,39 @@
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"
-            android:label="@string/title_activity_original_picture" >
-        </activity>
-
+            android:label="@string/title_activity_original_picture" />
         <activity
             android:name=".business.ui.LabelModifyActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user">
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.LabelUpdateActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user">
+            android:logo="@drawable/ic_user" />
+        <!-- shareSDK Activity -->
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".business.ui.ToDynActivity"
+            android:label="@string/title_activity_trip_to_dyn"
+            android:logo="@drawable/ic_user"
+            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
         </activity>
     </application>
 

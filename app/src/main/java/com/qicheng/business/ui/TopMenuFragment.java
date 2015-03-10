@@ -18,6 +18,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.util.Const;
 
 /**
  * @author yangyu
@@ -87,6 +88,7 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
+                        getUserDyn();
                         break;
                     case R.string.select_setting:
                          /*跳转到筛选设置*/
@@ -114,11 +116,16 @@ public class TopMenuFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
                         intent.putExtra("Labels",labelEventArgs.getLabel());
                         startActivity(intent);
-                        getActivity().finish();
                         break;
                 }
             }
         }));
     }
 
+    private void getUserDyn(){
+        Intent intent = new Intent(getActivity(),ToDynActivity.class);
+        intent.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_MY);
+        intent.putExtra(Const.Intent.DYN_QUERY_NAME,"我的动态");
+        startActivity(intent);
+    }
 }

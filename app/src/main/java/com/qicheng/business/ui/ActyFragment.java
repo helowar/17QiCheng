@@ -40,6 +40,7 @@ import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.ui.component.DynListView;
+import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -53,6 +54,9 @@ import com.qicheng.util.Const;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class ActyFragment extends BaseFragment {
 
@@ -180,7 +184,7 @@ public class ActyFragment extends BaseFragment {
                     case 2:
                         dynSearchList = new ArrayList<Dyn>();
                         dynSearch = new DynSearch();
-                        title = "最新";
+                        title = getResources().getString(R.string.activity_newest_btn_text);
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
@@ -188,7 +192,7 @@ public class ActyFragment extends BaseFragment {
                         break;
                     /*当position的位置为3时是按附近搜索最新动态*/
                     case 3:
-                        title = "最近";
+                        title = getResources().getString(R.string.activity_nearby_btn_text);
                         /*配置当前搜索条件*/
                         dynSearch = new DynSearch();
                         dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
@@ -220,7 +224,7 @@ public class ActyFragment extends BaseFragment {
                 return super.onOptionsItemSelected(item);
             case R.id.activity_add:
                 Intent intent = new Intent(getActivity(), DynPublishActivity.class);
-                if (dynSearch.queryType != null) {
+                if (dynSearch.getQueryType() != null) {
                     Bundle bundle = new Bundle();
                     bundle.putByte("query_type", dynSearch.getQueryType());
                     bundle.putString("query_value", dynSearch.getQueryValue());
@@ -272,7 +276,7 @@ public class ActyFragment extends BaseFragment {
     public void searchByTrain() {
         if (trainList != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("请选择车次");
+            builder.setTitle(getResources().getString(R.string.activity_train_dialog_title));
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             trains = new String[trainList.size()];
@@ -306,7 +310,7 @@ public class ActyFragment extends BaseFragment {
     public void searchByCity() {
         if (cityList != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("请选择城市");
+            builder.setTitle(getResources().getString(R.string.activity_city_dialog_title));
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             cities = new String[cityList.size()];
@@ -328,18 +332,10 @@ public class ActyFragment extends BaseFragment {
                     dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
                     dynSearch.setQueryValue(cityList.get(which).getCityCode());
                     getDynList(dynSearch);
-                    //stationList = cityList.get(which).getStationList();
-
-                    List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
-                    for (int i = 0, size = cityListCache.size(); i < size; i++) {
-                        City c = cityListCache.get(i);
-                        if (c.getCityCode().equals(cityCodes[which])) {
-                            stationList = c.getStationList();
-                        }
-                    }
+                    // 获取当前城市里的车站列表
+                    stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
                     if (stationList == null) {
-                        getStationList(cityCodes[which]);
-                        Cache.getInstance().addStationsToCityCache(cityCodes[which], stationList);
+                        getStationList(cityCode);
                     }
                 }
             });
@@ -356,7 +352,7 @@ public class ActyFragment extends BaseFragment {
     public void searchByTrainStation() {
         if (stationList != null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("请选择车站");
+            builder.setTitle(getResources().getString(R.string.activity_station_dialog_title));
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             stations = new String[stationList.size()];
@@ -380,15 +376,17 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("该城市没有车站");
+            Alert.Toast(getResources().getString(R.string.activity_no_station));
         }
     }
 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem item = menu.getItem(0);
-        item.setTitle(title);
+        MenuItem item=  menu.findItem(R.id.activity_title);
+        if(item!=null){
+            item.setTitle(title);
+        }
     }
 
 
@@ -433,6 +431,9 @@ public class ActyFragment extends BaseFragment {
                                     refreshSearchList(orderBy);
                                     break;
                                 case Const.QUERY_TYPE_TRAIN:
+                                    refreshSearchList(orderBy);
+                                    break;
+                                case Const.QUERY_TYPE_STATION:
                                     refreshSearchList(orderBy);
                                     break;
                             }
@@ -574,9 +575,16 @@ public class ActyFragment extends BaseFragment {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
-//            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
                 holder.photo.setVisibility(View.VISIBLE);
+                holder.photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(),OriginalPictureActivity.class);
+                        intent.putExtra("imgurl",bean.getFileUrl());
+                        startActivity(intent);
+                    }
+                });
             }else {
                 holder.photo.setVisibility(View.GONE);
             }
@@ -620,16 +628,17 @@ public class ActyFragment extends BaseFragment {
             holder.shareimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    if (bean.getThumbnailUrl() != null) {
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra("sms_body", bean.getContent());
-                    } else {
-                        shareIntent.setType("text/plain");
-                    }
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
-                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    showShare(bean.getContent(),bean.getFileUrl());
+//                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//                    if (bean.getThumbnailUrl() != null) {
+//                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
+//                        shareIntent.setType("image/*");
+//                        shareIntent.putExtra("sms_body", bean.getContent());
+//                    } else {
+//                        shareIntent.setType("text/plain");
+//                    }
+//                    shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
+//                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     //分享后分享数字加一
                     String id = bean.getActivityId();
                     holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
@@ -687,69 +696,6 @@ public class ActyFragment extends BaseFragment {
         }
     }
 
-    /**
-     * 动态搜索类
-     */
-    public class DynSearch implements Serializable {
-
-        private int orderBy;
-        private int orderNum;
-        private int size = 10;
-        private Byte queryType;
-        private String queryValue;
-
-        public int getOrderBy() {
-            return orderBy;
-        }
-
-        public void setOrderBy(int orderBy) {
-            this.orderBy = orderBy;
-        }
-
-        public int getOrderNum() {
-            return orderNum;
-        }
-
-        public void setOrderNum(int orderNum) {
-            this.orderNum = orderNum;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public Byte getQueryType() {
-            return queryType;
-        }
-
-        public void setQueryType(Byte queryType) {
-            this.queryType = queryType;
-        }
-
-        public String getQueryValue() {
-            return queryValue;
-        }
-
-        public void setQueryValue(String queryValue) {
-            this.queryValue = queryValue;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("DynSearch{");
-            sb.append("orderBy=").append(orderBy);
-            sb.append(", orderNum=").append(orderNum);
-            sb.append(", size=").append(size);
-            sb.append(", queryType=").append(queryType);
-            sb.append(", queryValue='").append(queryValue).append('\'');
-            sb.append('}');
-            return sb.toString();
-        }
-    }
 
     /*动态搜索的GridView的Adapter*/
     private class DynSearchGridViewAdapter extends BaseAdapter {
@@ -801,5 +747,19 @@ public class ActyFragment extends BaseFragment {
         }
     }
 
+    private void showShare(String msg,String url){
+        ShareSDK.initSDK(getActivity());
+        OnekeyShare oks = new OnekeyShare();
+        // 分享时Notification的图标和文字
+        oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+       // oks.setTitle("启程分享");
+        oks.setText(msg);
+        oks.setImageUrl(url);
+        // 启动分享GUI
+        oks.show(getActivity());
+
+
+
+    }
 
 }

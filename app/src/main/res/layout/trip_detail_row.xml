@@ -5,6 +5,7 @@
     android:id="@+id/trip_detail_row">
 
     <LinearLayout
+        android:id="@+id/home_station"
         android:layout_width="@dimen/zero"
         android:layout_height="100dp"
         android:orientation="vertical"
@@ -26,6 +27,7 @@
             style="@style/DetailTripItemText" />
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -43,6 +45,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/train_dyn"
         android:layout_width="@dimen/zero"
         android:layout_height="100dp"
         android:orientation="vertical"
@@ -64,6 +67,7 @@
             style="@style/DetailTripItemText" />
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -81,6 +85,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/dest_station"
         android:layout_width="@dimen/zero"
         android:layout_height="100dp"
         android:orientation="vertical"
