@@ -21,6 +21,7 @@ class UserPreferences {
         editor.putString("lastportraiturl",user.getPortraitURL());
         editor.putString("lastbirthday",user.getBirthday());
         editor.putInt("lastgender",user.getGender());
+        editor.putString("lastimid",user.getUserImId());
         editor.putString("lastnickname",user.getNickName());
         editor.putString("lastLongitude", user.getLocation().getLongitude());
         editor.putString("lastLatitude", user.getLocation().getLatitude());
@@ -49,6 +50,7 @@ class UserPreferences {
         user.setCellNum(sp.getString("lastcellnum",""));
         user.setToken(sp.getString("lasttoken",""));
         user.setBirthday(sp.getString("lastbirthday",""));
+        user.setUserImId(sp.getString("lastimid",""));
         user.setPortraitURL(sp.getString("lastportraiturl",""));
         user.setGender(sp.getInt("lastgender",1));
         user.setNickName(sp.getString("lastnickname",""));

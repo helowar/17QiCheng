@@ -8,6 +8,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.ui.chat.QichengHXSDKHelper;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
 
@@ -17,6 +18,8 @@ public class QichengApplication extends Application {
 
     private BaseActivity mShowingActivity = null;
     private BaseActivity mCurrentActivity = null;
+
+    public static QichengHXSDKHelper hxSDKHelper = new QichengHXSDKHelper();
 
 
     @Override
@@ -43,6 +46,7 @@ public class QichengApplication extends Application {
 
         //Initialize ImageLoader with configuration
         ImageLoader.getInstance().init(config);
+        hxSDKHelper.onInit(this);
     }
 
     public BaseActivity getCurrentActivity() {

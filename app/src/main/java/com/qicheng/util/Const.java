@@ -110,6 +110,10 @@ public class Const {
          * 用户头像URL
          */
         public static final String PORTRAIT_URL = "user_portrait_url";
+
+        public static final String HX_USER_ID = "userId";
+
+        public static final String HX_USER_NICK_NAME = "nickName";
     }
 
     public static class DefaultValue {

@@ -224,7 +224,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_test_activity_main">TestActivityMain</string>
     <string name="title_activity_test_activity_child">TestActivityChild</string>
-    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_chat">聊天</string>
     <string name="title_activity_welcome">启程</string>
 
     <!-- ActivityFragment begin -->

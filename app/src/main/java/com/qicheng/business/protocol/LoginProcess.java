@@ -72,6 +72,7 @@ public class LoginProcess extends BaseProcess {
                 String token = body.optString("token");
                 String nickname = body.optString("nickname");
                 String url = body.optString("portrait_url");
+                String imId = body.optString("user_im_id");
                 /**
                  * 组装返回对象
                  */
@@ -79,6 +80,7 @@ public class LoginProcess extends BaseProcess {
                 resultUser.setToken(token);
                 resultUser.setNickName(nickname);
                 resultUser.setPortraitURL(url);
+                resultUser.setUserImId(imId);
             }
             setProcessStatus(value);
         } catch (Exception e) {

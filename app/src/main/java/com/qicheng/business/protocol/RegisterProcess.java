@@ -48,7 +48,7 @@ public class RegisterProcess extends BaseProcess {
             JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
-            if(value==0){
+            if(value==0||value==17){
                 JSONObject resultBody = o.getJSONObject("body");
                 String token = resultBody.optString("token");
                 String portraitUrl = resultBody.optString("portrait_url");
@@ -57,6 +57,7 @@ public class RegisterProcess extends BaseProcess {
                 User user = Cache.getInstance().getUser();
                 user.setPortraitURL(portraitUrl);
                 user.setToken(token);
+                user.setUserId(mParamUser.getCellNum());
                 user.setCellNum(mParamUser.getCellNum());
                 user.setPassWord(mParamUser.getPassWord());
                 /**

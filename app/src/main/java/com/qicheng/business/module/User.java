@@ -28,6 +28,11 @@ public class User {
 
     private int gender;
 
+    private int unreadMsgCount;
+    private String header;
+
+    private String userImId;
+
     private ArrayList<LabelType> mLabelTypes;
 
     /**
@@ -170,5 +175,29 @@ public class User {
 
     public QueryValue getQueryValue() {
         return queryValue;
+    }
+
+    public int getUnreadMsgCount() {
+        return unreadMsgCount;
+    }
+
+    public void setUnreadMsgCount(int unreadMsgCount) {
+        this.unreadMsgCount = unreadMsgCount;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public String getUserImId() {
+        return userImId;
+    }
+
+    public void setUserImId(String userImId) {
+        this.userImId = userImId;
     }
 }

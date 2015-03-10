@@ -68,6 +68,7 @@ import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.business.ui.chat.widget.ExpandGridView;
 import com.qicheng.business.ui.chat.widget.PasteEditText;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -159,22 +160,23 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private boolean haveMoreData = true;
     private Button btnMore;
     public String playMsgId;
+    private String toChatUserNickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chat, menu);
         initView();
         setUpView();
-        return true;
     }
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_chat, menu);
+//        return true;
+//    }
     /**
      * initView
      */
@@ -287,8 +289,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 
         if (chatType == CHATTYPE_SINGLE) { // 单聊
-            toChatUsername = getIntent().getStringExtra("userId");
-            ((TextView) findViewById(R.id.name)).setText(toChatUsername);
+            toChatUsername = getIntent().getStringExtra(Const.Intent.HX_USER_ID);
+            toChatUserNickName = getIntent().getStringExtra(Const.Intent.HX_USER_NICK_NAME);
+            ((TextView) findViewById(R.id.name)).setText(toChatUserNickName);
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername,false);
         } else {
@@ -966,7 +969,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 
                         if (filename != "delete_expression") { // 不是删除键，显示表情
                             // 这里用的反射，所以混淆的时候不要混淆SmileUtils这个类
-                            Class clz = Class.forName("com.easemob.chatuidemo.utils.SmileUtils");
+                            Class clz = Class.forName("com.qicheng.business.ui.chat.utils.SmileUtils");
                             Field field = clz.getField(filename);
                             mEditTextContent.append(SmileUtils.getSmiledText(ChatActivity.this, (String) field.get(null)));
                         } else { // 删除文字或者表情
