@@ -201,6 +201,7 @@ public class UserInfoInputFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity(), RegisterLabelSelectActivity.class);
                         intent.putExtra("Label",result.getResultLabelTypes());
                         startActivity(intent);
+                        getActivity().finish();
                         break;
                     case FileUpLoadFailed:
                         Alert.Toast(getResources().getString(R.string.portrait_save_failed));

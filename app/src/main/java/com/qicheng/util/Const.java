@@ -125,6 +125,10 @@ public class Const {
          * 迁移到TripToDyn页面的查询名称
          */
         public static final String DYN_QUERY_NAME = "dyn_query_name";
+
+        public static final String HX_USER_ID = "userId";
+
+        public static final String HX_USER_NICK_NAME = "nickName";
     }
 
     public static class DefaultValue {

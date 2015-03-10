@@ -22,7 +22,6 @@
           android:id="@+id/avatar"
           android:layout_width="45dp"
           android:layout_height="45dp"
-          android:scaleType="fitXY"
           android:layout_centerVertical="true"
           android:layout_marginLeft="10dp"
           android:src="@drawable/ic_default_portrait" />

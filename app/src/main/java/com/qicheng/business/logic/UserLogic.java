@@ -2,6 +2,8 @@ package com.qicheng.business.logic;
 
 import android.graphics.Bitmap;
 
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
@@ -72,13 +74,14 @@ public class UserLogic extends BaseLogic {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("login process response, " + errCode);
-
                 UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(), errCode);
                 if (errCode == OperErrorCode.Success) {
                     User user = Cache.getInstance().getUser();
                     user.setToken(process.getResultUser().getToken());
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
+                    user.setUserImId(process.getResultUser().getPortraitURL());
+                    loginHX(user.getUserImId(),StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -87,6 +90,26 @@ public class UserLogic extends BaseLogic {
             }
         });
 
+    }
+
+    private void loginHX(final String userName,String password){
+        EMChatManager.getInstance().login(userName, password, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                logger.d(userName+" login huanxin success!");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                logger.d(userName+" login huanxin error,errorCode="+code+"message:"+message);
+            }
+        });
     }
 
     public void loginWithCache(final EventListener listener){
@@ -119,6 +142,8 @@ public class UserLogic extends BaseLogic {
                     user.setToken(process.getResultUser().getToken());
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
+                    user.setUserImId(process.getResultUser().getUserImId());
+                    loginHX(user.getUserImId(),StringUtil.MD5(user.getPassWord()));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件

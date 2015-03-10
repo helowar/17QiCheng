@@ -6,13 +6,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 友盟权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 云之讯权限 -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 环信权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <!-- shareSDK权限 -->
@@ -27,6 +26,17 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 百度定位SDK权限 -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -87,50 +97,76 @@
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="actionbar_title_label"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="@string/actionbar_title_label"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="我的资料"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="adjustResize|adjustPan" />
+            android:windowSoftInputMode="adjustResize|adjustPan" >
+        </activity>
         <activity
             android:name=".business.ui.DynPublishActivity"
             android:label="@string/actionbar_title_publish_dyn"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
         <activity
             android:name=".business.ui.AddTripActivity"
             android:label="添加行程"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.TrainSelectActivity"
-            android:label="@string/title_activity_train_select" />
+            android:label="@string/title_activity_train_select" >
+        </activity>
         <activity
             android:name=".business.ui.ChatActivity"
-            android:label="@string/title_activity_chat" />
+            android:label="@string/title_activity_chat" >
+        </activity>
         <activity
             android:name=".business.ui.PassengerActivity"
             android:label="@string/passenger_activity_title"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.TravellerActivity"
             android:label="@string/traveller_activity_title"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user" >
+        </activity>
         <activity
             android:name=".business.ui.UserQueryActivity"
             android:label="@string/user_query_activity_title"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user">
+        </activity>
         <!-- activity config end -->
+        <!-- 开机自启动服务 -->
+        <receiver android:name="com.easemob.chat.StartServiceReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
 
 
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="17qicheng#17qicheng" />
+        <!-- 声明sdk所需的service -->
+        <service android:name="com.easemob.chat.EMChatService" />
         <!-- 友盟配置项 -->
         <meta-data
             android:name="UMENG_APPKEY"
