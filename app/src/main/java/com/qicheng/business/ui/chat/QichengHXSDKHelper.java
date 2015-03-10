@@ -127,8 +127,8 @@ public class QichengHXSDKHelper extends HXSDKHelper {
     /**
      * get demo HX SDK Model
      */
-    public DefaultHXSDKModel getModel(){
-        return (DefaultHXSDKModel) hxModel;
+    public QichengHXSDKModel getModel(){
+        return (QichengHXSDKModel) hxModel;
     }
 
     /**
@@ -162,7 +162,7 @@ public class QichengHXSDKHelper extends HXSDKHelper {
                 // TODO Auto-generated method stub
                 setContactList(null);
                 endCall();
-//                getModel().closeDB();
+                getModel().closeDB();
                 if(callback != null){
                     callback.onSuccess();
                 }

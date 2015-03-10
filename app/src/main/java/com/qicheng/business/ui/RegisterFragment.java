@@ -220,7 +220,7 @@ public class RegisterFragment extends BaseFragment {
                         Alert.Toast(getResources().getString(R.string.verify_code_send_success_msg));
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
+//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.verify_code_send_failed_msg));
                         break;
                 }

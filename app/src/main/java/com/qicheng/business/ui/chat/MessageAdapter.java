@@ -1023,7 +1023,7 @@ public class MessageAdapter extends BaseAdapter{
 			@Override
 			public void onSuccess() {
 				//umeng自定义事件，
-				sendEvent2Umeng(message, start);
+//				sendEvent2Umeng(message, start);
 
 				updateSendedView(message, holder);
 			}

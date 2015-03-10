@@ -194,7 +194,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
                         finish();
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
+//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.label_reject));
                         break;
                 }

@@ -431,12 +431,12 @@ public class ActyFragment extends BaseFragment {
                         }
                         break;
                     case NoDataFound:
-                        Alert.handleErrCode(errCode);
+//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_noMoreData));
                         listAdapter.notifyDataSetChanged();
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
+//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
@@ -458,7 +458,7 @@ public class ActyFragment extends BaseFragment {
                     case Success:
                         break;
                     default:
-                        Alert.handleErrCode(errCode);
+//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.activity_reject));
                         break;
                 }
