@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -44,6 +45,8 @@ public class LabelModifyActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_label_modify, menu);
+        ActionBar bar = this.getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
@@ -55,11 +58,11 @@ public class LabelModifyActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == android.R.id.home) {
+            return super.onOptionsItemSelected(item);
         }
-
         return super.onOptionsItemSelected(item);
+
     }
 
     /**
@@ -78,6 +81,8 @@ public class LabelModifyActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 
     public void initLayout() {
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
@@ -171,7 +176,6 @@ public class LabelModifyActivity extends BaseActivity {
                         labelTypeList.add(personal);
                         intent.putExtra("Labels", labelTypeList);
                         startActivity(intent);
-                        finish();
                         break;
                 }
             }

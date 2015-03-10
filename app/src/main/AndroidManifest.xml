@@ -63,6 +63,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.qicheng.framework.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".business.ui.UserInfoActivity"
             android:label="@string/title_activity_usr_info" />
         <activity
@@ -114,11 +120,7 @@
         <activity
             android:name=".business.ui.ChatActivity"
             android:label="@string/title_activity_chat"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustResize"
-             >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".business.ui.PassengerActivity"
@@ -167,18 +169,39 @@
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"
-            android:label="@string/title_activity_original_picture" >
-        </activity>
-
+            android:label="@string/title_activity_original_picture" />
         <activity
             android:name=".business.ui.LabelModifyActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user">
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.LabelUpdateActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user">
+            android:logo="@drawable/ic_user" />
+        <!-- shareSDK Activity -->
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".business.ui.ToDynActivity"
+            android:label="@string/title_activity_trip_to_dyn"
+            android:logo="@drawable/ic_user"
+            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
         </activity>
     </application>
 

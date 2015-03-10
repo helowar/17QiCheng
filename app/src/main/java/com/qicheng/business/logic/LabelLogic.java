@@ -29,6 +29,9 @@ public class LabelLogic extends BaseLogic {
 
     /**
      * 确定是否添加标签成功
+     *
+     * @param list
+     * @param listener
      */
     public void checkUpdate(List<Label> list, final EventListener listener) {
         final LabelProcess labelProcess = new LabelProcess();
@@ -46,26 +49,36 @@ public class LabelLogic extends BaseLogic {
 
     }
 
+    /**
+     * 获取用户标签列表
+     *
+     * @param listener
+     */
     public void getUserLabel(final EventListener listener) {
         final GetUserLabelProcess getUserLabelProcess = new GetUserLabelProcess();
         getUserLabelProcess.run(new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(getUserLabelProcess.getStatus());
-                LabelEventArgs labelEventArgs = new LabelEventArgs(getUserLabelProcess.getLabels(),errCode);
-                fireEvent(listener,labelEventArgs);
+                LabelEventArgs labelEventArgs = new LabelEventArgs(getUserLabelProcess.getLabels(), errCode);
+                fireEvent(listener, labelEventArgs);
             }
         });
     }
 
-    public void getLabelList(final  EventListener listener){
+    /**
+     * 获取全部标签列表
+     *
+     * @param listener
+     */
+    public void getLabelList(final EventListener listener) {
         final GetLabelListProcess getLabelListProcess = new GetLabelListProcess();
         getLabelListProcess.run(new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(getLabelListProcess.getStatus());
-                LabelEventArgs labelEventArgs = new LabelEventArgs(getLabelListProcess.getmLabelTypes(),errCode);
-                fireEvent(listener,labelEventArgs);
+                LabelEventArgs labelEventArgs = new LabelEventArgs(getLabelListProcess.getmLabelTypes(), errCode);
+                fireEvent(listener, labelEventArgs);
             }
         });
     }

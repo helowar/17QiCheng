@@ -173,6 +173,7 @@ public class RegisterLabelEditActivity extends BaseActivity {
                 //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
                 //startActivity(intent);
                 onBackPressed();
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -194,7 +195,6 @@ public class RegisterLabelEditActivity extends BaseActivity {
                         finish();
                         break;
                     default:
-//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.label_reject));
                         break;
                 }

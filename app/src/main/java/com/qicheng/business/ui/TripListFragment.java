@@ -68,7 +68,6 @@ public class TripListFragment extends BaseFragment {
     public TripListFragment() {
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +103,41 @@ public class TripListFragment extends BaseFragment {
          * 获取行程详情控件
          */
         View tripDetailView = inflater.inflate(R.layout.trip_detail_row, null);
+          /*跳转至查看始发站动态列表*/
+        tripDetailView.findViewById(R.id.home_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getStartStationCode());
+                i.putExtra(Const.Intent.DYN_QUERY_NAME,trip.getStartStationName());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_STATION);
+                startActivity(i);
+            }
+        });
+        /*跳转至查看到达站动态列表*/
+        tripDetailView.findViewById(R.id.dest_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getEndStationCode());
+                i.putExtra(Const.Intent.DYN_QUERY_NAME,trip.getEndStationName());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_STATION);
+                startActivity(i);
+            }
+        });
+        /*跳转至查看同车动态列表*/
+        tripDetailView.findViewById(R.id.train_dyn).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getTrainCode());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_TRAIN);
+                startActivity(i);
+            }
+        });
         TextView viewStartStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_sstation);
         TextView viewEndStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_estation);
         TextView viewStartTime= (TextView)tripDetailView.findViewById(R.id.textview_detail_stime);

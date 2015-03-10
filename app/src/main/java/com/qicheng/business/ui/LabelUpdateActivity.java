@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -192,7 +193,6 @@ public class  LabelUpdateActivity extends BaseActivity {
                         finish();
                         break;
                     default:
-//                        Alert.handleErrCode(errCode);
                         Alert.Toast(getResources().getString(R.string.label_reject));
                         break;
                 }
@@ -252,14 +252,13 @@ public class  LabelUpdateActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_update_label, menu);
+        ActionBar bar = this.getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
