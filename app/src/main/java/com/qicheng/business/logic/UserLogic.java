@@ -80,7 +80,7 @@ public class UserLogic extends BaseLogic {
                     user.setToken(process.getResultUser().getToken());
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
-                    user.setUserImId(process.getResultUser().getPortraitURL());
+                    user.setUserImId(process.getResultUser().getUserImId());
                     loginHX(user.getUserImId(),StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
