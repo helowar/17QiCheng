@@ -7,13 +7,14 @@
 
 package com.qicheng.business.module;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by NO3 on 2015/2/28.
  * 动态实体类
  */
-public class Dyn {
+public class Dyn implements Serializable {
     /*
     用户id
      */

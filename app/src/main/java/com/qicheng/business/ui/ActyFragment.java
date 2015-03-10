@@ -2,9 +2,13 @@ package com.qicheng.business.ui;
 
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -42,6 +46,7 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
@@ -188,7 +193,7 @@ public class ActyFragment extends BaseFragment {
                         dynSearch = new DynSearch();
                         dynSearch.setQueryType(Const.QUERY_TYPE_NEAR);
                         Location location = Cache.getInstance().getUser().getLocation();
-                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude());
+                        dynSearch.setQueryValue(location.getLongitude() + '|' + location.getLatitude() + '|');
                         getActivity().invalidateOptionsMenu();
                         getDynList(dynSearch);
                         searchLinearLayout.setVisibility(View.GONE);
@@ -253,11 +258,10 @@ public class ActyFragment extends BaseFragment {
         Log.d("result", requestCode + " " + resultCode);
         switch (resultCode) {
             case ADD_SUCCESS:
+                dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
                 getDynList(dynSearch);
                 break;
-        }
-        if (data != null) {
-
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -272,7 +276,7 @@ public class ActyFragment extends BaseFragment {
             //    指定下拉列表的显示数据
             //    设置一个下拉的列表选择项
             trains = new String[trainList.size()];
-            for (int i = 0; i < trainList.size(); i++) {
+            for (int i = 0, size = trainList.size(); i < size; i++) {
                 trains[i] = trainList.get(i).getTrainCode();
             }
             builder.setItems(trains, new DialogInterface.OnClickListener() {
@@ -291,7 +295,7 @@ public class ActyFragment extends BaseFragment {
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的车次");
+            Alert.Toast(getResources().getString(R.string.activity_no_train));
         }
     }
 
@@ -324,15 +328,24 @@ public class ActyFragment extends BaseFragment {
                     dynSearch.setQueryType(Const.QUERY_TYPE_CITY);
                     dynSearch.setQueryValue(cityList.get(which).getCityCode());
                     getDynList(dynSearch);
-                    stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
+                    //stationList = cityList.get(which).getStationList();
+
+                    List<City> cityListCache = Cache.getInstance().getTripRelatedCityCache();
+                    for (int i = 0, size = cityListCache.size(); i < size; i++) {
+                        City c = cityListCache.get(i);
+                        if (c.getCityCode().equals(cityCodes[which])) {
+                            stationList = c.getStationList();
+                        }
+                    }
                     if (stationList == null) {
-                        getStationList(cityCode);
+                        getStationList(cityCodes[which]);
+                        Cache.getInstance().addStationsToCityCache(cityCodes[which], stationList);
                     }
                 }
             });
             builder.show();
         } else {
-            Alert.Toast("您当前没有与行程相关的城市");
+            Alert.Toast(getResources().getString(R.string.activity_no_city));
         }
     }
 

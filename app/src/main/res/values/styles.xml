@@ -153,6 +153,12 @@
         <item name="android:textColor">@color/main</item>
 
     </style>
+    
+    <style name="custom_dialog">
+
+    </style>
+
+    
     <!--IM 相关样式 begin-->
     <style name="chat_text_date_style">
         <item name="android:padding">2dp</item>

@@ -99,7 +99,8 @@
     <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
 
-    <!--Chat Activity begin-->
+
+    <!-- Chat Activity begin -->
     <string name="button_pushtotalk">按住说话</string>
     <string name="button_send">发送</string>
     <string name="attach_take_pic">拍照</string>
@@ -168,10 +169,10 @@
     <string name="delete_voice">删除语音</string>
     <string name="delete_video">删除视频</string>
     <string name="forward">转发</string>
-    <!--Baidu map Activity begin-->
+    <!-- Baidu map Activity begin -->
     <string name="location_message">位置信息</string>
     <string name="Making_sure_your_location">正在确定你的位置...</string>
-    <!--Baidu map Activity end-->
+    <!-- Baidu map Activity end -->
 
 
     <!-- Traveller Activity begin -->
@@ -236,10 +237,20 @@
     <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
     <string name="activity_noMoreData">没有更多动态了</string>
-    <!--ActivityFragment end-->
+    <string name="activity_no_station">该城市没有车站</string>
+    <string name="activity_no_city">您当前没有与行程相关的城市</string>
+    <string name="activity_no_train">您当前没有与行程相关的车次</string>
+    <!-- ActivityFragment end -->
 
     <!-- UserQueryActivity begin -->
     <string name="user_query_activity_title">查询用户</string>
+    <string name="title_activity_original_picture">OriginalPictureActivity</string>
     <!-- UserQueryActivity end -->
+
+    <!--ActionBar Title -->
+    <string name="actionbar_title_label">标签</string>
+    <string name="actionbar_title_publish_dyn">发布动态</string>
+    <string name="actionbar_title_label_modify">我的标签</string>
+
 
 </resources>
