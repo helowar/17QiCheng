@@ -26,6 +26,7 @@ import com.qicheng.business.logic.event.TripEventArgs;
 import com.qicheng.business.module.TrainStation;
 import com.qicheng.business.module.Trip;
 import com.qicheng.business.ui.component.AutoBreakAndNextReverseLineViewGroup;
+import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -39,6 +40,7 @@ import com.qicheng.util.Const;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +74,9 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
     private boolean stopSet = false;
 
     private EditText viewStayDays;
+
+    private List<BadgeView> badgeList = new ArrayList<BadgeView>();
+    private List<TextView> stationViewList = new ArrayList<TextView>();
 
 
     public StationSelectFragment() {
@@ -225,8 +230,17 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
 
     private void initLineStations(AutoBreakAndNextReverseLineViewGroup stationGroup){
         for(int i=0;i<mTrainStations.size();i++){
-            stationGroup.addView(setTextViewToGroup(mTrainStations.get(i)));
+            TextView stationView = setTextViewToGroup(mTrainStations.get(i));
+            stationViewList.add(stationView);
+            stationGroup.addView(stationView);
+            BadgeView stationBadge  = new BadgeView(getActivity());
+            stationBadge.setHideOnNull(true);
+            stationBadge.setBadgeMargin(0);
+            stationBadge.setTargetView(stationView);
+            stationBadge.setText(null);
+            badgeList.add(stationBadge);
         }
+
     }
 
     public TextView setTextViewToGroup(TrainStation station) {
@@ -255,20 +269,27 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                     if(station.getIndex()<mStartStation.getIndex()){
                         return;
                     }
+                    badgeList.get(index).setText("止");
                     stopSet=true;//设置到达站
                     mStopStation = station;
                 }else{
+                    //排除重设直接选末站
+                    if(startSet&&stopSet&&station.getIndex()==mTrainStations.size()){
+                        return;
+                    }
                     //新设或重设起止站
                     startSet = true;
                     stopSet = false;
                     mStartStation = station;
+                    clearBadge();
+                    badgeList.get(index).setText("起");
                     mStopStation = null;
                 }
                 if (stopSet){
                     v.setBackgroundResource(R.drawable.bg_station_selected);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
-                    for(int i = index+1;i<stationGroup.getChildCount();i++){
-                        TextView child = (TextView)stationGroup.getChildAt(i);
+                    for(int i = index+1;i<stationViewList.size();i++){
+                        TextView child = stationViewList.get(i);
                         child.setBackgroundResource(R.drawable.bg_station_unavailable);
                         child.setTextColor(getResources().getColor(R.color.main));
                     }
@@ -276,12 +297,12 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                     v.setBackgroundResource(R.drawable.bg_station_selected);
                     ((TextView) v).setTextColor(getResources().getColor(R.color.white));
                     for(int i = 0;i<index;i++){
-                        TextView child = (TextView)stationGroup.getChildAt(i);
+                        TextView child = stationViewList.get(i);
                         child.setBackgroundResource(R.drawable.bg_station_unavailable);
                         child.setTextColor(getResources().getColor(R.color.main));
                     }
-                    for(int i = index+1;i<stationGroup.getChildCount();i++){
-                        TextView child = (TextView)stationGroup.getChildAt(i);
+                    for(int i = index+1;i<stationViewList.size();i++){
+                        TextView child = stationViewList.get(i);
                         child.setBackgroundResource(R.drawable.bg_station_unselected);
                         child.setTextColor(getResources().getColor(R.color.main));
                     }
@@ -290,6 +311,12 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
             }
         });
         return textView;
+    }
+
+    private void clearBadge(){
+        for(BadgeView i :badgeList){
+            i.setText(null);
+        }
     }
 
 

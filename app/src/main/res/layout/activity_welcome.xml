@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/img_welcome"
-                tools:context="com.qicheng.business.ui.Welcome"
-                android:gravity="center_horizontal|center_vertical">
-
-
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                tools:context="com.qicheng.business.ui.Welcome">
+    <ImageView
+        android:id="@+id/img_cover"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/img_welcome"
+        android:scaleType="centerCrop"/>
 </LinearLayout>
