@@ -382,7 +382,8 @@ public class ToDynActivity extends BaseActivity {
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
                 convertView.setTag(holder);
                 if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
-                    convertView.findViewById(R.id.activity_delete).setVisibility(View.GONE);
+                    holder.delete = (TextView)convertView.findViewById(R.id.activity_delete);
+                    holder.delete.setVisibility(View.GONE);
                 } else {
                     holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
 
@@ -396,7 +397,7 @@ public class ToDynActivity extends BaseActivity {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Dyn bean = (Dyn)v.getTag();
+                    final Dyn bean = (Dyn) v.getTag();
                     new AlertDialog.Builder(getActivity()).setTitle("确认删除？")
                             .setNegativeButton(android.R.string.cancel, null)
                             .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
