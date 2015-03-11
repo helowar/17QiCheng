@@ -370,8 +370,8 @@ public class TripListFragment extends BaseFragment {
              */
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int i = view.getLastVisiblePosition();
-                if (scrollState == SCROLL_STATE_FLING && lastIndex) {
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL && lastIndex) {
+                    footerView.show();
                     loadMoreData();// 加载更多数据
 //                            bt.setVisibility(View.VISIBLE);
 //                            pg.setVisibility(View.GONE);
@@ -386,7 +386,7 @@ public class TripListFragment extends BaseFragment {
                 //已到最后
                 if (view.getLastVisiblePosition() + 1 == view.getCount()) {
                     lastIndex = true;
-                    footerView.show();
+//                    footerView.show();
                 }
                 if (noFurtherData) {
                     footerView.reachBottomWithMsg(R.string.no_more);
@@ -416,6 +416,7 @@ public class TripListFragment extends BaseFragment {
                         pageList.addAll(tripList);
                         lastTrip = tripList.get(tripList.size()-1).getOrderNum();
                         mAdapter.notifyDataSetChanged();
+
                         break;
                     case NoDataFound:
 //                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
@@ -425,6 +426,7 @@ public class TripListFragment extends BaseFragment {
 //                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
                         break;
                 }
+                footerView.hide();
             }
         }));
     }

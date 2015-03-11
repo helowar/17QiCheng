@@ -229,32 +229,6 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
         }
     }
 
-
-    /**
-     * 测试假数据方法
-     */
-    private ArrayList<View> setFakeStations(){
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("hgh","上海虹桥",0)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("wx","无锡",1)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("sz","苏州",2)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("nj","南京",3)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("cz","常州",4)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("jn","济南",5)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("bj","北京",6)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("hgh","上海虹桥",7)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("wx","无锡",8)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("sz","苏州",9)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("nj","南京",10)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("cz","常州",11)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("jn","济南",12)));
-//        stationGroup.addView(setTextViewToGroup(new TrainStation("bj","北京",13)));
-        ArrayList<View> children = new ArrayList<View>();
-        for(int i =0;i<20;i++){
-            children.add(setTextViewToGroup(new TrainStation("hgh","上海虹桥",0)));
-        }
-        return children;
-    }
-
     public TextView setTextViewToGroup(TrainStation station) {
         TextView textView = new TextView(getActivity());
         textView.setText(station.getStationName());
@@ -267,7 +241,20 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
             public void onClick(View v) {
                 TrainStation station = (TrainStation)v.getTag();
                 int index = station.getIndex()-1;
+                //确保起始站不是最后一站
+                if(startSet==false&&station.getIndex()==mTrainStations.size()){
+                    //不响应
+                    return;
+                }
+                //确保起止站不相同
+                if(station==mStartStation||station==mStopStation){
+                    //不响应
+                    return;
+                }
                 if(startSet!=false&&(startSet&&stopSet==false)){
+                    if(station.getIndex()<mStartStation.getIndex()){
+                        return;
+                    }
                     stopSet=true;//设置到达站
                     mStopStation = station;
                 }else{
@@ -275,6 +262,7 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                     startSet = true;
                     stopSet = false;
                     mStartStation = station;
+                    mStopStation = null;
                 }
                 if (stopSet){
                     v.setBackgroundResource(R.drawable.bg_station_selected);
