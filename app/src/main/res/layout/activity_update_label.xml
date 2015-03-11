@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/please_add_label"
+        android:imeOptions="actionDone"
         style="@style/FormEditText" />
 
 

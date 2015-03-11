@@ -90,12 +90,13 @@
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
-            android:label="actionbar_title_label"
+            android:label="@string/actionbar_title_label"
             android:logo="@drawable/ic_user" >
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="@string/actionbar_title_label"
+            android:windowSoftInputMode="stateHidden"
             android:logo="@drawable/ic_user" >
         </activity>
         <activity
