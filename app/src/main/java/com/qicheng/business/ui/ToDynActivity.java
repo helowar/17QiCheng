@@ -9,6 +9,7 @@ package com.qicheng.business.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -309,7 +310,6 @@ public class ToDynActivity extends BaseActivity {
                 OperErrorCode errCode = dynEventAargs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        dynSearchList.remove(deleteIndex);
                         listAdapter.notifyDataSetChanged();
                         break;
                     default:
@@ -319,7 +319,6 @@ public class ToDynActivity extends BaseActivity {
             }
         }));
     }
-
 
 
     /**
@@ -366,6 +365,7 @@ public class ToDynActivity extends BaseActivity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder holder;
+            final int index = position;
             final Dyn bean = dataList.get(position);
             if (null == convertView) {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.dyn_item, null);
@@ -380,29 +380,39 @@ public class ToDynActivity extends BaseActivity {
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
+                convertView.setTag(holder);
                 if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
-                    convertView.findViewById(R.id.activity_delete).setVisibility(View.GONE);
+                    holder.delete = (TextView)convertView.findViewById(R.id.activity_delete);
+                    holder.delete.setVisibility(View.GONE);
                 } else {
                     holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
-                    holder.delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
 
-//                            new AlertDialog.Builder(getActivity())
-//                                    .setNegativeButton(android.R.string.cancel,null)
-//                                    .setPositiveButton(android.R.string.ok, this)
-//                                    .create();
-                            deleteIndex = position;
-
-                            deleteDyn(bean.getActivityId());
-                            listAdapter.notifyDataSetChanged();
-                        }
-                    });
                 }
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            holder.delete.setTag(bean);
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dyn bean = (Dyn) v.getTag();
+                    new AlertDialog.Builder(getActivity()).setTitle("确认删除？")
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String activityId = bean.getActivityId();
+                                    deleteDyn(activityId);
+                                    dataList.remove(bean);
+                                    listAdapter.notifyDataSetChanged();
+                                }
+                            })
+                            .create().show();
+                }
+            });
+
 
             String userPortrait = bean.getPortraitUrl();
             ImageManager.displayPortrait(userPortrait, holder.portraitl);
@@ -424,9 +434,7 @@ public class ToDynActivity extends BaseActivity {
             } else {
                 holder.photo.setVisibility(View.GONE);
             }
-
             holder.content.setText(bean.getContent());
-
             Integer likeNum = bean.getLikedNum();
             Integer shareNum = bean.getSharedNum();
             holder.likeNum.setText(likeNum.toString());
@@ -531,6 +539,7 @@ public class ToDynActivity extends BaseActivity {
              * 微信
              */
             private ImageView weixin;
+
         }
     }
 
