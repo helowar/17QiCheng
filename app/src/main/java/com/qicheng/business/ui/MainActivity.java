@@ -17,6 +17,9 @@ import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
 
+import static com.qicheng.util.Const.QUERY_TYPE_ALL;
+import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
+
 public class MainActivity extends BaseActivity {
 
     private static Logger logger = new Logger("com.qicheng.business.ui.MainActivity");
@@ -211,8 +214,7 @@ public class MainActivity extends BaseActivity {
                 getActivity().invalidateOptionsMenu();
                 if (messageFragment == null) {
                     messageFragment = new MessageFragment();
-                    getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment)
-                            .commit();
+                    getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment).commit();
                 }
                 activatedFrame(R.id.message_content);
                 break;
@@ -230,8 +232,11 @@ public class MainActivity extends BaseActivity {
                 getActivity().invalidateOptionsMenu();
                 if (socialFragment == null) {
                     socialFragment = new SocialFragment();
-                    getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment)
-                            .commit();
+                    socialFragment.setQueryType(QUERY_TYPE_ALL);
+                    // 默认查询最新行程关联的用户，即根据最新行程的车次查询相同行程的用户，作为推荐用户。
+                    socialFragment.setRecommendQueryType(QUERY_TYPE_TRAIN);
+                    socialFragment.setSocialPersonText(getResources().getString(R.string.social_relation_person_text));
+                    getFragmentManager().beginTransaction().add(R.id.social_content, socialFragment).commit();
                 }
                 activatedFrame(R.id.social_content);
                 break;
@@ -240,8 +245,7 @@ public class MainActivity extends BaseActivity {
                 getActivity().invalidateOptionsMenu();
                 if (voucherFragment == null) {
                     voucherFragment = new VoucherFragment();
-                    getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment)
-                            .commit();
+                    getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment).commit();
                 }
                 activatedFrame(R.id.user_content);
                 break;
@@ -250,8 +254,7 @@ public class MainActivity extends BaseActivity {
                 getActivity().invalidateOptionsMenu();
                 if (actyFragment == null) {
                     actyFragment = new ActyFragment();
-                    getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment)
-                            .commit();
+                    getFragmentManager().beginTransaction().add(R.id.acty_content, actyFragment).commit();
                 }
                 activatedFrame(R.id.acty_content);
                 break;
