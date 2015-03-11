@@ -213,6 +213,7 @@ public class BadgeView extends TextView {
     public void setTargetView(View target) {
         if (getParent() != null) {
             ((ViewGroup) getParent()).removeView(this);
+//            this.get
         }
 
         if (target == null) {

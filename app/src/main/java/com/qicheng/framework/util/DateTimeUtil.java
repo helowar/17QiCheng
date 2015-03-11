@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -314,5 +315,11 @@ public class DateTimeUtil {
             // 忽略;
         }
         return null;
+    }
+
+    public static Date getDate(int year,int month,int day){
+        Calendar c = Calendar.getInstance();
+        c.set(year,month,day);
+        return c.getTime();
     }
 }
