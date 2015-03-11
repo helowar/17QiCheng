@@ -58,30 +58,31 @@ public class LabelModifyActivity extends BaseActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            return super.onOptionsItemSelected(item);
+            finish();
         }
         return super.onOptionsItemSelected(item);
 
     }
-
-    /**
-     * 按返回键退到后台，不关闭程序
-     *
-     * @param keyCode
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
+//
+//    /**
+//     * 按返回键退到后台，不关闭程序
+//     *
+//     * @param keyCode
+//     * @param event
+//     * @return
+//     */
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            Intent intent = new Intent(this,MainActivity.class);
+//            startActivity(intent);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
 
 
     public void initLayout() {
