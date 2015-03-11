@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- shareSDK权限 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -39,7 +41,7 @@
     <application
         android:name=".QichengApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_qicheng"
+        android:icon="@null"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
@@ -52,6 +54,7 @@
             android:name=".business.service.LocationService"
             android:enabled="true" />
         <!-- activity config begin -->
+
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
@@ -62,6 +65,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.qicheng.framework.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
@@ -74,13 +78,11 @@
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".business.ui.MainActivity"
             android:label="@string/title_activity_main"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -119,10 +121,6 @@
         </activity>
         <activity
             android:name=".business.ui.ChatActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_chat" >
         </activity>
         <activity
