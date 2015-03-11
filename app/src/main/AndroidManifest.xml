@@ -6,15 +6,26 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 友盟权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 云之讯权限 -->
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- 环信权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <!-- shareSDK权限 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- 百度定位SDK权限 -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -30,15 +41,10 @@
     <application
         android:name=".QichengApplication"
         android:allowBackup="true"
-        android:icon="@null"
+        android:icon="@drawable/ic_qicheng"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <!-- 云之讯SDK核心控制器 -->
-        <service android:name="com.yzx.service.ConnectionControllerService" />
-
-        <receiver android:name="com.yzx.service.AlarmReceiver" />
-        <receiver android:name="com.yzx.service.MsgBackReceiver" />
         <!-- 百度定位SDK服务器 -->
         <service
             android:name="com.baidu.location.f"
@@ -48,6 +54,7 @@
             android:name=".business.service.LocationService"
             android:enabled="true" />
         <!-- activity config begin -->
+
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
@@ -58,19 +65,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.qicheng.framework.wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.ui.UserInfoActivity"
             android:label="@string/title_activity_usr_info" />
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".business.ui.MainActivity"
             android:label="@string/title_activity_main"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -78,18 +90,26 @@
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
-            android:label="标签"
+            android:label="@string/actionbar_title_label"
             android:logo="@drawable/ic_user" >
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
-            android:label="标签"
+            android:label="@string/actionbar_title_label"
+            android:windowSoftInputMode="stateHidden"
             android:logo="@drawable/ic_user" >
         </activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="我的资料"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:windowSoftInputMode="adjustResize|adjustPan" >
+        </activity>
+        <activity
+            android:name=".business.ui.DynPublishActivity"
+            android:label="@string/actionbar_title_publish_dyn"
+            android:logo="@drawable/ic_user"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
         <activity
             android:name=".business.ui.AddTripActivity"
@@ -120,8 +140,23 @@
             android:logo="@drawable/ic_user">
         </activity>
         <!-- activity config end -->
+        <!-- 开机自启动服务 -->
+        <receiver android:name="com.easemob.chat.StartServiceReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
 
 
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="17qicheng#17qicheng" />
+        <!-- 声明sdk所需的service -->
+        <service android:name="com.easemob.chat.EMChatService" />
         <!-- 友盟配置项 -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -134,6 +169,42 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="hzs4mPQSEt4liOG9xVb2esgO" />
 
+        <activity
+            android:name=".business.ui.OriginalPictureActivity"
+            android:label="@string/title_activity_original_picture" />
+        <activity
+            android:name=".business.ui.LabelModifyActivity"
+            android:label="@string/actionbar_title_label_modify"
+            android:logo="@drawable/ic_user" />
+        <activity
+            android:name=".business.ui.LabelUpdateActivity"
+            android:label="@string/actionbar_title_label_modify"
+            android:logo="@drawable/ic_user" />
+        <!-- shareSDK Activity -->
+        <activity
+            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <data android:scheme="tencent100371282" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".business.ui.ToDynActivity"
+            android:label="@string/title_activity_trip_to_dyn"
+            android:logo="@drawable/ic_user"
+            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
+        </activity>
     </application>
 
 </manifest>

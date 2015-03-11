@@ -3,6 +3,7 @@ package com.qicheng.business.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.widget.ImageView;
 
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
@@ -15,21 +16,40 @@ import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 
+import java.util.Random;
+
 public class Welcome extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        ImageView cover = (ImageView)findViewById(R.id.img_cover);
+//        Random r = new Random();
+//        int i = r.nextInt()%2;
+//        switch (i){
+//            case 0:
+//                cover.setImageResource(R.drawable.img_welcome);
+//                break;
+//            case  1:
+                cover.setImageResource(R.drawable.img_welcome_2);
+//                break;
+//            case -1:
+//                cover.setImageResource(R.drawable.img_welcome_2);
+//                break;
+//            default:
+//                cover.setImageResource(R.drawable.img_welcome);
+//                break;
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        CountDownTimer timer = new CountDownTimer(5000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-            public void onFinish() {
+//        CountDownTimer timer = new CountDownTimer(5000, 500) {
+//            public void onTick(long millisUntilFinished) {
+//            }
+//            public void onFinish() {
                 UserLogic logic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
                 logic.loginWithCache( createUIEventListener(new EventListener() {
                         @Override
@@ -49,7 +69,7 @@ public class Welcome extends BaseActivity {
                         }
                     })
                 );
-            }
-        }.start();
+//            }
+//        }.start();
     }
 }

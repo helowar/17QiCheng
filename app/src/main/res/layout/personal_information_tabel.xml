@@ -2,19 +2,21 @@
     android:id="@+id/table_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:color="@drawable/tab_selector_menu"
     android:orientation="vertical">
 
 
     <RelativeLayout
         android:id="@+id/table_root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_selector_menu">
+
         <ImageView
             android:id="@+id/table_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            />
+            android:layout_centerVertical="true" />
 
 
         <TextView

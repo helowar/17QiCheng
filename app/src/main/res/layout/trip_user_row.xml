@@ -23,7 +23,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -34,7 +34,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -47,7 +47,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+               />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -58,7 +58,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -85,7 +85,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -96,7 +96,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -113,7 +113,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -124,7 +124,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -150,7 +150,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -161,7 +161,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -178,7 +178,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+               />
             <TextView
                 android:layout_width="@dimen/zero"
                 android:layout_height="30dp"
@@ -189,7 +189,7 @@ android:id="@+id/trip_users_row" android:background="@color/white">
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:border_color="@color/main"
-                android:src="@drawable/ic_default_portrait"/>
+                />
         </LinearLayout>
     </LinearLayout>
 

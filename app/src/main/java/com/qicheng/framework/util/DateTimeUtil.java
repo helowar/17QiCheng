@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -23,6 +24,19 @@ public class DateTimeUtil {
     public static final String time_separator = ":";
 
     public static final String date_separator = "-";
+
+    public static final int day_millis=86400000;
+    public static final String day_text="天前";
+
+
+    public static final int hour_millis=3600000;
+    public static final String hour_text="小时前";
+
+    public static final int minutes_millis=60000;
+    public static final String minutes_text="分钟前";
+
+    public static final String now_text="刚刚";
+
 
     /**
      * yyyy-MM-dd HH:mm:ss格式化对象。
@@ -78,17 +92,17 @@ public class DateTimeUtil {
     public static String getTimeInterval(Date date) {
         Date current = new Date(System.currentTimeMillis());
         long diff = current.getTime() - date.getTime();//这样得到的差值是微秒级别
-        long days = diff / (1000 * 60 * 60 * 24);
-        long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-        long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+        long days = diff / (day_millis);
+        long hours = (diff - days * (day_millis)) / (hour_millis);
+        long minutes = (diff - days * (day_millis) - hours * (hour_millis)) / (minutes_millis);
         if (days > 0) {
-            return days + "天前";
+            return days + day_text;
         } else if (hours > 0) {
-            return hours + "小时前";
+            return hours + hour_text;
         } else if (minutes > 0) {
-            return minutes + "分钟前";
+            return minutes + minutes_text;
         } else {
-            return "刚刚";
+            return now_text;
         }
     }
 
@@ -314,5 +328,11 @@ public class DateTimeUtil {
             // 忽略;
         }
         return null;
+    }
+
+    public static Date getDate(int year,int month,int day){
+        Calendar c = Calendar.getInstance();
+        c.set(year,month,day);
+        return c.getTime();
     }
 }

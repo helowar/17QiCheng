@@ -1,7 +1,7 @@
 package com.qicheng.business.protocol;
 
 import com.qicheng.business.module.Dyn;
-import com.qicheng.business.ui.ActyFragment;
+import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
@@ -22,11 +22,11 @@ public class GetDynListProcess extends BaseProcess {
 
     private String url = "/activity/list.html";
 
-    private ActyFragment.DynSearch dynSearch;
+    private DynSearch dynSearch;
 
     private ArrayList<Dyn> dynList;
 
-    public void setDynSearch(ActyFragment.DynSearch dynSearch) {
+    public void setDynSearch(DynSearch dynSearch) {
         this.dynSearch = dynSearch;
     }
 
@@ -63,7 +63,12 @@ public class GetDynListProcess extends BaseProcess {
                         logger.e("组装传入搜索车站动态参数成功");
                         logger.d(o.toString());
                         break;
-                    //....
+                    case Const.QUERY_TYPE_MY:
+                        spliceParameter(o);
+                        logger.e("组装传入搜索我的动态参数成功");
+                        logger.d(o.toString());
+                        break;
+                        //....
                     default:
                         o.put("order_by", dynSearch.getOrderBy());
                         break;
@@ -138,7 +143,7 @@ public class GetDynListProcess extends BaseProcess {
         return null;
     }
 
-    public ActyFragment.DynSearch getDynSearch() {
+    public DynSearch getDynSearch() {
         return dynSearch;
     }
 
@@ -156,7 +161,9 @@ public class GetDynListProcess extends BaseProcess {
     public void spliceParameter(JSONObject o) throws Exception {
         o.put("order_by", dynSearch.getOrderBy());
         o.put("query_type", dynSearch.getQueryType());
-        o.put("query_value", dynSearch.getQueryValue());
+        if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
+            o.put("query_value", dynSearch.getQueryValue());
+        }
         if (dynSearch.getOrderNum() != 0) {
             o.put("order_num", dynSearch.getOrderNum());
         }

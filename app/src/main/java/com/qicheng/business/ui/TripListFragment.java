@@ -68,7 +68,6 @@ public class TripListFragment extends BaseFragment {
     public TripListFragment() {
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +103,41 @@ public class TripListFragment extends BaseFragment {
          * 获取行程详情控件
          */
         View tripDetailView = inflater.inflate(R.layout.trip_detail_row, null);
+          /*跳转至查看始发站动态列表*/
+        tripDetailView.findViewById(R.id.home_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getStartStationCode());
+                i.putExtra(Const.Intent.DYN_QUERY_NAME,trip.getStartStationName());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_STATION);
+                startActivity(i);
+            }
+        });
+        /*跳转至查看到达站动态列表*/
+        tripDetailView.findViewById(R.id.dest_station).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getEndStationCode());
+                i.putExtra(Const.Intent.DYN_QUERY_NAME,trip.getEndStationName());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_STATION);
+                startActivity(i);
+            }
+        });
+        /*跳转至查看同车动态列表*/
+        tripDetailView.findViewById(R.id.train_dyn).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(getActivity(),ToDynActivity.class);
+                i.putExtra(Const.Intent.DYN_QUERY_VALUE,trip.getTrainCode());
+                i.putExtra(Const.Intent.DYN_QUERY_TYPE,Const.QUERY_TYPE_TRAIN);
+                startActivity(i);
+            }
+        });
         TextView viewStartStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_sstation);
         TextView viewEndStation = (TextView)tripDetailView.findViewById(R.id.textview_detail_estation);
         TextView viewStartTime= (TextView)tripDetailView.findViewById(R.id.textview_detail_stime);
@@ -336,8 +370,8 @@ public class TripListFragment extends BaseFragment {
              */
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int i = view.getLastVisiblePosition();
-                if (scrollState == SCROLL_STATE_FLING && lastIndex) {
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL && lastIndex) {
+                    footerView.show();
                     loadMoreData();// 加载更多数据
 //                            bt.setVisibility(View.VISIBLE);
 //                            pg.setVisibility(View.GONE);
@@ -352,7 +386,7 @@ public class TripListFragment extends BaseFragment {
                 //已到最后
                 if (view.getLastVisiblePosition() + 1 == view.getCount()) {
                     lastIndex = true;
-                    footerView.show();
+//                    footerView.show();
                 }
                 if (noFurtherData) {
                     footerView.reachBottomWithMsg(R.string.no_more);
@@ -382,6 +416,7 @@ public class TripListFragment extends BaseFragment {
                         pageList.addAll(tripList);
                         lastTrip = tripList.get(tripList.size()-1).getOrderNum();
                         mAdapter.notifyDataSetChanged();
+
                         break;
                     case NoDataFound:
 //                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
@@ -391,6 +426,7 @@ public class TripListFragment extends BaseFragment {
 //                        Alert.Toast(getResources().getString(R.string.no_trip_msg));
                         break;
                 }
+                footerView.hide();
             }
         }));
     }

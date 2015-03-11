@@ -43,6 +43,7 @@ import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 
@@ -201,6 +202,7 @@ public class UserInfoInputFragment extends BaseFragment {
                         Intent intent = new Intent(getActivity(), RegisterLabelSelectActivity.class);
                         intent.putExtra("Label",result.getResultLabelTypes());
                         startActivity(intent);
+                        getActivity().finish();
                         break;
                     case FileUpLoadFailed:
                         Alert.Toast(getResources().getString(R.string.portrait_save_failed));
@@ -239,7 +241,7 @@ public class UserInfoInputFragment extends BaseFragment {
      */
     private void showDatePickDialog() {
         FragmentManager fm = getActivity().getFragmentManager();
-        DatePickFragment dialog = DatePickFragment.newInstance(null);
+        DatePickFragment dialog = DatePickFragment.newInstance(DateTimeUtil.getDate(1990,6,15));
         dialog.setDialogTitle("请选择生日");
         dialog.setTargetFragment(this, DATE_REQUEST_CODE);
         dialog.show(fm, "date");

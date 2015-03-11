@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="#ffffff"
+            android:textColor="@color/main"
             android:textSize="20sp" />
 
         <RelativeLayout
@@ -131,7 +131,7 @@
                 android:layout_weight="1"
                 android:gravity="bottom" >
 
-                <com.easemob.chatuidemo.widget.PasteEditText
+                <com.qicheng.business.ui.chat.widget.PasteEditText
                     android:id="@+id/et_sendmessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

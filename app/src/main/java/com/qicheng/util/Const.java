@@ -110,6 +110,25 @@ public class Const {
          * 用户头像URL
          */
         public static final String PORTRAIT_URL = "user_portrait_url";
+
+        /**
+         * 迁移到TripToDyn页面的查询类型
+         */
+        public static final String DYN_QUERY_TYPE = "dyn_query_type";
+
+        /**
+         * 迁移到TripToDyn页面的查询值
+         */
+        public static final String DYN_QUERY_VALUE = "dyn_query_value";
+
+        /**
+         * 迁移到TripToDyn页面的查询名称
+         */
+        public static final String DYN_QUERY_NAME = "dyn_query_name";
+
+        public static final String HX_USER_ID = "userId";
+
+        public static final String HX_USER_NICK_NAME = "nickName";
     }
 
     public static class DefaultValue {
@@ -144,7 +163,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
+    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;

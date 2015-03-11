@@ -103,8 +103,8 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         headerView.invalidate();
         // 将下拉刷新的布局加入ListView的顶部
         addHeaderView(headerView, null, false);
-        footerView=(LinearLayout)inflater.inflate(R.layout.dyn_listview_footer,null);
-        addFooterView(footerView,null,false);
+        footerView = (LinearLayout) inflater.inflate(R.layout.dyn_listview_footer, null);
+        addFooterView(footerView, null, false);
 
         // 设置滚动监听事件
         setOnScrollListener(this);
@@ -128,15 +128,12 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         state = DONE;
         // 是否正在刷新
         isRefreshable = false;
-
-
     }
-
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         switch (scrollState) {
-            case SCROLL_STATE_TOUCH_SCROLL:
+            case SCROLL_STATE_IDLE:
                 if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
                     toLastFresh();
                 }

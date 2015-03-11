@@ -18,9 +18,10 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.util.Const;
 
 /**
- * @author yangyu
+ * @author 金玉龙
  *         功能描述：列表Fragment，用来显示列表视图
  */
 public class TopMenuFragment extends BaseFragment {
@@ -77,6 +78,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
+                        getUserInformation();
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -87,6 +89,7 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
+                        getUserDyn();
                         break;
                     case R.string.select_setting:
                          /*跳转到筛选设置*/
@@ -107,18 +110,28 @@ public class TopMenuFragment extends BaseFragment {
         labelLogic.getUserLabel(createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                LabelEventArgs labelEventArgs =(LabelEventArgs)args;
-                OperErrorCode errCode =labelEventArgs.getErrCode();
+                LabelEventArgs labelEventArgs = (LabelEventArgs) args;
+                OperErrorCode errCode = labelEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
                         Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
-                        intent.putExtra("Labels",labelEventArgs.getLabel());
+                        intent.putExtra("Labels", labelEventArgs.getLabel());
                         startActivity(intent);
-                        getActivity().finish();
                         break;
                 }
             }
         }));
     }
 
+    private void getUserDyn() {
+        Intent intent = new Intent(getActivity(), ToDynActivity.class);
+        intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_MY);
+        intent.putExtra(Const.Intent.DYN_QUERY_NAME, "我的动态");
+        startActivity(intent);
+    }
+
+    private void getUserInformation() {
+        Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+        startActivity(intent);
+    }
 }

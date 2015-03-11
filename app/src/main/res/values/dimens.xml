@@ -15,7 +15,10 @@
     <dimen name="slidingmenu_offset">100dp</dimen>
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">2dp</dimen>
-
+    <dimen name="size_avatar">50dp</dimen>
+    <dimen name="margin_chat_activity">5dp</dimen>
+    <dimen name="height_top_bar">40dp</dimen>
+    <dimen name="padding_search_bar">5dp</dimen>
     <integer name="num_cols">1</integer>
 
     <dimen name="font_size_18sp">18sp</dimen>
@@ -23,6 +26,9 @@
     <dimen name="avatars_view_width_100dp">100dp</dimen>
     <dimen name="avatars_view_height_90dp">90dp</dimen>
     <dimen name="avatars_view_width_90dp">90dp</dimen>
+
+    <dimen name="image_thumbnail_size">100dp</dimen>
+    <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="layout_margin_6dp">6dp</dimen>
     <dimen name="layout_margin_20dp">20dp</dimen>
 </resources>
