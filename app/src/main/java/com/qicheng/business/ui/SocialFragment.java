@@ -22,7 +22,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
@@ -178,19 +177,23 @@ public class SocialFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         List<City> cityList = Cache.getInstance().getTripRelatedCityCache();
-        int size = cityList.size();
-        cityNames = new String[size];
-        cityCodes = new String[size];
-        for (int i = 0; i < size; i++) {
-            City city = cityList.get(i);
-            cityNames[i] = city.getCityName();
-            cityCodes[i] = city.getCityCode();
+        if(cityList != null && cityList.size() > 0) {
+            int size = cityList.size();
+            cityNames = new String[size];
+            cityCodes = new String[size];
+            for (int i = 0; i < size; i++) {
+                City city = cityList.get(i);
+                cityNames[i] = city.getCityName();
+                cityCodes[i] = city.getCityCode();
+            }
         }
         List<Train> trainList = Cache.getInstance().getTripRelatedTrainCache();
-        size = trainList.size();
-        trains = new String[size];
-        for (int i = 0; i < size; i++) {
-            trains[i] = trainList.get(i).getTrainCode();
+        if(trainList != null && trainList.size() > 0) {
+            int size = trainList.size();
+            trains = new String[size];
+            for (int i = 0; i < size; i++) {
+                trains[i] = trainList.get(i).getTrainCode();
+            }
         }
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
     }
@@ -224,7 +227,7 @@ public class SocialFragment extends BaseFragment {
                     /*当position的位置为2时是按最新行程关联搜索用户*/
                     case 2:
                         title = getResources().getString(R.string.relation_btn_text);
-                        getActivity().invalidateOptionsMenu();
+                        getActivity().setTitle(title);
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
@@ -236,7 +239,7 @@ public class SocialFragment extends BaseFragment {
                     /*当position的位置为3时是按附近搜索用户*/
                     case 3:
                         title = getResources().getString(R.string.nearby_btn_text);
-                        getActivity().invalidateOptionsMenu();
+                        getActivity().setTitle(title);
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
@@ -308,16 +311,15 @@ public class SocialFragment extends BaseFragment {
         if (item != null) {
             item.setVisible(false);
         }
-        getActivity().setTitle(title);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if(mainActivity.getIndex() == Const.INDEX_SOCIAL) {
+            mainActivity.setTitle(title);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                getFragmentManager().beginTransaction().replace(R.id.social_content, this).commit();
-                getActivity().invalidateOptionsMenu();
-                break;
             case R.id.gender_all:
                 item.setChecked(true);
                 refreshPerson(Const.SEX_ALL);
@@ -441,14 +443,12 @@ public class SocialFragment extends BaseFragment {
             builder.setItems(cityNames, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    title = cityNames[which];
-                    Toast.makeText(getActivity(), getResources().getString(R.string.selected_city_text) + title, Toast.LENGTH_SHORT).show();
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
                     // 创建在城市里交友Fragment
                     SocialInCityFragment socialInCityFragment = new SocialInCityFragment();
-                    socialInCityFragment.setTitle(title);
+                    socialInCityFragment.setTitle(cityNames[which]);
                     socialInCityFragment.setCityCode(cityCodes[which]);
                     getFragmentManager().beginTransaction().replace(R.id.social_content, socialInCityFragment).commit();
                 }
@@ -469,15 +469,12 @@ public class SocialFragment extends BaseFragment {
             builder.setItems(trains, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    title = trains[which];
-                    Toast.makeText(getActivity(), getResources().getString(R.string.selected_train_text) + title, Toast.LENGTH_SHORT).show();
-                    getActivity().invalidateOptionsMenu();
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
                     // 创建在车里交友Fragment
                     SocialInTrainFragment socialInTrainFragment = new SocialInTrainFragment();
-                    socialInTrainFragment.setTitle(title);
+                    socialInTrainFragment.setTitle(trains[which]);
                     socialInTrainFragment.setTrain(trains[which]);
                     getFragmentManager().beginTransaction().replace(R.id.social_content, socialInTrainFragment).commit();
                 }

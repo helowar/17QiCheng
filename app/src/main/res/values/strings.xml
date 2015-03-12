@@ -187,8 +187,8 @@
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
-    <string name="traveller_start_btn_text">出发车友</string>
-    <string name="traveller_end_btn_text">到达车友</string>
+    <string name="traveller_start_btn_text">出发</string>
+    <string name="traveller_end_btn_text">到达</string>
     <!-- Traveller Activity end -->
 
     <string name="title_activity_personal_information">我的动态</string>
