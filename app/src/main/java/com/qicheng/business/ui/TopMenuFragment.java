@@ -10,9 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.module.User;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -41,6 +44,19 @@ public class TopMenuFragment extends BaseFragment {
      */
     public void initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.menu_list, null);
+        User user = Cache.getInstance().getUser();
+        ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
+        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
+        TextView nickname = (TextView) view.findViewById(R.id.personal_information_nickname);
+        nickname.setText(user.getNickName());
+        if (user.getGender() == 1) {
+            ImageView gender = (ImageView) view.findViewById(R.id.gender);
+            gender.setImageResource(R.drawable.ic_male);
+        }
+        String birthday = user.getBirthday();
+        TextView age = (TextView)view.findViewById(R.id.age);
+        age.setText(birthday+"岁");
+
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
           /*个人资料menu*/
         initViewItem(inflater, R.string.personal, R.drawable.ic_personal);

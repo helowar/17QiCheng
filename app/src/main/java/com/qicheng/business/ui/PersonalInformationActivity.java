@@ -13,10 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.LabelEventArgs;
 import com.qicheng.business.module.Label;
+import com.qicheng.business.module.User;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -51,16 +54,21 @@ public class PersonalInformationActivity extends BaseActivity {
     public void initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.activity_personal_information, null);
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
+        User user = Cache.getInstance().getUser();
           /*个人头像*/
-        initPortraitItem(inflater, R.string.personal_portrait_text, R.drawable.ic_test_img);
+        initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
         /*个人昵称*/
-        initViewItem(inflater, R.string.personal_nickname_text, R.drawable.ic_personal);
+        initViewItem(inflater, R.string.personal_nickname_text, user.getNickName());
         /*性别*/
-        initViewItem(inflater, R.string.personal_gender_text, R.drawable.ic_personal);
+        if (user.getGender() == 0) {
+            initViewItem(inflater, R.string.personal_gender_text, "女");
+        } else {
+            initViewItem(inflater, R.string.personal_gender_text, "男");
+        }
         /*工作*/
-        initViewItem(inflater, R.string.personal_job_text, R.drawable.ic_personal);
+        initViewItem(inflater, R.string.personal_job_text, user.getBirthday());
         /*家乡*/
-        initViewItem(inflater, R.string.personal_home_text, R.drawable.ic_fliter);
+        initViewItem(inflater, R.string.personal_home_text, user.getCellNum());
 
     }
 
@@ -69,15 +77,15 @@ public class PersonalInformationActivity extends BaseActivity {
      *
      * @param inflater
      * @param stringID 字符串id
-     * @param resId    icon id
+     * @param text     icon id
      */
 
-    public void initViewItem(LayoutInflater inflater, final int stringID, int resId) {
-        View view = inflater.inflate(R.layout.personal_information_tabel, null);
+    public void initViewItem(LayoutInflater inflater, final int stringID, String text) {
+        View view = inflater.inflate(R.layout.personal_information_text_tabel, null);
         TextView viewText = (TextView) view.findViewById(R.id.table_text);
         viewText.setText(stringID);
-        ImageView personalImg = (ImageView) view.findViewById(R.id.table_img);
-        personalImg.setImageResource(resId);
+        TextView textView = (TextView) view.findViewById(R.id.text);
+        textView.setText(text);
         /*绑定点击事件*/
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,49 +122,50 @@ public class PersonalInformationActivity extends BaseActivity {
 
     /**
      * 初始化头像修改item
+     *
      * @param inflater
      * @param stringID
-     * @param resId
+     * @param url
      */
-   private void initPortraitItem(LayoutInflater inflater, final int stringID, int resId){
-       View view = inflater.inflate(R.layout.personal_information_portrait_tabel, null);
-       TextView viewText = (TextView) view.findViewById(R.id.table_text);
-       viewText.setText(stringID);
-
-       ImageView personalPortraitImg = (ImageView) view.findViewById(R.id.portrait);
-       personalPortraitImg.setImageResource(resId);
+    private void initPortraitItem(LayoutInflater inflater, final int stringID, String url) {
+        View view = inflater.inflate(R.layout.personal_information_portrait_tabel, null);
+        TextView viewText = (TextView) view.findViewById(R.id.table_text);
+        viewText.setText(stringID);
+        ImageView personalPortraitImg = (ImageView) view.findViewById(R.id.portrait);
+        ImageManager.displayPortrait(url, personalPortraitImg);
         /*绑定点击事件*/
-       view.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               switch (stringID) {
-                   case R.string.personal:
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (stringID) {
+                    case R.string.personal:
                         /*跳转到个人资料页面*/
-                       break;
-                   case R.string.my_label:
+                        break;
+                    case R.string.my_label:
                         /*跳转到我的标签*/
-                       getUserLabel();
-                       break;
-                   case R.string.my_photo:
+                        getUserLabel();
+                        break;
+                    case R.string.my_photo:
                        /*跳转到我的相册*/
-                       break;
-                   case R.string.my_activity:
+                        break;
+                    case R.string.my_activity:
                         /*跳转到我的动态*/
-                       getUserDyn();
-                       break;
-                   case R.string.select_setting:
+                        getUserDyn();
+                        break;
+                    case R.string.select_setting:
                          /*跳转到筛选设置*/
-                       break;
-                   case R.string.account_setting:
+                        break;
+                    case R.string.account_setting:
                        /*跳转到账户设置*/
-                       break;
-                   default:
-                       break;
-               }
-           }
-       });
-       linearLayout.addView(view);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        linearLayout.addView(view);
     }
+
     public void getUserLabel() {
         LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
         labelLogic.getUserLabel(createUIEventListener(new EventListener() {
