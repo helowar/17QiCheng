@@ -283,12 +283,12 @@ public class TravellerPersonFragment extends BaseFragment {
                 UserEventArgs result = (UserEventArgs) args;
                 OperErrorCode errCode = result.getErrCode();
                 if (errCode == OperErrorCode.Success) {
+                    personList.clear();
                     List<User> userList = result.getUserList();
                     if (userList != null && userList.size() > 0) {
-                        personList.clear();
                         personList.addAll(userList);
-                        imageAdapter.notifyDataSetChanged();
                     }
+                    imageAdapter.notifyDataSetChanged();
                 }
             }
         }));

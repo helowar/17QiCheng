@@ -3,16 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.qicheng.business.ui.MainActivity">
     <item
-        android:id="@+id/user_query"
+        android:id="@+id/user_query_station"
+        android:title="@string/station_btn_text"
+        android:showAsAction="always"
+        android:orderInCategory="1"
+        android:visible="false" />
+    <item
+        android:id="@+id/user_query_button"
         android:title="@string/query_text"
         android:icon="@drawable/search"
         android:showAsAction="always"
-        android:orderInCategory="1" />
+        android:orderInCategory="2" />
     <item
         android:id="@+id/gender"
         android:showAsAction="always"
         android:title="@string/select_text"
-        android:orderInCategory="2">
+        android:orderInCategory="3">
         <menu>
             <group android:checkableBehavior="single">
                 <item

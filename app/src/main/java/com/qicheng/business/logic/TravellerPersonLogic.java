@@ -83,14 +83,16 @@ public class TravellerPersonLogic extends BaseLogic {
     /**
      * 查询推荐用户信息。
      *
+     * @param queryType     查询类型 0：车站 3：车次
+     * @param queryValue    查询值
      * @param orderBy       查询方向 0：往最新方向查询 1：往最早方向查询
      * @param lastLoginTime 最后登录时间
      * @param size          查询个数
      * @param listener      查询结果事件监听器
      */
-    public void queryRecommendUser(byte orderBy, String lastLoginTime, int size, final EventListener listener) {
+    public void queryRecommendUser(byte queryType, String queryValue, byte orderBy, String lastLoginTime, int size, final EventListener listener) {
         final TravellerRecommendPersonProcess process = new TravellerRecommendPersonProcess();
-        process.setInfoParameter(orderBy, lastLoginTime, size);
+        process.setInfoParameter(queryType, queryValue, orderBy, lastLoginTime, size);
         process.run("queryRecommendUser", new ResponseListener() {
             @Override
             public void onResponse(String requestId) {

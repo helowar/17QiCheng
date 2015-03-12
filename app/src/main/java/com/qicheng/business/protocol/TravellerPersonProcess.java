@@ -49,7 +49,8 @@ public class TravellerPersonProcess extends BaseProcess {
     private int size = 8;
 
     /**
-     * 查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车
+     * 查询类型 0：车站 1：出发 2：到达 3：车次 4：未上车 5：上车 6：下车 7：附近 8：城市
+     * 如果为空，表示获取全站数据。
      */
     private byte queryType;
 

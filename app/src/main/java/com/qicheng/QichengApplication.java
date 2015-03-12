@@ -55,6 +55,12 @@ public class QichengApplication extends Application {
 
         //Initialize ImageLoader with configuration
         ImageLoader.getInstance().init(config);
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
         hxSDKHelper.onInit(this);
     }
 

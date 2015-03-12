@@ -8,6 +8,7 @@
 package com.qicheng.business.ui;
 
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +19,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,17 +60,20 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_NEAR;
+import static com.qicheng.util.Const.QUERY_TYPE_NOT_ON_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_OFF_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_ON_CAR;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 
 /**
- * SocialFragment.java是启程APP的交友Fragment类。
+ * SocialInTrainFragment.java是启程APP的在车里交友Fragment类。
  *
  * @author 花树峰
  * @version 1.0 2015年3月11日
  */
-public class SocialFragment extends BaseFragment {
+public class SocialInTrainFragment extends BaseFragment {
 
     /**
      * 页面标题
@@ -111,14 +116,49 @@ public class SocialFragment extends BaseFragment {
     private int isVisible = View.GONE;
 
     /**
-     * 交友标签TextView
+     * 未上车车友按钮
      */
-    private TextView socialPersonTextView = null;
+    private Button notOnBtn = null;
 
     /**
-     * 交友用户Fragment
+     * 上车车友按钮
      */
-    private TravellerPersonFragment socialPersonFragment = null;
+    private Button onBtn = null;
+
+    /**
+     * 下车车友按钮
+     */
+    private Button offBtn = null;
+
+    /**
+     * 未上车车友FrameLayout
+     */
+    private FrameLayout notOnFrameLayout = null;
+
+    /**
+     * 上车车友FrameLayout
+     */
+    private FrameLayout onFrameLayout = null;
+
+    /**
+     * 下车车友FrameLayout
+     */
+    private FrameLayout offFrameLayout = null;
+
+    /**
+     * 未上车车友Fragment
+     */
+    private TravellerPersonFragment notOnPersonFragment = null;
+
+    /**
+     * 上车车友Fragment
+     */
+    private TravellerPersonFragment onPersonFragment = null;
+
+    /**
+     * 下车车友Fragment
+     */
+    private TravellerPersonFragment offPersonFragment = null;
 
     /**
      * 图片加载器及其相关参数
@@ -131,27 +171,9 @@ public class SocialFragment extends BaseFragment {
      * 推荐用户的查询类型
      * <p/>
      * 0：车站 3：车次
+     * 如果为空，表示获取全站推荐用户
      */
     private byte recommendQueryType;
-
-    /**
-     * 普通用户的查询类型
-     * <p/>
-     * -1：全站 7：附近
-     */
-    private byte queryType;
-
-    /**
-     * 查询值
-     * <p/>
-     * 当query_type=7时，该值为经纬度，其格式为：经度 + | + 纬度；
-     */
-    private String queryValue;
-
-    /**
-     * 交友标签TextView的文本值
-     */
-    private String socialPersonText;
 
     /**
      * 查询用户信息业务逻辑处理对象
@@ -172,6 +194,11 @@ public class SocialFragment extends BaseFragment {
      * 车次列表
      */
     private String[] trains = null;
+
+    /**
+     * 车次
+     */
+    private String train = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -197,15 +224,20 @@ public class SocialFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View socialView = inflater.inflate(R.layout.fragment_social, container, false);
+        View socialView = inflater.inflate(R.layout.fragment_social_in_train, container, false);
         // 获取各种View对象
         recommendLayout = (LinearLayout) socialView.findViewById(R.id.social_recommend_layout);
         recommendPersonsLayout = (LinearLayout) socialView.findViewById(R.id.social_recommend_persons_layout);
         recommendPersonsView = (HorizontalScrollListView) socialView.findViewById(R.id.social_recommend_persons_view);
         queryParamsGridView = (GridView) socialView.findViewById(R.id.query_params_grid_view);
         queryParamsLayout = (LinearLayout) socialView.findViewById(R.id.query_params_layout);
-        socialPersonTextView = (TextView) socialView.findViewById(R.id.social_person_text);
-        // 设置推荐用户滚动停止监听器
+        notOnBtn = (Button) socialView.findViewById(R.id.social_person_not_on_btn);
+        onBtn = (Button) socialView.findViewById(R.id.social_person_on_btn);
+        offBtn = (Button) socialView.findViewById(R.id.social_person_off_btn);
+        notOnFrameLayout = (FrameLayout) socialView.findViewById(R.id.social_person_not_on_Layout);
+        onFrameLayout = (FrameLayout) socialView.findViewById(R.id.social_person_on_Layout);
+        offFrameLayout = (FrameLayout) socialView.findViewById(R.id.social_person_off_Layout);
+        // 设置推荐车友滚动停止监听器
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
         queryParamsGridView.setAdapter(new QueryParamsGridViewAdapter(getActivity()));
         /*为每个item绑定点击事件监听器*/
@@ -223,29 +255,35 @@ public class SocialFragment extends BaseFragment {
                         break;
                     /*当position的位置为2时是按最新行程关联搜索用户*/
                     case 2:
-                        title = getResources().getString(R.string.relation_btn_text);
                         getActivity().invalidateOptionsMenu();
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
-                        socialPersonTextView.setText(R.string.social_relation_person_text);
-                        // 根据最新行程的车次查询相同行程的用户，作为推荐用户。
-                        recommendQueryType = QUERY_TYPE_TRAIN;
-                        refreshPerson(QUERY_TYPE_ALL, null);
+                        // 创建交友Fragment
+                        SocialFragment socialFragment = new SocialFragment();
+                        socialFragment.setTitle(getResources().getString(R.string.relation_btn_text));
+                        socialFragment.setQueryType(QUERY_TYPE_ALL);
+                        // 默认查询最新行程关联的用户，即根据最新行程的车次查询相同行程的用户，作为推荐用户。
+                        socialFragment.setRecommendQueryType(QUERY_TYPE_TRAIN);
+                        socialFragment.setSocialPersonText(getResources().getString(R.string.social_relation_person_text));
+                        getFragmentManager().beginTransaction().replace(R.id.social_content, socialFragment).commit();
                         break;
                     /*当position的位置为3时是按附近搜索用户*/
                     case 3:
-                        title = getResources().getString(R.string.nearby_btn_text);
                         getActivity().invalidateOptionsMenu();
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
-                        socialPersonTextView.setText(R.string.social_near_person_text);
-                        // 查询整个门户的推荐用户。
-                        recommendQueryType = QUERY_TYPE_NEAR;
+                        socialFragment = new SocialFragment();
+                        socialFragment.setTitle(getResources().getString(R.string.nearby_btn_text));
+                        socialFragment.setQueryType(QUERY_TYPE_NEAR);
                         Location location = Cache.getInstance().getUser().getLocation();
                         String queryValue = location.getLongitude() + '|' + location.getLatitude();
-                        refreshPerson(QUERY_TYPE_NEAR, queryValue);
+                        socialFragment.setQueryValue(queryValue);
+                        // 默认查询整个门户的推荐用户。
+                        socialFragment.setRecommendQueryType(QUERY_TYPE_NEAR);
+                        socialFragment.setSocialPersonText(getResources().getString(R.string.social_near_person_text));
+                        getFragmentManager().beginTransaction().replace(R.id.social_content, socialFragment).commit();
                         break;
                     default:
                         recommendLayout.setVisibility(View.VISIBLE);
@@ -256,15 +294,76 @@ public class SocialFragment extends BaseFragment {
 
             }
         });
-        socialPersonTextView.setText(socialPersonText);
-        // 设置交友用户区域里的各种View对象
-        Bundle socialPerson = new Bundle();
-        socialPerson.putByte(TRAVELLER_QUERY_TYPE, queryType);
-        socialPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
-        socialPersonFragment = new TravellerPersonFragment();
-        socialPersonFragment.setArguments(socialPerson);
-        getFragmentManager().beginTransaction().add(R.id.social_person_Layout, socialPersonFragment).commit();
+        // 设置未上车车友、上车车友和下车车友区域里的各种View对象
+        Bundle notOn = new Bundle();
+        notOn.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NOT_ON_CAR);
+        notOn.putString(TRAVELLER_QUERY_VALUE, train);
+        notOnPersonFragment = new TravellerPersonFragment();
+        notOnPersonFragment.setArguments(notOn);
+        Bundle on = new Bundle();
+        on.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_ON_CAR);
+        on.putString(TRAVELLER_QUERY_VALUE, train);
+        onPersonFragment = new TravellerPersonFragment();
+        onPersonFragment.setArguments(on);
+        Bundle off = new Bundle();
+        off.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_OFF_CAR);
+        off.putString(TRAVELLER_QUERY_VALUE, train);
+        offPersonFragment = new TravellerPersonFragment();
+        offPersonFragment.setArguments(off);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.social_person_not_on_Layout, notOnPersonFragment);
+        fragmentTransaction.add(R.id.social_person_on_Layout, onPersonFragment);
+        fragmentTransaction.add(R.id.social_person_off_Layout, offPersonFragment);
+        fragmentTransaction.commit();
+        notOnFrameLayout.setVisibility(View.VISIBLE);
+        onFrameLayout.setVisibility(View.GONE);
+        offFrameLayout.setVisibility(View.GONE);
+        // 设置未上车车友、上车车友和下车车友按钮监听事件
+        notOnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notOnBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                notOnBtn.setTextColor(getResources().getColor(R.color.white));
+                onBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                onBtn.setTextColor(getResources().getColor(R.color.main));
+                offBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                offBtn.setTextColor(getResources().getColor(R.color.main));
+                notOnFrameLayout.setVisibility(View.VISIBLE);
+                onFrameLayout.setVisibility(View.GONE);
+                offFrameLayout.setVisibility(View.GONE);
+            }
+        });
+        onBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notOnBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                notOnBtn.setTextColor(getResources().getColor(R.color.main));
+                onBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                onBtn.setTextColor(getResources().getColor(R.color.white));
+                offBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                offBtn.setTextColor(getResources().getColor(R.color.main));
+                notOnFrameLayout.setVisibility(View.GONE);
+                onFrameLayout.setVisibility(View.VISIBLE);
+                offFrameLayout.setVisibility(View.GONE);
+            }
+        });
+        offBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notOnBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                notOnBtn.setTextColor(getResources().getColor(R.color.main));
+                onBtn.setBackgroundResource(R.drawable.bg_form_input_container);
+                onBtn.setTextColor(getResources().getColor(R.color.main));
+                offBtn.setBackgroundColor(getResources().getColor(R.color.main));
+                offBtn.setTextColor(getResources().getColor(R.color.white));
+                notOnFrameLayout.setVisibility(View.GONE);
+                onFrameLayout.setVisibility(View.GONE);
+                offFrameLayout.setVisibility(View.VISIBLE);
+            }
+        });
         // 查询推荐用户
+        // 默认查询最新行程关联的用户，即根据最新行程的车次查询相同行程的用户，作为推荐用户。
+        recommendQueryType = QUERY_TYPE_TRAIN;
         refreshRecommendPerson();
         startLoading();
         return socialView;
@@ -431,6 +530,14 @@ public class SocialFragment extends BaseFragment {
         }
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTrain(String train) {
+        this.train = train;
+    }
+
     /**
      * 根据选择的城市代码查询用户。
      */
@@ -475,37 +582,13 @@ public class SocialFragment extends BaseFragment {
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
-                    // 创建在车里交友Fragment
-                    SocialInTrainFragment socialInTrainFragment = new SocialInTrainFragment();
-                    socialInTrainFragment.setTitle(title);
-                    socialInTrainFragment.setTrain(trains[which]);
-                    getFragmentManager().beginTransaction().replace(R.id.social_content, socialInTrainFragment).commit();
+                    refreshPerson(trains[which]);
                 }
             });
             builder.show();
         } else {
             Alert.Toast(getResources().getString(R.string.have_no_train_text));
         }
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setQueryType(byte queryType) {
-        this.queryType = queryType;
-    }
-
-    public void setQueryValue(String queryValue) {
-        this.queryValue = queryValue;
-    }
-
-    public void setRecommendQueryType(byte recommendQueryType) {
-        this.recommendQueryType = recommendQueryType;
-    }
-
-    public void setSocialPersonText(String socialPersonText) {
-        this.socialPersonText = socialPersonText;
     }
 
     /**
@@ -519,7 +602,9 @@ public class SocialFragment extends BaseFragment {
             queryValue.setGender(gender);
             Cache.getInstance().refreshCacheUser();
             refreshRecommendPerson();
-            socialPersonFragment.refreshPerson();
+            notOnPersonFragment.refreshPerson();
+            onPersonFragment.refreshPerson();
+            offPersonFragment.refreshPerson();
             startLoading();
         }
     }
@@ -527,14 +612,19 @@ public class SocialFragment extends BaseFragment {
     /**
      * 刷新整个页面里的用户。
      *
-     * @param queryType  查询类型
      * @param queryValue 查询值
      */
-    private void refreshPerson(byte queryType, String queryValue) {
+    private void refreshPerson(String queryValue) {
         refreshRecommendPerson();
-        socialPersonFragment.setQueryType(queryType);
-        socialPersonFragment.setQueryValue(queryValue);
-        socialPersonFragment.refreshPerson();
+        notOnPersonFragment.setQueryType(QUERY_TYPE_NOT_ON_CAR);
+        notOnPersonFragment.setQueryValue(queryValue);
+        notOnPersonFragment.refreshPerson();
+        onPersonFragment.setQueryType(QUERY_TYPE_ON_CAR);
+        onPersonFragment.setQueryValue(queryValue);
+        onPersonFragment.refreshPerson();
+        offPersonFragment.setQueryType(QUERY_TYPE_OFF_CAR);
+        offPersonFragment.setQueryValue(queryValue);
+        offPersonFragment.refreshPerson();
         startLoading();
     }
 

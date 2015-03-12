@@ -40,7 +40,7 @@
     <LinearLayout
         android:id="@+id/passenger_btn_layout"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
