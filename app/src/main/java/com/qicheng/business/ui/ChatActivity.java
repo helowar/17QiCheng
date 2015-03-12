@@ -1,5 +1,6 @@
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -56,6 +57,9 @@ import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 import com.qicheng.QichengApplication;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.ui.chat.ExpressionAdapter;
 import com.qicheng.business.ui.chat.ExpressionPagerAdapter;
 import com.qicheng.business.ui.chat.MessageAdapter;
@@ -69,6 +73,7 @@ import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.business.ui.chat.widget.ExpandGridView;
 import com.qicheng.business.ui.chat.widget.PasteEditText;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
 import java.io.File;
@@ -162,6 +167,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private Button btnMore;
     public String playMsgId;
     private String toChatUserNickName;
+    private String toChatUserAvatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,13 +177,31 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         setUpView();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_chat, menu);
+        ActionBar bar = getActivity().getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setTitle(toChatUserNickName);
+        return true;
+    }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_chat, menu);
-//        return true;
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.black_list:
+                addUserToBlacklist(toChatUsername);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
     /**
      * initView
      */
@@ -292,7 +316,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra(Const.Intent.HX_USER_ID);
             toChatUserNickName = getIntent().getStringExtra(Const.Intent.HX_USER_NICK_NAME);
-            ((TextView) findViewById(R.id.name)).setText(toChatUserNickName);
+            toChatUserAvatar = getIntent().getStringExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR);
+//            ((TextView) findViewById(R.id.name)).setText(toChatUserNickName);
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername,false);
         } else {
@@ -310,7 +335,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         conversation = EMChatManager.getInstance().getConversation(toChatUsername);
         // 把此会话的未读数置为0
         conversation.resetUnreadMsgCount();
-        adapter = new MessageAdapter(this, toChatUsername, chatType);
+        adapter = new MessageAdapter(this, toChatUsername,toChatUserAvatar, chatType);
         // 显示消息
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ListScrollListener());
@@ -499,6 +524,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    private void reLogin(){
+        UserLogic logic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
+        logic.loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
+    }
+
     /**
      * 消息图标点击事件
      *
@@ -507,6 +537,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         String st1 = getResources().getString(R.string.not_connect_to_server);
+        if(!EMChatManager.getInstance().isConnected()){
+            reLogin();
+            finish();
+            return;
+        }
         int id = view.getId();
         if (id == R.id.btn_send) {// 点击发送按钮(发文字和表情)
             String s = mEditTextContent.getText().toString();
@@ -589,7 +624,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
      * @param username
      */
     private void addUserToBlacklist(String username) {
-        //TODO 需增加业务逻辑
         String st11 = getResources().getString(R.string.Move_into_blacklist_success);
         String st12 = getResources().getString(R.string.Move_into_blacklist_failure);
         try {
@@ -632,21 +666,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 //        }
 //    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private Handler micImageHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -662,7 +681,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private void resendMessage() {
         EMMessage msg = null;
         msg = conversation.getMessage(resendPos);
-        // msg.setBackSend(true);
+//        msg.setBackSend(true);
         msg.status = EMMessage.Status.CREATE;
 
         adapter.refresh();

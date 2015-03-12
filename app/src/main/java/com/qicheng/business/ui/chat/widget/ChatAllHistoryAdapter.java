@@ -95,6 +95,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 //			holder.name.setText(contact.getNick() != null ? contact.getNick() : username);
 		} else {
 			// 本地或者服务器获取用户详情，以用来显示头像和nick
+            //TODO 增加查询用户头像与昵称逻辑
 			holder.avatar.setImageResource(R.drawable.ic_default_portrait);
 			if (username.equals(Constant.GROUP_USERNAME)) {
 				holder.name.setText("群聊");

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.text.Spannable;
 import android.util.Log;
@@ -50,6 +51,8 @@ import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.util.Const;
@@ -101,6 +104,7 @@ public class MessageAdapter extends BaseAdapter{
 	private String username;
 	private LayoutInflater inflater;
 	private Activity activity;
+    private String chatToUserAvatar;
 
 	// reference to conversation object in chatsdk
 	private EMConversation conversation;
@@ -116,6 +120,14 @@ public class MessageAdapter extends BaseAdapter{
 		activity = (Activity) context;
 		this.conversation = EMChatManager.getInstance().getConversation(username);
 	}
+    public MessageAdapter(Context context, String username,String avatar, int chatType) {
+        this.username = username;
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        activity = (Activity) context;
+        chatToUserAvatar = avatar;
+        this.conversation = EMChatManager.getInstance().getConversation(username);
+    }
 
 	// public void setUser(String user) {
 	// this.user = user;
@@ -318,6 +330,7 @@ public class MessageAdapter extends BaseAdapter{
 		if (message.direct == EMMessage.Direct.SEND && chatType != ChatType.GroupChat) {
 			holder.tv_ack = (TextView) convertView.findViewById(R.id.tv_ack);
 			holder.tv_delivered = (TextView) convertView.findViewById(R.id.tv_delivered);
+
 			if (holder.tv_ack != null) {
 				if (message.isAcked) {
 					if (holder.tv_delivered != null) {
@@ -384,6 +397,7 @@ public class MessageAdapter extends BaseAdapter{
 
 		if (message.direct == EMMessage.Direct.SEND) {
 			View statusView = convertView.findViewById(R.id.msg_status);
+            ImageManager.displayPortrait(Cache.getInstance().getUser().getPortraitURL(),holder.head_iv);
 			// 重发按钮点击事件
 			statusView.setOnClickListener(new OnClickListener() {
 				@Override
@@ -412,6 +426,7 @@ public class MessageAdapter extends BaseAdapter{
 			});
 
 		} else {
+            ImageManager.displayPortrait(chatToUserAvatar,holder.head_iv);
 			final String st = context.getResources().getString(R.string.Into_the_blacklist);
 			// 长按头像，移入黑名单
             //TODO 需修改为菜单方式，点击头像进入用户信息页面
@@ -1217,6 +1232,7 @@ public class MessageAdapter extends BaseAdapter{
 		if (bitmap != null) {
 			// thumbnail image is already loaded, reuse the drawable
 			iv.setImageBitmap(bitmap);
+//            iv.setBackgroundDrawable(new BitmapDrawable(Const.Application.getResources(), bitmap));
 			iv.setClickable(true);
 			iv.setOnClickListener(new OnClickListener() {
 				@Override

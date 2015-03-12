@@ -8,55 +8,55 @@
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/zero"
         android:background="@color/gray_line"
         android:gravity="center_vertical" >
+        <!--
+                <include layout="@layout/commom_back_btn" />
 
-        <include layout="@layout/commom_back_btn" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/main"
+                    android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/main"
-            android:textSize="20sp" />
+                <RelativeLayout
+                    android:id="@+id/container_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/common_tab_bg"
+                    android:onClick="emptyHistory" >
 
-        <RelativeLayout
-            android:id="@+id/container_remove"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/common_tab_bg"
-            android:onClick="emptyHistory" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="9dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/mm_title_remove" />
+                </RelativeLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="9dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/mm_title_remove" />
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/container_to_group"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/common_tab_bg"
+                    android:onClick="toGroupDetails"
+                    android:visibility="visible" >
 
-        <RelativeLayout
-            android:id="@+id/container_to_group"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/common_tab_bg"
-            android:onClick="toGroupDetails"
-            android:visibility="visible" >
-
-            <TextView
-                android:text="举报"
-                android:textColor="@color/main"
-                android:textSize="@dimen/font_size_18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RelativeLayout>
-    </RelativeLayout>
+                    <TextView
+                        android:text="举报"
+                        android:textColor="@color/main"
+                        android:textSize="@dimen/font_size_18sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </RelativeLayout>-->
+            </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/bar_bottom"
