@@ -73,6 +73,8 @@ public class LoginProcess extends BaseProcess {
                 String nickname = body.optString("nickname");
                 String url = body.optString("portrait_url");
                 String imId = body.optString("user_im_id");
+                String gender = body.optString("gender");
+                String birthday = body.optString("birthday");
                 /**
                  * 组装返回对象
                  */
@@ -81,6 +83,8 @@ public class LoginProcess extends BaseProcess {
                 resultUser.setNickName(nickname);
                 resultUser.setPortraitURL(url);
                 resultUser.setUserImId(imId);
+                resultUser.setGender(Integer.parseInt(gender));
+                resultUser.setBirthday(birthday);
             }
             setProcessStatus(value);
         } catch (Exception e) {

@@ -129,6 +129,8 @@ public class Const {
         public static final String HX_USER_ID = "userId";
 
         public static final String HX_USER_NICK_NAME = "nickName";
+
+        public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
     }
 
     public static class DefaultValue {

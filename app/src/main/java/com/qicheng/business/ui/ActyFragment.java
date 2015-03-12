@@ -650,10 +650,14 @@ public class ActyFragment extends BaseFragment {
             holder.weixin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(bean.getUserImId().equals(Cache.getInstance().getUser().getUserImId())){
+                        return;
+                    }
                     Intent i = new Intent();
-                    i.setClass(getActivity(), ChatActivity.class);
-                    i.putExtra(Const.Intent.HX_USER_ID, bean.getUserImId());
-                    i.putExtra(Const.Intent.HX_USER_NICK_NAME, bean.getNickName());
+                    i.setClass(getActivity(),ChatActivity.class);
+                    i.putExtra(Const.Intent.HX_USER_ID,bean.getUserImId());
+                    i.putExtra(Const.Intent.HX_USER_NICK_NAME,bean.getNickName());
+                    i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR,bean.getPortraitUrl());
                     startActivity(i);
                 }
             });

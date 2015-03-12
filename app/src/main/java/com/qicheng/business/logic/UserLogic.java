@@ -92,7 +92,7 @@ public class UserLogic extends BaseLogic {
 
     }
 
-    private void loginHX(final String userName,String password){
+    public void loginHX(final String userName,String password){
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
 
             @Override
@@ -143,6 +143,8 @@ public class UserLogic extends BaseLogic {
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
                     user.setUserImId(process.getResultUser().getUserImId());
+                    user.setBirthday(process.getResultUser().getBirthday());
+                    user.setGender(process.getResultUser().getGender());
                     loginHX(user.getUserImId(),StringUtil.MD5(user.getPassWord()));
                     Cache.getInstance().refreshCacheUser();
                 }

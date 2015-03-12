@@ -42,6 +42,7 @@
             android:layout_toLeftOf="@id/iv_userhead"
             android:autoLink="web"
             android:background="@drawable/chatto_bg"
+            android:textColor="@color/white"
             android:gravity="left|center"
             android:lineSpacingExtra="2dp"
             android:maxWidth="225.0dip"
