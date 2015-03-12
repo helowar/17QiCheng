@@ -8,10 +8,12 @@
 package com.qicheng.business.adapter;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
@@ -74,15 +76,20 @@ public class QueryParamsGridViewAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        DisplayMetrics dm = new DisplayMetrics();
+        //取得窗口属性
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        //窗口的宽度
+        int screenWidth = dm.widthPixels;
         View view = null;
         if (convertView == null) {
             view = activity.getLayoutInflater().inflate(R.layout.query_params, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.query_params_image_view);
-            imageView.setImageResource(icons[position]);
-            // 设置边界对齐
-            imageView.setAdjustViewBounds(false);
-            // 设置刻度的类型
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(screenWidth / 4, screenWidth / 5));//设置ImageView对象布局
+            imageView.setAdjustViewBounds(false);//设置边界对齐
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//设置刻度的类型
+            imageView.setPadding(6, 6, 6, 0);//设置间距
+            imageView.setImageResource(icons[position]);//为ImageView设置图片资源
             TextView textView = (TextView) view.findViewById(R.id.query_params_text_view);
             textView.setText(iconNames[position]);
         } else {

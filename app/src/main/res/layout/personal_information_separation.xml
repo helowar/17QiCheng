@@ -1,5 +1,14 @@
-<View xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_marginTop="15dp"
-    android:background="@color/unavailable" />
+<LinearLayout
+    android:id="@+id/separation"
+    android:layout_width="fill_parent"
+    android:layout_height="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/unavailable"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/unavailable"
+        />
+
+    </LinearLayout>

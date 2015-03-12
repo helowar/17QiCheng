@@ -101,7 +101,7 @@
         </activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
-            android:label="我的资料"
+            android:label="@string/actionbar_title_modify_personal_information"
             android:logo="@drawable/ic_user"
             android:windowSoftInputMode="adjustResize|adjustPan" >
         </activity>

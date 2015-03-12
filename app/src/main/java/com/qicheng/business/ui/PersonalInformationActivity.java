@@ -29,6 +29,7 @@ import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class PersonalInformationActivity extends BaseActivity {
     private final static String TAG = "Selected";
@@ -59,16 +60,26 @@ public class PersonalInformationActivity extends BaseActivity {
         initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
         /*个人昵称*/
         initViewItem(inflater, R.string.personal_nickname_text, user.getNickName());
-        /*性别*/
-        if (user.getGender() == 0) {
-            initViewItem(inflater, R.string.personal_gender_text, "女");
-        } else {
-            initViewItem(inflater, R.string.personal_gender_text, "男");
-        }
-        /*工作*/
-        initViewItem(inflater, R.string.personal_job_text, user.getBirthday());
+        /*出生日期*/
+        initViewItem(inflater, R.string.personal_birthday_text, user.getBirthday());
+
+        /*添加分割段*/
+        addSeparation(inflater);
+
+        /*行业*/
+        initViewItem(inflater, R.string.personal_vocation_text, "计算机");
+        /*学历*/
+        initViewItem(inflater, R.string.personal_education_text, "本科");
+        /*所在地*/
+        initViewItem(inflater, R.string.personal_local_text, "杭州");
         /*家乡*/
-        initViewItem(inflater, R.string.personal_home_text, user.getCellNum());
+        initViewItem(inflater, R.string.personal_home_text, "杭州");
+        /*添加分割段*/
+        addSeparation(inflater);
+
+         /*手机号码*/
+        initViewItem(inflater, R.string.personal_cell_text, user.getCellNum());
+
 
     }
 
@@ -119,6 +130,10 @@ public class PersonalInformationActivity extends BaseActivity {
         linearLayout.addView(view);
     }
 
+    private void addSeparation(LayoutInflater inflater) {
+        View separation = inflater.inflate(R.layout.personal_information_separation, null);
+        linearLayout.addView(separation);
+    }
 
     /**
      * 初始化头像修改item
