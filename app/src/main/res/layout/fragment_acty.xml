@@ -125,7 +125,6 @@
         android:layout_height="wrap_content"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:paddingBottom="6dp"
         android:divider="@null"
         android:dividerHeight="6dp" />
 

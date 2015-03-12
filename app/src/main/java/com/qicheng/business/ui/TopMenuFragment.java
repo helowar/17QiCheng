@@ -49,7 +49,7 @@ public class TopMenuFragment extends BaseFragment {
         ImageManager.displayPortrait(user.getPortraitURL(), portrait);
         TextView nickname = (TextView) view.findViewById(R.id.personal_information_nickname);
         nickname.setText(user.getNickName());
-        if (user.getGender() == 1) {
+        if (user.getGender() == 0) {
             ImageView gender = (ImageView) view.findViewById(R.id.gender);
             gender.setImageResource(R.drawable.ic_male);
         }
@@ -65,9 +65,7 @@ public class TopMenuFragment extends BaseFragment {
         /*我的相册menu*/
         initViewItem(inflater, R.string.my_photo, R.drawable.ic_personal);
         /*我的动态menu*/
-        initViewItem(inflater, R.string.my_activity, R.drawable.ic_personal);
-        /*筛选设置menu*/
-        initViewItem(inflater, R.string.select_setting, R.drawable.ic_fliter);
+        initViewItem(inflater, R.string.my_activity,  R.drawable.ic_fliter);
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
@@ -142,7 +140,7 @@ public class TopMenuFragment extends BaseFragment {
     private void getUserDyn() {
         Intent intent = new Intent(getActivity(), ToDynActivity.class);
         intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_MY);
-        intent.putExtra(Const.Intent.DYN_QUERY_NAME, "我的动态");
+        intent.putExtra(Const.Intent.DYN_QUERY_NAME, getResources().getString(R.string.my_activity));
         startActivity(intent);
     }
 

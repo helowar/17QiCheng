@@ -253,7 +253,7 @@
     <string name="activity_search_text">筛选动态</string>
     <string name="activity_delete_text">删除</string>
     <string name="add_activity_text">添加动态</string>
-    <string name="activity_newest_btn_text">最新</string>
+    <string name="activity_newest_btn_text">关联</string>
     <string name="activity_nearby_btn_text">附近</string>
     <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
@@ -290,6 +290,7 @@
     <string name="personal_education_text">学历</string>
     <string name="personal_vocation_text">行业</string>
     <string name="personal_cell_text">手机号码</string>
+    <string name="title_activity_album">AlbumActivity</string>
 
     <!-- TopMenuFragment fragment end -->
 
