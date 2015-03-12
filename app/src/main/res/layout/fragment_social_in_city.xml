@@ -1,5 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+~ This software is the confidential and proprietary information of QiCheng, Inc.
+~ You shall not disclose such Confidential Information and shall use it only in
+~ accordance with the terms of the license agreement you entered into with QiCheng.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/traveller_activity_layout"
+    android:id="@+id/social_fragment_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -7,38 +14,41 @@
     android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/social_recommend_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/traveller_recommend_text"
+            android:id="@+id/social_recommend_text"
             android:layout_width="35dp"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
             android:padding="@dimen/half_gap"
-            android:text="@string/traveller_recommend_text"
+            android:text="@string/social_recommend_text"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_18sp" />
 
         <com.qicheng.business.ui.component.HorizontalScrollListView
-            android:id="@+id/traveller_recommend_persons_view"
+            android:id="@+id/social_recommend_persons_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/traveller_recommend_persons_layout"
+                android:id="@+id/social_recommend_persons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/half_gap"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:padding="@dimen/half_gap" />
         </com.qicheng.business.ui.component.HorizontalScrollListView>
     </LinearLayout>
 
+    <include layout="@layout/query_params_layout" />
+
     <LinearLayout
-        android:id="@+id/traveller_btn_layout"
+        android:id="@+id/social_text_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/zero"
@@ -46,34 +56,34 @@
         android:padding="@dimen/zero">
 
         <Button
-            android:id="@+id/traveller_start_btn"
+            android:id="@+id/social_person_come_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/main"
-            android:text="@string/traveller_start_btn_text"
+            android:text="@string/social_person_come_btn_text"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_18sp" />
 
         <Button
-            android:id="@+id/traveller_end_btn"
+            android:id="@+id/social_person_leave_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
-            android:text="@string/traveller_end_btn_text"
+            android:text="@string/social_person_leave_btn_text"
             android:textColor="@color/main"
             android:textSize="@dimen/font_size_18sp" />
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/traveller_start_Layout"
+        android:id="@+id/social_person_come_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
 
     <FrameLayout
-        android:id="@+id/traveller_end_Layout"
+        android:id="@+id/social_person_leave_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />

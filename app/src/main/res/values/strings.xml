@@ -30,8 +30,17 @@
     <string name="select_text">筛选</string>
     <string name="query_text">搜索</string>
     <string name="search_hint_text">请输入关键字</string>
+    <string name="city_btn_text">城市</string>
+    <string name="train_btn_text">车次</string>
+    <string name="fly_btn_text">航班</string>
+    <string name="suggest_btn_text">推荐</string>
+    <string name="place_btn_text">同城</string>
+    <string name="station_btn_text">车站</string>
+    <string name="airport_btn_text">机场</string>
+    <string name="meet_btn_text">邂逅</string>
     <string name="newest_btn_text">最新</string>
     <string name="nearby_btn_text">附近</string>
+    <string name="relation_btn_text">关联</string>
     <string name="all_text">全部</string>
     <string name="please_select_city_text">请选择城市</string>
     <string name="selected_city_text">您选择的城市为：</string>
@@ -179,8 +188,8 @@
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
-    <string name="traveller_start_btn_text">出发车友</string>
-    <string name="traveller_end_btn_text">到达车友</string>
+    <string name="traveller_start_btn_text">出发</string>
+    <string name="traveller_end_btn_text">到达</string>
     <!-- Traveller Activity end -->
 
     <string name="title_activity_personal_information">我的动态</string>
@@ -189,8 +198,8 @@
     <string name="label_reject">标签添加失败</string>
 
     <!-- TopMenuFragment fragment begin -->
-    <string name="personal">个人资料</string>
-    <string name="my_label">我的标签</string>
+    <string name="personal">个人信息</string>
+    <string name="my_label">个人标签</string>
     <string name="my_photo">我的相册</string>
     <string name="my_activity">我的动态</string>
     <string name="select_setting">筛选设置</string>
@@ -207,21 +216,32 @@
     <string name="personal_label_title">自定义标签</string>
     <!-- LabelModifyActivity fragment end -->
 
-
     <!-- Passenger Activity begin -->
     <string name="passenger_activity_title">同车人</string>
     <string name="passenger_recommend_text">推荐</string>
     <string name="passenger_not_on_btn_text">未上车</string>
-    <string name="passenger_on_btn_text">在上车</string>
+    <string name="passenger_on_btn_text">车上</string>
     <string name="passenger_off_btn_text">已下车</string>
     <!-- Passenger Activity end -->
 
-
     <!-- Social Fragment begin -->
-    <string name="social_fragment_title">交友</string>
+    <string name="social_fragment_title">关联</string>
     <string name="social_recommend_text">推荐</string>
     <string name="social_near_person_text">附近的人</string>
+    <string name="social_relation_person_text">您的最新行程关联人</string>
     <!-- Social Fragment end -->
+
+    <!-- SocialInCity Fragment begin -->
+    <string name="social_person_come_btn_text">来到</string>
+    <string name="social_person_leave_btn_text">离开</string>
+    <!-- SocialInCity Fragment end -->
+
+    <!-- SocialInTrain Fragment begin -->
+    <string name="social_person_not_on_btn_text">未上车</string>
+    <string name="social_person_on_btn_text">车上</string>
+    <string name="social_person_off_btn_text">已下车</string>
+    <!-- SocialInTrain Fragment end -->
+
     <string name="title_activity_train_select">TrainSelectActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_test_activity_main">TestActivityMain</string>
@@ -258,6 +278,20 @@
     <string name="actionbar_title_publish_dyn">发布动态</string>
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
+    <string name="actionbar_title_modify_personal_information">个人信息</string>
 
+
+    <!-- personal information activity begin -->
+    <string name="personal_portrait_text">头像</string>
+    <string name="personal_nickname_text">昵称</string>
+    <string name="personal_gender_text">性别</string>
+    <string name="personal_birthday_text">出生日期</string>
+    <string name="personal_local_text">居住地</string>
+    <string name="personal_home_text">家乡</string>
+    <string name="personal_education_text">学历</string>
+    <string name="personal_vocation_text">行业</string>
+    <string name="personal_cell_text">手机号码</string>
+
+    <!-- TopMenuFragment fragment end -->
 
 </resources>

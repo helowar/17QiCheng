@@ -1,7 +1,6 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,6 +42,7 @@ import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_BEGIN;
 import static com.qicheng.util.Const.QUERY_TYPE_END;
+import static com.qicheng.util.Const.QUERY_TYPE_STATION;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 
@@ -53,16 +53,6 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @version 1.0 2015年2月1日
  */
 public class TravellerActivity extends BaseActivity {
-
-    /**
-     * 出发车友Fragment标签
-     */
-    private static final String START_TRAVELLER_FRAGMENT_TAG = "start_traveller_fragment_tag";
-
-    /**
-     * 到达车友Fragment标签
-     */
-    private static final String END_TRAVELLER_FRAGMENT_TAG = "end_traveller_fragment_tag";
 
     /**
      * 推荐车友View
@@ -117,14 +107,14 @@ public class TravellerActivity extends BaseActivity {
     private TravellerPersonFragment endTravellerFragment = null;
 
     /**
-     * Fragment事物管理对象
-     */
-    private FragmentTransaction fragmentTransaction = null;
-
-    /**
      * 查询用户信息业务逻辑处理对象
      */
     private TravellerPersonLogic logic = null;
+
+    /**
+     * 查询值
+     */
+    private String queryValue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +122,7 @@ public class TravellerActivity extends BaseActivity {
         setContentView(R.layout.activity_traveller);
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
-        String queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
+        queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
         String queryName = extras.getString(TRAVELLER_QUERY_NAME);
         setTitle(queryName + " " + getTitle());
         // 获取各种View对象
@@ -145,19 +135,19 @@ public class TravellerActivity extends BaseActivity {
         // 设置推荐车友滚动停止监听器
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
         // 设置出发车友和到达车友区域里的各种View对象
-        startTravellerFragment = new TravellerPersonFragment();
         Bundle start = new Bundle();
         start.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_BEGIN);
         start.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        startTravellerFragment = new TravellerPersonFragment();
         startTravellerFragment.setArguments(start);
-        endTravellerFragment = new TravellerPersonFragment();
         Bundle end = new Bundle();
         end.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_END);
         end.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        endTravellerFragment = new TravellerPersonFragment();
         endTravellerFragment.setArguments(end);
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment, START_TRAVELLER_FRAGMENT_TAG);
-        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment, END_TRAVELLER_FRAGMENT_TAG);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
+        fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);
         fragmentTransaction.commit();
         startFrameLayout.setVisibility(View.VISIBLE);
         endFrameLayout.setVisibility(View.GONE);
@@ -269,7 +259,7 @@ public class TravellerActivity extends BaseActivity {
             } else {
                 // 查询最新推荐用户
                 User firstUser = recommendPersonList.get(0);
-                logic.queryRecommendUser(ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                logic.queryRecommendUser(QUERY_TYPE_STATION, queryValue, ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
                     @Override
                     public void onEvent(EventId id, EventArgs args) {
                         stopLoading();
@@ -297,7 +287,7 @@ public class TravellerActivity extends BaseActivity {
             } else {
                 // 查询之前推荐用户
                 User lastUser = recommendPersonList.get(recommendPersonList.size() - 1);
-                logic.queryRecommendUser(ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                logic.queryRecommendUser(QUERY_TYPE_STATION, queryValue, ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
                     @Override
                     public void onEvent(EventId id, EventArgs args) {
                         stopLoading();
@@ -329,7 +319,7 @@ public class TravellerActivity extends BaseActivity {
      * 刷新整个页面里的推荐用户。
      */
     private void refreshRecommendPerson() {
-        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
+        logic.queryRecommendUser(QUERY_TYPE_STATION, queryValue, ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
@@ -361,12 +351,8 @@ public class TravellerActivity extends BaseActivity {
             queryValue.setGender(gender);
             Cache.getInstance().refreshCacheUser();
             refreshRecommendPerson();
-            FragmentManager manager = getFragmentManager();
-            TravellerPersonFragment fragment = null;
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(START_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(END_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
+            startTravellerFragment.refreshPerson();
+            endTravellerFragment.refreshPerson();
             startLoading();
         }
     }

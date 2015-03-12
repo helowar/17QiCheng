@@ -2,13 +2,9 @@ package com.qicheng.business.ui;
 
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -47,11 +43,9 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
-import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -383,8 +377,8 @@ public class ActyFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem item=  menu.findItem(R.id.activity_title);
-        if(item!=null){
+        MenuItem item = menu.findItem(R.id.activity_title);
+        if (item != null) {
             item.setTitle(title);
         }
     }
@@ -578,12 +572,12 @@ public class ActyFragment extends BaseFragment {
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(),OriginalPictureActivity.class);
-                        intent.putExtra("imgurl",bean.getFileUrl());
+                        Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
+                        intent.putExtra("imgurl", bean.getFileUrl());
                         startActivity(intent);
                     }
                 });
-            }else {
+            } else {
                 holder.photo.setVisibility(View.GONE);
             }
 
@@ -626,7 +620,7 @@ public class ActyFragment extends BaseFragment {
             holder.shareimg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showShare(bean.getContent(),bean.getFileUrl());
+                    showShare(bean.getContent(), bean.getFileUrl());
 //                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //                    if (bean.getThumbnailUrl() != null) {
 //                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
@@ -714,7 +708,15 @@ public class ActyFragment extends BaseFragment {
         private Context context;
         private Integer[] imgs = {
                 R.drawable.ic_city, R.drawable.ic_channel,
-                R.drawable.ic_place, R.drawable.ic_meet
+                R.drawable.ic_meet, R.drawable.ic_place
+        };
+
+        /**
+         * 查询参数对应的图标名称数组对象
+         */
+        private Integer[] iconNames = {
+                R.string.city_btn_text, R.string.train_btn_text,
+                R.string.relation_btn_text, R.string.nearby_btn_text
         };
 
         DynSearchGridViewAdapter(Context context) {
@@ -743,32 +745,34 @@ public class ActyFragment extends BaseFragment {
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             //窗口的宽度
             int screenWidth = dm.widthPixels;
-            ImageView imageView;
+            View view = null;
             if (convertView == null) {
-                imageView = new ImageView(context);
-                imageView.setLayoutParams(new GridView.LayoutParams(screenWidth / 4, screenWidth / 4));//设置ImageView对象布局
+                view = getActivity().getLayoutInflater().inflate(R.layout.query_params, null);
+                ImageView imageView = (ImageView) view.findViewById(R.id.query_params_image_view);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(screenWidth / 4, screenWidth / 5));//设置ImageView对象布局
                 imageView.setAdjustViewBounds(false);//设置边界对齐
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);//设置刻度的类型
-                imageView.setPadding(4, 4, 4, 4);//设置间距
+                imageView.setPadding(6, 6, 6, 0);//设置间距
+                imageView.setImageResource(imgs[position]);//为ImageView设置图片资源
+                TextView textView = (TextView) view.findViewById(R.id.query_params_text_view);
+                textView.setText(iconNames[position]);
             } else {
-                imageView = (ImageView) convertView;
+                view = convertView;
             }
-            imageView.setImageResource(imgs[position]);//为ImageView设置图片资源
-            return imageView;
+            return view;
         }
     }
 
-    private void showShare(String msg,String url){
+    private void showShare(String msg, String url) {
         ShareSDK.initSDK(getActivity());
         OnekeyShare oks = new OnekeyShare();
         // 分享时Notification的图标和文字
         oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-       // oks.setTitle("启程分享");
+        // oks.setTitle("启程分享");
         oks.setText(msg);
         oks.setImageUrl(url);
         // 启动分享GUI
         oks.show(getActivity());
-
 
 
     }

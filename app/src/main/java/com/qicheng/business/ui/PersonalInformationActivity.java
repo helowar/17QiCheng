@@ -1,17 +1,35 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.image.ImageManager;
+import com.qicheng.business.logic.LabelLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.LabelEventArgs;
 import com.qicheng.business.module.Label;
+import com.qicheng.business.module.User;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class PersonalInformationActivity extends BaseActivity {
     private final static String TAG = "Selected";
@@ -19,45 +37,173 @@ public class PersonalInformationActivity extends BaseActivity {
     private Button nextButton;
     private SlidingMenu menu;
 
+    private View view;
+    private LinearLayout linearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_information);
-//        //初始化滑动菜单
-        setTitle("我的行程");
-        initSlidingMenu();
+        initView(getLayoutInflater());
+        setContentView(view);
     }
-
 
     /**
-     * 初始化滑动菜单
+     * 初始化View视图
+     *
+     * @param inflater
      */
-    private void initSlidingMenu() {
-        // 设置主界面视图
-        setContentView(R.layout.menu_content_frame);
-        getFragmentManager().beginTransaction().replace(R.id.content_frame, new TripListFragment()).commit();
+    public void initView(LayoutInflater inflater) {
+        view = inflater.inflate(R.layout.activity_personal_information, null);
+        linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
+        User user = Cache.getInstance().getUser();
+          /*个人头像*/
+        initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
+        /*个人昵称*/
+        initViewItem(inflater, R.string.personal_nickname_text, user.getNickName());
+        /*出生日期*/
+        initViewItem(inflater, R.string.personal_birthday_text, user.getBirthday());
 
-        // 设置滑动菜单的属性值
-        menu = new SlidingMenu(this);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-        menu.setShadowDrawable(R.drawable.shadow);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setFadeDegree(0f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-        // 设置滑动菜单的视图界面
-        menu.setMenu(R.layout.menu_frame);
-        getFragmentManager().beginTransaction().replace(R.id.menu_frame, new TopMenuFragment()).commit();
+        /*添加分割段*/
+        addSeparation(inflater);
+
+        /*行业*/
+        initViewItem(inflater, R.string.personal_vocation_text, "计算机");
+        /*学历*/
+        initViewItem(inflater, R.string.personal_education_text, "本科");
+        /*所在地*/
+        initViewItem(inflater, R.string.personal_local_text, "杭州");
+        /*家乡*/
+        initViewItem(inflater, R.string.personal_home_text, "杭州");
+        /*添加分割段*/
+        addSeparation(inflater);
+
+         /*手机号码*/
+        initViewItem(inflater, R.string.personal_cell_text, user.getCellNum());
+
+
     }
 
-    @Override
-    public void onBackPressed() {
-        //点击返回键关闭滑动菜单
-        if (menu.isMenuShowing()) {
-            menu.showContent();
-        } else {
-            super.onBackPressed();
-        }
+    /**
+     * 创建menu元素并加入到布局文件中
+     *
+     * @param inflater
+     * @param stringID 字符串id
+     * @param text     icon id
+     */
+
+    public void initViewItem(LayoutInflater inflater, final int stringID, String text) {
+        View view = inflater.inflate(R.layout.personal_information_text_tabel, null);
+        TextView viewText = (TextView) view.findViewById(R.id.table_text);
+        viewText.setText(stringID);
+        TextView textView = (TextView) view.findViewById(R.id.text);
+        textView.setText(text);
+        /*绑定点击事件*/
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (stringID) {
+                    case R.string.personal:
+                        /*跳转到个人资料页面*/
+                        break;
+                    case R.string.my_label:
+                        /*跳转到我的标签*/
+                        getUserLabel();
+                        break;
+                    case R.string.my_photo:
+                       /*跳转到我的相册*/
+                        break;
+                    case R.string.my_activity:
+                        /*跳转到我的动态*/
+                        getUserDyn();
+                        break;
+                    case R.string.select_setting:
+                         /*跳转到筛选设置*/
+                        break;
+                    case R.string.account_setting:
+                       /*跳转到账户设置*/
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        linearLayout.addView(view);
+    }
+
+    private void addSeparation(LayoutInflater inflater) {
+        View separation = inflater.inflate(R.layout.personal_information_separation, null);
+        linearLayout.addView(separation);
+    }
+
+    /**
+     * 初始化头像修改item
+     *
+     * @param inflater
+     * @param stringID
+     * @param url
+     */
+    private void initPortraitItem(LayoutInflater inflater, final int stringID, String url) {
+        View view = inflater.inflate(R.layout.personal_information_portrait_tabel, null);
+        TextView viewText = (TextView) view.findViewById(R.id.table_text);
+        viewText.setText(stringID);
+        ImageView personalPortraitImg = (ImageView) view.findViewById(R.id.portrait);
+        ImageManager.displayPortrait(url, personalPortraitImg);
+        /*绑定点击事件*/
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (stringID) {
+                    case R.string.personal:
+                        /*跳转到个人资料页面*/
+                        break;
+                    case R.string.my_label:
+                        /*跳转到我的标签*/
+                        getUserLabel();
+                        break;
+                    case R.string.my_photo:
+                       /*跳转到我的相册*/
+                        break;
+                    case R.string.my_activity:
+                        /*跳转到我的动态*/
+                        getUserDyn();
+                        break;
+                    case R.string.select_setting:
+                         /*跳转到筛选设置*/
+                        break;
+                    case R.string.account_setting:
+                       /*跳转到账户设置*/
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        linearLayout.addView(view);
+    }
+
+    public void getUserLabel() {
+        LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
+        labelLogic.getUserLabel(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                LabelEventArgs labelEventArgs = (LabelEventArgs) args;
+                OperErrorCode errCode = labelEventArgs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
+                        intent.putExtra("Labels", labelEventArgs.getLabel());
+                        startActivity(intent);
+                        break;
+                }
+            }
+        }));
+    }
+
+    private void getUserDyn() {
+        Intent intent = new Intent(getActivity(), ToDynActivity.class);
+        intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_MY);
+        intent.putExtra(Const.Intent.DYN_QUERY_NAME, "我的动态");
+        startActivity(intent);
     }
 
 
@@ -72,12 +218,9 @@ public class PersonalInformationActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == android.R.id.home) {
-            //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
-            //startActivity(intent);
-            menu.toggle();
-            return true;
+            finish();
+            return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }

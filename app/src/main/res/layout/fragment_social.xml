@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+~ This software is the confidential and proprietary information of QiCheng, Inc.
+~ You shall not disclose such Confidential Information and shall use it only in
+~ accordance with the terms of the license agreement you entered into with QiCheng.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/social_fragment_layout"
     android:layout_width="match_parent"
@@ -8,6 +14,7 @@
     android:scrollbars="none">
 
     <LinearLayout
+        android:id="@+id/social_recommend_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -33,10 +40,12 @@
                 android:id="@+id/social_recommend_persons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/half_gap"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:padding="@dimen/half_gap" />
         </com.qicheng.business.ui.component.HorizontalScrollListView>
     </LinearLayout>
+
+    <include layout="@layout/query_params_layout" />
 
     <LinearLayout
         android:id="@+id/social_text_layout"
@@ -47,20 +56,20 @@
         android:padding="@dimen/zero">
 
         <TextView
-            android:id="@+id/social_near_person_text"
+            android:id="@+id/social_person_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/form_padding"
-            android:paddingBottom="@dimen/half_gap"
             android:background="@drawable/bg_form_input_container"
-            android:text="@string/social_near_person_text"
+            android:paddingBottom="@dimen/half_gap"
+            android:paddingLeft="@dimen/form_padding"
+            android:text="@string/social_relation_person_text"
             android:textColor="@color/main"
             android:textSize="@dimen/font_size_18sp" />
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/social_near_person_Layout"
+        android:id="@+id/social_person_Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />

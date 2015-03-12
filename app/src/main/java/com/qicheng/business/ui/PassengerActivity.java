@@ -8,7 +8,6 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,6 +49,7 @@ import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_NOT_ON_CAR;
 import static com.qicheng.util.Const.QUERY_TYPE_OFF_CAR;
 import static com.qicheng.util.Const.QUERY_TYPE_ON_CAR;
+import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 
@@ -60,21 +60,6 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @version 1.0 2015年2月1日
  */
 public class PassengerActivity extends BaseActivity {
-
-    /**
-     * 未上车车友Fragment标签
-     */
-    private static final String NOT_ON_TRAVELLER_FRAGMENT_TAG = "not_on_traveller_fragment_tag";
-
-    /**
-     * 上车车友Fragment标签
-     */
-    private static final String ON_TRAVELLER_FRAGMENT_TAG = "on_traveller_fragment_tag";
-
-    /**
-     * 下车车友Fragment标签
-     */
-    private static final String OFF_TRAVELLER_FRAGMENT_TAG = "off_traveller_fragment_tag";
 
     /**
      * 推荐车友View
@@ -144,14 +129,14 @@ public class PassengerActivity extends BaseActivity {
     private TravellerPersonFragment offTravellerFragment = null;
 
     /**
-     * Fragment事物管理对象
-     */
-    private FragmentTransaction fragmentTransaction = null;
-
-    /**
      * 查询用户信息业务逻辑处理对象
      */
     private TravellerPersonLogic logic = null;
+
+    /**
+     * 查询值
+     */
+    private String queryValue = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +144,7 @@ public class PassengerActivity extends BaseActivity {
         setContentView(R.layout.activity_passenger);
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
-        String queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
+        queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
         setTitle(queryValue + " " + getTitle());
         // 获取各种View对象
         recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.passenger_recommend_persons_view);
@@ -173,25 +158,25 @@ public class PassengerActivity extends BaseActivity {
         // 设置推荐车友滚动停止监听器
         recommendPersonsView.setOnScrollStopListener(new TravellerOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
         // 设置未上车车友、上车车友和下车车友区域里的各种View对象
-        notOnTravellerFragment = new TravellerPersonFragment();
         Bundle notOn = new Bundle();
         notOn.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_NOT_ON_CAR);
         notOn.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        notOnTravellerFragment = new TravellerPersonFragment();
         notOnTravellerFragment.setArguments(notOn);
-        onTravellerFragment = new TravellerPersonFragment();
         Bundle on = new Bundle();
         on.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_ON_CAR);
         on.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        onTravellerFragment = new TravellerPersonFragment();
         onTravellerFragment.setArguments(on);
-        offTravellerFragment = new TravellerPersonFragment();
         Bundle off = new Bundle();
         off.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_OFF_CAR);
         off.putString(TRAVELLER_QUERY_VALUE, queryValue);
+        offTravellerFragment = new TravellerPersonFragment();
         offTravellerFragment.setArguments(off);
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.passenger_not_on_Layout, notOnTravellerFragment, NOT_ON_TRAVELLER_FRAGMENT_TAG);
-        fragmentTransaction.add(R.id.passenger_on_Layout, onTravellerFragment, ON_TRAVELLER_FRAGMENT_TAG);
-        fragmentTransaction.add(R.id.passenger_off_Layout, offTravellerFragment, OFF_TRAVELLER_FRAGMENT_TAG);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.passenger_not_on_Layout, notOnTravellerFragment);
+        fragmentTransaction.add(R.id.passenger_on_Layout, onTravellerFragment);
+        fragmentTransaction.add(R.id.passenger_off_Layout, offTravellerFragment);
         fragmentTransaction.commit();
         notOnFrameLayout.setVisibility(View.VISIBLE);
         onFrameLayout.setVisibility(View.GONE);
@@ -329,7 +314,7 @@ public class PassengerActivity extends BaseActivity {
             } else {
                 // 查询最新推荐用户
                 User firstUser = recommendPersonList.get(0);
-                logic.queryRecommendUser(ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                logic.queryRecommendUser(QUERY_TYPE_TRAIN, queryValue, ORDER_BY_NEWEST, firstUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
                     @Override
                     public void onEvent(EventId id, EventArgs args) {
                         stopLoading();
@@ -357,7 +342,7 @@ public class PassengerActivity extends BaseActivity {
             } else {
                 // 查询之前推荐用户
                 User lastUser = recommendPersonList.get(recommendPersonList.size() - 1);
-                logic.queryRecommendUser(ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
+                logic.queryRecommendUser(QUERY_TYPE_TRAIN, queryValue, ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
                     @Override
                     public void onEvent(EventId id, EventArgs args) {
                         stopLoading();
@@ -389,7 +374,7 @@ public class PassengerActivity extends BaseActivity {
      * 刷新整个页面里的推荐用户。
      */
     private void refreshRecommendPerson() {
-        logic.queryRecommendUser(ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
+        logic.queryRecommendUser(QUERY_TYPE_TRAIN, queryValue, ORDER_BY_NEWEST, null, 8, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
@@ -421,14 +406,9 @@ public class PassengerActivity extends BaseActivity {
             queryValue.setGender(gender);
             Cache.getInstance().refreshCacheUser();
             refreshRecommendPerson();
-            FragmentManager manager = getFragmentManager();
-            TravellerPersonFragment fragment = null;
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(NOT_ON_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(ON_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
-            fragment = (TravellerPersonFragment) manager.findFragmentByTag(OFF_TRAVELLER_FRAGMENT_TAG);
-            fragment.refreshPerson();
+            notOnTravellerFragment.refreshPerson();
+            onTravellerFragment.refreshPerson();
+            offTravellerFragment.refreshPerson();
             startLoading();
         }
     }

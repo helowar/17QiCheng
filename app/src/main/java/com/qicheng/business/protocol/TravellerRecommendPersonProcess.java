@@ -49,6 +49,19 @@ public class TravellerRecommendPersonProcess extends BaseProcess {
     private int size = 8;
 
     /**
+     * 查询类型 0：车站 3：车次
+     * 如果为空，表示获取全站推荐用户
+     */
+    private byte queryType;
+
+    /**
+     * 查询值
+     * 当query_type=0、1或2时，该值为车站代码；
+     * 当query_type=3、4、5或6时，该值为车次。
+     */
+    private String queryValue;
+
+    /**
      * 查询结果：推荐用户信息列表
      */
     private List<User> userList = null;
@@ -66,6 +79,8 @@ public class TravellerRecommendPersonProcess extends BaseProcess {
             o.put("order_by", orderBy);
             o.put("last_login_time", lastLoginTime);
             o.put("size", size);
+            o.put("query_type", queryType);
+            o.put("query_value", queryValue);
             o.put("gender", Cache.getInstance().getUser().getQueryValue().getGender());
             return o.toString();
         } catch (Exception e) {
@@ -110,7 +125,9 @@ public class TravellerRecommendPersonProcess extends BaseProcess {
         return null;
     }
 
-    public void setInfoParameter(byte orderBy, String lastLoginTime, int size) {
+    public void setInfoParameter(byte queryType, String queryValue, byte orderBy, String lastLoginTime, int size) {
+        this.queryType = queryType;
+        this.queryValue = queryValue;
         this.orderBy = orderBy;
         this.lastLoginTime = lastLoginTime;
         this.size = size;

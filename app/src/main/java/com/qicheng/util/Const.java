@@ -165,7 +165,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://112.16.76.119:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -346,10 +346,10 @@ public class Const {
     /** 查询类型 0：车站 */
     public static final byte QUERY_TYPE_STATION = 0;
 
-    /** 查询类型 1：出发 */
+    /** 查询类型 1：出发车站 */
     public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /** 查询类型 2：到达 */
+    /** 查询类型 2：到达车站 */
     public static final byte QUERY_TYPE_END = 2;
 
     /** 查询类型 3：车次 */
@@ -372,6 +372,12 @@ public class Const {
 
     /** 查询类型 9：我的 */
     public static final byte QUERY_TYPE_MY = 9;
+
+    /** 查询类型 10：来到城市 */
+    public static final byte QUERY_TYPE_COME_CITY = 10;
+
+    /** 查询类型 11：离开城市 */
+    public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;

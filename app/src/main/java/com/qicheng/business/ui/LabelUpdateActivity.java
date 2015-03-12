@@ -179,16 +179,17 @@ public class  LabelUpdateActivity extends BaseActivity {
                 OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
                 switch (errCode) {
                     case Success:
-                        Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
-                        ArrayList<LabelItem> labelItems = new ArrayList<LabelItem>();
-                        for (int i = 0; i < labels.size(); i++) {
-                            Label label = labels.get(i);
-                            LabelItem labelItem = new LabelItem();
-                            labelItem.setId(label.getItemId());
-                            labelItem.setName(label.getItemName());
-                            labelItems.add(labelItem);
-                        }
-                        intent.putExtra("Labels", labelItems);
+//                        Intent intent = new Intent(getActivity(), LabelModifyActivity.class);
+//                        ArrayList<LabelItem> labelItems = new ArrayList<LabelItem>();
+//                        for (int i = 0; i < labels.size(); i++) {
+//                            Label label = labels.get(i);
+//                            LabelItem labelItem = new LabelItem();
+//                            labelItem.setId(label.getItemId());
+//                            labelItem.setName(label.getItemName());
+//                            labelItems.add(labelItem);
+//                        }
+//                        intent.putExtra("Labels", labelItems);
+                        Intent intent = new Intent(getActivity(),MainActivity.class);
                         startActivity(intent);
                         finish();
                         break;
@@ -261,10 +262,6 @@ public class  LabelUpdateActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 

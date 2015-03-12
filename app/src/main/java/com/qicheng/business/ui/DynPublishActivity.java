@@ -18,6 +18,7 @@ import android.text.Editable;
 import android.text.Html.ImageGetter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +75,7 @@ public class DynPublishActivity extends BaseActivity {
     private static final int DATE_REQUEST_CODE = 3;
 
     private static final int ADD_SUCCESS = 0;
+    private static final int ADD_CANCEL = 1;
     private Bitmap bitmap;
 
     private Uri uri;
@@ -278,12 +280,23 @@ public class DynPublishActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                setResult(ADD_CANCEL);
                 DynPublishActivity.this.finish();
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ){
+            setResult(ADD_CANCEL);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
