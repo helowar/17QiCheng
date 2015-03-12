@@ -1,0 +1,61 @@
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/table_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:color="@drawable/tab_selector_menu"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/table_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tab_selector_menu">
+
+        <TextView
+            android:id="@+id/table_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/gray_text"
+            android:layout_centerVertical="true"
+            style="@style/labelTextStyle"
+
+            />
+
+        <ImageView
+            android:id="@+id/ic_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow"
+            android:layout_marginRight="16dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_test_img"
+            android:layout_toLeftOf="@id/ic_arrow"
+            android:text="文本"
+            />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_separation" />
+
+
+</LinearLayout>

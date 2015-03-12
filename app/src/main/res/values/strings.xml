@@ -188,8 +188,8 @@
     <string name="label_reject">标签添加失败</string>
 
     <!-- TopMenuFragment fragment begin -->
-    <string name="personal">个人资料</string>
-    <string name="my_label">我的标签</string>
+    <string name="personal">个人信息</string>
+    <string name="my_label">个人标签</string>
     <string name="my_photo">我的相册</string>
     <string name="my_activity">我的动态</string>
     <string name="select_setting">筛选设置</string>
@@ -258,5 +258,13 @@
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
 
+
+    <!-- personal information activity begin -->
+    <string name="personal_portrait_text">头像</string>
+    <string name="personal_nickname_text">昵称</string>
+    <string name="personal_gender_text">性别</string>
+    <string name="personal_job_text">职业</string>
+    <string name="personal_home_text">家乡</string>
+    <!-- TopMenuFragment fragment end -->
 
 </resources>
