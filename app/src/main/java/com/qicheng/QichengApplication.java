@@ -152,4 +152,25 @@ public class QichengApplication extends Application {
         // 先调用sdk logout，在清理app中自己的数据
         hxSDKHelper.logout(emCallBack);
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        logout(new EMCallBack() {
+            @Override
+            public void onSuccess() {
+                
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onProgress(int i, String s) {
+
+            }
+        });
+    }
 }

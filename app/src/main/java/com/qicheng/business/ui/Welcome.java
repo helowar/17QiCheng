@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.ImageView;
 
+import com.easemob.chat.EMContactManager;
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
@@ -16,6 +17,7 @@ import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 
+import java.util.List;
 import java.util.Random;
 
 public class Welcome extends BaseActivity {
@@ -57,7 +59,7 @@ public class Welcome extends BaseActivity {
                             OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
                             switch (errCode) {
                                 case Success:
-                                    startActivity(new Intent(getActivity(),MainActivity.class));
+                                    startActivity(new Intent(getActivity(), MainActivity.class));
                                     Alert.Toast("马上一起启程吧！");
                                     finish();
                                     break;

@@ -28,10 +28,13 @@ import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.R;
 import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.easemob.util.DateUtils;
+import com.qicheng.util.Const;
 
 /**
  * 显示所有聊天记录adpater
@@ -94,16 +97,34 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 //			holder.avatar.setImageResource(R.drawable.group_icon);
 //			holder.name.setText(contact.getNick() != null ? contact.getNick() : username);
 		} else {
-			// 本地或者服务器获取用户详情，以用来显示头像和nick
-            //TODO 增加查询用户头像与昵称逻辑
-			holder.avatar.setImageResource(R.drawable.ic_default_portrait);
+            EMMessage message = conversation.getLastMessage();
+            if(message!=null){
+                // 本地或者服务器获取用户详情，以用来显示头像和nick
+                try {
+                    String toId = message.getStringAttribute(Const.Easemob.TO_USER_ID);
+                    String fromId = message.getStringAttribute(Const.Easemob.FROM_USER_ID);
+                    if(toId.equals(Cache.getInstance().getUser().getUserImId())){
+                        ImageManager.displayPortrait(message.getStringAttribute(Const.Easemob.FROM_USER_AVATAR), holder.avatar);
+                        holder.name.setText(message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
+                        holder.nick = message.getStringAttribute(Const.Easemob.FROM_USER_NICK);
+                        holder.avatarUrl = message.getStringAttribute(Const.Easemob.FROM_USER_AVATAR);
+                    }else {
+                        ImageManager.displayPortrait(message.getStringAttribute(Const.Easemob.TO_USER_AVATAR), holder.avatar);
+                        holder.avatarUrl =message.getStringAttribute(Const.Easemob.TO_USER_AVATAR);
+                        holder.name.setText(message.getStringAttribute(Const.Easemob.TO_USER_NICK));
+                        holder.nick = message.getStringAttribute(Const.Easemob.TO_USER_NICK);
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
 			if (username.equals(Constant.GROUP_USERNAME)) {
 				holder.name.setText("群聊");
 
 			} else if (username.equals(Constant.NEW_FRIENDS_USERNAME)) {
 				holder.name.setText("申请与通知");
 			}
-			holder.name.setText(username);
 		}
 
 		if (conversation.getUnreadMsgCount() > 0) {
@@ -185,7 +206,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		return digest;
 	}
 
-	private static class ViewHolder {
+	public static class ViewHolder {
 		/** 和谁的聊天记录 */
 		TextView name;
 		/** 消息未读数 */
@@ -200,6 +221,10 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 		View msgState;
 		/** 整个list中每一行总布局 */
 		RelativeLayout list_item_layout;
+
+        public String avatarUrl;
+
+        public String nick;
 
 	}
 

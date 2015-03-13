@@ -56,14 +56,14 @@ public class QichengHXSDKHelper extends HXSDKHelper {
 
             @Override
             public String onLatestMessageNotify(EMMessage message, int fromUsersNum, int messageNum) {
-                return null;
-                // return fromUsersNum + "个基友，发来了" + messageNum + "条消息";
+//                return null;
+                return fromUsersNum + "个基友，发来了" + messageNum + "条消息";
             }
 
             @Override
             public String onSetNotificationTitle(EMMessage message) {
                 //修改标题,这里使用默认
-                return null;
+                return "新消息";
             }
 
             @Override
@@ -121,7 +121,7 @@ public class QichengHXSDKHelper extends HXSDKHelper {
 
     @Override
     protected HXSDKModel createModel() {
-        return new DefaultHXSDKModel(appContext);
+        return new QichengHXSDKModel(appContext);
     }
 
     /**
