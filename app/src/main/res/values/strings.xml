@@ -279,6 +279,8 @@
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
     <string name="actionbar_title_modify_personal_information">个人信息</string>
+    <string name="title_activity_user_setting">用户设置</string>
+
 
 
     <!-- personal information activity begin -->

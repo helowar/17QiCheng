@@ -98,7 +98,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        getUserInformation();
+                        skipToActivity(UserInfoActivity.class);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -106,16 +106,15 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_photo:
                        /*跳转到我的相册*/
+                        skipToActivity(AlbumActivity.class);
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
                         getUserDyn();
                         break;
-                    case R.string.select_setting:
-                         /*跳转到筛选设置*/
-                        break;
                     case R.string.account_setting:
                        /*跳转到账户设置*/
+                        skipToActivity(UserSettingActivity.class);
                         break;
                     default:
                         break;
@@ -146,6 +145,9 @@ public class TopMenuFragment extends BaseFragment {
         }));
     }
 
+    /**
+     * 跳转到我的动态
+     */
     private void getUserDyn() {
         Intent intent = new Intent(getActivity(), ToDynActivity.class);
         intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_MY);
@@ -153,8 +155,11 @@ public class TopMenuFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    private void getUserInformation() {
-        Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+    /**
+     * 跳转到用户信息
+     */
+    private void skipToActivity(Class<?> cls) {
+        Intent intent = new Intent(getActivity(),cls);
         startActivity(intent);
     }
 }
