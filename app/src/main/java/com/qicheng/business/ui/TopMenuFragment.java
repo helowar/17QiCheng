@@ -52,11 +52,7 @@ public class TopMenuFragment extends BaseFragment {
         ImageManager.displayPortrait(user.getPortraitURL(), portrait);
         TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
         String nickname = user.getNickName();
-        if (nickname.length() > 7) {
-            nicknameView.setText(nickname.substring(0, 6) + "...");
-        } else {
-            nicknameView.setText(nickname);
-        }
+        nicknameView.setText(nickname);
         if (user.getGender() == 1) {
             ImageView gender = (ImageView) view.findViewById(R.id.gender);
             gender.setImageResource(R.drawable.ic_male);
@@ -129,6 +125,9 @@ public class TopMenuFragment extends BaseFragment {
         linearLayout.addView(view);
     }
 
+    /**
+     * 获取用户标签
+     */
     public void getUserLabel() {
         LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
         labelLogic.getUserLabel(createUIEventListener(new EventListener() {

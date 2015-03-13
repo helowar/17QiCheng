@@ -12,6 +12,8 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -245,13 +247,5 @@ public class UserInformationModifyFragment extends BaseFragment {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            getActivity().finish();
-            return super.onOptionsItemSelected(item);
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 }
