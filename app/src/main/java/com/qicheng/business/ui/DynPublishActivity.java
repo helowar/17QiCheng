@@ -65,7 +65,7 @@ public class DynPublishActivity extends BaseActivity {
     /*
     添加照片
      */
-    private String[] items = new String[]{getResources().getString(R.string.dyn_select_local), getResources().getString(R.string.dyn_select_camera)};
+    private String[] items = new String[]{"选择本地图片", "拍照"};
     /*
     文字最大长度
      */

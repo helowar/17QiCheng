@@ -298,7 +298,7 @@
 
     <!--DynPublishActivity begin-->
     <string name="dyn_select_local">选择本地图片</string>
-    <string name="dyn_select_camera">选择本地图片</string>
+    <string name="dyn_select_camera">拍照</string>
     <string name="dyn_surplus_start">您还能输入</string>
     <string name="dyn_surplus_end">个字</string>
     <string name="no_sd_card">未找到存储卡，无法存储照片</string>

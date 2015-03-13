@@ -118,14 +118,14 @@
             android:name=".business.ui.TrainSelectActivity"
             android:label="@string/title_activity_train_select" >
         </activity>
-        <!--IM 相关Activity-->
+        <!-- IM 相关Activity -->
         <activity
             android:name=".business.ui.ChatActivity"
             android:label="@string/title_activity_chat"
             android:launchMode="singleTop"
             android:logo="@drawable/ic_chat_logo"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" >
         </activity>
         <!-- 地图 -->
         <activity
@@ -170,7 +170,7 @@
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        <!--IM 相关Activity-->
+        <!-- IM 相关Activity -->
         <activity
             android:name=".business.ui.PassengerActivity"
             android:label="@string/passenger_activity_title"
@@ -181,11 +181,7 @@
             android:label="@string/traveller_activity_title"
             android:logo="@drawable/ic_user" >
         </activity>
-        <activity
-            android:name=".business.ui.UserQueryActivity"
-            android:label="@string/user_query_activity_title"
-            android:logo="@drawable/ic_user" >
-        </activity>
+
         <!-- activity config end -->
         <!-- 开机自启动服务 -->
         <receiver android:name="com.easemob.chat.StartServiceReceiver" >
@@ -254,10 +250,18 @@
         <activity
             android:name=".business.ui.AlbumActivity"
             android:label="@string/title_activity_album"
+            android:logo="@drawable/ic_user"
             android:parentActivityName=".framework.ui.base.BaseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".business.ui.UserSettingActivity"
+            android:label="@string/title_activity_user_setting"
+            android:logo="@drawable/ic_user"
+            >
+
         </activity>
     </application>
 
