@@ -10,7 +10,6 @@ package com.qicheng.business.protocol;
 import com.qicheng.business.module.DynFile;
 import com.qicheng.business.ui.DynPublishActivity;
 import com.qicheng.framework.protocol.BaseProcess;
-import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 
@@ -33,6 +32,11 @@ public class AddDynProcess extends BaseProcess {
         return url;
     }
 
+    /**
+     * 组装添加动态的内容
+     *
+     * @return
+     */
     @Override
     protected String getInfoParameter() {
         try {
@@ -45,13 +49,13 @@ public class AddDynProcess extends BaseProcess {
                 o.put("query_value", dynBody.getQueryValue());
             }
             List<DynFile> files = dynBody.getFiles();
-            if(dynBody.getFiles()!=null){
-                JSONArray fileArray= new JSONArray();
+            if (dynBody.getFiles() != null) {
+                JSONArray fileArray = new JSONArray();
                 JSONObject fileObj = new JSONObject();
-                fileObj.put("file_type",files.get(0).getFileType());
-                fileObj.put("file_url",files.get(0).getFileUrl());
+                fileObj.put("file_type", files.get(0).getFileType());
+                fileObj.put("file_url", files.get(0).getFileUrl());
                 fileArray.put(fileObj);
-                o.put("files",fileArray);
+                o.put("files", fileArray);
             }
             logger.e("组装传入添加动态参数成功" + o.toString());
             return o.toString();
@@ -69,7 +73,7 @@ public class AddDynProcess extends BaseProcess {
             //获取状态码
             int value = o.optInt("result_code");
             if (value == Const.ResponseResultCode.RESULT_NOT_PERMIT) {
-               setStatus(ProcessStatus.Status.ResultNotPermit);
+                setStatus(ProcessStatus.Status.ResultNotPermit);
             }
             setProcessStatus(value);
         } catch (Exception e) {

@@ -21,7 +21,10 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
+
+import java.util.Date;
 
 /**
  * @author 金玉龙
@@ -47,15 +50,18 @@ public class TopMenuFragment extends BaseFragment {
         User user = Cache.getInstance().getUser();
         ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
         ImageManager.displayPortrait(user.getPortraitURL(), portrait);
-        TextView nickname = (TextView) view.findViewById(R.id.personal_information_nickname);
-        nickname.setText(user.getNickName());
+        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
+        String nickname = user.getNickName();
+        nicknameView.setText(nickname);
         if (user.getGender() == 1) {
             ImageView gender = (ImageView) view.findViewById(R.id.gender);
             gender.setImageResource(R.drawable.ic_male);
         }
         String birthday = user.getBirthday();
-        TextView age = (TextView)view.findViewById(R.id.age);
-        age.setText(birthday+"岁");
+        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
+        String age = DateTimeUtil.getAge(birthdayDate);
+        TextView ageView = (TextView) view.findViewById(R.id.age);
+        ageView.setText(age + "岁");
 
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
           /*个人资料menu*/
@@ -65,9 +71,7 @@ public class TopMenuFragment extends BaseFragment {
         /*我的相册menu*/
         initViewItem(inflater, R.string.my_photo, R.drawable.ic_personal);
         /*我的动态menu*/
-        initViewItem(inflater, R.string.my_activity, R.drawable.ic_personal);
-        /*筛选设置menu*/
-        initViewItem(inflater, R.string.select_setting, R.drawable.ic_fliter);
+        initViewItem(inflater, R.string.my_activity, R.drawable.ic_fliter);
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
@@ -94,7 +98,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        getUserInformation();
+                        skipToActivity(UserInfoActivity.class);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -102,16 +106,15 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_photo:
                        /*跳转到我的相册*/
+                        skipToActivity(AlbumActivity.class);
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
                         getUserDyn();
                         break;
-                    case R.string.select_setting:
-                         /*跳转到筛选设置*/
-                        break;
                     case R.string.account_setting:
                        /*跳转到账户设置*/
+                        skipToActivity(UserSettingActivity.class);
                         break;
                     default:
                         break;
@@ -121,6 +124,9 @@ public class TopMenuFragment extends BaseFragment {
         linearLayout.addView(view);
     }
 
+    /**
+     * 获取用户标签
+     */
     public void getUserLabel() {
         LabelLogic labelLogic = (LabelLogic) LogicFactory.self().get(LogicFactory.Type.Label);
         labelLogic.getUserLabel(createUIEventListener(new EventListener() {
@@ -139,15 +145,21 @@ public class TopMenuFragment extends BaseFragment {
         }));
     }
 
+    /**
+     * 跳转到我的动态
+     */
     private void getUserDyn() {
         Intent intent = new Intent(getActivity(), ToDynActivity.class);
         intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_MY);
-        intent.putExtra(Const.Intent.DYN_QUERY_NAME, "我的动态");
+        intent.putExtra(Const.Intent.DYN_QUERY_NAME, getResources().getString(R.string.my_activity));
         startActivity(intent);
     }
 
-    private void getUserInformation() {
-        Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+    /**
+     * 跳转到用户信息
+     */
+    private void skipToActivity(Class<?> cls) {
+        Intent intent = new Intent(getActivity(),cls);
         startActivity(intent);
     }
 }

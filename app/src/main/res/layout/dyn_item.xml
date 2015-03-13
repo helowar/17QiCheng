@@ -147,7 +147,7 @@
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                android:src="@drawable/ic_chat"></ImageView>
+                android:src="@drawable/chat_selector"></ImageView>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

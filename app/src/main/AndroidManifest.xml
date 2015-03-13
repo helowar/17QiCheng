@@ -18,7 +18,6 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -66,13 +65,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.qicheng.framework.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name=".framework.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".business.ui.UserInfoActivity"
             android:label="@string/title_activity_usr_info"
@@ -209,7 +207,6 @@
             </intent-filter>
         </receiver>
 
-
         <!-- 设置环信应用的appkey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -262,6 +259,14 @@
             android:name=".business.ui.ToDynActivity"
             android:label="@string/title_activity_trip_to_dyn"
             android:logo="@drawable/ic_user"
+            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".business.ui.AlbumActivity"
+            android:label="@string/title_activity_album"
             android:parentActivityName=".framework.ui.base.BaseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

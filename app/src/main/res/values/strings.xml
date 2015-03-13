@@ -254,7 +254,7 @@
     <string name="activity_search_text">筛选动态</string>
     <string name="activity_delete_text">删除</string>
     <string name="add_activity_text">添加动态</string>
-    <string name="activity_newest_btn_text">最新</string>
+    <string name="activity_newest_btn_text">关联</string>
     <string name="activity_nearby_btn_text">附近</string>
     <string name="activity_search_hint_text">请输入关键字</string>
     <string name="activity_reject">获取动态失败</string>
@@ -279,6 +279,8 @@
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
     <string name="actionbar_title_modify_personal_information">个人信息</string>
+    <string name="title_activity_user_setting">用户设置</string>
+
 
 
     <!-- personal information activity begin -->
@@ -291,7 +293,19 @@
     <string name="personal_education_text">学历</string>
     <string name="personal_vocation_text">行业</string>
     <string name="personal_cell_text">手机号码</string>
-
+    <string name="title_activity_album">相册</string>
     <!-- TopMenuFragment fragment end -->
+
+    <!--DynPublishActivity begin-->
+    <string name="dyn_select_local">选择本地图片</string>
+    <string name="dyn_select_camera">选择本地图片</string>
+    <string name="dyn_surplus_start">您还能输入</string>
+    <string name="dyn_surplus_end">个字</string>
+    <string name="no_sd_card">未找到存储卡，无法存储照片</string>
+    <string name="pic_upload_fail">动态图片上传失败</string>
+    <string name="no_trip">请先添加行程</string>
+    <string name="add_pic">添加动态图片</string>
+
+    <!--DynPublishActivity end-->
 
 </resources>

@@ -164,15 +164,23 @@ public class ActyFragment extends BaseFragment {
                     /*当position的位置为0时是按城市搜索最新动态*/
                     case 0:
                         cityList = Cache.getInstance().getTripRelatedCityCache();
-                        searchByCity();
-                        dynSearchList.clear();
+                        if (cityList.size() > 0) {
+                            searchByCity();
+                            dynSearchList.clear();
+                        } else {
+                            Alert.Toast(getResources().getString(R.string.activity_no_city));
+                        }
                         break;
                     /*当position的位置为1时是按车次搜索最新动态*/
                     case 1:
                         trainList = Cache.getInstance().getTripRelatedTrainCache();
-                        searchByTrain();
-                        dynSearchList.clear();
-                        cityCode = null;
+                        if (trainList.size() > 0) {
+                            searchByTrain();
+                            dynSearchList.clear();
+                            cityCode = null;
+                        } else {
+                            Alert.Toast(getResources().getString(R.string.activity_no_train));
+                        }
                         break;
                     /*当position的位置为2时是按最新搜索最新动态*/
                     case 2:
@@ -567,7 +575,9 @@ public class ActyFragment extends BaseFragment {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
+                startLoading();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                stopLoading();
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -768,13 +778,14 @@ public class ActyFragment extends BaseFragment {
         OnekeyShare oks = new OnekeyShare();
         // 分享时Notification的图标和文字
         oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // oks.setTitle("启程分享");
+        oks.setTitle("启程分享");
+        oks.setTitleUrl("http://www.baidu.com");
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://sharesdk.cn");
         oks.setText(msg);
         oks.setImageUrl(url);
         // 启动分享GUI
         oks.show(getActivity());
-
-
     }
 
 }
