@@ -3,7 +3,6 @@ package com.qicheng.business.ui;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +42,6 @@ public class LabelModifyActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_label_modify, menu);
         ActionBar bar = this.getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
@@ -52,39 +50,17 @@ public class LabelModifyActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
 
     }
-//
-//    /**
-//     * 按返回键退到后台，不关闭程序
-//     *
-//     * @param keyCode
-//     * @param event
-//     * @return
-//     */
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            Intent intent = new Intent(this,MainActivity.class);
-//            startActivity(intent);
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-//
 
-
+    /**
+     * 初始化视图
+     */
     public void initLayout() {
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         //获取传过来的所有标签

@@ -6,8 +6,8 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -32,7 +32,6 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.DynFile;
-import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.RichEdit;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -43,23 +42,33 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.Logger;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DynPublishActivity extends BaseActivity {
-    private RichEdit edit;
-    private TextView surplus;
-    private ImageView camera, picture, publish;
-    private DynSearch dynSearch;
+
     private static Logger logger = new Logger("com.qicheng.business.protocol.DynPublishActivity");
+    /*
+    文本编辑框
+     */
+    private RichEdit edit;
+    /*
+    文字最大长度提示
+     */
+    private TextView surplus;
+    /*
+    相机，发布，图片的ImageView
+     */
+    private ImageView camera, picture, publish;
 
-    private String[] items = new String[]{"选择本地图片", "拍照"};
-
+    /*
+    添加照片
+     */
+    private String[] items = new String[]{getResources().getString(R.string.dyn_select_local), getResources().getString(R.string.dyn_select_camera)};
+    /*
+    文字最大长度
+     */
     final int MAX_LENGTH = 170;
     int Rest_Length = MAX_LENGTH;
 
@@ -71,8 +80,6 @@ public class DynPublishActivity extends BaseActivity {
     /* 请求码 */
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
-    private static final int RESULT_REQUEST_CODE = 2;
-    private static final int DATE_REQUEST_CODE = 3;
 
     private static final int ADD_SUCCESS = 0;
     private static final int ADD_CANCEL = 1;
@@ -87,6 +94,7 @@ public class DynPublishActivity extends BaseActivity {
     private boolean flag;
 
     public void onCreate(Bundle icicle) {
+
         super.onCreate(icicle);
         setContentView(R.layout.dyn_publish);
         Bundle bundle = getIntent().getExtras();
@@ -97,11 +105,10 @@ public class DynPublishActivity extends BaseActivity {
         }
         edit = (RichEdit) this.findViewById(R.id.msg_write_content);
         surplus = (TextView) this.findViewById(R.id.surplus);
-        surplus.setText("您还能输入" + Rest_Length + "个字");
+        surplus.setText(getResources().getString(R.string.dyn_surplus_start) + Rest_Length + getResources().getString(R.string.dyn_surplus_end));
         camera = (ImageView) this.findViewById(R.id.camera);
         picture = (ImageView) this.findViewById(R.id.activity_pic);
         publish = (ImageView) this.findViewById(R.id.publish);
-        //back = (ImageView) this.findViewById(R.id.back);
 
 
         camera.setOnClickListener(new OnClickListener() {
@@ -121,12 +128,11 @@ public class DynPublishActivity extends BaseActivity {
 
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
-                surplus.setText("您还能输入" + Rest_Length + "个字");
-
+                surplus.setText(getResources().getString(R.string.dyn_surplus_start) + Rest_Length + getResources().getString(R.string.dyn_surplus_end));
             }
 
             public void afterTextChanged(Editable s) {
-                surplus.setText("您还能输入" + Rest_Length + "个字");
+                surplus.setText(getResources().getString(R.string.dyn_surplus_start) + Rest_Length + getResources().getString(R.string.dyn_surplus_end));
             }
         });
 
@@ -165,7 +171,7 @@ public class DynPublishActivity extends BaseActivity {
                         showPic(uri);
 
                     } else {
-                        Alert.Toast("未找到存储卡，无法存储照片！");
+                        Alert.Toast(getResources().getString(R.string.no_sd_card));
                     }
                     break;
             }
@@ -193,7 +199,7 @@ public class DynPublishActivity extends BaseActivity {
             ContentResolver cr = DynPublishActivity.this.getContentResolver();
             try {
                 logger.d(source);
-                bitmap= BitmapUtils.getThumbUploadPath(cr, source, 1000);
+                bitmap = BitmapUtils.getThumbUploadPath(cr, source, 1000);
                 BitmapDrawable d = new BitmapDrawable(bitmap);
                 d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
                 return d;
@@ -230,10 +236,10 @@ public class DynPublishActivity extends BaseActivity {
                         addDyn(body);
                         break;
                     case FileUpLoadFailed:
-                        Alert.Toast("动态图片上传失败");
+                        Alert.Toast(getResources().getString(R.string.pic_upload_fail));
                         break;
                     default:
-                        Alert.Toast("动态图片上传失败");
+                        Alert.Toast(getResources().getString(R.string.pic_upload_fail));
                         break;
                 }
             }
@@ -258,7 +264,7 @@ public class DynPublishActivity extends BaseActivity {
                         sentAnswerResult(true);
                         break;
                     case ResultNotPermit:
-                        Alert.Toast("请先添加行程");
+                        Alert.Toast(getResources().getString(R.string.no_trip));
                 }
             }
         }));
@@ -292,7 +298,7 @@ public class DynPublishActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK ){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             setResult(ADD_CANCEL);
             finish();
         }
@@ -305,7 +311,7 @@ public class DynPublishActivity extends BaseActivity {
     private void showImgPickDialog() {
 
         new AlertDialog.Builder(this)
-                .setTitle("添加动态图片")
+                .setTitle(getResources().getString(R.string.add_pic))
                 .setItems(items, new DialogInterface.OnClickListener() {
 
                     @Override
@@ -336,7 +342,7 @@ public class DynPublishActivity extends BaseActivity {
                         }
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.txt_cancel), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -354,10 +360,6 @@ public class DynPublishActivity extends BaseActivity {
             return false;
         }
     }
-
-
-
-
 
 
     /**
