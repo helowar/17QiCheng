@@ -25,17 +25,17 @@ public class DateTimeUtil {
 
     public static final String date_separator = "-";
 
-    public static final int day_millis=86400000;
-    public static final String day_text="天前";
+    public static final int day_millis = 86400000;
+    public static final String day_text = "天前";
 
 
-    public static final int hour_millis=3600000;
-    public static final String hour_text="小时前";
+    public static final int hour_millis = 3600000;
+    public static final String hour_text = "小时前";
 
-    public static final int minutes_millis=60000;
-    public static final String minutes_text="分钟前";
+    public static final int minutes_millis = 60000;
+    public static final String minutes_text = "分钟前";
 
-    public static final String now_text="刚刚";
+    public static final String now_text = "刚刚";
 
 
     /**
@@ -105,6 +105,45 @@ public class DateTimeUtil {
             return now_text;
         }
     }
+
+
+    /**
+     * 计算年龄
+     *
+     * @param birthDay
+     * @return
+     * @throws Exception
+     */
+    public static String getAge(Date birthDay) {
+        Calendar cal = Calendar.getInstance();
+        /*判断生日是否有效*/
+        if (cal.before(birthDay)) {
+            return null;
+        }
+        /*获取现在的年月日*/
+        int yearNow = cal.get(Calendar.YEAR);
+        int monthNow = cal.get(Calendar.MONTH) + 1;
+        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+        /*获取生日的年月日*/
+        cal.setTime(birthDay);
+        int yearBirth = cal.get(Calendar.YEAR);
+        int monthBirth = cal.get(Calendar.MONTH);
+        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+        int age = yearNow - yearBirth;
+        if (monthNow <= monthBirth) {
+            if (monthNow == monthBirth) {
+                if (dayOfMonthNow < dayOfMonthBirth) {
+                    age--;
+                }
+            } else {
+                //monthNow>monthBirth
+                age--;
+            }
+        }
+
+        return age + "";
+    }
+
 
     /**
      * 以参数format日期格式，格式化日期对象。
@@ -330,9 +369,9 @@ public class DateTimeUtil {
         return null;
     }
 
-    public static Date getDate(int year,int month,int day){
+    public static Date getDate(int year, int month, int day) {
         Calendar c = Calendar.getInstance();
-        c.set(year,month,day);
+        c.set(year, month, day);
         return c.getTime();
     }
 }

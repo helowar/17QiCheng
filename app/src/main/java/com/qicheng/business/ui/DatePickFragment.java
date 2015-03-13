@@ -90,8 +90,9 @@ public class DatePickFragment extends DialogFragment {
     }
 
     private void sendResult(int resultCode) {
-        if (getTargetFragment() == null)
+        if (getTargetFragment() == null){
             return;
+        }
         Intent i = new Intent();
         i.putExtra(EXTRA_DATE, mDate);
 

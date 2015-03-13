@@ -575,7 +575,9 @@ public class ActyFragment extends BaseFragment {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
+                startLoading();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                stopLoading();
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override

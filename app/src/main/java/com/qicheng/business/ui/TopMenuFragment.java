@@ -21,7 +21,10 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
+
+import java.util.Date;
 
 /**
  * @author 金玉龙
@@ -47,15 +50,22 @@ public class TopMenuFragment extends BaseFragment {
         User user = Cache.getInstance().getUser();
         ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
         ImageManager.displayPortrait(user.getPortraitURL(), portrait);
-        TextView nickname = (TextView) view.findViewById(R.id.personal_information_nickname);
-        nickname.setText(user.getNickName());
-        if (user.getGender() == 0) {
+        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
+        String nickname = user.getNickName();
+        if (nickname.length() > 7) {
+            nicknameView.setText(nickname.substring(0, 6) + "...");
+        } else {
+            nicknameView.setText(nickname);
+        }
+        if (user.getGender() == 1) {
             ImageView gender = (ImageView) view.findViewById(R.id.gender);
             gender.setImageResource(R.drawable.ic_male);
         }
         String birthday = user.getBirthday();
-        TextView age = (TextView)view.findViewById(R.id.age);
-        age.setText(birthday+"岁");
+        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
+        String age = DateTimeUtil.getAge(birthdayDate);
+        TextView ageView = (TextView) view.findViewById(R.id.age);
+        ageView.setText(age + "岁");
 
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
           /*个人资料menu*/
@@ -65,7 +75,7 @@ public class TopMenuFragment extends BaseFragment {
         /*我的相册menu*/
         initViewItem(inflater, R.string.my_photo, R.drawable.ic_personal);
         /*我的动态menu*/
-        initViewItem(inflater, R.string.my_activity,  R.drawable.ic_fliter);
+        initViewItem(inflater, R.string.my_activity, R.drawable.ic_fliter);
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
