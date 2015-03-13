@@ -57,7 +57,8 @@
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,51 +73,61 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".business.ui.UserInfoActivity"
-            android:label="@string/title_activity_usr_info" />
+            android:label="@string/title_activity_usr_info"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.MainActivity"
             android:label="@string/title_activity_main"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="@string/actionbar_title_label"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="@string/actionbar_title_label"
+            android:windowSoftInputMode="stateHidden"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="stateHidden" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="@string/actionbar_title_modify_personal_information"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="adjustResize|adjustPan" >
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.DynPublishActivity"
             android:label="@string/actionbar_title_publish_dyn"
             android:logo="@drawable/ic_user"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.AddTripActivity"
             android:label="添加行程"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.TrainSelectActivity"
-            android:label="@string/title_activity_train_select" >
+            android:label="@string/title_activity_train_select"
+            android:screenOrientation="portrait">
         </activity>
         <!-- IM 相关Activity -->
         <activity
@@ -126,12 +137,14 @@
             android:logo="@drawable/ic_chat_logo"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" >
+            
         </activity>
         <!-- 地图 -->
         <activity
             android:name=".business.ui.chat.activity.BaiduMapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" >
+            android:theme="@style/horizontal_slide"
+            >
         </activity>
         <!-- 自定义的contextmenu -->
         <activity
@@ -170,16 +183,18 @@
             android:theme="@style/horizontal_slide"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        <!-- IM 相关Activity -->
+        <!--IM 相关Activity-->
         <activity
             android:name=".business.ui.PassengerActivity"
             android:label="@string/passenger_activity_title"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".business.ui.TravellerActivity"
             android:label="@string/traveller_activity_title"
-            android:logo="@drawable/ic_user" >
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait">
         </activity>
 
         <!-- activity config end -->
@@ -213,15 +228,18 @@
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"
-            android:label="@string/title_activity_original_picture" />
+            android:label="@string/title_activity_original_picture"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.LabelModifyActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.LabelUpdateActivity"
             android:label="@string/actionbar_title_label_modify"
-            android:logo="@drawable/ic_user" />
+            android:logo="@drawable/ic_user"
+            android:screenOrientation="portrait"/>
         <!-- shareSDK Activity -->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"

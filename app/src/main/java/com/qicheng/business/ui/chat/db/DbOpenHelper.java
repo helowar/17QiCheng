@@ -20,6 +20,9 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	private static final String USERNAME_TABLE_CREATE = "CREATE TABLE "
 			+ UserDao.TABLE_NAME + " ("
 			+ UserDao.COLUMN_NAME_NICK +" TEXT, "
+            + UserDao.COLUMN_NAME_AVATAR +" TEXT, "
+            + UserDao.COLUMN_NAME_GENDER +" INTEGER, "
+            + UserDao.COLUMN_NAME_HEADER +" TEXT, "
 			+ UserDao.COLUMN_NAME_ID + " TEXT PRIMARY KEY);";
 	
 	private static final String INIVTE_MESSAGE_TABLE_CREATE = "CREATE TABLE "
@@ -53,7 +56,7 @@ public class DbOpenHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(USERNAME_TABLE_CREATE);
-		db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
+//		db.execSQL(INIVTE_MESSAGE_TABLE_CREATE);
 		
 	}
 

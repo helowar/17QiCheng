@@ -1,7 +1,10 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,13 +12,27 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactManager;
+import com.easemob.chat.EMMessage;
 import com.qicheng.R;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.module.User;
 import com.qicheng.business.service.LocationService;
+import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.business.ui.component.BadgeView;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
@@ -41,8 +58,10 @@ public class MainActivity extends BaseActivity {
 
     private String userToken;
     private SlidingMenu menu;
+    private NewMessageBroadcastReceiver receiver;
 
     private int index = Const.INDEX_TRIP;
+    private UserDao dao = new UserDao(Const.Application);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +69,50 @@ public class MainActivity extends BaseActivity {
         // setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
         logger.d("Get the user token:" + userToken);
-        // initView();
         initSlidingMenu();
         Intent locationService = new Intent(this, LocationService.class);
         startService(locationService);
+        receiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
+        // 设置广播的优先级别大于Mainacitivity,这样如果消息来的时候正好在chat页面，直接显示消息，而不是提示消息未读
+        intentFilter.setPriority(5);
+        registerReceiver(receiver, intentFilter);
+    }
+
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // 记得把广播给终结掉
+            abortBroadcast();
+            int count=0;
+            for(String str:EMChatManager.getInstance().getConversationsUnread()){
+                count+= EMChatManager.getInstance().getConversation(str).getUnreadMsgCount();
+            }
+            messageBadge.setBadgeCount(count);
+
+            String msgid = intent.getStringExtra("msgid");
+            // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
+            final EMMessage message = EMChatManager.getInstance().getMessage(msgid);
+            try{
+                notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
+            }catch (Exception e){
+                notifyNewMessage(message,message.getFrom());
+            }
+            // 如果是群聊消息，获取到group id
+//            if (message.getChatType() == EMMessage.ChatType.GroupChat) {
+//                username = message.getTo();
+//            }
+//            if (!username.equals(toChatUsername)) {
+            // 消息不是发给当前会话，return
+
+//            }
+            // conversation =
+            // EMChatManager.getInstance().getConversation(toChatUsername);
+            // 通知adapter有新消息，更新ui
+//            adapter.refresh();
+//            listView.setSelection(listView.getCount() - 1);
+
+        }
     }
 
     public void initView() {
@@ -176,6 +235,11 @@ public class MainActivity extends BaseActivity {
         Intent locationService = new Intent(this, LocationService.class);
         stopService(locationService);
         super.onDestroy();
+        try {
+            unregisterReceiver(receiver);
+            receiver = null;
+        } catch (Exception e) {
+        }
     }
 
     private class RadioButtonOnClickListener implements View.OnClickListener {
@@ -282,4 +346,6 @@ public class MainActivity extends BaseActivity {
     public int getIndex() {
         return index;
     }
+
+
 }

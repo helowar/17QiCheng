@@ -28,8 +28,11 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.ui.chat.widget.ChatAllHistoryAdapter;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -135,7 +138,10 @@ public class MessageFragment extends BaseFragment {
                         intent.putExtra("groupId", username);
                     }else{
                         // it is single chat
-                        intent.putExtra("userId", username);
+                        ChatAllHistoryAdapter.ViewHolder viewHolder = (ChatAllHistoryAdapter.ViewHolder)view.getTag();
+                        intent.putExtra(Const.Intent.HX_USER_ID,username);
+                        intent.putExtra(Const.Intent.HX_USER_NICK_NAME,viewHolder.nick);
+                        intent.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR,viewHolder.avatarUrl);
                     }
                     startActivity(intent);
                 }

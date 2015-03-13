@@ -19,11 +19,15 @@ import android.text.TextUtils;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.module.User;
 import com.easemob.util.HanziToPinyin;
+import com.qicheng.framework.util.StringUtil;
 
 public class UserDao {
 	public static final String TABLE_NAME = "uers";
-	public static final String COLUMN_NAME_ID = "username";
+	public static final String COLUMN_NAME_ID = "user_im_id";
+    public static final String COLUMN_NAME_AVATAR="avatar_url";
+    public static final String COLUMN_NAME_GENDER="gender";
 	public static final String COLUMN_NAME_NICK = "nick";
+    public static final String COLUMN_NAME_HEADER = "header";
 	public static final String COLUMN_NAME_IS_STRANGER = "is_stranger";
 
 	private DbOpenHelper dbHelper;
@@ -44,11 +48,15 @@ public class UserDao {
 			for (User user : contactList) {
 				ContentValues values = new ContentValues();
 				values.put(COLUMN_NAME_ID, user.getUserImId());
-				if(user.getNickName() != null)
-					values.put(COLUMN_NAME_NICK, user.getNickName());
+			    values.put(COLUMN_NAME_NICK, user.getNickName());
+                if(!StringUtil.isEmpty(user.getPortraitURL())){
+                    values.put(COLUMN_NAME_AVATAR, user.getPortraitURL());
+                }
+                values.put(COLUMN_NAME_GENDER,user.getGender());
 				db.replace(TABLE_NAME, null, values);
 			}
 		}
+        dbHelper.closeDB();
 	}
 
 	/**
@@ -62,36 +70,48 @@ public class UserDao {
 		if (db.isOpen()) {
 			Cursor cursor = db.rawQuery("select * from " + TABLE_NAME /* + " desc" */, null);
 			while (cursor.moveToNext()) {
-				String username = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ID));
+				String useImId = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ID));
 				String nick = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_NICK));
+                String header = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HEADER));
+                String avatar = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_AVATAR));
+                int gender = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_GENDER));
 				User user = new User();
-				user.setUserImId(username);
+				user.setUserImId(useImId);
 				user.setNickName(nick);
-				String headerName = null;
-				if (!TextUtils.isEmpty(user.getNickName())) {
-					headerName = user.getNickName();
-				} else {
-					headerName = user.getUserImId();
-				}
-				
-				if (username.equals(Constant.NEW_FRIENDS_USERNAME) || username.equals(Constant.GROUP_USERNAME)) {
-					user.setHeader("");
-				} else if (Character.isDigit(headerName.charAt(0))) {
-					user.setHeader("#");
-				} else {
-					user.setHeader(HanziToPinyin.getInstance().get(headerName.substring(0, 1))
-							.get(0).target.substring(0, 1).toUpperCase());
-					char header = user.getHeader().toLowerCase().charAt(0);
-					if (header < 'a' || header > 'z') {
-						user.setHeader("#");
-					}
-				}
-				users.put(username, user);
+                user.setPortraitURL(avatar);
+				user.setHeader(header);
+                user.setGender(gender);
+				users.put(useImId, user);
 			}
 			cursor.close();
+            dbHelper.closeDB();
 		}
 		return users;
 	}
+
+    public User getContact(String id){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        User user = null;
+        if (db.isOpen()) {
+            Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " where " + COLUMN_NAME_ID + "='" + id + "'"/* + " desc" */, null);
+            while (cursor.moveToNext()) {
+                String useImId = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_ID));
+                String nick = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_NICK));
+                String header = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_HEADER));
+                String avatar = cursor.getString(cursor.getColumnIndex(COLUMN_NAME_AVATAR));
+                int gender = cursor.getInt(cursor.getColumnIndex(COLUMN_NAME_GENDER));
+                user = new User();
+                user.setUserImId(useImId);
+                user.setNickName(nick);
+                user.setPortraitURL(avatar);
+                user.setHeader(header);
+                user.setGender(gender);
+            }
+            cursor.close();
+            dbHelper.closeDB();
+        }
+        return user;
+    }
 	
 	/**
 	 * 删除一个联系人
@@ -102,6 +122,7 @@ public class UserDao {
 		if(db.isOpen()){
 			db.delete(TABLE_NAME, COLUMN_NAME_ID + " = ?", new String[]{username});
 		}
+        dbHelper.closeDB();
 	}
 	
 	/**
@@ -117,5 +138,6 @@ public class UserDao {
 		if(db.isOpen()){
 			db.replace(TABLE_NAME, null, values);
 		}
+        dbHelper.closeDB();
 	}
 }
