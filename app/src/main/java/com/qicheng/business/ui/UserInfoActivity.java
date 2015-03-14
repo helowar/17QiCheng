@@ -13,9 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,9 +23,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
 import com.qicheng.business.image.ImageManager;
-import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
-import com.qicheng.business.module.User;
 import com.qicheng.business.module.UserDetail;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
@@ -41,8 +39,6 @@ import java.util.List;
 
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
-import static com.qicheng.util.Const.ORDER_BY_NEWEST;
-import static com.qicheng.util.Const.QUERY_TYPE_STATION;
 import static com.qicheng.util.Const.SEX_MAN;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
@@ -137,6 +133,16 @@ public class UserInfoActivity extends BaseActivity {
      */
     private List<Photo> photoList = new ArrayList<Photo>();
 
+    /**
+     * 用户ID
+     */
+    private String userId;
+
+    /**
+     * 用户业务逻辑处理对象
+     */
+    private UserLogic userLogic = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,15 +164,16 @@ public class UserInfoActivity extends BaseActivity {
         industryTextView = (TextView) findViewById(R.id.user_info_industry_text_view);
         // 获取用户详细信息对象
         UserDetail userDetail = (UserDetail) getIntent().getExtras().getSerializable(USER_DETAIL_KEY);
+        userId = userDetail.getUserId();
         ImageManager.displayPortrait(userDetail.getPortraitUrl(), portraitImageView);
         nicknameTextView.setText(userDetail.getNickname());
-        if(userDetail.getGender() == SEX_MAN) {
+        if (userDetail.getGender() == SEX_MAN) {
             genderImageView.setImageResource(R.drawable.ic_male);
         } else {
             genderImageView.setImageResource(R.drawable.ic_female);
         }
         List<String> tags = userDetail.getTags();
-        if(tags != null && tags.size() > 0) {
+        if (tags != null && tags.size() > 0) {
             for (String tagName : tags) {
                 tagViewGroup.addView(createTagView(tagName));
             }
@@ -174,7 +181,7 @@ public class UserInfoActivity extends BaseActivity {
         // 设置相册滚动停止监听器
         photoListView.setOnScrollStopListener(new PhotoOnScrollListener(imageLoader, pauseOnScroll, pauseOnFling));
         List<Photo> photos = userDetail.getPhotoList();
-        if(photos != null && photos.size() > 0) {
+        if (photos != null && photos.size() > 0) {
             photoList.addAll(photos);
             for (Photo photo : photos) {
                 photoLayout.addView(createPhotoView(photo));
@@ -243,23 +250,23 @@ public class UserInfoActivity extends BaseActivity {
             } else {
                 // 查询之前的照片
                 Photo lastPhoto = photoList.get(photoList.size() - 1);
-//                logic.queryRecommendUser(QUERY_TYPE_STATION, queryValue, ORDER_BY_EARLIEST, lastUser.getLastLoginTime(), 4, createUIEventListener(new EventListener() {
-//                    @Override
-//                    public void onEvent(EventId id, EventArgs args) {
-//                        stopLoading();
-//                        UserEventArgs result = (UserEventArgs) args;
-//                        OperErrorCode errCode = result.getErrCode();
-//                        if (errCode == OperErrorCode.Success) {
-//                            List<User> userList = result.getUserList();
-//                            if (userList != null && userList.size() > 0) {
-//                                recommendPersonList.addAll(userList);
-//                                for (int i = 0, size = userList.size(); i < size; i++) {
-//                                    recommendPersonsLayout.addView(createRecommendPersonView(userList.get(i)));
-//                                }
-//                            }
-//                        }
-//                    }
-//                }));
+                userLogic.getUserPhotoList(userId, ORDER_BY_EARLIEST, lastPhoto.getOrderNum(), 5, createUIEventListener(new EventListener() {
+                    @Override
+                    public void onEvent(EventId id, EventArgs args) {
+                        stopLoading();
+                        UserPhotoEventArgs result = (UserPhotoEventArgs) args;
+                        OperErrorCode errCode = result.getErrCode();
+                        if (errCode == OperErrorCode.Success) {
+                            List<Photo> photos = result.getPhotoList();
+                            if (photos != null && photos.size() > 0) {
+                                photoList.addAll(photos);
+                                for (int i = 0, size = photos.size(); i < size; i++) {
+                                    photoLayout.addView(createPhotoView(photos.get(i)));
+                                }
+                            }
+                        }
+                    }
+                }));
                 startLoading();
             }
         }

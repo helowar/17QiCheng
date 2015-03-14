@@ -23,7 +23,7 @@ import java.util.List;
 import static com.qicheng.framework.util.JSONUtil.STATUS_TAG;
 
 /**
- * UserDetail.java是启程APP的获取用户详细信息接口处理类。
+ * GetUserDetailProcess.java是启程APP的获取用户详细信息接口处理类。
  *
  * @author 花树峰
  * @version 1.0 2015年3月13日

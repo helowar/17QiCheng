@@ -7,30 +7,34 @@
 
 package com.qicheng.business.logic.event;
 
+import com.qicheng.business.module.LabelType;
+import com.qicheng.business.module.Photo;
 import com.qicheng.business.module.User;
-import com.qicheng.business.module.UserDetail;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * UserDetailEventArgs.java是启程APP的获取用户详细信息事件参数类。
+ * UserPhotoEventArgs.java是启程APP的获取用户照片一览信息事件参数类。
  *
  * @author 花树峰
  * @version 1.0 2015年3月13日
  */
-public class UserDetailEventArgs extends StatusEventArgs {
+public class UserPhotoEventArgs extends StatusEventArgs {
 
     /**
-     * 用户详细信息对象
+     * 用户照片一览对象
      */
-    private UserDetail userDetail;
+    private List<Photo> photoList;
 
-    public UserDetailEventArgs(UserDetail userDetail, OperErrorCode errCode) {
+    public UserPhotoEventArgs(List<Photo> photoList, OperErrorCode errCode) {
         super(errCode);
-        this.userDetail = userDetail;
+        this.photoList = photoList;
     }
 
-    public UserDetail getUserDetail() {
-        return userDetail;
+    public List<Photo> getPhotoList() {
+        return photoList;
     }
 }

@@ -8,10 +8,12 @@ import com.easemob.chat.EMContactManager;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
 import com.qicheng.business.protocol.GetUserDetailProcess;
+import com.qicheng.business.protocol.GetUserPhotoListProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
@@ -323,6 +325,31 @@ public class UserLogic extends BaseLogic {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("获取用户详细信息结果码为：" + errCode);
                 UserDetailEventArgs userEventArgs = new UserDetailEventArgs(process.getUserDetail(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
+
+    /**
+     * 获取用户照片一览信息。
+     *
+     * @param userId   用户ID
+     * @param orderBy  查询方向 0：往最新方向查询 1：往最早方向查询
+     * @param orderNum 照片的序号
+     * @param size     查询个数
+     * @param listener 查询结果事件监听器
+     */
+    public void getUserPhotoList(String userId, byte orderBy, long orderNum, int size, final EventListener listener) {
+        final GetUserPhotoListProcess process = new GetUserPhotoListProcess();
+        process.setInfoParameter(userId, orderBy, orderNum, size);
+        process.run("getUserPhotoList", new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取用户照片一览信息结果码为：" + errCode);
+                UserPhotoEventArgs userEventArgs = new UserPhotoEventArgs(process.getPhotoList(), errCode);
                 // 发送事件
                 fireEvent(listener, userEventArgs);
             }
