@@ -98,7 +98,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        skipToActivity(UserInfoActivity.class);
+                        skipToActivity(PersonalInformationActivity.class);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
