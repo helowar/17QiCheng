@@ -292,8 +292,6 @@
     <string name="actionbar_title_modify_personal_information">个人信息</string>
     <string name="title_activity_user_setting">用户设置</string>
 
-
-
     <!-- personal information activity begin -->
     <string name="personal_portrait_text">头像</string>
     <string name="personal_nickname_text">昵称</string>
@@ -304,8 +302,8 @@
     <string name="personal_education_text">学历</string>
     <string name="personal_vocation_text">行业</string>
     <string name="personal_cell_text">手机号码</string>
-    <string name="title_activity_album">相册</string>
-    <!-- TopMenuFragment fragment end -->
+    <string name="personal_album_text">相册</string>
+    <!-- personal information activity end -->
 
     <!--DynPublishActivity begin-->
     <string name="dyn_select_local">选择本地图片</string>
@@ -316,9 +314,10 @@
     <string name="pic_upload_fail">动态图片上传失败</string>
     <string name="no_trip">请先添加行程</string>
     <string name="add_pic">添加动态图片</string>
-
     <!--DynPublishActivity end-->
+
+    <!-- AlbumActivity begin-->
     <string name="title_activity_album">AlbumActivity</string>
-    <!-- personal information activity end -->
+    <!-- AlbumActivity end -->
 
 </resources>
