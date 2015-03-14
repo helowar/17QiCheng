@@ -9,20 +9,20 @@ import android.view.MenuItem;
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
 
-public class PersonalInformationActivity extends BaseActivity {
- private UserInformationModifyFragment userInformationModifyFragment;
+public class UserSettingActivity extends BaseActivity {
+    private UserSettingFragment userSettingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getActionBar();
-        setContentView(R.layout.activity_personal_information);
-        userInformationModifyFragment = new UserInformationModifyFragment();
-        getFragmentManager().beginTransaction().add(R.id.userInformation, userInformationModifyFragment).commit();
+        setContentView(R.layout.activity_user_setting);
+        userSettingFragment = new UserSettingFragment();
+        getFragmentManager().beginTransaction().add(R.id.setting_information, userSettingFragment).commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_personal_information, menu);
+        getMenuInflater().inflate(R.menu.menu_user_setting, menu);
         ActionBar bar = this.getActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
         return super.onCreateOptionsMenu(menu);

@@ -575,7 +575,9 @@ public class ActyFragment extends BaseFragment {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
+                startLoading();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                stopLoading();
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -775,7 +777,7 @@ public class ActyFragment extends BaseFragment {
         ShareSDK.initSDK(getActivity());
         OnekeyShare oks = new OnekeyShare();
         // 分享时Notification的图标和文字
-        oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        oks.setNotification(R.drawable.ic_qicheng, getString(R.string.app_name));
         // oks.setTitle("启程分享");
         oks.setText(msg);
         oks.setImageUrl(url);

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
   ~ This software is the confidential and proprietary information of QiCheng, Inc.
@@ -5,7 +6,12 @@
   ~ accordance with the terms of the license agreement you entered into with QiCheng.
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qicheng.business.ui.AlbumActivity">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">﻿
+    <item
+        android:state_pressed="true"
+        android:drawable="@drawable/ic_chat_click" />
 
-</menu>
+    <item
+        android:state_pressed="false"
+        android:drawable="@drawable/ic_chat" />
+</selector>

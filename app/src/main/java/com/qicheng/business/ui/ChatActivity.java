@@ -44,7 +44,6 @@ import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMConversation;
-import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.LocationMessageBody;
@@ -67,7 +66,6 @@ import com.qicheng.business.ui.chat.activity.AlertDialog;
 import com.qicheng.business.ui.chat.activity.BaiduMapActivity;
 import com.qicheng.business.ui.chat.activity.ImageGridActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
-import com.qicheng.business.ui.chat.utils.ImageUtils;
 import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.business.ui.chat.widget.ExpandGridView;
@@ -91,21 +89,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     public static final int REQUEST_CODE_VOICE = 6;
     public static final int REQUEST_CODE_PICTURE = 7;
     public static final int REQUEST_CODE_LOCATION = 8;
-    public static final int REQUEST_CODE_NET_DISK = 9;
+//    public static final int REQUEST_CODE_NET_DISK = 9;
     public static final int REQUEST_CODE_FILE = 10;
     public static final int REQUEST_CODE_COPY_AND_PASTE = 11;
-    public static final int REQUEST_CODE_PICK_VIDEO = 12;
-    public static final int REQUEST_CODE_DOWNLOAD_VIDEO = 13;
+//    public static final int REQUEST_CODE_PICK_VIDEO = 12;
+//    public static final int REQUEST_CODE_DOWNLOAD_VIDEO = 13;
     public static final int REQUEST_CODE_VIDEO = 14;
-    public static final int REQUEST_CODE_DOWNLOAD_VOICE = 15;
-    public static final int REQUEST_CODE_SELECT_USER_CARD = 16;
-    public static final int REQUEST_CODE_SEND_USER_CARD = 17;
+//    public static final int REQUEST_CODE_DOWNLOAD_VOICE = 15;
+//    public static final int REQUEST_CODE_SELECT_USER_CARD = 16;
+//    public static final int REQUEST_CODE_SEND_USER_CARD = 17;
     public static final int REQUEST_CODE_CAMERA = 18;
     public static final int REQUEST_CODE_LOCAL = 19;
-    public static final int REQUEST_CODE_CLICK_DESTORY_IMG = 20;
+//    public static final int REQUEST_CODE_CLICK_DESTORY_IMG = 20;
     public static final int REQUEST_CODE_GROUP_DETAIL = 21;
     public static final int REQUEST_CODE_SELECT_VIDEO = 23;
-    public static final int REQUEST_CODE_SELECT_FILE = 24;
+//    public static final int REQUEST_CODE_SELECT_FILE = 24;
     public static final int REQUEST_CODE_ADD_TO_BLACKLIST = 25;
     /**
      * ContextMenu结果代码
@@ -138,7 +136,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private LinearLayout btnContainer;
     private ImageView locationImgview;
     private View more;
-    private int position;
     private ClipboardManager clipboard;
     private ViewPager expressionViewpager;
     private InputMethodManager manager;
@@ -153,7 +150,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private VoiceRecorder voiceRecorder;
     private MessageAdapter adapter;
     private File cameraFile;
-    static int resendPos;
 
 //    private GroupListener groupListener;
 
@@ -313,14 +309,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         // 判断单聊还是群聊
         chatType = getIntent().getIntExtra("chatType", CHATTYPE_SINGLE);
 
-        if (chatType == CHATTYPE_SINGLE) { // 单聊
+//        if (chatType == CHATTYPE_SINGLE) { // 单聊
             toChatUsername = getIntent().getStringExtra(Const.Intent.HX_USER_ID);
             toChatUserNickName = getIntent().getStringExtra(Const.Intent.HX_USER_NICK_NAME);
             toChatUserAvatar = getIntent().getStringExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR);
 //            ((TextView) findViewById(R.id.name)).setText(toChatUserNickName);
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername,false);
-        } else {
+//        } else {
             // 群聊
 //            findViewById(R.id.container_to_group).setVisibility(View.VISIBLE);
 //            findViewById(R.id.container_remove).setVisibility(View.GONE);
@@ -331,8 +327,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 //            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
             // conversation =
             // EMChatManager.getInstance().getConversation(toChatUsername,true);
-        }
+//        }
         conversation = EMChatManager.getInstance().getConversation(toChatUsername);
+
         // 把此会话的未读数置为0
         conversation.resetUnreadMsgCount();
         adapter = new MessageAdapter(this, toChatUsername,toChatUserAvatar, chatType);
@@ -400,13 +397,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
                 case RESULT_CODE_COPY: // 复制消息
-                    EMMessage copyMsg = ((EMMessage) adapter.getItem(data.getIntExtra("position", -1)));
+                    EMMessage copyMsg = ( adapter.getItem(data.getIntExtra("position", -1)));
                     // clipboard.setText(SmileUtils.getSmiledText(ChatActivity.this,
                     // ((TextMessageBody) copyMsg.getBody()).getMessage()));
                     clipboard.setText(((TextMessageBody) copyMsg.getBody()).getMessage());
                     break;
                 case RESULT_CODE_DELETE: // 删除消息
-                    EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
+                    EMMessage deleteMsg = adapter.getItem(data.getIntExtra("position", -1));
                     conversation.removeMessage(deleteMsg.getMsgId());
                     adapter.refresh();
                     listView.setSelection(data.getIntExtra("position", adapter.getCount()) - 1);
@@ -501,7 +498,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             } else if (requestCode == REQUEST_CODE_TEXT || requestCode == REQUEST_CODE_VOICE
                     || requestCode == REQUEST_CODE_PICTURE || requestCode == REQUEST_CODE_LOCATION
                     || requestCode == REQUEST_CODE_VIDEO || requestCode == REQUEST_CODE_FILE) {
-                resendMessage();
+                resendMessage(data.getIntExtra("position",0));
             } else if (requestCode == REQUEST_CODE_COPY_AND_PASTE) {
                 // 粘贴
                 if (!TextUtils.isEmpty(clipboard.getText())) {
@@ -539,8 +536,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         String st1 = getResources().getString(R.string.not_connect_to_server);
         if(!EMChatManager.getInstance().isConnected()){
             reLogin();
-            finish();
-            return;
         }
         int id = view.getId();
         if (id == R.id.btn_send) {// 点击发送按钮(发文字和表情)
@@ -627,7 +622,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         String st11 = getResources().getString(R.string.Move_into_blacklist_success);
         String st12 = getResources().getString(R.string.Move_into_blacklist_failure);
         try {
-            EMContactManager.getInstance().addUserToBlackList(username, false);
+            EMContactManager.getInstance().deleteContact(username);
             Toast.makeText(getApplicationContext(), st11, Toast.LENGTH_SHORT).show();
         } catch (EaseMobException e) {
             e.printStackTrace();
@@ -678,14 +673,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     /**
      * 重发消息
      */
-    private void resendMessage() {
+    private void resendMessage(int position) {
         EMMessage msg = null;
-        msg = conversation.getMessage(resendPos);
+        msg = conversation.getMessage(position);
 //        msg.setBackSend(true);
         msg.status = EMMessage.Status.CREATE;
 
         adapter.refresh();
-        listView.setSelection(resendPos);
+        listView.setSelection(position);
     }
 
     /**
@@ -697,6 +692,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         String to = toChatUsername;
         // create and add image message in view
         final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
+        setUserInfoIntoMessage(message);
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP)
             message.setChatType(EMMessage.ChatType.GroupChat);
@@ -762,6 +758,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
      */
     private void sendLocationMsg(double latitude, double longitude, String imagePath, String locationAddress) {
         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.LOCATION);
+        setUserInfoIntoMessage(message);
         // 如果是群聊，设置chattype,默认是单聊
         if (chatType == CHATTYPE_GROUP)
             message.setChatType(EMMessage.ChatType.GroupChat);
@@ -790,6 +787,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         }
         try {
             final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
+            setUserInfoIntoMessage(message);
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP)
                 message.setChatType(EMMessage.ChatType.GroupChat);
@@ -819,6 +817,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         }
         try {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VIDEO);
+            setUserInfoIntoMessage(message);
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP)
                 message.setChatType(EMMessage.ChatType.GroupChat);
@@ -848,6 +847,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 
         if (content.length() > 0) {
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+            setUserInfoIntoMessage(message);
             // 如果是群聊，设置chattype,默认是单聊
             if (chatType == CHATTYPE_GROUP)
                 message.setChatType(EMMessage.ChatType.GroupChat);
@@ -866,6 +866,19 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             setResult(RESULT_OK);
 
         }
+    }
+
+    /**
+     * 把环信无法获取的头像/昵称等用户基本信息塞进EMMessage，imId作为标识判断该取哪一个
+     * @param message
+     */
+    private void setUserInfoIntoMessage(EMMessage message){
+        message.setAttribute(Const.Easemob.FROM_USER_NICK,Cache.getInstance().getUser().getNickName());
+        message.setAttribute(Const.Easemob.FROM_USER_AVATAR,Cache.getInstance().getUser().getPortraitURL());
+        message.setAttribute(Const.Easemob.FROM_USER_ID,Cache.getInstance().getUser().getUserImId());
+        message.setAttribute(Const.Easemob.TO_USER_AVATAR,this.toChatUserAvatar);
+        message.setAttribute(Const.Easemob.TO_USER_NICK,this.toChatUserNickName);
+        message.setAttribute(Const.Easemob.TO_USER_ID,this.toChatUsername);
     }
 
     /**
@@ -923,18 +936,20 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         public void onReceive(Context context, Intent intent) {
             // 记得把广播给终结掉
             abortBroadcast();
-
             String username = intent.getStringExtra("from");
             String msgid = intent.getStringExtra("msgid");
             // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
-            EMMessage message = EMChatManager.getInstance().getMessage(msgid);
+            final EMMessage message = EMChatManager.getInstance().getMessage(msgid);
             // 如果是群聊消息，获取到group id
 //            if (message.getChatType() == EMMessage.ChatType.GroupChat) {
 //                username = message.getTo();
 //            }
             if (!username.equals(toChatUsername)) {
-                // 消息不是发给当前会话，return
-                notifyNewMessage(message);
+                try {
+                    notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
+                }catch (Exception e){
+                    notifyNewMessage(message,username);
+                }
                 return;
             }
             // conversation =

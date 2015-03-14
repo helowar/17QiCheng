@@ -4,11 +4,13 @@ import android.graphics.Bitmap;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContactManager;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
+import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
 import com.qicheng.business.protocol.GetUserDetailProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
@@ -16,6 +18,7 @@ import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.SetUserInfoProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
+import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
@@ -30,6 +33,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**

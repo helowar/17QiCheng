@@ -67,6 +67,10 @@ public class UserEventArgs extends StatusEventArgs {
         this.resultLabelTypes = resultLabelTypes;
     }
 
+    public void setResult(User result) {
+        this.result = result;
+    }
+
     public List<User> getUserList() {
         return userList;
     }

@@ -25,6 +25,23 @@ public class QichengHXSDKModel extends DefaultHXSDKModel {
         super(ctx);
     }
 
+    @Override
+    public boolean getSettingMsgSound() {
+        return true;
+    }
+
+    @Override
+    public boolean getSettingMsgVibrate() {
+        return true;
+    }
+
+
+
+    @Override
+    public boolean getSettingMsgNotification(){
+        return true;
+    }
+
     // demo will use HuanXin roster
     public boolean getUseHXRoster() {
         // TODO Auto-generated method stub

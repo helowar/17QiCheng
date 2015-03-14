@@ -5,7 +5,8 @@
   ~ accordance with the terms of the license agreement you entered into with QiCheng.
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qicheng.business.ui.AlbumActivity">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.qicheng.business.ui.UserSettingActivity">
 
 </menu>

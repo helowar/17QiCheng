@@ -221,6 +221,8 @@ public abstract class HXSDKHelper {
         options.setRequireDeliveryAck(hxModel.getRequireDeliveryAck());
         // 设置notification消息点击时，跳转的intent为自定义的intent
         options.setOnNotificationClickListener(getNotificationClickListener());
+        options.setNotificationEnable(true);
+        options.setShowNotificationInBackgroud(true);
         options.setNotifyText(getMessageNotifyListener());
     }
     
