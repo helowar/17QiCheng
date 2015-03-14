@@ -14,14 +14,22 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EasyUtils;
 import com.qicheng.R;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.business.ui.MainActivity;
+import com.qicheng.business.ui.UserInfoActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
+import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.component.Loading;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
+
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 
 public class BaseActivity extends Activity {
@@ -187,4 +195,27 @@ public class BaseActivity extends Activity {
         notificationManager.cancel(notifiId);
     }
 
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId    用户ID
+     * @param userLogic 用户业务逻辑对象
+     */
+    public void startUserInfoActivity(String userId, UserLogic userLogic) {
+        userLogic.getUserDetail(userId, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
+    }
 }

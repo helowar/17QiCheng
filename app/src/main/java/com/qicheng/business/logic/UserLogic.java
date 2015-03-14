@@ -5,10 +5,11 @@ import android.graphics.Bitmap;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
-import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
+import com.qicheng.business.protocol.GetUserDetailProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
@@ -19,7 +20,6 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.logic.BaseLogic;
-import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
@@ -302,6 +302,25 @@ public class UserLogic extends BaseLogic {
         });
     }
 
-
-
+    /**
+     * 获取用户详细信息。
+     *
+     * @param userId   用户ID
+     * @param listener 查询结果事件监听器
+     */
+    public void getUserDetail(String userId, final EventListener listener) {
+        final GetUserDetailProcess process = new GetUserDetailProcess();
+        process.setUserId(userId);
+        process.run("getUserDetail", new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取用户详细信息结果码为：" + errCode);
+                UserDetailEventArgs userEventArgs = new UserDetailEventArgs(process.getUserDetail(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
 }

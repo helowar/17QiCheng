@@ -131,6 +131,11 @@ public class Const {
         public static final String HX_USER_NICK_NAME = "nickName";
 
         public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
+
+        /**
+         * 迁移到用户详细信息页面的用户详细信息Key
+         */
+        public static final String USER_DETAIL_KEY = "com.qicheng.business.module.UserDetail";
     }
 
     public static class DefaultValue {
@@ -165,7 +170,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;

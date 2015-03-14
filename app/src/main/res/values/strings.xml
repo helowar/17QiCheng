@@ -5,7 +5,6 @@
     <string name="txt_confirm">确定</string>
     <string name="txt_cancel">取消</string>
     <string name="txt_delete">删除</string>
-    <string name="title_activity_usr_info">我的</string>
     <string name="network_unavailable">网络连接不可用，请检查网络</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_login">登录</string>
@@ -51,6 +50,7 @@
     <string name="please_select_station_text">请选择车站</string>
     <string name="selected_station_text">您选择的车站为：</string>
     <string name="have_no_station_text">您选择的城市没有车站</string>
+    <string name="age_text">25岁</string>
 
     <!-- Login Activity begin -->
     <string name="pwd_text">密码</string>
@@ -61,6 +61,7 @@
     <string name="phone_number_not_exist_err_msg">该手机未注册</string>
     <string name="user_invalid_err_msg">抱歉，该用户名已不可用</string>
     <!-- Login Activity end -->
+
     <!-- Register Activity begin -->
     <string name="title_activity_register">注册</string>
     <string name="cell_num_already_exist_err_msg">手机号码已存在</string>
@@ -91,7 +92,6 @@
     <string name="portrait_set_warning">未设置头像</string>
     <!-- Register Activity end -->
 
-
     <!-- Trip Activity begin -->
     <string name="add_trip_text">添加行程</string>
     <string name="train_pick_activity_title">设置车次</string>
@@ -107,7 +107,6 @@
     <string name="no_such_train_err">车次不存在，请确认后再次输入</string>
     <string name="station_no_select_err">请选择出发和达到车站</string>
     <!-- Trip Activity end -->
-
 
     <!-- Chat Activity begin -->
     <string name="button_pushtotalk">按住说话</string>
@@ -184,7 +183,6 @@
     <string name="Making_sure_your_location">正在确定你的位置...</string>
     <!-- Baidu map Activity end -->
 
-
     <!-- Traveller Activity begin -->
     <string name="traveller_activity_title">同路人</string>
     <string name="traveller_recommend_text">推荐</string>
@@ -205,7 +203,6 @@
     <string name="select_setting">筛选设置</string>
     <string name="account_setting">账户设置</string>
     <!-- TopMenuFragment fragment end -->
-
 
     <!-- LabelModifyActivity fragment begin -->
     <string name="title_activity_label_modify">我的标签</string>
@@ -268,10 +265,24 @@
     <string name="activity_station_dialog_title">请选择车站</string>
     <!-- ActivityFragment end -->
 
-    <!-- UserQueryActivity begin -->
-    <string name="user_query_activity_title">查询用户</string>
-    <string name="title_activity_original_picture">OriginalPictureActivity</string>
-    <!-- UserQueryActivity end -->
+    <!-- UserInfoActivity begin -->
+    <string name="user_info_activity_title">会员详情</string>
+    <string name="user_info_nickname_text">昵称昵称昵称昵称昵称</string>
+    <string name="user_info_sender_text">给TA发消息</string>
+    <string name="user_info_tag_text">标签</string>
+    <string name="user_info_photo_text">相册</string>
+    <string name="user_info_activity_text">TA的动态</string>
+    <string name="user_info_activity_number">(0)</string>
+    <string name="user_info_residence_text">所在地：</string>
+    <string name="user_info_hometown_text">家乡：</string>
+    <string name="user_info_education_text">学历：</string>
+    <string name="user_info_industry_text">从事行业：</string>
+    <string name="user_info_blank_text"></string>
+    <!-- UserInfoActivity end -->
+
+    <!-- OriginalPictureActivity begin -->
+    <string name="original_picture_activity_title">原始图片</string>
+    <!-- OriginalPictureActivity end -->
 
     <!--ActionBar Title -->
     <string name="actionbar_title_label">标签</string>
@@ -279,7 +290,6 @@
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
     <string name="actionbar_title_modify_personal_information">个人信息</string>
-
 
     <!-- personal information activity begin -->
     <string name="personal_portrait_text">头像</string>
@@ -292,7 +302,6 @@
     <string name="personal_vocation_text">行业</string>
     <string name="personal_cell_text">手机号码</string>
     <string name="title_activity_album">AlbumActivity</string>
-
-    <!-- TopMenuFragment fragment end -->
+    <!-- personal information activity end -->
 
 </resources>

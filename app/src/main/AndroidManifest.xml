@@ -72,7 +72,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".business.ui.UserInfoActivity"
-            android:label="@string/title_activity_usr_info" />
+            android:label="@string/user_info_activity_title"
+            android:logo="@drawable/ic_user" />
         <activity
             android:name=".business.ui.LoginActivity"
             android:label="@string/title_activity_login"
@@ -181,11 +182,6 @@
             android:label="@string/traveller_activity_title"
             android:logo="@drawable/ic_user" >
         </activity>
-        <activity
-            android:name=".business.ui.UserQueryActivity"
-            android:label="@string/user_query_activity_title"
-            android:logo="@drawable/ic_user" >
-        </activity>
         <!-- activity config end -->
         <!-- 开机自启动服务 -->
         <receiver android:name="com.easemob.chat.StartServiceReceiver" >
@@ -217,7 +213,7 @@
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"
-            android:label="@string/title_activity_original_picture" />
+            android:label="@string/original_picture_activity_title" />
         <activity
             android:name=".business.ui.LabelModifyActivity"
             android:label="@string/actionbar_title_label_modify"
