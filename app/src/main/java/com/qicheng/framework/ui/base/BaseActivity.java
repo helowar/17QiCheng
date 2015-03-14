@@ -16,6 +16,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EasyUtils;
 import com.qicheng.R;
+import com.qicheng.business.ui.ChatActivity;
 import com.qicheng.business.ui.MainActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
 import com.qicheng.framework.event.EventId;
@@ -179,7 +180,7 @@ public class BaseActivity extends Activity {
 
         //必须设置pendingintent，否则在2.3的机器上会有bug
         //TODO 需修改成跳转至ChatActivity
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notifiId, intent, PendingIntent.FLAG_ONE_SHOT);
         mBuilder.setContentIntent(pendingIntent);

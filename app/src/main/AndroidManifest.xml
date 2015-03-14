@@ -223,7 +223,7 @@
         <!-- 百度定位SDK配置项 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="hzs4mPQSEt4liOG9xVb2esgO" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"

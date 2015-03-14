@@ -15,11 +15,16 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
+import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.ChatActivity;
 import com.qicheng.business.ui.MainActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
 import com.qicheng.business.ui.chat.utils.Constant;
+import com.qicheng.framework.util.StringUtil;
+import com.qicheng.util.Const;
 
 import java.util.Map;
 
@@ -51,13 +56,19 @@ public class QichengHXSDKHelper extends HXSDKHelper {
                 String ticker = CommonUtils.getMessageDigest(message, appContext);
                 if(message.getType() == EMMessage.Type.TXT)
                     ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
-                return message.getFrom() + ": " + ticker;
+                String fromer = message.getFrom();
+                try{
+                   fromer = message.getStringAttribute(Const.Easemob.FROM_USER_NICK);
+
+                }catch (Exception e){
+
+                }
+                return fromer + ": " + ticker;
             }
 
             @Override
             public String onLatestMessageNotify(EMMessage message, int fromUsersNum, int messageNum) {
-//                return null;
-                return fromUsersNum + "个基友，发来了" + messageNum + "条消息";
+                return fromUsersNum + "位启友，发来了" + messageNum + "条消息";
             }
 
             @Override
@@ -80,16 +91,23 @@ public class QichengHXSDKHelper extends HXSDKHelper {
 
             @Override
             public Intent onNotificationClick(EMMessage message) {
-                Intent intent = new Intent(appContext, ChatActivity.class);
-                EMMessage.ChatType chatType = message.getChatType();
-                if (chatType == EMMessage.ChatType.Chat) { // 单聊信息
-                    intent.putExtra("userId", message.getFrom());
-                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
-                } else { // 群聊信息
-                    // message.getTo()为群聊id
-                    intent.putExtra("groupId", message.getTo());
-                    intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
-                }
+                Intent intent = new Intent(appContext, MainActivity.class);
+                intent.putExtra(Const.Intent.HX_NTF_TO_MAIN,true);
+//                EMMessage.ChatType chatType = message.getChatType();
+//                if (chatType == EMMessage.ChatType.Chat) { // 单聊信息
+//                    intent.putExtra(Const.Intent.HX_USER_ID, message.getFrom());
+//                    intent.putExtra("chatType", ChatActivity.CHATTYPE_SINGLE);
+//                    try {
+//                        intent.putExtra(Const.Intent.HX_USER_NICK_NAME, message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
+//                        intent.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, message.getStringAttribute(Const.Easemob.FROM_USER_AVATAR));
+//                    }catch (Exception e){
+//
+//                    }
+//                } else { // 群聊信息
+//                    // message.getTo()为群聊id
+//                    intent.putExtra("groupId", message.getTo());
+//                    intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+//                }
                 return intent;
             }
         };
@@ -97,12 +115,12 @@ public class QichengHXSDKHelper extends HXSDKHelper {
 
     @Override
     protected void onConnectionConflict(){
-        Intent intent = new Intent(appContext, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("conflict", true);
-        appContext.startActivity(intent);
+//        Intent intent = new Intent(appContext, MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra("conflict", true);
+//        appContext.startActivity(intent);
+        ((UserLogic)LogicFactory.self().get(LogicFactory.Type.User)).loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
     }
-
     @Override
     protected void onCurrentAccountRemoved(){
         Intent intent = new Intent(appContext, MainActivity.class);

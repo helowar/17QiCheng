@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity {
         messageBadge.setHideOnNull(true);
         messageBadge.setBadgeMargin(4);
         messageBadge.setTargetView(messageRb);
-        messageBadge.setBadgeCount(100);
+        messageBadge.setBadgeCount(0);
         ticketBadge = new BadgeView(getActivity());
         ticketBadge.setHideOnNull(true);
         ticketBadge.setBadgeMargin(4);
@@ -158,7 +158,19 @@ public class MainActivity extends BaseActivity {
         socialRb.setOnClickListener(checkedListener);
         messageRb.setOnClickListener(checkedListener);
         ticketRb.setOnClickListener(checkedListener);
+        fromChatNotification();
+    }
 
+    private void fromChatNotification(){
+        Intent i = getIntent();
+        if(i.getBooleanExtra(Const.Intent.HX_NTF_TO_MAIN,false)){
+            tripRb.setChecked(false);
+            actyRb.setChecked(false);
+            socialRb.setChecked(false);
+            messageRb.setChecked(true);
+            ticketRb.setChecked(false);
+            onCheckedChanged(messageRb.getId());
+        }
     }
 
 

@@ -138,6 +138,8 @@ public class Const {
         public static final String HX_USER_NICK_NAME = "nickName";
 
         public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
+
+        public static final String HX_NTF_TO_MAIN = "goMessage";
     }
 
     public static class DefaultValue {
