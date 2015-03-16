@@ -56,13 +56,7 @@ public class QichengHXSDKHelper extends HXSDKHelper {
                 String ticker = CommonUtils.getMessageDigest(message, appContext);
                 if(message.getType() == EMMessage.Type.TXT)
                     ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
-                String fromer = message.getFrom();
-                try{
-                   fromer = message.getStringAttribute(Const.Easemob.FROM_USER_NICK);
-
-                }catch (Exception e){
-
-                }
+                String fromer = message.getStringAttribute(Const.Easemob.FROM_USER_NICK,message.getFrom());
                 return fromer + ": " + ticker;
             }
 

@@ -220,6 +220,7 @@ public class MessageFragment extends BaseFragment {
         Hashtable<String, EMConversation> conversations = EMChatManager.getInstance().getAllConversations();
         List<EMConversation> list = new ArrayList<EMConversation>();
         // 过滤掉messages seize为0的conversation
+        EMChatManager.getInstance().loadAllConversations();
         for (EMConversation conversation : conversations.values()) {
             if (conversation.getAllMessages().size() != 0)
                 list.add(conversation);

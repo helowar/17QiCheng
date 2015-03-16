@@ -560,11 +560,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             btnContainer.setVisibility(View.VISIBLE);
             emojiIconContainer.setVisibility(View.GONE);
             more.setVisibility(View.GONE);
-
-        } else if (id == R.id.btn_video) {
-            // 点击摄像图标
-            Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
+//        } else if (id == R.id.btn_video) {
+//            // 点击摄像图标
+//            Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
+//            startActivityForResult(intent, REQUEST_CODE_SELECT_VIDEO);
 //        } else if (id == R.id.btn_file) { // 点击文件图标
 //            selectFileFromLocal();
 //        } else if (id == R.id.btn_voice_call) { // 点击语音电话图标
@@ -945,11 +944,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 //                username = message.getTo();
 //            }
             if (!username.equals(toChatUsername)) {
-                try {
-                    notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
-                }catch (Exception e){
-                    notifyNewMessage(message,username);
-                }
+                    notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK,username));
                 return;
             }
             // conversation =

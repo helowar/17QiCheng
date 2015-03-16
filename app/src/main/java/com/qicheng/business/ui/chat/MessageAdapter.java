@@ -53,6 +53,7 @@ import com.easemob.chat.VoiceMessageBody;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
+import com.qicheng.business.ui.UserInfoActivity;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.util.Const;
@@ -427,21 +428,27 @@ public class MessageAdapter extends BaseAdapter{
 
 		} else {
             ImageManager.displayPortrait(chatToUserAvatar,holder.head_iv);
-			final String st = context.getResources().getString(R.string.Into_the_blacklist);
-			// 长按头像，移入黑名单
-            //TODO 需修改为菜单方式，点击头像进入用户信息页面
-			holder.head_iv.setOnLongClickListener(new OnLongClickListener() {
-
-				@Override
-				public boolean onLongClick(View v) {
-					Intent intent = new Intent(activity, AlertDialog.class);
-					intent.putExtra("msg", st);
-					intent.putExtra("cancel", true);
-					intent.putExtra("position", position);
-					activity.startActivityForResult(intent, ChatActivity.REQUEST_CODE_ADD_TO_BLACKLIST);
-					return true;
-				}
-			});
+//			final String st = context.getResources().getString(R.string.Into_the_blacklist);
+//			// 长按头像，移入黑名单
+//            //TODO 需修改为菜单方式，点击头像进入用户信息页面
+//			holder.head_iv.setOnLongClickListener(new OnLongClickListener() {
+//
+//				@Override
+//				public boolean onLongClick(View v) {
+//					Intent intent = new Intent(activity, AlertDialog.class);
+//					intent.putExtra("msg", st);
+//					intent.putExtra("cancel", true);
+//					intent.putExtra("position", position);
+//					activity.startActivityForResult(intent, ChatActivity.REQUEST_CODE_ADD_TO_BLACKLIST);
+//					return true;
+//				}
+//			});
+            holder.head_iv.setOnClickListener(new OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, UserInfoActivity.class);
+                }
+            });
 		}
 
 		TextView timestamp = (TextView) convertView.findViewById(R.id.timestamp);
