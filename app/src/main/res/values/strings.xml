@@ -280,7 +280,14 @@
     <string name="title_activity_trip_to_dyn">动态</string>
     <string name="actionbar_title_modify_personal_information">个人信息</string>
     <string name="title_activity_user_setting">用户设置</string>
-
+    <string name="title_activity_user_information_modify">用户信息更改</string>
+    <string name="title_activity_user_nickname_modify">更新昵称</string>
+    <string name="title_activity_user_birthday_modify">更新生日</string>
+    <string name="title_activity_user_portrait_modify">更新头像</string>
+    <string name="title_activity_user_residence_modify">更新居住地</string>
+    <string name="title_activity_user_hometown_modify">更新家乡</string>
+    <string name="title_activity_user_education_modify">更新学历</string>
+    <string name="title_activity_user_industry_modify">更新行业</string>
 
 
     <!-- personal information activity begin -->
@@ -288,10 +295,10 @@
     <string name="personal_nickname_text">昵称</string>
     <string name="personal_gender_text">性别</string>
     <string name="personal_birthday_text">出生日期</string>
-    <string name="personal_local_text">居住地</string>
+    <string name="personal_residence_text">居住地</string>
     <string name="personal_home_text">家乡</string>
     <string name="personal_education_text">学历</string>
-    <string name="personal_vocation_text">行业</string>
+    <string name="personal_industry_text">行业</string>
     <string name="personal_cell_text">手机号码</string>
     <string name="title_activity_album">相册</string>
     <!-- TopMenuFragment fragment end -->
@@ -305,6 +312,7 @@
     <string name="pic_upload_fail">动态图片上传失败</string>
     <string name="no_trip">请先添加行程</string>
     <string name="add_pic">添加动态图片</string>
+
 
     <!--DynPublishActivity end-->
 

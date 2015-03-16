@@ -4,25 +4,21 @@ import android.graphics.Bitmap;
 
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMContactManager;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
-import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
-import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.SetUserInfoProcess;
+import com.qicheng.business.protocol.UpdateUserInformationProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
-import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.logic.BaseLogic;
-import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
@@ -33,8 +29,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -86,7 +80,7 @@ public class UserLogic extends BaseLogic {
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
                     user.setUserImId(process.getResultUser().getUserImId());
-                    loginHX(user.getUserImId(),StringUtil.MD5(password));
+                    loginHX(user.getUserImId(), StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -97,12 +91,12 @@ public class UserLogic extends BaseLogic {
 
     }
 
-    public void loginHX(final String userName,String password){
+    public void loginHX(final String userName, String password) {
         EMChatManager.getInstance().login(userName, password, new EMCallBack() {
 
             @Override
             public void onSuccess() {
-                logger.d(userName+" login huanxin success!");
+                logger.d(userName + " login huanxin success!");
             }
 
             @Override
@@ -112,21 +106,21 @@ public class UserLogic extends BaseLogic {
 
             @Override
             public void onError(int code, String message) {
-                logger.d(userName+" login huanxin error,errorCode="+code+"message:"+message);
+                logger.d(userName + " login huanxin error,errorCode=" + code + "message:" + message);
             }
         });
     }
 
-    public void loginWithCache(final EventListener listener){
+    public void loginWithCache(final EventListener listener) {
         User cachedUser = Cache.getInstance().getUser();
-        if(cachedUser == null||StringUtil.isEmpty(Cache.getInstance().getPublicKey())){
+        if (cachedUser == null || StringUtil.isEmpty(Cache.getInstance().getPublicKey())) {
             OperErrorCode errorCode = OperErrorCode.NotLogin;
-            fireStatusEvent(listener,errorCode);
+            fireStatusEvent(listener, errorCode);
             return;
         }
-        if(StringUtil.isEmpty(cachedUser.getUserId())||StringUtil.isEmpty(cachedUser.getPassWord())){
+        if (StringUtil.isEmpty(cachedUser.getUserId()) || StringUtil.isEmpty(cachedUser.getPassWord())) {
             OperErrorCode errorCode = OperErrorCode.NotLogin;
-            fireStatusEvent(listener,errorCode);
+            fireStatusEvent(listener, errorCode);
             return;
         }
         //登录所用的数据
@@ -150,7 +144,7 @@ public class UserLogic extends BaseLogic {
                     user.setUserImId(process.getResultUser().getUserImId());
                     user.setBirthday(process.getResultUser().getBirthday());
                     user.setGender(process.getResultUser().getGender());
-                    loginHX(user.getUserImId(),StringUtil.MD5(user.getPassWord()));
+                    loginHX(user.getUserImId(), StringUtil.MD5(user.getPassWord()));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -162,18 +156,17 @@ public class UserLogic extends BaseLogic {
 
     /**
      * 在注册时初次设置用户基本信息
-     *
      */
-    public void initUserInfo(final User param,final UIEventListener listener){
+    public void initUserInfo(final User param, final UIEventListener listener) {
         final SetUserInfoProcess process = new SetUserInfoProcess();
         process.setParamUser(param);
         process.run(new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
-                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 UserEventArgs userEventArgs = new UserEventArgs(errCode);
-                if(errCode==OperErrorCode.Success){
+                if (errCode == OperErrorCode.Success) {
                     userEventArgs.setResultLabelTypes(process.getLabelTypes());
                 }
                 fireEvent(listener, userEventArgs);
@@ -182,9 +175,6 @@ public class UserLogic extends BaseLogic {
 
 
     }
-
-
-
 
 
     /**
@@ -269,48 +259,66 @@ public class UserLogic extends BaseLogic {
 
     /**
      * 保存用户头像文件
+     *
      * @param photo
      * @param listener
      */
-    public void saveUserPortrait(Bitmap photo,final EventListener listener){
+    public void saveUserPortrait(Bitmap photo, final EventListener listener) {
         File dir = new File(Const.WorkDir);
-        if(!dir.exists() || !dir.isDirectory()) {
+        if (!dir.exists() || !dir.isDirectory()) {
             dir.mkdirs();
         }
-        final File myCaptureFile = new File( dir+UUID.randomUUID().toString() + ".jpg");
+        final File myCaptureFile = new File(dir + UUID.randomUUID().toString() + ".jpg");
         OperErrorCode errCode = null;
-        try{
+        try {
             BufferedOutputStream bos = new BufferedOutputStream(
                     new FileOutputStream(myCaptureFile));
             photo.compress(Bitmap.CompressFormat.JPEG, 80, bos);
             bos.flush();
             bos.close();
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             errCode = OperErrorCode.FileUpLoadFailed;
             fireStatusEvent(listener, errCode);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             errCode = OperErrorCode.FileUpLoadFailed;
             fireStatusEvent(listener, errCode);
         }
         final ImageUploadProcess process = new ImageUploadProcess();
-        process.run(null,ImageUploadProcess.USAGE_PORTRAIT,myCaptureFile,new ResponseListener() {
+        process.run(null, ImageUploadProcess.USAGE_PORTRAIT, myCaptureFile, new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
-                OperErrorCode errCode= ProcessStatus.convertFromStatus(process.getStatus());
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 User resultUser = new User();
 
-                UserEventArgs userEventArgs = new UserEventArgs(resultUser,errCode);
-                if(errCode==OperErrorCode.Success){
-                   resultUser.setPortraitURL(process.getResultUrl());
+                UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
+                if (errCode == OperErrorCode.Success) {
+                    resultUser.setPortraitURL(process.getResultUrl());
                 }
                 fireEvent(listener, userEventArgs);
             }
         });
     }
 
+    /**
+     * 更新用户信息接口
+     *
+     * @param updateType
+     * @param updateValue
+     */
+    public void updateUserInformation(int updateType, String updateValue, final EventListener listener) {
+        final UpdateUserInformationProcess process = new UpdateUserInformationProcess();
+        process.setUpdateType(updateType);
+        process.setUpdateValue(updateValue);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                UserEventArgs userEventArgs = new UserEventArgs(errCode);
+                fireEvent(listener, userEventArgs);
+            }
+        });
 
+    }
 
 }

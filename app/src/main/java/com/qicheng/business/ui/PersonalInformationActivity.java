@@ -3,20 +3,19 @@ package com.qicheng.business.ui;
 import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
 
 public class PersonalInformationActivity extends BaseActivity {
- private UserInformationModifyFragment userInformationModifyFragment;
+ private UserInformationFragment userInformationModifyFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getActionBar();
         setContentView(R.layout.activity_personal_information);
-        userInformationModifyFragment = new UserInformationModifyFragment();
+        userInformationModifyFragment = new UserInformationFragment();
         getFragmentManager().beginTransaction().add(R.id.userInformation, userInformationModifyFragment).commit();
     }
 

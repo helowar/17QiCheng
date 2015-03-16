@@ -78,11 +78,11 @@ public class UserSettingFragment extends BaseFragment {
         addSeparation(inflater);
 
         /*行业*/
-        initViewItem(inflater, R.string.personal_vocation_text, "计算机");
+        initViewItem(inflater, R.string.personal_industry_text, "计算机");
         /*学历*/
         initViewItem(inflater, R.string.personal_education_text, "本科");
         /*所在地*/
-        initViewItem(inflater, R.string.personal_local_text, "杭州");
+        initViewItem(inflater, R.string.personal_residence_text, "杭州");
         /*家乡*/
         initViewItem(inflater, R.string.personal_home_text, "杭州");
         /*添加分割段*/

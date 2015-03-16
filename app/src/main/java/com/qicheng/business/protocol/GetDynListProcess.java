@@ -68,6 +68,11 @@ public class GetDynListProcess extends BaseProcess {
                         logger.e("组装传入搜索我的动态参数成功");
                         logger.d(o.toString());
                         break;
+                    case 12:
+                        spliceParameter(o);
+                        logger.e("组装传入搜索我的动态参数成功");
+                        logger.d(o.toString());
+                        break;
                         //....
                     default:
                         o.put("order_by", dynSearch.getOrderBy());

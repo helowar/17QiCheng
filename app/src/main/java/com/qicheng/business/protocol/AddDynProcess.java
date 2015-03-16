@@ -61,6 +61,7 @@ public class AddDynProcess extends BaseProcess {
             return o.toString();
         } catch (Exception e) {
             logger.e("组装传入添加动态参数异常");
+            e.printStackTrace();
         }
         return null;
     }
@@ -78,6 +79,7 @@ public class AddDynProcess extends BaseProcess {
             setProcessStatus(value);
         } catch (Exception e) {
             logger.e("动态添加失败");
+            e.printStackTrace();
         }
     }
 
