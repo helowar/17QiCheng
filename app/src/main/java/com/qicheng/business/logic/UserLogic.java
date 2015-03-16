@@ -322,7 +322,7 @@ public class UserLogic extends BaseLogic {
                 UserEventArgs userEventArgs = new UserEventArgs(errCode);
                 fireEvent(listener, userEventArgs);
             }
-        });
+        });}
     /**
      * 获取用户详细信息。
      *
@@ -345,7 +345,7 @@ public class UserLogic extends BaseLogic {
         });
     }
 
-    }
+
 
     /**
      * 获取用户照片一览信息。

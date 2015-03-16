@@ -68,7 +68,7 @@ public class GetDynListProcess extends BaseProcess {
                         logger.e("组装传入搜索我的动态参数成功");
                         logger.d(o.toString());
                         break;
-                    case 12:
+                    case Const.QUERY_TYPE_USER:
                         spliceParameter(o);
                         logger.e("组装传入搜索我的动态参数成功");
                         logger.d(o.toString());
