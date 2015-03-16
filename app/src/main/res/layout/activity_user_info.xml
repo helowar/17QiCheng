@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/double_gap">
+        android:padding="@dimen/common_gap">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_info_portrait_image_view"
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/layout_margin_30dp"
                     android:layout_marginTop="@dimen/layout_margin_6dp"
-                    android:background="@drawable/user_info_sender_btn_circle"
+                    android:background="@drawable/bg_user_info_sender_btn"
                     android:gravity="center"
                     android:padding="@dimen/common_gap"
                     android:text="@string/user_info_sender_text"
@@ -160,7 +160,8 @@
         android:id="@+id/user_info_activity_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/tab_selector_menu">
 
         <TextView
             android:id="@+id/user_info_activity_label_text_view"

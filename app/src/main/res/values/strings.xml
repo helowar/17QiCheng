@@ -50,7 +50,9 @@
     <string name="please_select_station_text">请选择车站</string>
     <string name="selected_station_text">您选择的车站为：</string>
     <string name="have_no_station_text">您选择的城市没有车站</string>
-    <string name="age_text">25岁</string>
+    <string name="age_text">岁</string>
+    <string name="secret_text">保密</string>
+    <string name="someone_activity_text">的动态</string>
 
     <!-- Login Activity begin -->
     <string name="pwd_text">密码</string>
@@ -267,7 +269,7 @@
 
     <!-- UserInfoActivity begin -->
     <string name="user_info_activity_title">会员详情</string>
-    <string name="user_info_nickname_text">昵称昵称昵称昵称昵称</string>
+    <string name="user_info_nickname_text">昵称</string>
     <string name="user_info_sender_text">给TA发消息</string>
     <string name="user_info_tag_text">标签</string>
     <string name="user_info_photo_text">相册</string>

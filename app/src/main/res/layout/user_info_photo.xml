@@ -13,6 +13,8 @@
         android:id="@+id/user_info_photo_image_view"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/half_gap"
+        android:layout_marginRight="@dimen/half_gap"
         android:gravity="center"
         android:scaleType="centerCrop" />
 </LinearLayout>

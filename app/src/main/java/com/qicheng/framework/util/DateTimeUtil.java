@@ -106,26 +106,34 @@ public class DateTimeUtil {
         }
     }
 
+    /**
+     * 计算年龄
+     *
+     * @param birthday 生日字符串（yyyy-MM-dd）
+     * @return 年龄
+     */
+    public static String getAge(String birthday) {
+        return getAge(parseByyyyyMMdd10(birthday));
+    }
 
     /**
      * 计算年龄
      *
-     * @param birthDay
-     * @return
-     * @throws Exception
+     * @param birthday 生日日期对象
+     * @return 年龄
      */
-    public static String getAge(Date birthDay) {
+    public static String getAge(Date birthday) {
         Calendar cal = Calendar.getInstance();
         /*判断生日是否有效*/
-        if (cal.before(birthDay)) {
+        if (cal.before(birthday)) {
             return null;
         }
         /*获取现在的年月日*/
         int yearNow = cal.get(Calendar.YEAR);
-        int monthNow = cal.get(Calendar.MONTH) + 1;
+        int monthNow = cal.get(Calendar.MONTH);
         int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
         /*获取生日的年月日*/
-        cal.setTime(birthDay);
+        cal.setTime(birthday);
         int yearBirth = cal.get(Calendar.YEAR);
         int monthBirth = cal.get(Calendar.MONTH);
         int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
@@ -136,14 +144,12 @@ public class DateTimeUtil {
                     age--;
                 }
             } else {
-                //monthNow>monthBirth
+                // monthNow < monthBirth
                 age--;
             }
         }
-
-        return age + "";
+        return String.valueOf(age);
     }
-
 
     /**
      * 以参数format日期格式，格式化日期对象。

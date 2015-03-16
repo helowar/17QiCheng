@@ -8,6 +8,7 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,7 +23,9 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
+import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
@@ -33,6 +36,9 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.StringUtil;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -163,7 +169,7 @@ public class UserInfoActivity extends BaseActivity {
         educationTextView = (TextView) findViewById(R.id.user_info_education_text_view);
         industryTextView = (TextView) findViewById(R.id.user_info_industry_text_view);
         // 获取用户详细信息对象
-        UserDetail userDetail = (UserDetail) getIntent().getExtras().getSerializable(USER_DETAIL_KEY);
+        final UserDetail userDetail = (UserDetail) getIntent().getExtras().getSerializable(USER_DETAIL_KEY);
         userId = userDetail.getUserId();
         ImageManager.displayPortrait(userDetail.getPortraitUrl(), portraitImageView);
         nicknameTextView.setText(userDetail.getNickname());
@@ -172,6 +178,20 @@ public class UserInfoActivity extends BaseActivity {
         } else {
             genderImageView.setImageResource(R.drawable.ic_female);
         }
+        setAge(ageTextView, userDetail.getBirthday());
+        senderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (userDetail.getUserIMId().equals(Cache.getInstance().getUser().getUserImId())) {
+                    return;
+                }
+                Intent i = new Intent(getActivity(), ChatActivity.class);
+                i.putExtra(Const.Intent.HX_USER_ID, userDetail.getUserIMId());
+                i.putExtra(Const.Intent.HX_USER_NICK_NAME, userDetail.getNickname());
+                i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, userDetail.getPortraitUrl());
+                startActivity(i);
+            }
+        });
         List<String> tags = userDetail.getTags();
         if (tags != null && tags.size() > 0) {
             for (String tagName : tags) {
@@ -187,11 +207,22 @@ public class UserInfoActivity extends BaseActivity {
                 photoLayout.addView(createPhotoView(photo));
             }
         }
+        activityNumLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ToDynActivity.class);
+                intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_USER);
+                intent.putExtra(Const.Intent.DYN_QUERY_VALUE, userId);
+                intent.putExtra(Const.Intent.DYN_QUERY_NAME, userDetail.getNickname() + getResources().getString(R.string.someone_activity_text));
+                startActivity(intent);
+            }
+        });
         activityNumTextView.setText("(" + userDetail.getActivityNum() + ")");
         residenceTextView.setText(userDetail.getResidence());
         hometownTextView.setText(userDetail.getHometown());
         educationTextView.setText(userDetail.getEducation());
         industryTextView.setText(userDetail.getIndustry());
+        userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
     }
 
     @Override
@@ -297,11 +328,19 @@ public class UserInfoActivity extends BaseActivity {
      * @param photo 用户照片
      * @return 用户照片View对象
      */
-    private View createPhotoView(Photo photo) {
+    private View createPhotoView(final Photo photo) {
         // 创建用户照片View
         View userPhotoView = getLayoutInflater().inflate(R.layout.user_info_photo, null);
         ImageView photoView = (ImageView) userPhotoView.findViewById(R.id.user_info_photo_image_view);
         ImageManager.displayPortrait(photo.getThumbnailUrl(), photoView);
+        userPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
+                intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
+                startActivity(intent);
+            }
+        });
         return userPhotoView;
     }
 }

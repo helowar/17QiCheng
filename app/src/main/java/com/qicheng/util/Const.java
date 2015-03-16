@@ -139,12 +139,18 @@ public class Const {
 
         public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
 
+        public static final String HX_NTF_TO_MAIN = "goMessage";
+
         /**
          * 迁移到用户详细信息页面的用户详细信息Key
          */
         public static final String USER_DETAIL_KEY = "com.qicheng.business.module.UserDetail";
 
-        public static final String HX_NTF_TO_MAIN = "goMessage";
+        /**
+         * 迁移到OriginalPicture页面的图片URLKey
+         */
+        public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
+
     }
 
     public static class DefaultValue {
@@ -179,7 +185,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -392,6 +398,9 @@ public class Const {
 
     /** 查询类型 11：离开城市 */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
+
+    /** 查询类型 12：用户 */
+    public static final byte QUERY_TYPE_USER = 12;
 
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;
