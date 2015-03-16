@@ -14,7 +14,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EasyUtils;
 import com.qicheng.R;
-import com.qicheng.business.ui.ChatActivity;
+import com.qicheng.business.ui.MainActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;

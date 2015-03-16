@@ -406,6 +406,9 @@ public class Const {
     /** 查询类型 11：离开城市 */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
+    /** 查询类型 12：用户 */
+    public static final byte QUERY_TYPE_USER = 12;
+
     /** 查询方向 0：往最新方向查询 */
     public static final byte ORDER_BY_NEWEST = 0;
 
