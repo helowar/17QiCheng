@@ -9,19 +9,19 @@ public class Const {
     /**
      * For 环信
      */
-    public static class Easemob{
+    public static class Easemob {
         public static final String NEW_FRIENDS_USERNAME = "item_new_friends";
         public static final String GROUP_USERNAME = "item_groups";
         public static final String MESSAGE_ATTR_IS_VOICE_CALL = "is_voice_call";
         public static final String MESSAGE_ATTR_IS_VIDEO_CALL = "is_video_call";
         public static final String ACCOUNT_REMOVED = "account_removed";
 
-        public static final String TO_USER_NICK="to_nick_name";
-        public static final String TO_USER_ID="to_im_id";
-        public static final String TO_USER_AVATAR="to_avatar";
-        public static final String FROM_USER_NICK="from_nick_name";
-        public static final String FROM_USER_AVATAR="from_avatar";
-        public static final String FROM_USER_ID="from_im_id";
+        public static final String TO_USER_NICK = "to_nick_name";
+        public static final String TO_USER_ID = "to_im_id";
+        public static final String TO_USER_AVATAR = "to_avatar";
+        public static final String FROM_USER_NICK = "from_nick_name";
+        public static final String FROM_USER_AVATAR = "from_avatar";
+        public static final String FROM_USER_ID = "from_im_id";
     }
 
     /**
@@ -150,6 +150,13 @@ public class Const {
          * 迁移到OriginalPicture页面的图片URLKey
          */
         public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
+
+
+        public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
+        public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
+        public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
+        public static final String UPDATE_USER_INFORMATION_TITLE="update_title";
+
 
     }
 
@@ -378,34 +385,52 @@ public class Const {
     /** 查询类型 4：未上车 */
     public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
-    /** 查询类型 5：上车 */
+    /**
+     * 查询类型 5：上车
+     */
     public static final byte QUERY_TYPE_ON_CAR = 5;
 
-    /** 查询类型 6：下车 */
+    /**
+     * 查询类型 6：下车
+     */
     public static final byte QUERY_TYPE_OFF_CAR = 6;
 
-    /** 查询类型 7：附近 */
+    /**
+     * 查询类型 7：附近
+     */
     public static final byte QUERY_TYPE_NEAR = 7;
 
-    /** 查询类型 8：城市 */
+    /**
+     * 查询类型 8：城市
+     */
     public static final byte QUERY_TYPE_CITY = 8;
 
-    /** 查询类型 9：我的 */
+    /**
+     * 查询类型 9：我的
+     */
     public static final byte QUERY_TYPE_MY = 9;
 
-    /** 查询类型 10：来到城市 */
+    /**
+     * 查询类型 10：来到城市
+     */
     public static final byte QUERY_TYPE_COME_CITY = 10;
 
-    /** 查询类型 11：离开城市 */
+    /**
+     * 查询类型 11：离开城市
+     */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
     /** 查询类型 12：用户 */
     public static final byte QUERY_TYPE_USER = 12;
 
-    /** 查询方向 0：往最新方向查询 */
+    /**
+     * 查询方向 0：往最新方向查询
+     */
     public static final byte ORDER_BY_NEWEST = 0;
 
-    /** 查询方向 1：往最早方向查询 */
+    /**
+     * 查询方向 1：往最早方向查询
+     */
     public static final byte ORDER_BY_EARLIEST = 1;
 
     /**
@@ -418,11 +443,11 @@ public class Const {
      */
     public static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
-    public static final int INDEX_TRIP=1;
-    public static final int INDEX_SOCIAL=2;
-    public static final int INDEX_ACTIVITY=3;
-    public static final int INDEX_MESSAGE=4;
-    public static final int INDEX_VOUCHER=5;
+    public static final int INDEX_TRIP = 1;
+    public static final int INDEX_SOCIAL = 2;
+    public static final int INDEX_ACTIVITY = 3;
+    public static final int INDEX_MESSAGE = 4;
+    public static final int INDEX_VOUCHER = 5;
 
     /**
      * 互动操作 0：赞
@@ -458,5 +483,40 @@ public class Const {
      * 性别 0:女
      */
     public static final byte SEX_FEMALE = 0;
+
+    /**
+     * 更新用户个人信息枚举值
+     */
+    public static class UserUpdateCode {
+        /**
+         * 更新昵称
+         */
+        public static final int UPDATE_NICKNAME = 0;
+        /**
+         * 更新生日
+         */
+        public static final int UPDATE_BIRTHDAY = 1;
+        /**
+         * 更新头像
+         */
+        public static final int UPDATE_PORTRAIT_URL = 2;
+        /**
+         * 更新居住地
+         */
+        public static final int UPDATE_RESIDENCE = 3;
+        /**
+         * 更新家乡
+         */
+        public static final int UPDATE_HOMETOWN = 4;
+        /**
+         * 更新学历
+         */
+        public static final int UPDATE_EDUCATION = 5;
+        /**
+         * 更新行业
+         */
+        public static final int UPDATE_INDUSTRY = 6;
+
+    }
 
 }
