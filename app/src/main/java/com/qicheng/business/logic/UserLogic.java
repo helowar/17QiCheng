@@ -5,9 +5,14 @@ import android.graphics.Bitmap;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
+import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
+import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
+import com.qicheng.business.protocol.GetUserDetailProcess;
+import com.qicheng.business.protocol.GetUserPhotoListProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
@@ -80,7 +85,7 @@ public class UserLogic extends BaseLogic {
                     user.setNickName(process.getResultUser().getNickName());
                     user.setPortraitURL(process.getResultUser().getPortraitURL());
                     user.setUserImId(process.getResultUser().getUserImId());
-                    loginHX(user.getUserImId(), StringUtil.MD5(password));
+                    loginHX(user.getUserImId(),StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -118,7 +123,7 @@ public class UserLogic extends BaseLogic {
             fireStatusEvent(listener, errorCode);
             return;
         }
-        if (StringUtil.isEmpty(cachedUser.getUserId()) || StringUtil.isEmpty(cachedUser.getPassWord())) {
+        if(StringUtil.isEmpty(cachedUser.getUserId())||StringUtil.isEmpty(cachedUser.getPassWord())){
             OperErrorCode errorCode = OperErrorCode.NotLogin;
             fireStatusEvent(listener, errorCode);
             return;
@@ -318,7 +323,52 @@ public class UserLogic extends BaseLogic {
                 fireEvent(listener, userEventArgs);
             }
         });
+    /**
+     * 获取用户详细信息。
+     *
+     * @param userId   用户ID
+     * @param listener 查询结果事件监听器
+     */
+    public void getUserDetail(String userId, final EventListener listener) {
+        final GetUserDetailProcess process = new GetUserDetailProcess();
+        process.setUserId(userId);
+        process.run("getUserDetail", new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取用户详细信息结果码为：" + errCode);
+                UserDetailEventArgs userEventArgs = new UserDetailEventArgs(process.getUserDetail(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
 
     }
 
+    /**
+     * 获取用户照片一览信息。
+     *
+     * @param userId   用户ID
+     * @param orderBy  查询方向 0：往最新方向查询 1：往最早方向查询
+     * @param orderNum 照片的序号
+     * @param size     查询个数
+     * @param listener 查询结果事件监听器
+     */
+    public void getUserPhotoList(String userId, byte orderBy, long orderNum, int size, final EventListener listener) {
+        final GetUserPhotoListProcess process = new GetUserPhotoListProcess();
+        process.setInfoParameter(userId, orderBy, orderNum, size);
+        process.run("getUserPhotoList", new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取用户照片一览信息结果码为：" + errCode);
+                UserPhotoEventArgs userEventArgs = new UserPhotoEventArgs(process.getPhotoList(), errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
 }

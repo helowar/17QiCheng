@@ -73,7 +73,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".business.ui.UserInfoActivity"
-            android:label="@string/title_activity_usr_info"
+            android:label="@string/user_info_activity_title"
+            android:logo="@drawable/ic_user"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.LoginActivity"
@@ -224,11 +225,11 @@
         <!-- 百度定位SDK配置项 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="hzs4mPQSEt4liOG9xVb2esgO" />
+            android:value="3ecea51f560650b1ed8a4b99808f52e8" />
 
         <activity
             android:name=".business.ui.OriginalPictureActivity"
-            android:label="@string/title_activity_original_picture"
+            android:label="@string/original_picture_activity_title"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".business.ui.LabelModifyActivity"

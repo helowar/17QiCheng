@@ -583,7 +583,7 @@ public class ActyFragment extends BaseFragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                        intent.putExtra("imgurl", bean.getFileUrl());
+                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, bean.getFileUrl());
                         startActivity(intent);
                     }
                 });

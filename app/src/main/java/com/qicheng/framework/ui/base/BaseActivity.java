@@ -5,25 +5,34 @@ import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EasyUtils;
 import com.qicheng.R;
-import com.qicheng.business.ui.MainActivity;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
+import com.qicheng.business.module.UserDetail;
+import com.qicheng.business.ui.ChatActivity;
+import com.qicheng.business.ui.UserInfoActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
+import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.component.Loading;
+import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
+
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 
 public class BaseActivity extends Activity {
@@ -179,7 +188,7 @@ public class BaseActivity extends Activity {
 
         //必须设置pendingintent，否则在2.3的机器上会有bug
         //TODO 需修改成跳转至ChatActivity
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ChatActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notifiId, intent, PendingIntent.FLAG_ONE_SHOT);
         mBuilder.setContentIntent(pendingIntent);
@@ -189,5 +198,46 @@ public class BaseActivity extends Activity {
 //        notificationManager.cancel(notifiId);
     }
 
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId    用户ID
+     * @param userLogic 用户业务逻辑对象
+     */
+    public void startUserInfoActivity(String userId, UserLogic userLogic) {
+        userLogic.getUserDetail(userId, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
+    }
 
+    /**
+     * 设置年龄TextView的文本值。
+     *
+     * @param ageTextView 年龄TextView对象
+     * @param birthday    生日字符串（yyyy-MM-dd）
+     */
+    public void setAge(TextView ageTextView, String birthday) {
+        if (StringUtil.isEmpty(birthday)) {
+            ageTextView.setText(R.string.secret_text);
+        } else {
+            String age = DateTimeUtil.getAge(birthday);
+            if (StringUtil.isEmpty(age)) {
+                ageTextView.setText(R.string.secret_text);
+            } else {
+                ageTextView.setText(age + getResources().getString(R.string.age_text));
+            }
+        }
+    }
 }

@@ -31,4 +31,7 @@
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="layout_margin_6dp">6dp</dimen>
     <dimen name="layout_margin_20dp">20dp</dimen>
+    <dimen name="layout_margin_30dp">30dp</dimen>
+    <dimen name="layout_width_25dp">25dp</dimen>
+    <dimen name="layout_height_25dp">25dp</dimen>
 </resources>

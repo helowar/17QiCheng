@@ -139,6 +139,19 @@ public class Const {
 
         public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
 
+        public static final String HX_NTF_TO_MAIN = "goMessage";
+
+        /**
+         * 迁移到用户详细信息页面的用户详细信息Key
+         */
+        public static final String USER_DETAIL_KEY = "com.qicheng.business.module.UserDetail";
+
+        /**
+         * 迁移到OriginalPicture页面的图片URLKey
+         */
+        public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
+
+
         public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
         public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
         public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
@@ -179,7 +192,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -354,34 +367,22 @@ public class Const {
         public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
     }
 
-    /**
-     * 查询类型 -1：全站
-     */
+    /** 查询类型 -1：全站 */
     public static final byte QUERY_TYPE_ALL = -1;
 
-    /**
-     * 查询类型 0：车站
-     */
+    /** 查询类型 0：车站 */
     public static final byte QUERY_TYPE_STATION = 0;
 
-    /**
-     * 查询类型 1：出发车站
-     */
+    /** 查询类型 1：出发车站 */
     public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /**
-     * 查询类型 2：到达车站
-     */
+    /** 查询类型 2：到达车站 */
     public static final byte QUERY_TYPE_END = 2;
 
-    /**
-     * 查询类型 3：车次
-     */
+    /** 查询类型 3：车次 */
     public static final byte QUERY_TYPE_TRAIN = 3;
 
-    /**
-     * 查询类型 4：未上车
-     */
+    /** 查询类型 4：未上车 */
     public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
     /**
@@ -418,6 +419,9 @@ public class Const {
      * 查询类型 11：离开城市
      */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
+
+    /** 查询类型 12：用户 */
+    public static final byte QUERY_TYPE_USER = 12;
 
     /**
      * 查询方向 0：往最新方向查询
