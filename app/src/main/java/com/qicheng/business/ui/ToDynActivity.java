@@ -13,7 +13,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,7 +64,6 @@ public class ToDynActivity extends BaseActivity {
     private DynSearch dynSearch = new DynSearch();
     private static final int ADD_SUCCESS = 0;
 
-    private int deleteIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +145,8 @@ public class ToDynActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_trip_to_dyn, menu);
-        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY) {
+        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY||dynSearch.getQueryType()==Const.QUERY_TYPE_USER) {
             menu.findItem(R.id.activity_add).setVisible(false);
         }
         return true;
@@ -178,7 +175,6 @@ public class ToDynActivity extends BaseActivity {
     /*添加动态完成后，捕获返回值后的操作*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("result", requestCode + " " + resultCode);
         switch (resultCode) {
             case ADD_SUCCESS:
                 dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
@@ -197,7 +193,6 @@ public class ToDynActivity extends BaseActivity {
         dynLogic.getDynList(dynSearchCondition, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                Log.d("..", dynSearchCondition.toString());
                 DynEventAargs dynEventAargs = (DynEventAargs) args;
                 OperErrorCode errCode = dynEventAargs.getErrCode();
                 int orderBy = dynSearchCondition.getOrderBy();
@@ -205,21 +200,7 @@ public class ToDynActivity extends BaseActivity {
                 switch (errCode) {
                     case Success:
                         newData = dynEventAargs.getDynList();
-                        if (type == null) {
-                            refreshSearchList(orderBy);
-                        } else {
-                            switch (type) {
-                                case Const.QUERY_TYPE_MY:
-                                    refreshSearchList(orderBy);
-                                    break;
-                                case Const.QUERY_TYPE_TRAIN:
-                                    refreshSearchList(orderBy);
-                                    break;
-                                case Const.QUERY_TYPE_STATION:
-                                    refreshSearchList(orderBy);
-                                    break;
-                            }
-                        }
+                        refreshSearchList(orderBy);
                         break;
                     case NoDataFound:
                         Alert.Toast(getResources().getString(R.string.activity_noMoreData));
@@ -382,7 +363,7 @@ public class ToDynActivity extends BaseActivity {
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
                 convertView.setTag(holder);
                 if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
-                    holder.delete = (TextView)convertView.findViewById(R.id.activity_delete);
+                    holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
                     holder.delete.setVisibility(View.GONE);
                 } else {
                     holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
@@ -420,14 +401,13 @@ public class ToDynActivity extends BaseActivity {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
-//            holder.photo.setImageURI();
                 ImageManager.displayPortrait(thumbnailUrl, holder.photo);
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                        intent.putExtra("imgurl", bean.getFileUrl());
+                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, bean.getFileUrl());
                         startActivity(intent);
                     }
                 });
@@ -473,6 +453,7 @@ public class ToDynActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     showShare(bean.getContent(), bean.getFileUrl());
+                    //注释掉的内容是使用系统的分享
 //                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //                    if (bean.getThumbnailUrl() != null) {
 //                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());

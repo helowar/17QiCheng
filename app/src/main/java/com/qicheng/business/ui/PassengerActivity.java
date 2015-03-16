@@ -9,7 +9,6 @@ package com.qicheng.business.ui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +25,7 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.QueryValue;
 import com.qicheng.business.module.User;
@@ -40,10 +40,8 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qicheng.util.Const.Intent.PORTRAIT_URL;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
-import static com.qicheng.util.Const.Intent.UID;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_NOT_ON_CAR;
@@ -132,6 +130,11 @@ public class PassengerActivity extends BaseActivity {
      * 查询用户信息业务逻辑处理对象
      */
     private TravellerPersonLogic logic = null;
+
+    /**
+     * 用户业务逻辑处理对象
+     */
+    private UserLogic userLogic = null;
 
     /**
      * 查询值
@@ -225,6 +228,7 @@ public class PassengerActivity extends BaseActivity {
             }
         });
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
+        userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
         // 查询最新推荐用户
         refreshRecommendPerson();
         startLoading();
@@ -424,16 +428,9 @@ public class PassengerActivity extends BaseActivity {
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startUserInfoActivity(traveller);
+                startUserInfoActivity(traveller.getUserId(), userLogic);
             }
         });
         return recommendPersonView;
-    }
-
-    private void startUserInfoActivity(User traveller) {
-        Intent intent = new Intent(this, UserInfoActivity.class);
-        intent.putExtra(UID, traveller.getUserId());
-        intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
-        startActivity(intent);
     }
 }

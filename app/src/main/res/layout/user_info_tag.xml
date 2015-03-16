@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/user_info_tag_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_gap"
+        android:background="@drawable/label_select_shape"
+        android:gravity="center"
+        android:padding="@dimen/common_gap"
+        android:text="标签"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_18sp" />
+</LinearLayout>

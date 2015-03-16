@@ -34,6 +34,7 @@ import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.StationLogic;
 import com.qicheng.business.logic.TravellerPersonLogic;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.StationEventAargs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.City;
@@ -47,6 +48,7 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
@@ -179,6 +181,16 @@ public class SocialInCityFragment extends BaseFragment {
     private TravellerPersonLogic logic = null;
 
     /**
+     * 用户业务逻辑处理对象
+     */
+    private UserLogic userLogic = null;
+
+    /**
+     * 查询车站信息业务逻辑处理对象
+     */
+    private StationLogic stationLogic = null;
+
+    /**
      * 城市名称列表
      */
     private String[] cityNames = null;
@@ -197,11 +209,6 @@ public class SocialInCityFragment extends BaseFragment {
      * 车站列表
      */
     private List<TrainStation> stationList = null;
-
-    /**
-     * 查询车站信息业务逻辑处理对象
-     */
-    private StationLogic stationLogic = null;
 
     /**
      * 城市代码
@@ -231,8 +238,9 @@ public class SocialInCityFragment extends BaseFragment {
                 trains[i] = trainList.get(i).getTrainCode();
             }
         }
-        stationLogic = (StationLogic) LogicFactory.self().get(LogicFactory.Type.Station);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
+        userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        stationLogic = (StationLogic) LogicFactory.self().get(LogicFactory.Type.Station);
         // 获取当前城市里的车站列表
         stationList = Cache.getInstance().getTripRelatedStationCache(cityCode);
         if (stationList == null) {
@@ -396,7 +404,7 @@ public class SocialInCityFragment extends BaseFragment {
             item.setTitle(getResources().getString(R.string.station_btn_text));
         }
         MainActivity mainActivity = (MainActivity) getActivity();
-        if(mainActivity.getIndex() == Const.INDEX_SOCIAL) {
+        if (mainActivity.getIndex() == Const.INDEX_SOCIAL) {
             mainActivity.setTitle(title);
         }
     }
@@ -712,16 +720,9 @@ public class SocialInCityFragment extends BaseFragment {
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startUserInfoActivity(traveller);
+                ((BaseActivity) getActivity()).startUserInfoActivity(traveller.getUserId(), userLogic);
             }
         });
         return recommendPersonView;
-    }
-
-    private void startUserInfoActivity(User traveller) {
-        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-        intent.putExtra(UID, traveller.getUserId());
-        intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
-        startActivity(intent);
     }
 }

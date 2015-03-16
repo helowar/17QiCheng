@@ -1,6 +1,5 @@
 package com.qicheng.business.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +16,21 @@ import com.qicheng.R;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qicheng.util.Const.Intent.PORTRAIT_URL;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
-import static com.qicheng.util.Const.Intent.UID;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
@@ -90,6 +89,11 @@ public class TravellerPersonFragment extends BaseFragment {
      */
     private TravellerPersonLogic logic = null;
 
+    /**
+     * 用户业务逻辑处理对象
+     */
+    private UserLogic userLogic = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +102,7 @@ public class TravellerPersonFragment extends BaseFragment {
         queryType = bundle.getByte(TRAVELLER_QUERY_TYPE);
         queryValue = bundle.getString(TRAVELLER_QUERY_VALUE);
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
+        userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
     }
 
     @Override
@@ -303,10 +308,7 @@ public class TravellerPersonFragment extends BaseFragment {
     }
 
     private void startUserInfoActivity(int position) {
-        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
         User traveller = personList.get(position);
-        intent.putExtra(UID, traveller.getUserId());
-        intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
-        startActivity(intent);
+        ((BaseActivity) getActivity()).startUserInfoActivity(traveller.getUserId(), userLogic);
     }
 }

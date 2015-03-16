@@ -11,10 +11,8 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,9 +22,9 @@ import android.widget.TextView;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
-import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -34,18 +32,25 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.util.Const;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class UserInformationModifyFragment extends BaseFragment {
+public class UserInformationFragment extends BaseFragment {
     /* 请求码 */
     private static final int DATE_REQUEST_CODE = 3;
+
+    private static final int UPDATE_NICKNAME = 1;
 
     private View view;
     private LinearLayout linearLayout;
 
     private TextView birthdayView;
+
+    private TextView nicknameView;
+
+    private TextView homeView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,11 +83,11 @@ public class UserInformationModifyFragment extends BaseFragment {
         addSeparation(inflater);
 
         /*行业*/
-        initViewItem(inflater, R.string.personal_vocation_text, "计算机");
+        initViewItem(inflater, R.string.personal_industry_text, "计算机");
         /*学历*/
         initViewItem(inflater, R.string.personal_education_text, "本科");
         /*所在地*/
-        initViewItem(inflater, R.string.personal_local_text, "杭州");
+        initViewItem(inflater, R.string.personal_residence_text, "杭州");
         /*家乡*/
         initViewItem(inflater, R.string.personal_home_text, "杭州");
         /*添加分割段*/
@@ -112,26 +117,41 @@ public class UserInformationModifyFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TextView textView = (TextView) view.findViewById(R.id.text);
+                Intent intent = new Intent(getActivity(), UserInformationModifyActivity.class);
                 switch (stringID) {
                     case R.string.personal_birthday_text:
                         showDatePickDialog(textView.getText().toString());
-                        TextView textView = (TextView) view.findViewById(R.id.text);
                         birthdayView = textView;
                         break;
-                    case R.string.my_label:
-                        /*跳转到我的标签*/
+                    case R.string.personal_nickname_text:
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TYPE, Const.UserUpdateCode.UPDATE_NICKNAME);
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_VALUE, textView.getText().toString());
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TITLE, getResources().getString(R.string.title_activity_user_nickname_modify));
+                        startActivityForResult(intent, Const.UserUpdateCode.UPDATE_NICKNAME);
+                        nicknameView = textView;
                         break;
-                    case R.string.my_photo:
-                       /*跳转到我的相册*/
+                    case R.string.personal_home_text:
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TYPE, Const.UserUpdateCode.UPDATE_HOMETOWN);
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_VALUE, textView.getText().toString());
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TITLE, getResources().getString(R.string.title_activity_user_hometown_modify));
+                        startActivityForResult(intent, Const.UserUpdateCode.UPDATE_HOMETOWN);
+                        homeView = textView;
                         break;
-                    case R.string.my_activity:
-                        /*跳转到我的动态*/
+                    case R.string.personal_industry_text:
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TYPE, Const.UserUpdateCode.UPDATE_INDUSTRY);
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_VALUE, textView.getText().toString());
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TITLE, getResources().getString(R.string.title_activity_user_industry_modify));
+                        startActivityForResult(intent, Const.UserUpdateCode.UPDATE_INDUSTRY);
                         break;
-                    case R.string.select_setting:
-                         /*跳转到筛选设置*/
+                    case R.string.personal_residence_text:
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TYPE, Const.UserUpdateCode.UPDATE_RESIDENCE);
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_VALUE, textView.getText().toString());
+                        intent.putExtra(Const.Intent.UPDATE_USER_INFORMATION_TITLE, getResources().getString(R.string.title_activity_user_residence_modify));
+                        startActivityForResult(intent, Const.UserUpdateCode.UPDATE_RESIDENCE);
                         break;
-                    case R.string.account_setting:
-                       /*跳转到账户设置*/
+                    case R.string.personal_education_text:
+
                         break;
                     default:
                         break;
@@ -191,14 +211,13 @@ public class UserInformationModifyFragment extends BaseFragment {
     }
 
 
-
     /**
      * 显示生日选择对话框
      */
     private void showDatePickDialog(String date) {
         FragmentManager fm = getActivity().getFragmentManager();
         DatePickFragment dialog = DatePickFragment.newInstance(DateTimeUtil.parseByyyyyMMdd10(date));
-        dialog.setDialogTitle("请选择生日");
+        dialog.setDialogTitle(getResources().getString(R.string.title_activity_user_birthday_modify));
         dialog.setTargetFragment(this, DATE_REQUEST_CODE);
         dialog.show(fm, "date");
     }
@@ -233,19 +252,50 @@ public class UserInformationModifyFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //结果码不等于取消时候
+        Log.d("code", requestCode + " " + resultCode);
+        //当没有data时直接返回
+        if (data == null) {
+            return;
+        }
+
+        //处理其他更改信息的
+        switch (resultCode) {
+            case Const.UserUpdateCode.UPDATE_NICKNAME:
+                nicknameView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                break;
+            case Const.UserUpdateCode.UPDATE_HOMETOWN:
+                homeView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                break;
+        }
+        //特殊处理修改生日的逻辑
         if (resultCode != Activity.RESULT_CANCELED) {
             switch (requestCode) {
                 case DATE_REQUEST_CODE:
                     Date date = (Date) data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
-                    String birthday = updateBirthDate(date);
-                    birthdayView.setText(birthday);
+                    updateUserInformation(Const.UserUpdateCode.UPDATE_BIRTHDAY, DateTimeUtil.formatByyyyyMMdd(date), date);
                     break;
             }
+            return;
         }
+        // }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
 
-
+    private void updateUserInformation(int updateType, String updateValue, final Date date) {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.updateUserInformation(updateType, updateValue, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                UserEventArgs userEventArgs = (UserEventArgs) args;
+                OperErrorCode errCode = userEventArgs.getErrCode();
+                switch (errCode) {
+                    case Success:
+                        String birthday = updateBirthDate(date);
+                        birthdayView.setText(birthday);
+                        break;
+                }
+            }
+        }));
+    }
 }

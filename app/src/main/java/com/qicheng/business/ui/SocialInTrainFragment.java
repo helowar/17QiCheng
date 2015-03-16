@@ -10,7 +10,6 @@ package com.qicheng.business.ui;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +32,7 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.City;
 import com.qicheng.business.module.Location;
@@ -44,6 +44,7 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
@@ -51,10 +52,8 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qicheng.util.Const.Intent.PORTRAIT_URL;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
-import static com.qicheng.util.Const.Intent.UID;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
@@ -180,6 +179,11 @@ public class SocialInTrainFragment extends BaseFragment {
     private TravellerPersonLogic logic = null;
 
     /**
+     * 用户业务逻辑处理对象
+     */
+    private UserLogic userLogic = null;
+
+    /**
      * 城市名称列表
      */
     private String[] cityNames = null;
@@ -204,7 +208,7 @@ public class SocialInTrainFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         List<City> cityList = Cache.getInstance().getTripRelatedCityCache();
-        if(cityList != null && cityList.size() > 0) {
+        if (cityList != null && cityList.size() > 0) {
             int size = cityList.size();
             cityNames = new String[size];
             cityCodes = new String[size];
@@ -215,7 +219,7 @@ public class SocialInTrainFragment extends BaseFragment {
             }
         }
         List<Train> trainList = Cache.getInstance().getTripRelatedTrainCache();
-        if(trainList != null && trainList.size() > 0) {
+        if (trainList != null && trainList.size() > 0) {
             int size = trainList.size();
             trains = new String[size];
             for (int i = 0; i < size; i++) {
@@ -223,6 +227,7 @@ public class SocialInTrainFragment extends BaseFragment {
             }
         }
         logic = (TravellerPersonLogic) LogicFactory.self().get(LogicFactory.Type.TravellerPerson);
+        userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
     }
 
     @Override
@@ -409,7 +414,7 @@ public class SocialInTrainFragment extends BaseFragment {
             item.setVisible(false);
         }
         MainActivity mainActivity = (MainActivity) getActivity();
-        if(mainActivity.getIndex() == Const.INDEX_SOCIAL) {
+        if (mainActivity.getIndex() == Const.INDEX_SOCIAL) {
             mainActivity.setTitle(title);
         }
     }
@@ -658,16 +663,9 @@ public class SocialInTrainFragment extends BaseFragment {
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startUserInfoActivity(traveller);
+                ((BaseActivity) getActivity()).startUserInfoActivity(traveller.getUserId(), userLogic);
             }
         });
         return recommendPersonView;
-    }
-
-    private void startUserInfoActivity(User traveller) {
-        Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-        intent.putExtra(UID, traveller.getUserId());
-        intent.putExtra(PORTRAIT_URL, traveller.getPortraitURL());
-        startActivity(intent);
     }
 }

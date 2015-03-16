@@ -20,6 +20,7 @@ import com.qicheng.R;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.module.Label;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
 
 public class OriginalPictureActivity extends BaseActivity {
 
@@ -28,7 +29,7 @@ public class OriginalPictureActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getActionBar().hide();
         setContentView(R.layout.activity_original_picture);
-        String url = getIntent().getStringExtra("imgurl");
+        String url = getIntent().getStringExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY);
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         ImageView originalPic = (ImageView) findViewById(R.id.original_pic);
@@ -39,30 +40,5 @@ public class OriginalPictureActivity extends BaseActivity {
         originalPic.setMaxWidth(screenWidth);
         originalPic.setLayoutParams(new LinearLayout.LayoutParams(screenWidth,LinearLayout.LayoutParams.WRAP_CONTENT));
         ImageManager.displayImageDefault(url, originalPic);
-       // originalPic.setImageResource(R.drawable.ic_test_img);
-
-
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_original_picture, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }

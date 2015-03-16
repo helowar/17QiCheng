@@ -9,19 +9,19 @@ public class Const {
     /**
      * For 环信
      */
-    public static class Easemob{
+    public static class Easemob {
         public static final String NEW_FRIENDS_USERNAME = "item_new_friends";
         public static final String GROUP_USERNAME = "item_groups";
         public static final String MESSAGE_ATTR_IS_VOICE_CALL = "is_voice_call";
         public static final String MESSAGE_ATTR_IS_VIDEO_CALL = "is_video_call";
         public static final String ACCOUNT_REMOVED = "account_removed";
 
-        public static final String TO_USER_NICK="to_nick_name";
-        public static final String TO_USER_ID="to_im_id";
-        public static final String TO_USER_AVATAR="to_avatar";
-        public static final String FROM_USER_NICK="from_nick_name";
-        public static final String FROM_USER_AVATAR="from_avatar";
-        public static final String FROM_USER_ID="from_im_id";
+        public static final String TO_USER_NICK = "to_nick_name";
+        public static final String TO_USER_ID = "to_im_id";
+        public static final String TO_USER_AVATAR = "to_avatar";
+        public static final String FROM_USER_NICK = "from_nick_name";
+        public static final String FROM_USER_AVATAR = "from_avatar";
+        public static final String FROM_USER_ID = "from_im_id";
     }
 
     /**
@@ -140,6 +140,24 @@ public class Const {
         public static final String HX_USER_TO_CHAT_AVATAR = "toChatAvatar";
 
         public static final String HX_NTF_TO_MAIN = "goMessage";
+
+        /**
+         * 迁移到用户详细信息页面的用户详细信息Key
+         */
+        public static final String USER_DETAIL_KEY = "com.qicheng.business.module.UserDetail";
+
+        /**
+         * 迁移到OriginalPicture页面的图片URLKey
+         */
+        public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
+
+
+        public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
+        public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
+        public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
+        public static final String UPDATE_USER_INFORMATION_TITLE="update_title";
+
+
     }
 
     public static class DefaultValue {
@@ -404,11 +422,11 @@ public class Const {
      */
     public static final String STATE_PAUSE_ON_FLING = "STATE_PAUSE_ON_FLING";
 
-    public static final int INDEX_TRIP=1;
-    public static final int INDEX_SOCIAL=2;
-    public static final int INDEX_ACTIVITY=3;
-    public static final int INDEX_MESSAGE=4;
-    public static final int INDEX_VOUCHER=5;
+    public static final int INDEX_TRIP = 1;
+    public static final int INDEX_SOCIAL = 2;
+    public static final int INDEX_ACTIVITY = 3;
+    public static final int INDEX_MESSAGE = 4;
+    public static final int INDEX_VOUCHER = 5;
 
     /**
      * 互动操作 0：赞
@@ -444,5 +462,40 @@ public class Const {
      * 性别 0:女
      */
     public static final byte SEX_FEMALE = 0;
+
+    /**
+     * 更新用户个人信息枚举值
+     */
+    public static class UserUpdateCode {
+        /**
+         * 更新昵称
+         */
+        public static final int UPDATE_NICKNAME = 0;
+        /**
+         * 更新生日
+         */
+        public static final int UPDATE_BIRTHDAY = 1;
+        /**
+         * 更新头像
+         */
+        public static final int UPDATE_PORTRAIT_URL = 2;
+        /**
+         * 更新家乡
+         */
+        public static final int UPDATE_HOMETOWN = 4;
+        /**
+         * 更新学历
+         */
+        public static final int UPDATE_EDUCATION = 5;
+        /**
+         * 更新行业
+         */
+        public static final int UPDATE_INDUSTRY = 6;
+        /**
+         * 更新居住地
+         */
+        public static final int UPDATE_RESIDENCE = 7;
+
+    }
 
 }
