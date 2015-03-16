@@ -42,42 +42,46 @@ public class GetDynListProcess extends BaseProcess {
             JSONObject o = new JSONObject();
             Byte queryType = dynSearch.getQueryType();
             if (queryType != null) {
-                switch (queryType) {
-                    case Const.QUERY_TYPE_CITY:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索城市动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                    case Const.QUERY_TYPE_TRAIN:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索车次动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                    case Const.QUERY_TYPE_NEAR:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索附近动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                    case Const.QUERY_TYPE_STATION:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索车站动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                    case Const.QUERY_TYPE_MY:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索我的动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                    case Const.QUERY_TYPE_USER:
-                        spliceParameter(o);
-                        logger.e("组装传入搜索我的动态参数成功");
-                        logger.d(o.toString());
-                        break;
-                        //....
-                    default:
-                        o.put("order_by", dynSearch.getOrderBy());
-                        break;
-                }
+                spliceParameter(o);
+                logger.e("组装传入搜索城市动态参数成功");
+                logger.d(o.toString());
+                //后期出问题时进行排查，default是否有作用
+//                switch (queryType) {
+//                    case Const.QUERY_TYPE_CITY:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索城市动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//                    case Const.QUERY_TYPE_TRAIN:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索车次动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//                    case Const.QUERY_TYPE_NEAR:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索附近动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//                    case Const.QUERY_TYPE_STATION:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索车站动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//                    case Const.QUERY_TYPE_MY:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索我的动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//                    case Const.QUERY_TYPE_USER:
+//                        spliceParameter(o);
+//                        logger.e("组装传入搜索我的动态参数成功");
+//                        logger.d(o.toString());
+//                        break;
+//
+//                    default:
+//                        o.put("order_by", dynSearch.getOrderBy());
+//                        break;
+//                }
             } else {
                 o.put("order_by", dynSearch.getOrderBy());
                 if (dynSearch.getOrderNum() != 0) {
