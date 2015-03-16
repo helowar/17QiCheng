@@ -25,6 +25,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
 
 public class UserInformationModifyActivity extends BaseActivity {
@@ -62,6 +63,11 @@ public class UserInformationModifyActivity extends BaseActivity {
         findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (editText.getText().toString().equals(updateValue) || editText.getText().toString().equals("")) {
+                    Alert.Toast(updateTitle + "失败");
+                    return;
+                }
                 updateUserInformation();
             }
         });

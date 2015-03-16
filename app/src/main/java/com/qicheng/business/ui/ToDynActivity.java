@@ -146,7 +146,7 @@ public class ToDynActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trip_to_dyn, menu);
-        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY) {
+        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY||dynSearch.getQueryType()==Const.QUERY_TYPE_USER) {
             menu.findItem(R.id.activity_add).setVisible(false);
         }
         return true;

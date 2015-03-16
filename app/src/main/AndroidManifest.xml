@@ -279,6 +279,14 @@
             >
 
         </activity>
+
+        <activity
+            android:name=".business.ui.UserInformationModifyActivity"
+            android:label="@string/title_activity_user_information_modify"
+            android:logo="@drawable/ic_user"
+            >
+
+        </activity>
     </application>
 
 </manifest>

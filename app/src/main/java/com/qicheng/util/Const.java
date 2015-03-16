@@ -192,7 +192,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://192.168.1.102:8080/qps";
+    public static final String BASE_URL = "http://192.168.1.100:8888/qps";
 
     // 地图缩放
     public static final int MapZoom = 16;
@@ -501,10 +501,6 @@ public class Const {
          */
         public static final int UPDATE_PORTRAIT_URL = 2;
         /**
-         * 更新居住地
-         */
-        public static final int UPDATE_RESIDENCE = 3;
-        /**
          * 更新家乡
          */
         public static final int UPDATE_HOMETOWN = 4;
@@ -516,6 +512,10 @@ public class Const {
          * 更新行业
          */
         public static final int UPDATE_INDUSTRY = 6;
+        /**
+         * 更新居住地
+         */
+        public static final int UPDATE_RESIDENCE = 7;
 
     }
 

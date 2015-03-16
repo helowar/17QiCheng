@@ -257,6 +257,16 @@ public class UserInformationFragment extends BaseFragment {
         if (data == null) {
             return;
         }
+
+        //处理其他更改信息的
+        switch (resultCode) {
+            case Const.UserUpdateCode.UPDATE_NICKNAME:
+                nicknameView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                break;
+            case Const.UserUpdateCode.UPDATE_HOMETOWN:
+                homeView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                break;
+        }
         //特殊处理修改生日的逻辑
         if (resultCode != Activity.RESULT_CANCELED) {
             switch (requestCode) {
@@ -266,15 +276,6 @@ public class UserInformationFragment extends BaseFragment {
                     break;
             }
             return;
-        }
-        //处理其他更改信息的
-        switch (resultCode) {
-            case Const.UserUpdateCode.UPDATE_NICKNAME:
-                nicknameView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
-            case Const.UserUpdateCode.UPDATE_HOMETOWN:
-                homeView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
         }
         // }
         super.onActivityResult(requestCode, resultCode, data);

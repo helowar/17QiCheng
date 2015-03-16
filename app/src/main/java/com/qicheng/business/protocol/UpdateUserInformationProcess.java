@@ -74,7 +74,7 @@ public class UpdateUserInformationProcess extends BaseProcess {
             int value = o.optInt("result_code");
             setProcessStatus(value);
         } catch (Exception e) {
-            logger.e("动态添加失败");
+            logger.e("个人信息修改失败");
         }
     }
 
