@@ -84,20 +84,11 @@ public class MainActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             // 记得把广播给终结掉
             abortBroadcast();
-            int count=0;
-            for(String str:EMChatManager.getInstance().getConversationsUnread()){
-                count+= EMChatManager.getInstance().getConversation(str).getUnreadMsgCount();
-            }
-            messageBadge.setBadgeCount(count);
-
+            setUnreadMessageCount();
             String msgid = intent.getStringExtra("msgid");
             // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
             final EMMessage message = EMChatManager.getInstance().getMessage(msgid);
-            try{
-                notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK));
-            }catch (Exception e){
-                notifyNewMessage(message,message.getFrom());
-            }
+            notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK,message.getFrom()));
             // 如果是群聊消息，获取到group id
 //            if (message.getChatType() == EMMessage.ChatType.GroupChat) {
 //                username = message.getTo();
@@ -113,6 +104,14 @@ public class MainActivity extends BaseActivity {
 //            listView.setSelection(listView.getCount() - 1);
 
         }
+    }
+
+    private void setUnreadMessageCount(){
+        int count=0;
+        for(String str:EMChatManager.getInstance().getConversationsUnread()){
+            count+= EMChatManager.getInstance().getConversation(str).getUnreadMsgCount();
+        }
+        messageBadge.setText(count+"");
     }
 
     public void initView() {
@@ -243,6 +242,15 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        setUnreadMessageCount();
+        if(messageFragment!=null){
+            messageFragment.refresh();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         Intent locationService = new Intent(this, LocationService.class);
         stopService(locationService);
@@ -286,6 +294,7 @@ public class MainActivity extends BaseActivity {
                     getFragmentManager().beginTransaction().add(R.id.message_content, messageFragment).commit();
                 } else {
                     invalidateOptionsMenu();
+                    messageFragment.refresh();
                 }
                 activatedFrame(R.id.message_content);
                 break;

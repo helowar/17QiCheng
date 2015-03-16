@@ -169,7 +169,7 @@ public class BaseActivity extends Activity {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(getApplicationInfo().icon)
-                .setWhen(System.currentTimeMillis()).setAutoCancel(true);
+                .setWhen(System.currentTimeMillis()).setAutoCancel(false);
 
         String ticker = CommonUtils.getMessageDigest(message, this);
         String st = getResources().getString(R.string.expression);
@@ -177,14 +177,15 @@ public class BaseActivity extends Activity {
             ticker = ticker.replaceAll("\\[.{2,3}\\]", st);
         //设置状态栏提示
         mBuilder.setTicker(nick+": " + ticker);
+        mBuilder.setContentText("查看新的未读消息");
+        mBuilder.setContentTitle(message.getStringAttribute(Const.Easemob.FROM_USER_NICK,"新消息"));
 
         //必须设置pendingintent，否则在2.3的机器上会有bug
-        //TODO 需修改成跳转至ChatActivity
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Const.Intent.HX_NTF_TO_MAIN,true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notifiId, intent, PendingIntent.FLAG_ONE_SHOT);
         mBuilder.setContentIntent(pendingIntent);
-
         Notification notification = mBuilder.build();
         notificationManager.notify(notifiId, notification);
 //        notificationManager.cancel(notifiId);
