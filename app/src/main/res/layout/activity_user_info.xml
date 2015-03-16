@@ -58,7 +58,8 @@
                     android:src="@drawable/ic_female" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/user_info_age_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/double_gap"
@@ -77,17 +78,17 @@
 
                 <Button
                     android:id="@+id/user_info_sender_btn"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/layout_margin_30dp"
-                    android:layout_marginTop="@dimen/layout_margin_6dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/common_gap"
                     android:background="@drawable/bg_user_info_sender_btn"
                     android:gravity="center"
                     android:padding="@dimen/common_gap"
                     android:text="@string/user_info_sender_text"
                     android:textColor="@color/main"
                     android:textSize="@dimen/font_size_18sp" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 
