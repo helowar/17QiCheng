@@ -10,6 +10,7 @@ package com.qicheng.business.ui;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,18 +34,19 @@ import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.TravellerPersonLogic;
 import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.City;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.QueryValue;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.User;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
@@ -54,6 +56,7 @@ import java.util.List;
 
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.ORDER_BY_NEWEST;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
@@ -663,9 +666,32 @@ public class SocialInTrainFragment extends BaseFragment {
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((BaseActivity) getActivity()).startUserInfoActivity(traveller.getUserId(), userLogic);
+                startUserInfoActivity(traveller.getUserId());
             }
         });
         return recommendPersonView;
+    }
+
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId 用户ID
+     */
+    private void startUserInfoActivity(String userId) {
+        userLogic.getUserDetail(userId, Const.ID_TYPE_USER_ID, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
     }
 }

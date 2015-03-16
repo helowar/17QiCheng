@@ -38,9 +38,14 @@ public class GetUserDetailProcess extends BaseProcess {
     private final String url = "/user/get_detail.html";
 
     /**
-     * 用户ID
+     * ID
      */
-    private String userId;
+    private String id;
+
+    /**
+     * ID类型 0：用户ID 1：用户IM账户ID
+     */
+    private byte type;
 
     /**
      * 查询结果：用户详细信息对象
@@ -57,7 +62,8 @@ public class GetUserDetailProcess extends BaseProcess {
         // 组装传入服务端参数
         try {
             JSONObject o = new JSONObject();
-            o.put("id", userId);
+            o.put("id", id);
+            o.put("type", type);
             return o.toString();
         } catch (Exception e) {
             logger.e("组装传入获取用户详细信息参数异常");
@@ -129,8 +135,12 @@ public class GetUserDetailProcess extends BaseProcess {
         return null;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setType(byte type) {
+        this.type = type;
     }
 
     public UserDetail getUserDetail() {
