@@ -7,6 +7,7 @@
 package com.qicheng.business.ui.chat.widget;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.R;
 import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.easemob.util.DateUtils;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
 /**
@@ -168,7 +170,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 				// digest = EasyUtils.getAppResourceString(context,
 				// "location_recv");
 				digest = getStrng(context, R.string.location_recv);
-				digest = String.format(digest, message.getFrom());
+                digest = String.format(digest, message.getStringAttribute(Const.Easemob.FROM_USER_NICK,message.getFrom()));
 				return digest;
 			} else {
 				// digest = EasyUtils.getAppResourceString(context,
@@ -266,7 +268,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
 				for (int i = 0; i < count; i++) {
 					final EMConversation value = mOriginalValues.get(i);
-					String username = value.getUserName();
+					String username = getUserNick(value);
 					
 					EMGroup group = EMGroupManager.getInstance().getGroup(username);
 					if(group != null){
@@ -274,7 +276,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 					}
 
 					// First match against the whole ,non-splitted value
-					if (username.startsWith(prefixString)) {
+					if (username.contains(prefixString)) {
 						newValues.add(value);
 					} else{
 						  final String[] words = username.split(" ");
@@ -282,7 +284,7 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 
 	                        // Start at index 0, in case valueText starts with space(s)
 	                        for (int k = 0; k < wordCount; k++) {
-	                            if (words[k].startsWith(prefixString)) {
+	                            if (words[k].contains(prefixString)) {
 	                                newValues.add(value);
 	                                break;
 	                            }
@@ -295,6 +297,16 @@ public class ChatAllHistoryAdapter extends ArrayAdapter<EMConversation> {
 			}
 			return results;
 		}
+
+        private String getUserNick(EMConversation conversation){
+            EMMessage message = conversation.getLastMessage();
+            String fromNick = message.getStringAttribute(Const.Easemob.FROM_USER_NICK,"");
+            String toNick = message.getStringAttribute(Const.Easemob.TO_USER_NICK,"");
+            if(!StringUtil.isEmpty(fromNick)&&message.getFrom().equals(Cache.getInstance().getUser().getUserImId())){
+                return toNick;
+            }
+            return fromNick;
+        }
 
 		@Override
 		protected void publishResults(CharSequence constraint, FilterResults results) {

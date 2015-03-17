@@ -322,16 +322,20 @@ public class UserLogic extends BaseLogic {
                 UserEventArgs userEventArgs = new UserEventArgs(errCode);
                 fireEvent(listener, userEventArgs);
             }
-        });}
+        });
+    }
+
     /**
      * 获取用户详细信息。
      *
-     * @param userId   用户ID
+     * @param id       ID
+     * @param type     ID类型 0：用户ID 1：用户IM账户ID
      * @param listener 查询结果事件监听器
      */
-    public void getUserDetail(String userId, final EventListener listener) {
+    public void getUserDetail(String id, byte type, final EventListener listener) {
         final GetUserDetailProcess process = new GetUserDetailProcess();
-        process.setUserId(userId);
+        process.setId(id);
+        process.setType(type);
         process.run("getUserDetail", new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
@@ -344,8 +348,6 @@ public class UserLogic extends BaseLogic {
             }
         });
     }
-
-
 
     /**
      * 获取用户照片一览信息。

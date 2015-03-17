@@ -343,4 +343,23 @@ public class UserInfoActivity extends BaseActivity {
         });
         return userPhotoView;
     }
+
+    /**
+     * 设置年龄TextView的文本值。
+     *
+     * @param ageTextView 年龄TextView对象
+     * @param birthday    生日字符串（yyyy-MM-dd）
+     */
+    private void setAge(TextView ageTextView, String birthday) {
+        if (StringUtil.isEmpty(birthday)) {
+            ageTextView.setText(R.string.secret_text);
+        } else {
+            String age = DateTimeUtil.getAge(birthday);
+            if (StringUtil.isEmpty(age)) {
+                ageTextView.setText(R.string.secret_text);
+            } else {
+                ageTextView.setText(age + getResources().getString(R.string.age_text));
+            }
+        }
+    }
 }

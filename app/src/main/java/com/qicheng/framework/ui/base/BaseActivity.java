@@ -9,30 +9,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.widget.TextView;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.util.EasyUtils;
 import com.qicheng.R;
-import com.qicheng.business.logic.UserLogic;
-import com.qicheng.business.logic.event.UserDetailEventArgs;
-import com.qicheng.business.module.UserDetail;
-import com.qicheng.business.ui.ChatActivity;
-import com.qicheng.business.ui.UserInfoActivity;
+import com.qicheng.business.ui.MainActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
-import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
-import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.component.Loading;
-import com.qicheng.framework.util.DateTimeUtil;
-import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
-
-import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 
 public class BaseActivity extends Activity {
@@ -166,6 +155,7 @@ public class BaseActivity extends Activity {
     /**
      * 当应用在前台时，如果当前消息不是属于当前会话，在状态栏提示一下
      * 如果不需要，注释掉即可
+     *
      * @param message
      */
     protected void notifyNewMessage(EMMessage message,String nick) {
@@ -177,7 +167,7 @@ public class BaseActivity extends Activity {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(getApplicationInfo().icon)
-                .setWhen(System.currentTimeMillis()).setAutoCancel(true);
+                .setWhen(System.currentTimeMillis()).setAutoCancel(false);
 
         String ticker = CommonUtils.getMessageDigest(message, this);
         String st = getResources().getString(R.string.expression);
@@ -185,59 +175,17 @@ public class BaseActivity extends Activity {
             ticker = ticker.replaceAll("\\[.{2,3}\\]", st);
         //设置状态栏提示
         mBuilder.setTicker(nick+": " + ticker);
+        mBuilder.setContentText("查看新的未读消息");
+        mBuilder.setContentTitle(message.getStringAttribute(Const.Easemob.FROM_USER_NICK,"新消息"));
 
         //必须设置pendingintent，否则在2.3的机器上会有bug
-        //TODO 需修改成跳转至ChatActivity
-        Intent intent = new Intent(this, ChatActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Const.Intent.HX_NTF_TO_MAIN,true);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notifiId, intent, PendingIntent.FLAG_ONE_SHOT);
         mBuilder.setContentIntent(pendingIntent);
-
         Notification notification = mBuilder.build();
         notificationManager.notify(notifiId, notification);
 //        notificationManager.cancel(notifiId);
-    }
-
-    /**
-     * 迁移到用户详细信息页面。
-     *
-     * @param userId    用户ID
-     * @param userLogic 用户业务逻辑对象
-     */
-    public void startUserInfoActivity(String userId, UserLogic userLogic) {
-        userLogic.getUserDetail(userId, createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
-                UserDetailEventArgs result = (UserDetailEventArgs) args;
-                OperErrorCode errCode = result.getErrCode();
-                if (errCode == OperErrorCode.Success) {
-                    UserDetail userDetail = result.getUserDetail();
-                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                    intent.putExtra(USER_DETAIL_KEY, userDetail);
-                    startActivity(intent);
-                }
-            }
-        }));
-        startLoading();
-    }
-
-    /**
-     * 设置年龄TextView的文本值。
-     *
-     * @param ageTextView 年龄TextView对象
-     * @param birthday    生日字符串（yyyy-MM-dd）
-     */
-    public void setAge(TextView ageTextView, String birthday) {
-        if (StringUtil.isEmpty(birthday)) {
-            ageTextView.setText(R.string.secret_text);
-        } else {
-            String age = DateTimeUtil.getAge(birthday);
-            if (StringUtil.isEmpty(age)) {
-                ageTextView.setText(R.string.secret_text);
-            } else {
-                ageTextView.setText(age + getResources().getString(R.string.age_text));
-            }
-        }
     }
 }

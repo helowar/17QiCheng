@@ -73,6 +73,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".business.ui.UserInfoActivity"
+            android:label="@string/user_info_activity_title"
+            android:logo="@drawable/ic_user"
             android:screenOrientation="portrait" />
         <activity
             android:name=".business.ui.LoginActivity"

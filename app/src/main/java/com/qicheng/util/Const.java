@@ -519,4 +519,13 @@ public class Const {
 
     }
 
+    /**
+     * ID类型 0：用户ID
+     */
+    public static final byte ID_TYPE_USER_ID = 0;
+
+    /**
+     * ID类型 1：用户IM账户ID
+     */
+    public static final byte ID_TYPE_USER_IM_ID = 1;
 }
