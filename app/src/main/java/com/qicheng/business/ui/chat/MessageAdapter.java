@@ -53,9 +53,18 @@ import com.easemob.chat.VoiceMessageBody;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.business.ui.UserInfoActivity;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
 import com.qicheng.business.ui.chat.activity.AlertDialog;
 import com.qicheng.business.ui.chat.activity.BaiduMapActivity;
@@ -76,6 +85,8 @@ import com.easemob.util.FileUtils;
 import com.easemob.util.LatLng;
 import com.easemob.util.TextFormater;
 import com.umeng.analytics.MobclickAgent;
+
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 public class MessageAdapter extends BaseAdapter{
 
@@ -104,7 +115,7 @@ public class MessageAdapter extends BaseAdapter{
 
 	private String username;
 	private LayoutInflater inflater;
-	private Activity activity;
+	private BaseActivity activity;
     private String chatToUserAvatar;
 
 	// reference to conversation object in chatsdk
@@ -118,14 +129,14 @@ public class MessageAdapter extends BaseAdapter{
 		this.username = username;
 		this.context = context;
 		inflater = LayoutInflater.from(context);
-		activity = (Activity) context;
+		activity = (BaseActivity) context;
 		this.conversation = EMChatManager.getInstance().getConversation(username);
 	}
     public MessageAdapter(Context context, String username,String avatar, int chatType) {
         this.username = username;
         this.context = context;
         inflater = LayoutInflater.from(context);
-        activity = (Activity) context;
+        activity = (BaseActivity) context;
         chatToUserAvatar = avatar;
         this.conversation = EMChatManager.getInstance().getConversation(username);
     }
@@ -446,7 +457,8 @@ public class MessageAdapter extends BaseAdapter{
             holder.head_iv.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, UserInfoActivity.class);
+                    UserLogic logic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+                    startUserInfoActivity(message.getFrom(),logic);
                 }
             });
 		}
@@ -468,6 +480,29 @@ public class MessageAdapter extends BaseAdapter{
 		return convertView;
 	}
 
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId    用户ID
+     * @param userLogic 用户业务逻辑对象
+     */
+    public void startUserInfoActivity(String userId, UserLogic userLogic) {
+        userLogic.getUserDetail(userId,Const.ID_TYPE_USER_IM_ID, activity.createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                activity.stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(activity, UserInfoActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    activity.startActivity(intent);
+                }
+            }
+        }));
+        activity.startLoading();
+    }
 	/**
 	 * 文本消息
 	 *
