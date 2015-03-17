@@ -336,6 +336,7 @@
 
     <!-- AlbumActivity begin-->
     <string name="title_activity_album">AlbumActivity</string>
+    <string name="title_activity_select_education">SelectEducationActivity</string>
     <!-- AlbumActivity end -->
 
 </resources>

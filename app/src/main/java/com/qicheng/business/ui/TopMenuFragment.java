@@ -2,6 +2,7 @@ package com.qicheng.business.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,8 @@ public class TopMenuFragment extends BaseFragment {
     private View view;
     private LinearLayout linearLayout;
 
+    private static final int UPDATE_USER_INFORMATION = 0;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initView(inflater);
         return view;
@@ -47,22 +50,7 @@ public class TopMenuFragment extends BaseFragment {
      */
     public void initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.menu_list, null);
-        User user = Cache.getInstance().getUser();
-        ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
-        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
-        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
-        String nickname = user.getNickName();
-        nicknameView.setText(nickname);
-        if (user.getGender() == 1) {
-            ImageView gender = (ImageView) view.findViewById(R.id.gender);
-            gender.setImageResource(R.drawable.ic_male);
-        }
-        String birthday = user.getBirthday();
-        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
-        String age = DateTimeUtil.getAge(birthdayDate);
-        TextView ageView = (TextView) view.findViewById(R.id.age);
-        ageView.setText(age + "岁");
-
+        getUserInformation();
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
           /*个人资料menu*/
         initViewItem(inflater, R.string.personal, R.drawable.ic_personal);
@@ -98,7 +86,8 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        skipToActivity(PersonalInformationActivity.class);
+                        Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+                        startActivityForResult(intent, UPDATE_USER_INFORMATION);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -159,7 +148,40 @@ public class TopMenuFragment extends BaseFragment {
      * 跳转到用户信息
      */
     private void skipToActivity(Class<?> cls) {
-        Intent intent = new Intent(getActivity(),cls);
+        Intent intent = new Intent(getActivity(), cls);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        getUserInformation();
+        super.onResume();
+    }
+
+    private void getUserInformation() {
+        User user = Cache.getInstance().getUser();
+        ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
+        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
+        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
+        String nickname = user.getNickName();
+        nicknameView.setText(nickname);
+        if (user.getGender() == 1) {
+            ImageView gender = (ImageView) view.findViewById(R.id.gender);
+            gender.setImageResource(R.drawable.ic_male);
+        }
+        String birthday = user.getBirthday();
+        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
+        String age = DateTimeUtil.getAge(birthdayDate);
+        TextView ageView = (TextView) view.findViewById(R.id.age);
+        ageView.setText(age + "岁");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("............", requestCode + "   " + resultCode);
+        if (resultCode == UPDATE_USER_INFORMATION) {
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -53,7 +53,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
     // 定义头部下拉刷新的布局的高度
     private int headerContentHeight;
-
+    private int footerContentHeight;
     private RotateAnimation animation;
     private RotateAnimation reverseAnimation;
 
@@ -78,6 +78,11 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         init(context);
     }
 
+    /**
+     * 初始化
+     *
+     * @param context
+     */
     private void init(Context context) {
         setCacheColorHint(context.getResources().getColor(R.color.transparent));
         inflater = LayoutInflater.from(context);
@@ -104,6 +109,10 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         // 将下拉刷新的布局加入ListView的顶部
         addHeaderView(headerView, null, false);
         footerView = (LinearLayout) inflater.inflate(R.layout.dyn_listview_footer, null);
+        measureView(footerView);
+        footerContentHeight = footerView.getMeasuredHeight();
+        footerView.setPadding(0, 0, 0, -1 * footerContentHeight);
+        footerView.invalidate();
         addFooterView(footerView, null, false);
 
         // 设置滚动监听事件
@@ -209,6 +218,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                                 state = RELEASE_To_REFRESH;
                                 isBack = true;
                                 changeHeaderViewByState();
+
                             }
                             // 上推到顶了
                             else if (tempY - startY <= 0) {// 由DOne或者下拉刷新状态转变到done状态
@@ -237,7 +247,6 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
                     }
                     break;
-
                 default:
                     break;
             }
@@ -278,9 +287,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                 break;
 
             case REFRESHING:
-
                 headerView.setPadding(0, 0, 0, 0);
-
                 lvHeaderProgressBar.setVisibility(View.VISIBLE);
                 lvHeaderArrowIv.clearAnimation();
                 lvHeaderArrowIv.setVisibility(View.GONE);
@@ -289,7 +296,6 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                 break;
             case DONE:
                 headerView.setPadding(0, -1 * headerContentHeight, 0, 0);
-
                 lvHeaderProgressBar.setVisibility(View.GONE);
                 lvHeaderArrowIv.clearAnimation();
                 lvHeaderArrowIv.setImageResource(R.drawable.xlistview_arrow);

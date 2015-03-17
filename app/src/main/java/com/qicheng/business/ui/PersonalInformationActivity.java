@@ -2,6 +2,7 @@ package com.qicheng.business.ui;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,7 +10,9 @@ import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
 
 public class PersonalInformationActivity extends BaseActivity {
- private UserInformationFragment userInformationModifyFragment;
+    private UserInformationFragment userInformationModifyFragment;
+    private static final int UPDATE_COMPLETE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +34,18 @@ public class PersonalInformationActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            getActivity().finish();
-            return super.onOptionsItemSelected(item);
+            setResult(UPDATE_COMPLETE);
+            finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            setResult(UPDATE_COMPLETE);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
