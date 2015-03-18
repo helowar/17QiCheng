@@ -35,7 +35,7 @@ import com.qicheng.business.module.Dyn;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.TrainStation;
-import com.qicheng.business.ui.component.DynListView;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -57,7 +57,7 @@ public class ActyFragment extends BaseFragment {
 
     private View view = null;
     /*动态的ListView视图*/
-    private DynListView dynListView = null;
+    private GeneralListView dynListView = null;
     /*动态的ListView的Adapter*/
     private DynListViewAdapter listAdapter;
     /*搜索选线的GridView视图*/
@@ -96,13 +96,13 @@ public class ActyFragment extends BaseFragment {
 
         view = inflater.inflate(R.layout.fragment_acty, container, false);
         searchView = inflater.inflate(R.layout.dyn_search_edit_layout, container, false);
-        dynListView = (DynListView) view.findViewById(R.id.dynlist);
+        dynListView = (GeneralListView) view.findViewById(R.id.dynlist);
         listAdapter = new DynListViewAdapter(getActivity().getApplicationContext());
 
         getDynList(dynSearch);
         dynListView.setAdapter(listAdapter);
 
-        dynListView.setonRefreshListener(new DynListView.OnRefreshListener() {
+        dynListView.setonRefreshListener(new GeneralListView.OnRefreshListener() {
 
             @Override
             public void onRefresh() {

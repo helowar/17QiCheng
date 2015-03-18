@@ -2,7 +2,6 @@ package com.qicheng.business.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,11 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -26,6 +28,8 @@ import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
 
 import java.util.Date;
+
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 /**
  * @author 金玉龙
@@ -63,6 +67,8 @@ public class TopMenuFragment extends BaseFragment {
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
+        initViewItem(inflater, R.string.test_count_benefit, R.drawable.ic_account_setting);
+
     }
 
     /**
@@ -86,8 +92,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
-                        startActivityForResult(intent, UPDATE_USER_INFORMATION);
+                        startUserInfoActivity(null);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -104,6 +109,10 @@ public class TopMenuFragment extends BaseFragment {
                     case R.string.account_setting:
                        /*跳转到账户设置*/
                         skipToActivity(UserSettingActivity.class);
+                        break;
+                    case R.string.test_count_benefit:
+                       /*跳转到账户设置*/
+                        skipToActivity(BenefitCountActivity.class);
                         break;
                     default:
                         break;
@@ -176,12 +185,30 @@ public class TopMenuFragment extends BaseFragment {
         ageView.setText(age + "岁");
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("............", requestCode + "   " + resultCode);
-        if (resultCode == UPDATE_USER_INFORMATION) {
 
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId 用户ID
+     */
+    private void startUserInfoActivity(String userId) {
+        UserLogic userLogic =  (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.getUserDetail(userId, Const.ID_TYPE_USER_ID, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
     }
+
+
 }

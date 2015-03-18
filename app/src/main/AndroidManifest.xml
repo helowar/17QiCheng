@@ -287,6 +287,10 @@
             android:name=".business.ui.SelectEducationActivity"
             android:label="@string/title_activity_select_education" >
         </activity>
+        <activity
+            android:name=".business.ui.BenefitCountActivity"
+            android:label="@string/title_activity_benefit_count" >
+        </activity>
     </application>
 
 </manifest>

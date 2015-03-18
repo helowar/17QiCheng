@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Created by NO3 on 2015/3/1.
  */
-public class DynListView extends ListView implements AbsListView.OnScrollListener {
+public class GeneralListView extends ListView implements AbsListView.OnScrollListener {
 
     private final static int RELEASE_To_REFRESH = 0;// 下拉过程的状态值
     private final static int PULL_To_REFRESH = 1; // 从下拉返回到不刷新的状态值
@@ -68,12 +68,12 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
     private boolean isRefreshable;
 
-    public DynListView(Context context) {
+    public GeneralListView(Context context) {
         super(context);
         init(context);
     }
 
-    public DynListView(Context context, AttributeSet attrs) {
+    public GeneralListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
@@ -144,7 +144,9 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         switch (scrollState) {
             case SCROLL_STATE_IDLE:
                 if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
+                    footerView.setPadding(0, 0, 0, 0);
                     toLastFresh();
+                    footerView.setPadding(0, 0, 0, -1 * footerContentHeight);
                 }
                 break;
         }

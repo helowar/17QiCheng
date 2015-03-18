@@ -496,4 +496,10 @@ public class UserInformationFragment extends BaseFragment {
     }
 
 
+    /**
+     *
+     */
+    private void getUserDetail(){
+
+    }
 }

@@ -209,4 +209,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
     <!--IM 相关样式 end-->
+    <style name="benefit_text_style">
+        <item name="android:textColor">@color/main</item>
+    </style>
 </resources>
