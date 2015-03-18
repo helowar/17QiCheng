@@ -46,14 +46,16 @@ public class UserInformationModifyActivity extends BaseActivity {
      */
     private EditText editText;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_information_modify);
         Bundle bundle = getIntent().getExtras();
-        updateType = bundle.getInt("update_type");
-        updateValue = bundle.getString("update_value");
-        updateTitle = bundle.getString("update_title");
+        updateType = bundle.getInt(Const.Intent.UPDATE_USER_INFORMATION_TYPE);
+        updateValue = bundle.getString(Const.Intent.UPDATE_USER_INFORMATION_VALUE);
+        updateTitle = bundle.getString(Const.Intent.UPDATE_USER_INFORMATION_TITLE);
         setTitle(updateTitle);
         editText = (EditText) findViewById(R.id.update_data);
         editText.setHint(updateValue);
@@ -63,8 +65,7 @@ public class UserInformationModifyActivity extends BaseActivity {
         findViewById(R.id.save_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (editText.getText().toString().equals(updateValue) || editText.getText().toString().equals("")) {
+                if ( editText.getText().toString().equals("")) {
                     Alert.Toast(updateTitle + "失败");
                     return;
                 }

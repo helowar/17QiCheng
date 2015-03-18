@@ -229,7 +229,6 @@
             android:name=".business.ui.OriginalPictureActivity"
             android:label="@string/title_activity_original_picture"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".business.ui.LabelModifyActivity"
             android:label="@string/actionbar_title_label_modify"
@@ -277,17 +276,20 @@
         <activity
             android:name=".business.ui.UserSettingActivity"
             android:label="@string/title_activity_user_setting"
-            android:logo="@drawable/ic_user"
-            >
-
+            android:logo="@drawable/ic_user" >
         </activity>
-
         <activity
             android:name=".business.ui.UserInformationModifyActivity"
             android:label="@string/title_activity_user_information_modify"
-            android:logo="@drawable/ic_user"
-            >
-
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.SelectEducationActivity"
+            android:label="@string/title_activity_select_education" >
+        </activity>
+        <activity
+            android:name=".business.ui.BenefitCountActivity"
+            android:label="@string/title_activity_benefit_count" >
         </activity>
     </application>
 

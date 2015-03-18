@@ -158,10 +158,10 @@ public class BaseActivity extends Activity {
      *
      * @param message
      */
-    protected void notifyNewMessage(EMMessage message, String nick) {
+    protected void notifyNewMessage(EMMessage message,String nick) {
         //如果是设置了不提醒只显示数目的群组(这个是app里保存这个数据的，demo里不做判断)
         //以及设置了setShowNotificationInbackgroup:false(设为false后，后台时sdk也发送广播)
-        if (!EasyUtils.isAppRunningForeground(this)) {
+        if(!EasyUtils.isAppRunningForeground(this)){
             return;
         }
 
@@ -171,7 +171,7 @@ public class BaseActivity extends Activity {
 
         String ticker = CommonUtils.getMessageDigest(message, this);
         String st = getResources().getString(R.string.expression);
-        if (message.getType() == EMMessage.Type.TXT)
+        if(message.getType() == EMMessage.Type.TXT)
             ticker = ticker.replaceAll("\\[.{2,3}\\]", st);
         //设置状态栏提示
         mBuilder.setTicker(nick+": " + ticker);

@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * Created by NO3 on 2015/3/1.
  */
-public class DynListView extends ListView implements AbsListView.OnScrollListener {
+public class GeneralListView extends ListView implements AbsListView.OnScrollListener {
 
     private final static int RELEASE_To_REFRESH = 0;// 下拉过程的状态值
     private final static int PULL_To_REFRESH = 1; // 从下拉返回到不刷新的状态值
@@ -53,7 +53,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
     // 定义头部下拉刷新的布局的高度
     private int headerContentHeight;
-
+    private int footerContentHeight;
     private RotateAnimation animation;
     private RotateAnimation reverseAnimation;
 
@@ -68,16 +68,21 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
     private boolean isRefreshable;
 
-    public DynListView(Context context) {
+    public GeneralListView(Context context) {
         super(context);
         init(context);
     }
 
-    public DynListView(Context context, AttributeSet attrs) {
+    public GeneralListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
+    /**
+     * 初始化
+     *
+     * @param context
+     */
     private void init(Context context) {
         setCacheColorHint(context.getResources().getColor(R.color.transparent));
         inflater = LayoutInflater.from(context);
@@ -104,6 +109,10 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         // 将下拉刷新的布局加入ListView的顶部
         addHeaderView(headerView, null, false);
         footerView = (LinearLayout) inflater.inflate(R.layout.dyn_listview_footer, null);
+        measureView(footerView);
+        footerContentHeight = footerView.getMeasuredHeight();
+        footerView.setPadding(0, 0, 0, -1 * footerContentHeight);
+        footerView.invalidate();
         addFooterView(footerView, null, false);
 
         // 设置滚动监听事件
@@ -135,7 +144,9 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
         switch (scrollState) {
             case SCROLL_STATE_IDLE:
                 if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
+                    footerView.setPadding(0, 0, 0, 0);
                     toLastFresh();
+                    footerView.setPadding(0, 0, 0, -1 * footerContentHeight);
                 }
                 break;
         }
@@ -209,6 +220,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                                 state = RELEASE_To_REFRESH;
                                 isBack = true;
                                 changeHeaderViewByState();
+
                             }
                             // 上推到顶了
                             else if (tempY - startY <= 0) {// 由DOne或者下拉刷新状态转变到done状态
@@ -237,7 +249,6 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
 
                     }
                     break;
-
                 default:
                     break;
             }
@@ -278,9 +289,7 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                 break;
 
             case REFRESHING:
-
                 headerView.setPadding(0, 0, 0, 0);
-
                 lvHeaderProgressBar.setVisibility(View.VISIBLE);
                 lvHeaderArrowIv.clearAnimation();
                 lvHeaderArrowIv.setVisibility(View.GONE);
@@ -289,7 +298,6 @@ public class DynListView extends ListView implements AbsListView.OnScrollListene
                 break;
             case DONE:
                 headerView.setPadding(0, -1 * headerContentHeight, 0, 0);
-
                 lvHeaderProgressBar.setVisibility(View.GONE);
                 lvHeaderArrowIv.clearAnimation();
                 lvHeaderArrowIv.setImageResource(R.drawable.xlistview_arrow);

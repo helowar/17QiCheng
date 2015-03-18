@@ -336,6 +336,9 @@
 
     <!-- AlbumActivity begin-->
     <string name="title_activity_album">AlbumActivity</string>
+    <string name="title_activity_select_education">SelectEducationActivity</string>
+    <string name="title_activity_benefit_count">BenefitCountActivity</string>
     <!-- AlbumActivity end -->
 
+    <string name="test_count_benefit">测试代金券</string>
 </resources>

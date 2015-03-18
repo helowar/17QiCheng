@@ -67,7 +67,7 @@
         android:background="@color/unavailable"
         android:orientation="horizontal"></LinearLayout>
 
-    <com.qicheng.business.ui.component.DynListView
+    <com.qicheng.business.ui.component.GeneralListView
         android:id="@+id/dynlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
