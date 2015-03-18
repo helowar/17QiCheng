@@ -151,13 +151,20 @@ public class Const {
          */
         public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
 
-
         public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
         public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
         public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
         public static final String UPDATE_USER_INFORMATION_TITLE="update_title";
 
+        /**
+         * 好友来源值Key
+         */
+        public static final String FRIEND_SOURCE_KEY = "friend.source";
 
+        /**
+         * 是否来源聊天Activity Key
+         */
+        public static final String IS_FROM_CHAT_ACTIVITY_KEY = "is.from.chat.activity";
     }
 
     public static class DefaultValue {

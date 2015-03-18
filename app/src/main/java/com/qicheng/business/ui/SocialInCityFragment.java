@@ -57,6 +57,7 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
@@ -98,11 +99,6 @@ public class SocialInCityFragment extends BaseFragment {
     private LinearLayout recommendPersonsLayout = null;
 
     /**
-     * 推荐用户View
-     */
-    private HorizontalScrollListView recommendPersonsView = null;
-
-    /**
      * 推荐用户列表
      */
     private List<User> recommendPersonList = new ArrayList<User>();
@@ -111,11 +107,6 @@ public class SocialInCityFragment extends BaseFragment {
      * 查询参数LinearLayout
      */
     private LinearLayout queryParamsLayout = null;
-
-    /**
-     * 查询参数GridView
-     */
-    private GridView queryParamsGridView = null;
 
     /**
      * 查询参数GridView是否存在的标志，默认不存在
@@ -254,8 +245,8 @@ public class SocialInCityFragment extends BaseFragment {
         // 获取各种View对象
         recommendLayout = (LinearLayout) socialView.findViewById(R.id.social_recommend_layout);
         recommendPersonsLayout = (LinearLayout) socialView.findViewById(R.id.social_recommend_persons_layout);
-        recommendPersonsView = (HorizontalScrollListView) socialView.findViewById(R.id.social_recommend_persons_view);
-        queryParamsGridView = (GridView) socialView.findViewById(R.id.query_params_grid_view);
+        HorizontalScrollListView recommendPersonsView = (HorizontalScrollListView) socialView.findViewById(R.id.social_recommend_persons_view);
+        GridView queryParamsGridView = (GridView) socialView.findViewById(R.id.query_params_grid_view);
         queryParamsLayout = (LinearLayout) socialView.findViewById(R.id.query_params_layout);
         comeBtn = (Button) socialView.findViewById(R.id.social_person_come_btn);
         leaveBtn = (Button) socialView.findViewById(R.id.social_person_leave_btn);
@@ -742,6 +733,7 @@ public class SocialInCityFragment extends BaseFragment {
                     UserDetail userDetail = result.getUserDetail();
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                     intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    intent.putExtra(FRIEND_SOURCE_KEY, title);
                     startActivity(intent);
                 }
             }

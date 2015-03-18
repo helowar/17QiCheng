@@ -38,13 +38,22 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
-import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.DYN_QUERY_NAME;
+import static com.qicheng.util.Const.Intent.DYN_QUERY_TYPE;
+import static com.qicheng.util.Const.Intent.DYN_QUERY_VALUE;
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
+import static com.qicheng.util.Const.Intent.HX_USER_ID;
+import static com.qicheng.util.Const.Intent.HX_USER_NICK_NAME;
+import static com.qicheng.util.Const.Intent.HX_USER_TO_CHAT_AVATAR;
+import static com.qicheng.util.Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY;
+import static com.qicheng.util.Const.Intent.ORIGINAL_PICTURE_URL_KEY;
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
+import static com.qicheng.util.Const.QUERY_TYPE_USER;
 import static com.qicheng.util.Const.SEX_MAN;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_FLING;
 import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
@@ -58,74 +67,14 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
 public class UserInfoActivity extends BaseActivity {
 
     /**
-     * 头像ImageView
-     */
-    private ImageView portraitImageView = null;
-
-    /**
-     * 昵称TextView
-     */
-    private TextView nicknameTextView = null;
-
-    /**
-     * 性别ImageView
-     */
-    private ImageView genderImageView = null;
-
-    /**
-     * 年龄TextView
-     */
-    private TextView ageTextView = null;
-
-    /**
-     * 发起聊天Button
-     */
-    private Button senderBtn = null;
-
-    /**
      * 标签ViewGroup
      */
     private ViewGroup tagViewGroup = null;
 
     /**
-     * 相册ListView
-     */
-    private HorizontalScrollListView photoListView = null;
-
-    /**
      * 相册Layout
      */
     private LinearLayout photoLayout = null;
-
-    /**
-     * 当前用户所拥有的动态数量Layout
-     */
-    private RelativeLayout activityNumLayout = null;
-
-    /**
-     * 当前用户所拥有的动态数量TextView
-     */
-    private TextView activityNumTextView = null;
-
-    /**
-     * 所在地TextView
-     */
-    private TextView residenceTextView = null;
-
-    /**
-     * 家乡TextView
-     */
-    private TextView hometownTextView = null;
-
-    /**
-     * 学历TextView
-     */
-    private TextView educationTextView = null;
-
-    /**
-     * 从事行业TextView
-     */
-    private TextView industryTextView = null;
 
     /**
      * 图片加载器及其相关参数
@@ -154,22 +103,25 @@ public class UserInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         // 获取各种View对象
-        portraitImageView = (ImageView) findViewById(R.id.user_info_portrait_image_view);
-        nicknameTextView = (TextView) findViewById(R.id.user_info_nickname_text_view);
-        genderImageView = (ImageView) findViewById(R.id.user_info_gender_image_view);
-        ageTextView = (TextView) findViewById(R.id.user_info_age_text_view);
-        senderBtn = (Button) findViewById(R.id.user_info_sender_btn);
+        ImageView portraitImageView = (ImageView) findViewById(R.id.user_info_portrait_image_view);
+        TextView nicknameTextView = (TextView) findViewById(R.id.user_info_nickname_text_view);
+        ImageView genderImageView = (ImageView) findViewById(R.id.user_info_gender_image_view);
+        TextView ageTextView = (TextView) findViewById(R.id.user_info_age_text_view);
+        Button senderBtn = (Button) findViewById(R.id.user_info_sender_btn);
         tagViewGroup = (ViewGroup) findViewById(R.id.user_info_tag_view_group);
-        photoListView = (HorizontalScrollListView) findViewById(R.id.user_info_photo_list_view);
+        HorizontalScrollListView photoListView = (HorizontalScrollListView) findViewById(R.id.user_info_photo_list_view);
         photoLayout = (LinearLayout) findViewById(R.id.user_info_photo_layout);
-        activityNumLayout = (RelativeLayout) findViewById(R.id.user_info_activity_layout);
-        activityNumTextView = (TextView) findViewById(R.id.user_info_activity_text_view);
-        residenceTextView = (TextView) findViewById(R.id.user_info_residence_text_view);
-        hometownTextView = (TextView) findViewById(R.id.user_info_hometown_text_view);
-        educationTextView = (TextView) findViewById(R.id.user_info_education_text_view);
-        industryTextView = (TextView) findViewById(R.id.user_info_industry_text_view);
+        RelativeLayout activityNumLayout = (RelativeLayout) findViewById(R.id.user_info_activity_layout);
+        TextView activityNumTextView = (TextView) findViewById(R.id.user_info_activity_text_view);
+        TextView residenceTextView = (TextView) findViewById(R.id.user_info_residence_text_view);
+        TextView hometownTextView = (TextView) findViewById(R.id.user_info_hometown_text_view);
+        TextView educationTextView = (TextView) findViewById(R.id.user_info_education_text_view);
+        TextView industryTextView = (TextView) findViewById(R.id.user_info_industry_text_view);
+        Bundle extras = getIntent().getExtras();
         // 获取用户详细信息对象
-        final UserDetail userDetail = (UserDetail) getIntent().getExtras().getSerializable(USER_DETAIL_KEY);
+        final UserDetail userDetail = (UserDetail) extras.getSerializable(USER_DETAIL_KEY);
+        final String friendSource = extras.getString(FRIEND_SOURCE_KEY);
+        final boolean isFromChatActivity = extras.getBoolean(IS_FROM_CHAT_ACTIVITY_KEY, false);
         userId = userDetail.getUserId();
         ImageManager.displayPortrait(userDetail.getPortraitUrl(), portraitImageView);
         nicknameTextView.setText(userDetail.getNickname());
@@ -179,19 +131,25 @@ public class UserInfoActivity extends BaseActivity {
             genderImageView.setImageResource(R.drawable.ic_female);
         }
         setAge(ageTextView, userDetail.getBirthday());
-        senderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (userDetail.getUserIMId().equals(Cache.getInstance().getUser().getUserImId())) {
-                    return;
+        if (userDetail.getUserIMId().equals(Cache.getInstance().getUser().getUserImId())) {
+            senderBtn.setVisibility(View.GONE);
+        } else {
+            senderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isFromChatActivity) {
+                        finish();
+                        return;
+                    }
+                    Intent i = new Intent(getActivity(), ChatActivity.class);
+                    i.putExtra(HX_USER_ID, userDetail.getUserIMId());
+                    i.putExtra(HX_USER_NICK_NAME, userDetail.getNickname());
+                    i.putExtra(HX_USER_TO_CHAT_AVATAR, userDetail.getPortraitUrl());
+                    i.putExtra(FRIEND_SOURCE_KEY, friendSource);
+                    startActivity(i);
                 }
-                Intent i = new Intent(getActivity(), ChatActivity.class);
-                i.putExtra(Const.Intent.HX_USER_ID, userDetail.getUserIMId());
-                i.putExtra(Const.Intent.HX_USER_NICK_NAME, userDetail.getNickname());
-                i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, userDetail.getPortraitUrl());
-                startActivity(i);
-            }
-        });
+            });
+        }
         List<String> tags = userDetail.getTags();
         if (tags != null && tags.size() > 0) {
             for (String tagName : tags) {
@@ -211,9 +169,9 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ToDynActivity.class);
-                intent.putExtra(Const.Intent.DYN_QUERY_TYPE, Const.QUERY_TYPE_USER);
-                intent.putExtra(Const.Intent.DYN_QUERY_VALUE, userId);
-                intent.putExtra(Const.Intent.DYN_QUERY_NAME, userDetail.getNickname() + getResources().getString(R.string.someone_activity_text));
+                intent.putExtra(DYN_QUERY_TYPE, QUERY_TYPE_USER);
+                intent.putExtra(DYN_QUERY_VALUE, userId);
+                intent.putExtra(DYN_QUERY_NAME, userDetail.getNickname() + getResources().getString(R.string.someone_activity_text));
                 startActivity(intent);
             }
         });
@@ -240,8 +198,10 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
         return true;
     }
 
@@ -316,7 +276,7 @@ public class UserInfoActivity extends BaseActivity {
      */
     private View createTagView(String tagName) {
         // 创建用户标签View
-        View userTagView = getLayoutInflater().inflate(R.layout.user_info_tag, null);
+        View userTagView = getLayoutInflater().inflate(R.layout.user_info_tag, tagViewGroup, false);
         TextView tagTextView = (TextView) userTagView.findViewById(R.id.user_info_tag_text_view);
         tagTextView.setText(tagName);
         return userTagView;
@@ -330,14 +290,14 @@ public class UserInfoActivity extends BaseActivity {
      */
     private View createPhotoView(final Photo photo) {
         // 创建用户照片View
-        View userPhotoView = getLayoutInflater().inflate(R.layout.user_info_photo, null);
+        View userPhotoView = getLayoutInflater().inflate(R.layout.user_info_photo, photoLayout, false);
         ImageView photoView = (ImageView) userPhotoView.findViewById(R.id.user_info_photo_image_view);
         ImageManager.displayPortrait(photo.getThumbnailUrl(), photoView);
         userPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
+                intent.putExtra(ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
                 startActivity(intent);
             }
         });

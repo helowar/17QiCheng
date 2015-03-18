@@ -43,6 +43,7 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_NAME;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
@@ -62,11 +63,6 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @version 1.0 2015年2月1日
  */
 public class TravellerActivity extends BaseActivity {
-
-    /**
-     * 推荐车友View
-     */
-    private HorizontalScrollListView recommendPersonsView = null;
 
     /**
      * 推荐车友Layout
@@ -130,6 +126,11 @@ public class TravellerActivity extends BaseActivity {
      */
     private String queryValue = null;
 
+    /**
+     * 查询名称
+     */
+    private String queryName = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,10 +138,10 @@ public class TravellerActivity extends BaseActivity {
         // 获取上一个Activity传递过来的查询值
         Bundle extras = getIntent().getExtras();
         queryValue = extras.getString(TRAVELLER_QUERY_VALUE);
-        String queryName = extras.getString(TRAVELLER_QUERY_NAME);
+        queryName = extras.getString(TRAVELLER_QUERY_NAME);
         setTitle(queryName + " " + getTitle());
         // 获取各种View对象
-        recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
+        HorizontalScrollListView recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.traveller_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.traveller_recommend_persons_layout);
         startBtn = (Button) findViewById(R.id.traveller_start_btn);
         endBtn = (Button) findViewById(R.id.traveller_end_btn);
@@ -211,8 +212,10 @@ public class TravellerActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_traveller, menu);
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
         User user = Cache.getInstance().getUser();
         int genderQueryValue = user.getQueryValue().getGender();
         if (genderQueryValue == Const.SEX_ALL) {
@@ -402,6 +405,7 @@ public class TravellerActivity extends BaseActivity {
                     UserDetail userDetail = result.getUserDetail();
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                     intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    intent.putExtra(FRIEND_SOURCE_KEY, queryName);
                     startActivity(intent);
                 }
             }
