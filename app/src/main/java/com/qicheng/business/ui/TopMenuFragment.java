@@ -68,6 +68,7 @@ public class TopMenuFragment extends BaseFragment {
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
         initViewItem(inflater, R.string.test_count_benefit, R.drawable.ic_account_setting);
+        initViewItem(inflater, R.string.test_request_benefit, R.drawable.ic_account_setting);
 
     }
 
@@ -92,7 +93,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        startUserInfoActivity(null);
+                        startUserInfoActivity(null, PersonalInformationActivity.class);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -100,7 +101,7 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_photo:
                        /*跳转到我的相册*/
-                        skipToActivity(AlbumActivity.class);
+                        startUserInfoActivity(null, AlbumActivity.class);
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
@@ -111,8 +112,11 @@ public class TopMenuFragment extends BaseFragment {
                         skipToActivity(UserSettingActivity.class);
                         break;
                     case R.string.test_count_benefit:
-                       /*跳转到账户设置*/
                         skipToActivity(BenefitCountActivity.class);
+                        break;
+
+                    case R.string.test_request_benefit:
+                        skipToActivity(BenefitRequestActivity.class);
                         break;
                     default:
                         break;
@@ -191,8 +195,8 @@ public class TopMenuFragment extends BaseFragment {
      *
      * @param userId 用户ID
      */
-    private void startUserInfoActivity(String userId) {
-        UserLogic userLogic =  (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+    private void startUserInfoActivity(String userId, final Class cls) {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
         userLogic.getUserDetail(userId, Const.ID_TYPE_USER_ID, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
@@ -201,7 +205,7 @@ public class TopMenuFragment extends BaseFragment {
                 OperErrorCode errCode = result.getErrCode();
                 if (errCode == OperErrorCode.Success) {
                     UserDetail userDetail = result.getUserDetail();
-                    Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+                    Intent intent = new Intent(getActivity(), cls);
                     intent.putExtra(USER_DETAIL_KEY, userDetail);
                     startActivity(intent);
                 }

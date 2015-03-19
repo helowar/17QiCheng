@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,9 +16,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qicheng.R;
-import com.qicheng.framework.ui.base.BaseActivity;
 
-public class BenefitCountActivity extends BaseActivity {
+public class BenefitRequestActivity extends Activity {
+
     private BenefitOfAllFragment benefitOfAllFragment;
 
     private TextView allBenefit, carBenefit, hotelBenefit, touristBenefit;
@@ -30,7 +31,7 @@ public class BenefitCountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_benefit_count);
+        setContentView(R.layout.activity_benefit_request);
         allBenefit = (TextView) findViewById(R.id.all_benefit_title);
         allBenefit.setTag(TAG_ALL);
         setTagOnclickListener(allBenefit);

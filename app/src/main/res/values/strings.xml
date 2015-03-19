@@ -308,7 +308,6 @@
     <string name="title_activity_original_picture">原图</string>
 
 
-
     <!-- personal information activity begin -->
     <string name="personal_portrait_text">头像</string>
     <string name="personal_nickname_text">昵称</string>
@@ -335,10 +334,18 @@
     <!--DynPublishActivity end-->
 
     <!-- AlbumActivity begin-->
-    <string name="title_activity_album">AlbumActivity</string>
-    <string name="title_activity_select_education">SelectEducationActivity</string>
-    <string name="title_activity_benefit_count">BenefitCountActivity</string>
+    <string name="title_activity_album">我的相册</string>
+    <string name="title_activity_select_education">选择学历</string>
+    <string name="title_activity_benefit_count">数福利</string>
     <!-- AlbumActivity end -->
 
+    <!--代金券相关string begin-->
     <string name="test_count_benefit">测试代金券</string>
+    <string name="test_request_benefit">测求代金券</string>
+    <string name="title_activity_benefit_request">求福利</string>
+    <string name="benefit_all_text">全部</string>
+    <string name="benefit_car_text">用车</string>
+    <string name="benefit_hotel_text">酒店</string>
+    <string name="benefit_tourist_text">景点</string>
+    <!--代金券相关string end-->
 </resources>

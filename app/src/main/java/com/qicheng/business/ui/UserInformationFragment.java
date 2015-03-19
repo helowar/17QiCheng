@@ -34,6 +34,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -46,6 +47,8 @@ import com.qicheng.util.Const;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 public class UserInformationFragment extends BaseFragment {
     private View view;
@@ -96,6 +99,7 @@ public class UserInformationFragment extends BaseFragment {
      */
     public void initView(LayoutInflater inflater) {
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
+        UserDetail userDetail =(UserDetail)getActivity().getIntent().getExtras().get(USER_DETAIL_KEY);
         User user = Cache.getInstance().getUser();
           /*个人头像*/
         initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
@@ -108,13 +112,13 @@ public class UserInformationFragment extends BaseFragment {
         addSeparation(inflater);
 
         /*行业*/
-        initViewItem(inflater, R.string.personal_industry_text, "计算机");
+        initViewItem(inflater, R.string.personal_industry_text, userDetail.getIndustry());
         /*学历*/
-        initViewItem(inflater, R.string.personal_education_text, "本科");
+        initViewItem(inflater, R.string.personal_education_text, userDetail.getEducation());
         /*所在地*/
-        initViewItem(inflater, R.string.personal_residence_text, "杭州");
+        initViewItem(inflater, R.string.personal_residence_text, userDetail.getResidence());
         /*家乡*/
-        initViewItem(inflater, R.string.personal_home_text, "杭州");
+        initViewItem(inflater, R.string.personal_home_text, userDetail.getHometown());
         /*添加分割段*/
         addSeparation(inflater);
 
@@ -496,10 +500,5 @@ public class UserInformationFragment extends BaseFragment {
     }
 
 
-    /**
-     *
-     */
-    private void getUserDetail(){
 
-    }
 }
