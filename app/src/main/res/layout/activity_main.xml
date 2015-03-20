@@ -96,16 +96,16 @@
             style="@style/bottomTab" />
 
         <RadioButton
-            android:id="@+id/rbTicket"
+            android:id="@+id/rbBenefit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/tab_selector_userinfo"
+            android:drawableTop="@drawable/tab_selector_benefit"
             android:gravity="center_horizontal|bottom"
             android:paddingTop="2dp"
-            android:text="代金券"
+            android:text="福利"
             style="@style/bottomTab" />
     </RadioGroup>
 

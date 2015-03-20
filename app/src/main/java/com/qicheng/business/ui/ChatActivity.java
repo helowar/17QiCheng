@@ -164,11 +164,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     public String playMsgId;
     private String toChatUserNickName;
     private String toChatUserAvatar;
+    private String source;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        source = getIntent().getStringExtra(Const.Intent.);
         initView();
         setUpView();
     }

@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.hardware.sensor.accelerometer" />
     <!-- 友盟权限 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 环信权限 -->
@@ -281,6 +283,11 @@
         <activity
             android:name=".business.ui.UserInformationModifyActivity"
             android:label="@string/title_activity_user_information_modify"
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.chat.activity.ContactActivity"
+            android:label="@string/title_activity_contact" >
             android:logo="@drawable/ic_user" >
         </activity>
         <activity

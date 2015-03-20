@@ -175,6 +175,13 @@
     <string name="Cant_chat_with_yourself">不能和自己聊天</string>
     <string name="search">搜索</string>
     <string name="black_list">黑名单</string>
+    <string name="search_new">搜</string>
+    <string name="now_refresh_list">正在刷新联系人</string>
+    <string name="Delete_the_contact">删除联系人</string>
+    <string name="Move_into_the_blacklist_new">移入到黑名单</string>
+    <string name="deleting">正在删除...</string>
+    <string name="Delete_failed">删除失败:</string>
+    <string name="Is_moved_into_blacklist">正在移入黑名单...</string>
     <!--Chat Activity end-->
     <!--Context Menu-->
     <string name="delete_message">删除消息</string>
