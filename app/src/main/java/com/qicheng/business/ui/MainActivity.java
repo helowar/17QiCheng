@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
@@ -34,6 +35,8 @@ public class MainActivity extends BaseActivity {
     private RadioButton socialRb;
     private RadioButton messageRb;
     private RadioButton benefitRb;
+
+    private RadioGroup bottomBar;
 
     BadgeView messageBadge;
     BadgeView ticketBadge;
@@ -103,6 +106,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initView() {
+        bottomBar = (RadioGroup)findViewById(R.id.tab_menu);
         tripFragment = new TripListFragment();
         getFragmentManager().beginTransaction().add(R.id.trip_content, tripFragment).commit();
         findViewById(R.id.trip_content).setVisibility(View.VISIBLE);
@@ -355,6 +359,14 @@ public class MainActivity extends BaseActivity {
 
     public int getIndex() {
         return index;
+    }
+
+    public void hideBottomBar(){
+        bottomBar.setVisibility(View.GONE);
+    }
+
+    public void showBottomBar(){
+        bottomBar.setVisibility(View.VISIBLE);
     }
 
 

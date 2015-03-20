@@ -168,22 +168,22 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 				mList = new ArrayList<User>();
 			}
 			if(prefix==null || prefix.length()==0){
-				results.values = copyUserList;
-				results.count = copyUserList.size();
+				results.values = mList;
+				results.count = mList.size();
 			}else{
 				String prefixString = prefix.toString();
 				final int count = mList.size();
 				final ArrayList<User> newValues = new ArrayList<User>();
 				for(int i=0;i<count;i++){
 					final User user = mList.get(i);
-					String username = user.getUserImId();
+					String username = user.getNickName();
 					
-					EMConversation conversation = EMChatManager.getInstance().getConversation(username);
-					if(conversation != null){
-						username = conversation.getUserName();
-					}
+//					EMConversation conversation = EMChatManager.getInstance().getConversation(username);
+//					if(conversation != null){
+//						username = conversation.getUserName();
+//					}
 					
-					if(username.startsWith(prefixString)){
+					if(username.contains(prefixString)){
 						newValues.add(user);
 					}
 					else{
@@ -192,7 +192,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 	
 	                     // Start at index 0, in case valueText starts with space(s)
 	                     for (int k = 0; k < wordCount; k++) {
-	                         if (words[k].startsWith(prefixString)) {
+	                         if (words[k].contains(prefixString)) {
 	                             newValues.add(user);
 	                             break;
 	                         }

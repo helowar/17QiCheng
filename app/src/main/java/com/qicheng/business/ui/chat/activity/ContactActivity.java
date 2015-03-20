@@ -97,6 +97,7 @@ public class ContactActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 query.getText().clear();
+                hideSoftKeyboard();
             }
         });
 
@@ -291,6 +292,7 @@ public class ContactActivity extends BaseActivity {
                 if(errorCode==OperErrorCode.Success){
                     contactList.clear();
                     contactList.addAll(contactEventArgs.getContactList());
+                    adapter.notifyDataSetChanged();
                     Collections.sort(contactList, new Comparator<User>() {
                         @Override
                         public int compare(User lhs, User rhs) {
@@ -308,4 +310,11 @@ public class ContactActivity extends BaseActivity {
 //        contactList.add(0, users.get(Constant.NEW_FRIENDS_USERNAME));
     }
 
+    void hideSoftKeyboard() {
+        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getActivity().getCurrentFocus() != null)
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
 }

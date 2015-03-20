@@ -27,6 +27,7 @@ import com.easemob.chat.EMMessage.ChatType;
 import com.easemob.chat.VoiceMessageBody;
 import com.qicheng.R;
 import com.qicheng.business.ui.ChatActivity;
+import com.qicheng.util.Const;
 
 public class VoicePlayClickListener implements View.OnClickListener {
 
@@ -63,7 +64,7 @@ public class VoicePlayClickListener implements View.OnClickListener {
 	}
 
 	public void stopPlayVoice() {
-		voiceAnimation.stop();
+//		voiceAnimation.stop();
 		if (message.direct == EMMessage.Direct.RECEIVE) {
 			voiceIconView.setImageResource(R.drawable.chatfrom_voice_playing);
 		} else {
@@ -147,8 +148,8 @@ public class VoicePlayClickListener implements View.OnClickListener {
 		} else {
 			voiceIconView.setImageResource(R.drawable.chatto_voice_playing_f1);
 		}
-		voiceAnimation = (AnimationDrawable) voiceIconView.getDrawable();
-		voiceAnimation.start();
+//		voiceAnimation = (AnimationDrawable) voiceIconView.getDrawable();
+//		voiceAnimation.start();
 	}
 
 	@Override
