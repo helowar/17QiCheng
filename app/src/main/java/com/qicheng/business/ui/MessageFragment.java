@@ -180,6 +180,16 @@ public class MessageFragment extends BaseFragment {
         query.setHint(strSearch);
         // 搜索框中清除button
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
+        query.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    ((MainActivity)getActivity()).hideBottomBar();
+                }else {
+                    ((MainActivity)getActivity()).showBottomBar();
+                }
+            }
+        });
         query.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 adapter.getFilter().filter(s);
@@ -201,6 +211,7 @@ public class MessageFragment extends BaseFragment {
             public void onClick(View v) {
                 query.getText().clear();
                 hideSoftKeyboard();
+                ((MainActivity)getActivity()).showBottomBar();
             }
         });
 
