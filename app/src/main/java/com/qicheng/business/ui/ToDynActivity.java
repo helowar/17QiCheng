@@ -13,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,16 +21,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.module.Dyn;
-import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.ui.component.DynSearch;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -37,6 +40,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
@@ -146,7 +150,7 @@ public class ToDynActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trip_to_dyn, menu);
-        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY||dynSearch.getQueryType()==Const.QUERY_TYPE_USER) {
+        if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY || dynSearch.getQueryType() == Const.QUERY_TYPE_USER) {
             menu.findItem(R.id.activity_add).setVisible(false);
         }
         return true;
@@ -401,8 +405,12 @@ public class ToDynActivity extends BaseActivity {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
-                ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
+                ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
+                stopLoading();
+                int screenWidth = UIUtil.getScreenWidth(getActivity());
                 holder.photo.setVisibility(View.VISIBLE);
+                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth,screenWidth));
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -475,7 +483,16 @@ public class ToDynActivity extends BaseActivity {
             holder.weixin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (bean.getUserImId().equals(Cache.getInstance().getUser().getUserImId())) {
+                        return;
+                    }
+                    Intent i = new Intent();
+                    i.setClass(getActivity(), ChatActivity.class);
+                    i.putExtra(Const.Intent.FRIEND_SOURCE_KEY, getTitle());
+                    i.putExtra(Const.Intent.HX_USER_ID, bean.getUserImId());
+                    i.putExtra(Const.Intent.HX_USER_NICK_NAME, bean.getNickName());
+                    i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, bean.getPortraitUrl());
+                    startActivity(i);
                 }
             });
             return convertView;

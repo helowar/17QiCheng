@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           tools:ignore="MissingTranslation">
 
     <string name="app_name">QiCheng</string>
     <string name="txt_confirm">确定</string>
@@ -175,6 +176,14 @@
     <string name="Cant_chat_with_yourself">不能和自己聊天</string>
     <string name="search">搜索</string>
     <string name="black_list">黑名单</string>
+    <string name="search_new">搜</string>
+    <string name="now_refresh_list">正在刷新联系人</string>
+    <string name="Delete_the_contact">删除联系人</string>
+    <string name="Move_into_the_blacklist_new">移入到黑名单</string>
+    <string name="deleting">正在删除...</string>
+    <string name="Delete_failed">删除失败:</string>
+    <string name="Is_moved_into_blacklist">正在移入黑名单...</string>
+    <string name="title_activity_contact">联系人</string>
     <!--Chat Activity end-->
     <!--Context Menu-->
     <string name="delete_message">删除消息</string>
@@ -308,7 +317,6 @@
     <string name="title_activity_original_picture">原图</string>
 
 
-
     <!-- personal information activity begin -->
     <string name="personal_portrait_text">头像</string>
     <string name="personal_nickname_text">昵称</string>
@@ -335,10 +343,21 @@
     <!--DynPublishActivity end-->
 
     <!-- AlbumActivity begin-->
-    <string name="title_activity_album">AlbumActivity</string>
-    <string name="title_activity_select_education">SelectEducationActivity</string>
-    <string name="title_activity_benefit_count">BenefitCountActivity</string>
+    <string name="title_activity_album">我的相册</string>
+    <string name="title_activity_select_education">选择学历</string>
+    <string name="title_activity_benefit_count">数福利</string>
     <!-- AlbumActivity end -->
 
+    <!--代金券相关string begin-->
     <string name="test_count_benefit">测试代金券</string>
+    <string name="test_request_benefit">测求代金券</string>
+    <string name="title_activity_benefit_request">求福利</string>
+    <string name="benefit_all_text">优惠券</string>
+    <string name="benefit_entity_text">赠品</string>
+
+    <string name="title_activity_benefit_detail">BenefitDetailActivity</string>
+    <string name="title_activity_user_information_cellnum_modify">
+        UserInformationCellnumModifyActivity
+    </string>
+    <!--代金券相关string end-->
 </resources>

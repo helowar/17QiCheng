@@ -25,6 +25,7 @@
     <color name="grid_state_pressed">#1Affffff</color>
     <color name="grid_state_focused">#80000000</color>
     <color name="error_item_color">#F6EBE6</color>
+    <color name="divider_list">#cccccc</color>
 
 
     <!-- 正在进行的友约的状态标签的背景色 -->

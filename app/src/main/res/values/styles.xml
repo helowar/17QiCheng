@@ -166,12 +166,12 @@
         <item name="android:textColor">@color/main</item>
 
     </style>
-    
+
     <style name="custom_dialog">
 
     </style>
 
-    
+
     <!--IM 相关样式 begin-->
     <style name="chat_text_date_style">
         <item name="android:padding">2dp</item>
@@ -183,11 +183,13 @@
         <item name="android:textSize">12sp</item>
         <item name="android:background">@drawable/timestampe_bg</item>
     </style>
+
     <style name="chat_text_name_style">
         <item name="android:textColor">#818181</item>
         <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
     </style>
+
     <style name="chat_content_date_style">
         <item name="android:minHeight">50dp</item>
         <item name="android:gravity">center</item>
@@ -198,6 +200,7 @@
         <item name="android:focusable">true</item>
         <item name="android:background">#bfbfbf</item>
     </style>
+
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
@@ -211,5 +214,13 @@
     <!--IM 相关样式 end-->
     <style name="benefit_text_style">
         <item name="android:textColor">@color/main</item>
+    </style>
+
+    <!-- 代金券的title样式-->
+    <style name="benefit_item_style">
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/benefit_title_shape_selector</item>
     </style>
 </resources>

@@ -49,6 +49,7 @@ public class UserLogic extends BaseLogic {
         }
     }
 
+
     private static Logger logger = new Logger("com.qicheng.business.logic.UserLogic");
 
     /**

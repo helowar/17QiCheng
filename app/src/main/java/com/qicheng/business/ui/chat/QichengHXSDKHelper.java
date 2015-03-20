@@ -113,7 +113,6 @@ public class QichengHXSDKHelper extends HXSDKHelper {
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra("conflict", true);
 //        appContext.startActivity(intent);
-        ((UserLogic)LogicFactory.self().get(LogicFactory.Type.User)).loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
     }
     @Override
     protected void onCurrentAccountRemoved(){

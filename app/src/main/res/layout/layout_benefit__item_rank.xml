@@ -1,0 +1,100 @@
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_gold" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/personal_information_person_img"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/ic_test_img" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/benefit_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="落花流水"
+                android:layout_marginBottom="4dp"
+                style="@style/benefit_text_style" />
+
+            <ImageView
+                android:id="@+id/ic_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_ticket"
+                android:layout_below="@id/user_name" />
+
+            <TextView
+                android:id="@+id/all_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="24"
+                android:textColor="#e50011"
+                android:layout_toRightOf="@id/ic_ticket"
+                android:layout_below="@id/user_name" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张"
+                android:textColor="@color/main"
+                android:layout_toRightOf="@id/all_num"
+                android:layout_below="@id/user_name" />
+
+
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share_benefit" />
+    </LinearLayout>
+
+    <include layout="@layout/layout_separation" />
+
+
+</LinearLayout>

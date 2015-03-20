@@ -6,7 +6,9 @@
     android:paddingBottom="7dp"
     android:background="@color/main"
     android:paddingLeft="@dimen/padding_search_bar"
-    android:paddingRight="@dimen/padding_search_bar" >
+    android:paddingRight="@dimen/padding_search_bar"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
     <!--android:background="#ededed"-->
     <EditText
       	android:paddingTop="5dp"

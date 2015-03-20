@@ -8,11 +8,13 @@
 package com.qicheng.business.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.qicheng.R;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,13 @@ public class BenefitOfAllFragment extends BaseFragment {
         strings.add("自行车");
         benefitListAdapter = new BenefitListAdapter(getActivity(), strings);
         listView.setAdapter(benefitListAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),BenefitDetailActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -93,11 +103,6 @@ public class BenefitOfAllFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            DisplayMetrics dm = new DisplayMetrics();
-            //取得窗口属性
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            //窗口的宽度
-            int screenWidth = dm.widthPixels;
             View view = null;
             if (convertView == null) {
                 view = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);

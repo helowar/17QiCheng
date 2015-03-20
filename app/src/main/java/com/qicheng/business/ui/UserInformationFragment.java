@@ -34,6 +34,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -47,31 +48,24 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
+
 public class UserInformationFragment extends BaseFragment {
     private View view;
     private LinearLayout linearLayout;
-
     private TextView birthdayView;
-
     private TextView nicknameView;
-
     private TextView homeView;
-
     private TextView residenceView;
-
     private TextView industryView;
     private TextView educationView;
-
     private String portraitUrl;
-
     private ImageView portraitView;
-
     /* 请求码 */
-    private static final int DATE_REQUEST_CODE = 3;
-
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESULT_REQUEST_CODE = 2;
+    private static final int DATE_REQUEST_CODE = 3;
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
@@ -93,9 +87,10 @@ public class UserInformationFragment extends BaseFragment {
      * 初始化View视图
      *
      * @param inflater
-     */
+    */
     public void initView(LayoutInflater inflater) {
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
+        UserDetail userDetail = (UserDetail) getActivity().getIntent().getExtras().get(USER_DETAIL_KEY);
         User user = Cache.getInstance().getUser();
           /*个人头像*/
         initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
@@ -108,13 +103,13 @@ public class UserInformationFragment extends BaseFragment {
         addSeparation(inflater);
 
         /*行业*/
-        initViewItem(inflater, R.string.personal_industry_text, "计算机");
+        initViewItem(inflater, R.string.personal_industry_text, userDetail.getIndustry());
         /*学历*/
-        initViewItem(inflater, R.string.personal_education_text, "本科");
+        initViewItem(inflater, R.string.personal_education_text, userDetail.getEducation());
         /*所在地*/
-        initViewItem(inflater, R.string.personal_residence_text, "杭州");
+        initViewItem(inflater, R.string.personal_residence_text, userDetail.getResidence());
         /*家乡*/
-        initViewItem(inflater, R.string.personal_home_text, "杭州");
+        initViewItem(inflater, R.string.personal_home_text, userDetail.getHometown());
         /*添加分割段*/
         addSeparation(inflater);
 
@@ -362,7 +357,7 @@ public class UserInformationFragment extends BaseFragment {
                 OperErrorCode errCode = userEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        Cache.getInstance().getUser().setPortraitURL(Const.BASE_URL+updateValue);
+                        Cache.getInstance().getUser().setPortraitURL(Const.BASE_URL + updateValue);
                         Cache.getInstance().refreshCacheUser();
                         break;
                 }
@@ -496,10 +491,4 @@ public class UserInformationFragment extends BaseFragment {
     }
 
 
-    /**
-     *
-     */
-    private void getUserDetail(){
-
-    }
 }
