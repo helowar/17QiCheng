@@ -21,6 +21,7 @@ public class LogicFactory {
         Location,
         Dyn,
         Station,
+        Contact,
 	}
 	
 	private Map<Type, BaseLogic.Factory> mFactorys = new HashMap<Type, BaseLogic.Factory>();
@@ -46,6 +47,7 @@ public class LogicFactory {
         mFactorys.put(Type.Location,new LocationLogic.Factory());
         mFactorys.put(Type.Dyn,new DynLogic.Factory());
         mFactorys.put(Type.Station,new StationLogic.Factory());
+        mFactorys.put(Type.Contact,new ContactLogic.Factory());
 	}
 	
 	public BaseLogic get(Type type) {

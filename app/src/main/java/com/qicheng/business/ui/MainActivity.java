@@ -10,29 +10,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.easemob.chat.EMChatManager;
-import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMMessage;
 import com.qicheng.R;
-import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.UserLogic;
-import com.qicheng.business.module.User;
 import com.qicheng.business.service.LocationService;
 import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.business.ui.component.BadgeView;
-import com.qicheng.framework.event.EventArgs;
-import com.qicheng.framework.event.EventId;
-import com.qicheng.framework.event.EventListener;
-import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
@@ -45,14 +33,14 @@ public class MainActivity extends BaseActivity {
     private RadioButton actyRb;
     private RadioButton socialRb;
     private RadioButton messageRb;
-    private RadioButton ticketRb;
+    private RadioButton benefitRb;
 
     BadgeView messageBadge;
     BadgeView ticketBadge;
 
     private MessageFragment messageFragment;
     private TripListFragment tripFragment;
-    private VoucherFragment voucherFragment;
+    private BenifitFragment benefitFragment;
     private SocialFragment socialFragment;
     private ActyFragment actyFragment;
 
@@ -122,7 +110,7 @@ public class MainActivity extends BaseActivity {
         actyRb = (RadioButton) findViewById(R.id.rbSocial);
         socialRb = (RadioButton) findViewById(R.id.rbActy);
         messageRb = (RadioButton) findViewById(R.id.rbMessage);
-        ticketRb = (RadioButton) findViewById(R.id.rbTicket);
+        benefitRb = (RadioButton) findViewById(R.id.rbBenefit);
         //附加Badge
         messageBadge = new BadgeView(getActivity());
         messageBadge.setMaxCount(99);
@@ -133,7 +121,7 @@ public class MainActivity extends BaseActivity {
         ticketBadge = new BadgeView(getActivity());
         ticketBadge.setHideOnNull(true);
         ticketBadge.setBadgeMargin(4);
-        ticketBadge.setTargetView(ticketRb);
+        ticketBadge.setTargetView(benefitRb);
         ticketBadge.setBadgeCount(8);
         BadgeView tripBadge = new BadgeView(getActivity());
         tripBadge.setHideOnNull(true);
@@ -156,7 +144,7 @@ public class MainActivity extends BaseActivity {
         actyRb.setOnClickListener(checkedListener);
         socialRb.setOnClickListener(checkedListener);
         messageRb.setOnClickListener(checkedListener);
-        ticketRb.setOnClickListener(checkedListener);
+        benefitRb.setOnClickListener(checkedListener);
         fromChatNotification();
     }
 
@@ -167,7 +155,7 @@ public class MainActivity extends BaseActivity {
             actyRb.setChecked(false);
             socialRb.setChecked(false);
             messageRb.setChecked(true);
-            ticketRb.setChecked(false);
+            benefitRb.setChecked(false);
             onCheckedChanged(messageRb.getId());
         }
     }
@@ -223,7 +211,7 @@ public class MainActivity extends BaseActivity {
                 setTitle("消息");
                 break;
             case Const.INDEX_VOUCHER:
-                setTitle("代金券");
+                setTitle("福利");
                 break;
         }
         ActionBar actionBar = this.getActionBar();
@@ -269,7 +257,7 @@ public class MainActivity extends BaseActivity {
             actyRb.setChecked(false);
             socialRb.setChecked(false);
             messageRb.setChecked(false);
-            ticketRb.setChecked(false);
+            benefitRb.setChecked(false);
             RadioButton target = (RadioButton) v;
             target.setChecked(true);
             onCheckedChanged(target.getId());
@@ -323,11 +311,11 @@ public class MainActivity extends BaseActivity {
                 }
                 activatedFrame(R.id.social_content);
                 break;
-            case R.id.rbTicket:
+            case R.id.rbBenefit:
                 index = Const.INDEX_VOUCHER;
-                if (voucherFragment == null) {
-                    voucherFragment = new VoucherFragment();
-                    getFragmentManager().beginTransaction().add(R.id.user_content, voucherFragment).commit();
+                if (benefitFragment == null) {
+                    benefitFragment = new BenifitFragment();
+                    getFragmentManager().beginTransaction().add(R.id.user_content, benefitFragment).commit();
                 } else {
                     invalidateOptionsMenu();
                 }
