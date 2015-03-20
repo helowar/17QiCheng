@@ -48,7 +48,6 @@ public class OriginalPictureActivity extends BaseActivity {
         dragImageView = (DragImageView) findViewById(R.id.div_main);
         dragImageView.setAdjustViewBounds(true);
         dragImageView.setMaxHeight(window_width);
-        dragImageView.setMaxWidth(window_height);
         dragImageView.setLayoutParams(new LinearLayout.LayoutParams(window_width,LinearLayout.LayoutParams.WRAP_CONTENT));
         ImageManager.displayImageDefault(url, dragImageView);
         dragImageView.setmActivity(this);//注入Activity.
@@ -65,7 +64,7 @@ public class OriginalPictureActivity extends BaseActivity {
                             getWindow().getDecorView()
                                     .getWindowVisibleDisplayFrame(frame);
                             state_height = frame.top;
-                            dragImageView.setScreen_H(window_height);
+                            dragImageView.setScreen_H(window_height-state_height);
                             dragImageView.setScreen_W(window_width);
                         }
 

@@ -286,7 +286,7 @@
         </activity>
         <activity
             android:name=".business.ui.chat.activity.ContactActivity"
-            android:label="@string/title_activity_contact" >
+            android:label="@string/title_activity_contact"
             android:logo="@drawable/ic_user" >
         </activity>
         <activity
