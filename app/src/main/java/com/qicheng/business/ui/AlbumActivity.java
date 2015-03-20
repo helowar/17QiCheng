@@ -25,6 +25,7 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
+import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -128,7 +129,7 @@ public class AlbumActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, list.get(position).getPhotoUrl());
+                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY,list.get(position).getPhotoUrl());
                         startActivity(intent);
                     }
                 });

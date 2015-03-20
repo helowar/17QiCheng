@@ -152,7 +152,6 @@ public class BitmapUtils {
     public static Bitmap drawableToBitamp(Drawable drawable) {
         int w = drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight();
-        System.out.println("Drawable转Bitmap");
         Bitmap.Config config =
                 drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
                         : Bitmap.Config.RGB_565;
@@ -163,6 +162,9 @@ public class BitmapUtils {
         drawable.draw(canvas);
         return bitmap;
     }
+
+
+
 
     /**
      * 读取本地资源的图片
@@ -211,7 +213,6 @@ public class BitmapUtils {
                                    int screenHight) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
-        Log.e("jj", "图片宽度" + w + ",screenWidth=" + screenWidth);
         Matrix matrix = new Matrix();
         float scale = (float) screenWidth / w;
         float scale2 = (float) screenHight / h;

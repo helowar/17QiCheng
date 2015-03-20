@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -31,6 +32,7 @@ import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.module.Dyn;
+import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.event.EventArgs;
@@ -43,6 +45,7 @@ import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -30,6 +30,7 @@ import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
 import com.qicheng.business.module.UserDetail;
+import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -38,6 +39,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -297,7 +299,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                intent.putExtra(ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
+                intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
                 startActivity(intent);
             }
         });

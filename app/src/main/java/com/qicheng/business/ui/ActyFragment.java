@@ -34,6 +34,7 @@ import com.qicheng.business.module.Dyn;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.TrainStation;
+import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.event.EventArgs;
