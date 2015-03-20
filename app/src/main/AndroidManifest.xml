@@ -310,6 +310,7 @@
         <activity
             android:name=".business.ui.BenefitDetailActivity"
             android:label="@string/title_activity_benefit_detail"
+            android:logo="@drawable/ic_user"
             android:parentActivityName=".framework.ui.base.BaseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

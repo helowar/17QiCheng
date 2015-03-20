@@ -355,7 +355,7 @@
     <string name="benefit_all_text">优惠券</string>
     <string name="benefit_entity_text">赠品</string>
 
-    <string name="title_activity_benefit_detail">BenefitDetailActivity</string>
+    <string name="title_activity_benefit_detail">福利详情</string>
     <string name="title_activity_user_information_cellnum_modify">
         UserInformationCellnumModifyActivity
     </string>
