@@ -288,6 +288,25 @@
         <activity
             android:name=".business.ui.chat.activity.ContactActivity"
             android:label="@string/title_activity_contact" >
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.SelectEducationActivity"
+            android:label="@string/title_activity_select_education"
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.BenefitCountActivity"
+            android:label="@string/title_activity_benefit_count"
+            android:logo="@drawable/ic_user" >
+        </activity>
+        <activity
+            android:name=".business.ui.BenefitRequestActivity"
+            android:label="@string/title_activity_benefit_request"
+            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
         </activity>
     </application>
 

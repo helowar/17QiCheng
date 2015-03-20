@@ -1,0 +1,80 @@
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_ticket"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/benefit_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_didi"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/benefit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/benefit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="专车券"
+            style="@style/benefit_text_style" />
+
+        <TextView
+            android:id="@+id/benefit_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="截止日期 2015-03-31"
+            style="@style/benefit_text_style" />
+
+        <TextView
+            android:id="@+id/benefit_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="费用大于100可用"
+            style="@style/benefit_text_style" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/benefit_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            style="@style/benefit_text_style" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textSize="40sp"
+            style="@style/benefit_text_style" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@drawable/ic_share_benefit" />
+
+</LinearLayout>

@@ -43,6 +43,7 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
@@ -62,11 +63,6 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @version 1.0 2015年2月1日
  */
 public class PassengerActivity extends BaseActivity {
-
-    /**
-     * 推荐车友View
-     */
-    private HorizontalScrollListView recommendPersonsView = null;
 
     /**
      * 推荐车友Layout
@@ -154,7 +150,7 @@ public class PassengerActivity extends BaseActivity {
         queryValue = extras.getString(Const.Intent.TRAVELLER_QUERY_VALUE);
         setTitle(queryValue + " " + getTitle());
         // 获取各种View对象
-        recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.passenger_recommend_persons_view);
+        HorizontalScrollListView recommendPersonsView = (HorizontalScrollListView) findViewById(R.id.passenger_recommend_persons_view);
         recommendPersonsLayout = (LinearLayout) findViewById(R.id.passenger_recommend_persons_layout);
         notOnBtn = (Button) findViewById(R.id.passenger_not_on_btn);
         onBtn = (Button) findViewById(R.id.passenger_on_btn);
@@ -259,8 +255,10 @@ public class PassengerActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_passenger, menu);
         ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
         User user = Cache.getInstance().getUser();
         int genderQueryValue = user.getQueryValue().getGender();
         if (genderQueryValue == Const.SEX_ALL) {
@@ -423,10 +421,8 @@ public class PassengerActivity extends BaseActivity {
 
     private View createRecommendPersonView(final User traveller) {
         // 创建推荐车友View
-        View recommendPersonView;
-        ImageView imageView = null;
-        recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
-        imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
+        View recommendPersonView = getActivity().getLayoutInflater().inflate(R.layout.traveller_recommend_person, recommendPersonsLayout, false);
+        ImageView imageView = (ImageView) recommendPersonView.findViewById(R.id.traveller_recommend_person_img);
         String portraitUrl = traveller.getPortraitURL();
         ImageManager.displayPortrait(portraitUrl, imageView);
         recommendPersonView.setOnClickListener(new View.OnClickListener() {
@@ -454,6 +450,7 @@ public class PassengerActivity extends BaseActivity {
                     UserDetail userDetail = result.getUserDetail();
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                     intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    intent.putExtra(FRIEND_SOURCE_KEY, queryValue);
                     startActivity(intent);
                 }
             }

@@ -28,7 +28,7 @@ import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.DynEventAargs;
 import com.qicheng.business.module.Dyn;
-import com.qicheng.business.ui.component.DynListView;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -52,7 +52,7 @@ import static com.qicheng.util.Const.Intent.DYN_QUERY_VALUE;
 public class ToDynActivity extends BaseActivity {
 
     /*动态的ListView视图*/
-    private DynListView dynListView = null;
+    private GeneralListView dynListView = null;
     /*动态的ListView的Adapter*/
     private DynListViewAdapter listAdapter;
     /*搜索选线的GridView视图*/
@@ -70,7 +70,7 @@ public class ToDynActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_to_dyn);
 
-        dynListView = (DynListView) findViewById(R.id.dynlist);
+        dynListView = (GeneralListView) findViewById(R.id.dynlist);
         listAdapter = new DynListViewAdapter(getActivity().getApplicationContext());
         Bundle extras = getIntent().getExtras();
         String queryValue = extras.getString(DYN_QUERY_VALUE);
@@ -88,7 +88,7 @@ public class ToDynActivity extends BaseActivity {
         getDynList(dynSearch);
         dynListView.setAdapter(listAdapter);
 
-        dynListView.setonRefreshListener(new DynListView.OnRefreshListener() {
+        dynListView.setonRefreshListener(new GeneralListView.OnRefreshListener() {
 
             @Override
             public void onRefresh() {

@@ -14,8 +14,11 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LabelLogic;
 import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.LabelEventArgs;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -26,6 +29,8 @@ import com.qicheng.util.Const;
 
 import java.util.Date;
 
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
+
 /**
  * @author 金玉龙
  *         功能描述：列表Fragment，用来显示列表视图
@@ -33,6 +38,8 @@ import java.util.Date;
 public class TopMenuFragment extends BaseFragment {
     private View view;
     private LinearLayout linearLayout;
+
+    private static final int UPDATE_USER_INFORMATION = 0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initView(inflater);
@@ -47,22 +54,7 @@ public class TopMenuFragment extends BaseFragment {
      */
     public void initView(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.menu_list, null);
-        User user = Cache.getInstance().getUser();
-        ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
-        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
-        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
-        String nickname = user.getNickName();
-        nicknameView.setText(nickname);
-        if (user.getGender() == 1) {
-            ImageView gender = (ImageView) view.findViewById(R.id.gender);
-            gender.setImageResource(R.drawable.ic_male);
-        }
-        String birthday = user.getBirthday();
-        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
-        String age = DateTimeUtil.getAge(birthdayDate);
-        TextView ageView = (TextView) view.findViewById(R.id.age);
-        ageView.setText(age + "岁");
-
+        getUserInformation();
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
           /*个人资料menu*/
         initViewItem(inflater, R.string.personal, R.drawable.ic_personal);
@@ -74,6 +66,9 @@ public class TopMenuFragment extends BaseFragment {
         initViewItem(inflater, R.string.my_activity, R.drawable.ic_fliter);
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
+
+        initViewItem(inflater, R.string.test_count_benefit, R.drawable.ic_account_setting);
+        initViewItem(inflater, R.string.test_request_benefit, R.drawable.ic_account_setting);
 
     }
 
@@ -98,7 +93,7 @@ public class TopMenuFragment extends BaseFragment {
                 switch (stringID) {
                     case R.string.personal:
                         /*跳转到个人资料页面*/
-                        skipToActivity(PersonalInformationActivity.class);
+                        startUserInfoActivity(null, PersonalInformationActivity.class);
                         break;
                     case R.string.my_label:
                         /*跳转到我的标签*/
@@ -106,7 +101,7 @@ public class TopMenuFragment extends BaseFragment {
                         break;
                     case R.string.my_photo:
                        /*跳转到我的相册*/
-                        skipToActivity(AlbumActivity.class);
+                        startUserInfoActivity(null, AlbumActivity.class);
                         break;
                     case R.string.my_activity:
                         /*跳转到我的动态*/
@@ -115,6 +110,13 @@ public class TopMenuFragment extends BaseFragment {
                     case R.string.account_setting:
                        /*跳转到账户设置*/
                         skipToActivity(UserSettingActivity.class);
+                        break;
+                    case R.string.test_count_benefit:
+                        skipToActivity(BenefitCountActivity.class);
+                        break;
+
+                    case R.string.test_request_benefit:
+                        skipToActivity(BenefitRequestActivity.class);
                         break;
                     default:
                         break;
@@ -159,7 +161,58 @@ public class TopMenuFragment extends BaseFragment {
      * 跳转到用户信息
      */
     private void skipToActivity(Class<?> cls) {
-        Intent intent = new Intent(getActivity(),cls);
+        Intent intent = new Intent(getActivity(), cls);
         startActivity(intent);
     }
+
+    @Override
+    public void onResume() {
+        getUserInformation();
+        super.onResume();
+    }
+
+    private void getUserInformation() {
+        User user = Cache.getInstance().getUser();
+        ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
+        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
+        TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
+        String nickname = user.getNickName();
+        nicknameView.setText(nickname);
+        if (user.getGender() == 1) {
+            ImageView gender = (ImageView) view.findViewById(R.id.gender);
+            gender.setImageResource(R.drawable.ic_male);
+        }
+        String birthday = user.getBirthday();
+        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
+        String age = DateTimeUtil.getAge(birthdayDate);
+        TextView ageView = (TextView) view.findViewById(R.id.age);
+        ageView.setText(age + "岁");
+    }
+
+
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId 用户ID
+     */
+    private void startUserInfoActivity(String userId, final Class cls) {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.getUserDetail(userId, Const.ID_TYPE_USER_ID, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), cls);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
+    }
+
+
 }
