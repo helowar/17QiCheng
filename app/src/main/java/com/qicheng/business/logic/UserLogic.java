@@ -9,6 +9,7 @@ import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.protocol.AddViewUserProcess;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
 import com.qicheng.business.protocol.GetUserDetailProcess;
@@ -372,5 +373,16 @@ public class UserLogic extends BaseLogic {
                 fireEvent(listener, userEventArgs);
             }
         });
+    }
+
+    /**
+     * 添加浏览用户记录。
+     *
+     * @param userId 用户ID
+     */
+    public void addViewUser(String userId) {
+        final AddViewUserProcess process = new AddViewUserProcess();
+        process.setUserId(userId);
+        process.run();
     }
 }

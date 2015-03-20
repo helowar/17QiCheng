@@ -181,6 +181,8 @@ public class UserInfoActivity extends BaseActivity {
         educationTextView.setText(userDetail.getEducation());
         industryTextView.setText(userDetail.getIndustry());
         userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        // 添加浏览用户记录。
+        userLogic.addViewUser(userId);
     }
 
     @Override
@@ -292,7 +294,7 @@ public class UserInfoActivity extends BaseActivity {
         // 创建用户照片View
         View userPhotoView = getLayoutInflater().inflate(R.layout.user_info_photo, photoLayout, false);
         ImageView photoView = (ImageView) userPhotoView.findViewById(R.id.user_info_photo_image_view);
-        ImageManager.displayPortrait(photo.getThumbnailUrl(), photoView);
+        ImageManager.displayImageDefault(photo.getThumbnailUrl(), photoView);
         userPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
