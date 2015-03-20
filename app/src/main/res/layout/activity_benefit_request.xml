@@ -4,8 +4,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/benefit_tag_layout"></include>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,7 +73,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/benefit_of_count"
+        android:id="@+id/benefit_of_rank"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

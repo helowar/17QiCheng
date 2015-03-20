@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,8 +34,8 @@ import com.qicheng.business.module.Dyn;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.TrainStation;
-import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.ui.component.DynSearch;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -44,6 +43,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class ActyFragment extends BaseFragment {
     private DynSearch dynSearch = new DynSearch();
     private List<Dyn> newData;
     /*动态的类型*/
-    private String title;
+    private String title = "关联";
     private String cityCode;
 
     private static final int ADD_SUCCESS = 0;
@@ -576,9 +576,11 @@ public class ActyFragment extends BaseFragment {
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
                 startLoading();
-                ImageManager.displayPortrait(thumbnailUrl, holder.photo);
+                ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
                 stopLoading();
+                int screenWidth = UIUtil.getScreenWidth(getActivity());
                 holder.photo.setVisibility(View.VISIBLE);
+                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth));
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -657,6 +659,7 @@ public class ActyFragment extends BaseFragment {
                     }
                     Intent i = new Intent();
                     i.setClass(getActivity(), ChatActivity.class);
+                    i.putExtra(Const.Intent.FRIEND_SOURCE_KEY, title);
                     i.putExtra(Const.Intent.HX_USER_ID, bean.getUserImId());
                     i.putExtra(Const.Intent.HX_USER_NICK_NAME, bean.getNickName());
                     i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, bean.getPortraitUrl());
@@ -750,11 +753,7 @@ public class ActyFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            DisplayMetrics dm = new DisplayMetrics();
-            //取得窗口属性
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            //窗口的宽度
-            int screenWidth = dm.widthPixels;
+            int screenWidth = UIUtil.getScreenWidth(getActivity());
             View view = null;
             if (convertView == null) {
                 view = getActivity().getLayoutInflater().inflate(R.layout.query_params, null);

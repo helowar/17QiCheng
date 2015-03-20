@@ -26,28 +26,13 @@
             style="@style/benefit_item_style" />
 
         <TextView
-            android:id="@+id/car_benefit_title"
+            android:id="@+id/car_entity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/benefit_item_style"
-            android:text="@string/benefit_car_text" />
+            android:text="@string/benefit_entity_text" />
 
-        <TextView
-            android:id="@+id/hotel_benefit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/benefit_item_style"
-            android:text="@string/benefit_hotel_text" />
-
-        <TextView
-            android:id="@+id/tourist_benefit_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/benefit_item_style"
-            android:text="@string/benefit_tourist_text" />
 
     </LinearLayout>
 

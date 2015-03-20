@@ -10,7 +10,6 @@ package com.qicheng.business.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +21,12 @@ import android.widget.TextView;
 import com.qicheng.R;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
-import com.qicheng.framework.util.UIUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class BenefitOfAllFragment extends BaseFragment {
+public class BenefitOfRankFragment extends BaseFragment {
 
     private View view;
     private ListView listView;
@@ -42,8 +40,8 @@ public class BenefitOfAllFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_benefit_of_all, container, false);
-        listView = (GeneralListView) view.findViewById(R.id.benefit_list);
+        view = inflater.inflate(R.layout.fragment_benefit_of_rank, container, false);
+        listView = (GeneralListView) view.findViewById(R.id.benefit_rank_list);
         List<String> strings = new ArrayList<String>();
         strings.add("专车");
         strings.add("出租车");
@@ -58,7 +56,7 @@ public class BenefitOfAllFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),BenefitDetailActivity.class);
+                Intent intent = new Intent(getActivity(), BenefitDetailActivity.class);
                 startActivity(intent);
             }
         });
@@ -105,9 +103,7 @@ public class BenefitOfAllFragment extends BaseFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = null;
             if (convertView == null) {
-                view = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);
-                TextView title = (TextView) view.findViewById(R.id.benefit_title);
-                title.setText(list.get(position).toString());
+                view = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit__item_rank, null);
             } else {
                 view = convertView;
             }

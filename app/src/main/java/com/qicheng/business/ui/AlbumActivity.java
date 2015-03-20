@@ -30,6 +30,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
 import java.util.List;
@@ -112,11 +113,7 @@ public class AlbumActivity extends BaseActivity {
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            DisplayMetrics dm = new DisplayMetrics();
-            //取得窗口属性
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            //窗口的宽度
-            int screenWidth = dm.widthPixels;
+            int screenWidth = UIUtil.getScreenWidth(getActivity());
             ImageView imageView;
             View view = null;
             if (convertView == null) {

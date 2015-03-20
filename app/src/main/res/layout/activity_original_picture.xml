@@ -2,17 +2,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:background="@color/black_text"
-    >
+    android:background="@color/black_text">
 
 
-    <ImageView
-        android:id="@+id/original_pic"
+
+    <com.qicheng.business.ui.component.DragImageView
+        android:id="@+id/div_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_user"
-        android:scaleType="centerCrop"
-         />
+        android:scaleType="centerCrop" />
+
 
 </LinearLayout>
 

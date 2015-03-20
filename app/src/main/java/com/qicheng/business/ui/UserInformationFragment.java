@@ -53,28 +53,19 @@ import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 public class UserInformationFragment extends BaseFragment {
     private View view;
     private LinearLayout linearLayout;
-
     private TextView birthdayView;
-
     private TextView nicknameView;
-
     private TextView homeView;
-
     private TextView residenceView;
-
     private TextView industryView;
     private TextView educationView;
-
     private String portraitUrl;
-
     private ImageView portraitView;
-
     /* 请求码 */
-    private static final int DATE_REQUEST_CODE = 3;
-
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESULT_REQUEST_CODE = 2;
+    private static final int DATE_REQUEST_CODE = 3;
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
@@ -96,10 +87,10 @@ public class UserInformationFragment extends BaseFragment {
      * 初始化View视图
      *
      * @param inflater
-     */
+    */
     public void initView(LayoutInflater inflater) {
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
-        UserDetail userDetail =(UserDetail)getActivity().getIntent().getExtras().get(USER_DETAIL_KEY);
+        UserDetail userDetail = (UserDetail) getActivity().getIntent().getExtras().get(USER_DETAIL_KEY);
         User user = Cache.getInstance().getUser();
           /*个人头像*/
         initPortraitItem(inflater, R.string.personal_portrait_text, user.getPortraitURL());
@@ -366,7 +357,7 @@ public class UserInformationFragment extends BaseFragment {
                 OperErrorCode errCode = userEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        Cache.getInstance().getUser().setPortraitURL(Const.BASE_URL+updateValue);
+                        Cache.getInstance().getUser().setPortraitURL(Const.BASE_URL + updateValue);
                         Cache.getInstance().refreshCacheUser();
                         break;
                 }
@@ -498,7 +489,6 @@ public class UserInformationFragment extends BaseFragment {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
-
 
 
 }

@@ -14,22 +14,18 @@ import android.view.MenuItem;
 
 import com.qicheng.R;
 
-public class BenefitRequestActivity extends Activity {
-
-    private BenefitOfRankFragment benefitOfRankFragment;
+public class BenefitDetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_benefit_request);
-        benefitOfRankFragment = new BenefitOfRankFragment();
-        getFragmentManager().beginTransaction().add(R.id.benefit_of_rank, benefitOfRankFragment).commit();
+        setContentView(R.layout.activity_benefit_detail);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_benefit_count, menu);
+        getMenuInflater().inflate(R.menu.menu_benefit_detail, menu);
         return true;
     }
 
@@ -38,16 +34,10 @@ public class BenefitRequestActivity extends Activity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
 }

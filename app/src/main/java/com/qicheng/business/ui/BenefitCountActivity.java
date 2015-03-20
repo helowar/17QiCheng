@@ -20,12 +20,11 @@ import com.qicheng.framework.ui.base.BaseActivity;
 public class BenefitCountActivity extends BaseActivity {
     private BenefitOfAllFragment benefitOfAllFragment;
 
-    private TextView allBenefit, carBenefit, hotelBenefit, touristBenefit;
+    private TextView allBenefit, entityBenefit, hotelBenefit, touristBenefit;
 
     private static final int TAG_ALL = 0;
-    private static final int TAG_CAR = 1;
-    private static final int TAG_HOTEL = 2;
-    private static final int TAG_TOURIST = 3;
+    private static final int TAG_ENTITY = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +33,10 @@ public class BenefitCountActivity extends BaseActivity {
         allBenefit = (TextView) findViewById(R.id.all_benefit_title);
         allBenefit.setTag(TAG_ALL);
         setTagOnclickListener(allBenefit);
-        carBenefit = (TextView) findViewById(R.id.car_benefit_title);
-        carBenefit.setTag(TAG_CAR);
-        setTagOnclickListener(carBenefit);
-        hotelBenefit = (TextView) findViewById(R.id.hotel_benefit_title);
-        hotelBenefit.setTag(TAG_HOTEL);
-        setTagOnclickListener(hotelBenefit);
-        touristBenefit = (TextView) findViewById(R.id.tourist_benefit_title);
-        touristBenefit.setTag(TAG_TOURIST);
-        setTagOnclickListener(touristBenefit);
+        entityBenefit = (TextView) findViewById(R.id.car_entity_title);
+        entityBenefit.setTag(TAG_ENTITY);
+        setTagOnclickListener(entityBenefit);
+
         //初始化时键入全部福利
         switchBenefitItem((Integer) allBenefit.getTag(), allBenefit);
 
@@ -96,15 +90,7 @@ public class BenefitCountActivity extends BaseActivity {
                 benefitOfAllFragment = new BenefitOfAllFragment();
                 getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
                 break;
-            case TAG_CAR:
-                benefitOfAllFragment = new BenefitOfAllFragment();
-                getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
-                break;
-            case TAG_HOTEL:
-                benefitOfAllFragment = new BenefitOfAllFragment();
-                getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
-                break;
-            case TAG_TOURIST:
+            case TAG_ENTITY:
                 benefitOfAllFragment = new BenefitOfAllFragment();
                 getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
                 break;
@@ -118,9 +104,7 @@ public class BenefitCountActivity extends BaseActivity {
     private void clearBackground() {
         Resources resources = getResources();
         reverseToOriginal(allBenefit, resources);
-        reverseToOriginal(carBenefit, resources);
-        reverseToOriginal(hotelBenefit, resources);
-        reverseToOriginal(touristBenefit, resources);
+        reverseToOriginal(entityBenefit, resources);
     }
 
     /**
