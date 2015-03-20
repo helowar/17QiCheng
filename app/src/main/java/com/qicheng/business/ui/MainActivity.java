@@ -208,6 +208,7 @@ public class MainActivity extends BaseActivity {
                 setTitle(getResources().getString(R.string.activity_title));
                 break;
             case Const.INDEX_MESSAGE:
+                getMenuInflater().inflate(R.menu.menu_conversation_list, menu);
                 setTitle("消息");
                 break;
             case Const.INDEX_VOUCHER:

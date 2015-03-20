@@ -9,15 +9,27 @@ package com.qicheng.business.protocol;
 
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by NO1 on 2015/3/20.
  */
 public class AddContactProcess extends BaseProcess {
 
-    private static final String url ="";
+    private static final String url ="/chat/add_friend.html";
 
     private static final Logger logger = new Logger("com.qicheng.business.protocol.AddContactProcess");
+
+    private String userImId;
+    private String friendSource;
+
+    public  AddContactProcess(String imId,String source){
+        userImId = imId;
+        friendSource = source;
+    }
 
     @Override
     protected String getRequestUrl() {
@@ -26,12 +38,28 @@ public class AddContactProcess extends BaseProcess {
 
     @Override
     protected String getInfoParameter() {
-        return null;
+        try {
+            JSONObject o = new JSONObject();
+            o.put("user_im_id",userImId);
+            o.put("source",friendSource);
+            return o.toString();
+        }catch (JSONException e){
+            logger.e("AddContactProcess.getInfoParameter error"+e.getMessage());
+            return null;
+        }
     }
 
     @Override
     protected void onResult(String result) {
-
+        try {
+            //取回的JSON结果
+            JSONObject o = new JSONObject(result);
+            //获取状态码
+            int value = o.optInt("result_code");
+            setProcessStatus(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

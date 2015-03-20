@@ -65,7 +65,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/signature"
+                android:id="@+id/source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
@@ -74,7 +74,8 @@
                 android:singleLine="true"
                 android:textColor="#888888"
                 android:textSize="13sp"
-                android:visibility="gone" />
+                android:text="ssssss"
+                android:visibility="visible" />
         </LinearLayout>
 
         <TextView

@@ -182,6 +182,7 @@
     <string name="deleting">正在删除...</string>
     <string name="Delete_failed">删除失败:</string>
     <string name="Is_moved_into_blacklist">正在移入黑名单...</string>
+    <string name="title_activity_contact">联系人</string>
     <!--Chat Activity end-->
     <!--Context Menu-->
     <string name="delete_message">删除消息</string>

@@ -57,6 +57,7 @@ import com.easemob.util.VoiceRecorder;
 import com.qicheng.QichengApplication;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.ContactLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.ui.chat.ExpressionAdapter;
@@ -170,7 +171,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        source = getIntent().getStringExtra(Const.Intent.);
+        source = getIntent().getStringExtra(Const.Intent.FRIEND_SOURCE_KEY);
         initView();
         setUpView();
     }
@@ -538,6 +539,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         String st1 = getResources().getString(R.string.not_connect_to_server);
         if(!EMChatManager.getInstance().isConnected()){
             reLogin();
+        }
+        //保存好友关系
+        if(source!=null){
+            ContactLogic logic = (ContactLogic)LogicFactory.self().get(LogicFactory.Type.Contact);
+            logic.addContactUser(toChatUsername,source);
         }
         int id = view.getId();
         if (id == R.id.btn_send) {// 点击发送按钮(发文字和表情)

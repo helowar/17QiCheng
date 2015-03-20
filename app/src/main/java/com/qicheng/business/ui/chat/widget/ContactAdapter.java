@@ -24,9 +24,7 @@ import android.widget.TextView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.qicheng.business.image.ImageManager;
-import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.R;
-import com.qicheng.business.ui.chat.widget.Sidebar;
 import com.qicheng.business.module.User;
 
 /**
@@ -64,6 +62,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 		TextView unreadMsgView = (TextView) convertView.findViewById(R.id.unread_msg_number);
 		TextView nameTextview = (TextView) convertView.findViewById(R.id.name);
 		TextView tvHeader = (TextView) convertView.findViewById(R.id.header);
+        TextView tvSource = (TextView) convertView.findViewById(R.id.source);
 		User user = getItem(position);
 		if(user == null)
 			Log.d("ContactAdapter", position + "");
@@ -100,7 +99,7 @@ public class ContactAdapter extends ArrayAdapter<User>  implements SectionIndexe
 				unreadMsgView.setVisibility(View.INVISIBLE);
 			ImageManager.displayPortrait(user.getPortraitURL(),avatar);
 //		}
-		
+        tvSource.setText(user.getSource());
 		return convertView;
 	}
 	

@@ -33,6 +33,11 @@ public class User {
 
     private String userImId;
 
+    //好友来源
+    private String source;
+
+    private boolean inBlackList;
+
     private ArrayList<LabelType> mLabelTypes;
 
     /**
@@ -199,5 +204,21 @@ public class User {
 
     public void setUserImId(String userImId) {
         this.userImId = userImId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public boolean isInBlackList() {
+        return inBlackList;
+    }
+
+    public void setInBlackList(boolean inBlackList) {
+        this.inBlackList = inBlackList;
     }
 }

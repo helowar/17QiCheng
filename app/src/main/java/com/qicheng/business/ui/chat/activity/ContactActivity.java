@@ -24,10 +24,18 @@ import android.widget.ListView;
 import com.easemob.chat.EMContactManager;
 import com.easemob.exceptions.EaseMobException;
 import com.qicheng.R;
+import com.qicheng.business.logic.ContactLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.ContactEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.ChatActivity;
 import com.qicheng.business.ui.chat.widget.ContactAdapter;
 import com.qicheng.business.ui.chat.widget.Sidebar;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
@@ -271,16 +279,29 @@ public class ContactActivity extends BaseActivity {
      * 获取联系人列表，并过滤掉黑名单和排序
      */
     private void getContactList() {
-        contactList.clear();
-        //TODO 获取通讯录
-        // 排序
-        Collections.sort(contactList, new Comparator<User>() {
-            @Override
-            public int compare(User lhs, User rhs) {
-                return lhs.getNickName().compareTo(rhs.getNickName());
-            }
-        });
 
+        //获取通讯录
+        ContactLogic logic = (ContactLogic)LogicFactory.self().get(LogicFactory.Type.Contact);
+        logic.getContactList(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                ContactEventArgs contactEventArgs = (ContactEventArgs)args;
+                OperErrorCode errorCode = contactEventArgs.getErrCode();
+                if(errorCode==OperErrorCode.Success){
+                    contactList.clear();
+                    contactList.addAll(contactEventArgs.getContactList());
+                    Collections.sort(contactList, new Comparator<User>() {
+                        @Override
+                        public int compare(User lhs, User rhs) {
+                            return lhs.getNickName().compareTo(rhs.getNickName());
+                        }
+                    });
+                }
+            }
+        }));
+        startLoading();
+        // 排序
 //        // 加入"申请与通知"和"群聊"
 //        contactList.add(0, users.get(Constant.GROUP_USERNAME));
 //        // 把"申请与通知"添加到首位

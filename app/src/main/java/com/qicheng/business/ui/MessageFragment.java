@@ -9,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +32,7 @@ import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.ui.chat.activity.ContactActivity;
 import com.qicheng.business.ui.chat.widget.ChatAllHistoryAdapter;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.util.Const;
@@ -102,6 +105,16 @@ public class MessageFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_message, container, false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.contact_list:
+                startActivity(new Intent(getActivity(), ContactActivity.class));
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
