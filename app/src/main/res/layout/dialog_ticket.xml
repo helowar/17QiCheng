@@ -1,0 +1,112 @@
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:background="@drawable/bg_ticket"
+              android:gravity="center"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp">
+
+    <ImageView
+        android:id="@+id/benefit_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_didi"
+        android:layout_marginLeft="20dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/benefit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/benefit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="滴滴专车券"
+            android:textStyle="bold"
+            android:textColor="@color/gray_text"
+            android:textSize="20sp"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_gap"
+            android:gravity="bottom"
+            >
+            <ImageView
+                android:id="@+id/deadline_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_calendar"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:id="@+id/benefit_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2015-03-31"
+                android:textSize="12sp"
+                android:layout_alignBaseline="@id/deadline_icon"
+                android:layout_toRightOf="@id/deadline_icon"
+                android:textColor="@color/main"
+                android:layout_marginLeft="@dimen/common_gap"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_gap"
+            android:gravity="bottom"
+            >
+            <ImageView
+                android:id="@+id/ic_price"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_price"
+                android:layout_alignParentLeft="true"
+                />
+        <TextView
+            android:id="@+id/benefit_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">100可用"
+            android:layout_alignBaseline="@id/ic_price"
+            android:layout_toRightOf="@id/ic_price"
+            android:textColor="@color/main"
+            android:textSize="12sp"
+            android:layout_marginLeft="@dimen/common_gap"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/benefit_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            style="@style/benefit_text_style" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15"
+            android:textSize="35sp"
+            style="@style/benefit_text_style" />
+    </LinearLayout>
+</LinearLayout>

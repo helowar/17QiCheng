@@ -9,6 +9,7 @@ package com.qicheng.business.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -61,6 +62,21 @@ public class BenifitFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View convertView = inflater.inflate(R.layout.fragment_benifit, container, false);
         viewTicket =(LinearLayout) convertView.findViewById(R.id.ticket_view);
+        LinearLayout showBenefitList = (LinearLayout)convertView.findViewById(R.id.show_benefit_list);
+        showBenefitList.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),BenefitCountActivity.class);
+                startActivity(i);
+            }
+        });
+        LinearLayout friendForBenefit = (LinearLayout)convertView.findViewById(R.id.friend_benefit);
+        friendForBenefit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
+            }
+        });
         return convertView;
 
     }

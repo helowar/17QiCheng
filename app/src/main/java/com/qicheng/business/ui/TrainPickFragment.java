@@ -172,7 +172,7 @@ public class TrainPickFragment extends BaseFragment  implements Serializable{
     private void showDatePickDialog() {
         FragmentManager fm = getActivity().getFragmentManager();
         DatePickFragment dialog = DatePickFragment.newInstance(null);
-        dialog.setDialogTitle("请选择生日");
+        dialog.setDialogTitle("请选择出发日期");
         dialog.setTargetFragment(this, DATE_REQUEST_CODE);
         dialog.show(fm, "date");
     }
