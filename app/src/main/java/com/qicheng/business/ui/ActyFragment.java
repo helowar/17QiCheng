@@ -564,6 +564,9 @@ public class ActyFragment extends BaseFragment {
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
+                holder.likeCollect=(LinearLayout)convertView.findViewById(R.id.like_collect);
+                holder.shareCollect=(LinearLayout)convertView.findViewById(R.id.share_collect);
+                holder.weixinCollect=(LinearLayout)convertView.findViewById(R.id.weixin_collect);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -607,7 +610,8 @@ public class ActyFragment extends BaseFragment {
                 holder.likeimg.setImageResource(R.drawable.ic_like);
             }
 
-            holder.likeimg.setOnClickListener(new View.OnClickListener() {
+
+            holder.likeCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String id = bean.getActivityId();
@@ -629,22 +633,10 @@ public class ActyFragment extends BaseFragment {
                     }
                 }
             });
-
-            holder.shareimg.setOnClickListener(new View.OnClickListener() {
+            holder.shareCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showShare(bean.getContent(), bean.getFileUrl());
-//                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//                    if (bean.getThumbnailUrl() != null) {
-//                        shareIntent.putExtra(Intent.EXTRA_STREAM, bean.getThumbnailUrl());
-//                        shareIntent.setType("image/*");
-//                        shareIntent.putExtra("sms_body", bean.getContent());
-//                    } else {
-//                        shareIntent.setType("text/plain");
-//                    }
-//                    shareIntent.putExtra(Intent.EXTRA_TEXT, bean.getContent());
-//                    mContext.startActivity(Intent.createChooser(shareIntent, "").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    //分享后分享数字加一
                     String id = bean.getActivityId();
                     holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");
                     byte action = Const.INTERACT_ACTION_SHARED;
@@ -652,7 +644,7 @@ public class ActyFragment extends BaseFragment {
                     bean.setSharedNum((Integer.valueOf(holder.shareNum.getText().toString())));
                 }
             });
-            holder.weixin.setOnClickListener(new View.OnClickListener() {
+            holder.weixinCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (bean.getUserImId().equals(Cache.getInstance().getUser().getUserImId())) {
@@ -712,6 +704,9 @@ public class ActyFragment extends BaseFragment {
              * 微信
              */
             private ImageView weixin;
+
+            private LinearLayout likeCollect,shareCollect,weixinCollect;
+
         }
     }
 

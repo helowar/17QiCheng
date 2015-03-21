@@ -100,21 +100,29 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
-                android:id="@+id/likeimg"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:src="@drawable/ic_like"></ImageView>
-
-            <TextView
-                android:id="@+id/liketime"
+            <LinearLayout
+                android:id="@+id/like_collect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="1"
-                android:textSize="16sp"
-                android:textColor="@color/gray_text"></TextView>
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/likeimg"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_like"></ImageView>
+
+                <TextView
+                    android:id="@+id/liketime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="1"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_text"></TextView>
+
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -124,21 +132,29 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
-                android:id="@+id/shareimg"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:src="@drawable/ic_share"></ImageView>
 
-            <TextView
-                android:id="@+id/sharetime"
+            <LinearLayout
+                android:id="@+id/share_collect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="3"
-                android:textSize="16sp"
-                android:textColor="@color/gray_text"></TextView>
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/shareimg"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_share"></ImageView>
+
+                <TextView
+                    android:id="@+id/sharetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:text="3"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_text"></TextView>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -147,12 +163,20 @@
             android:gravity="center"
             android:layout_weight="1">
 
-            <ImageView
-                android:id="@+id/weixin"
-                android:layout_width="20dp"
+
+            <LinearLayout
+                android:id="@+id/weixin_collect"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:src="@drawable/chat_selector"></ImageView>
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/weixin"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:src="@drawable/chat_selector"></ImageView>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

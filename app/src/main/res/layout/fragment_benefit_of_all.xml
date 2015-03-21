@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
 
-    <com.qicheng.business.ui.component.GeneralListView
+    <ListView
         android:id="@+id/benefit_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

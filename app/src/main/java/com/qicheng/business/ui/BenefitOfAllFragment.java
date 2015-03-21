@@ -43,7 +43,7 @@ public class BenefitOfAllFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_benefit_of_all, container, false);
-        listView = (GeneralListView) view.findViewById(R.id.benefit_list);
+        listView = (ListView) view.findViewById(R.id.benefit_list);
         List<String> strings = new ArrayList<String>();
         strings.add("专车");
         strings.add("出租车");
