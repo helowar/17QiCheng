@@ -12,7 +12,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by NO3 on 2015/2/13.
+ * Created by 金玉龙 on 2015/2/13.
+ * 获取用户标签列表接口处理类
  */
 public class GetUserLabelProcess extends BaseProcess {
 

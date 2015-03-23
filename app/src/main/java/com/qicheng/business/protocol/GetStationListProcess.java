@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by NO3 on 2015/3/4.
+ * Created by 金玉龙 on 2015/3/4.
+ * 启程App获取车站列表接口处理类
  */
 public class GetStationListProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.GetStationListProcess");

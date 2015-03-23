@@ -22,6 +22,7 @@ public class LogicFactory {
         Dyn,
         Station,
         Contact,
+        Benefit,
 	}
 	
 	private Map<Type, BaseLogic.Factory> mFactorys = new HashMap<Type, BaseLogic.Factory>();
@@ -48,7 +49,8 @@ public class LogicFactory {
         mFactorys.put(Type.Dyn,new DynLogic.Factory());
         mFactorys.put(Type.Station,new StationLogic.Factory());
         mFactorys.put(Type.Contact,new ContactLogic.Factory());
-	}
+       mFactorys.put(Type.Benefit,new BenefitLogic.Factory());
+    }
 	
 	public BaseLogic get(Type type) {
 		if(!mLogics.containsKey(type)) {

@@ -10,7 +10,7 @@ package com.qicheng.business.ui;
 import android.app.DialogFragment;
 import android.os.Bundle;
 
-import com.qicheng.business.module.TicketBenefit;
+import com.qicheng.business.module.Benefit;
 
 /**
  * Created by NO1 on 2015/3/21.
@@ -19,7 +19,7 @@ public class TicketFragment extends DialogFragment{
 
     private static final String EXTRA_TICKET = "bundle_ticket";
 
-    public static TicketFragment newInstance(TicketBenefit ticket){
+    public static TicketFragment newInstance(Benefit ticket){
         Bundle args = new Bundle();
         args.putSerializable(EXTRA_TICKET, ticket);
         TicketFragment fragment = new TicketFragment();

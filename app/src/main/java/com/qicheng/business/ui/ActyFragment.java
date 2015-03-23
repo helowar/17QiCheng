@@ -579,9 +579,7 @@ public class ActyFragment extends BaseFragment {
             holder.pasttime.setText(DateTimeUtil.getTimeInterval(bean.getCreateTime()));
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
-                startLoading();
                 ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
-                stopLoading();
                 int screenWidth = UIUtil.getScreenWidth(getActivity());
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth));
@@ -596,9 +594,7 @@ public class ActyFragment extends BaseFragment {
             } else {
                 holder.photo.setVisibility(View.GONE);
             }
-
             holder.content.setText(bean.getContent());
-
             Integer likeNum = bean.getLikedNum();
             Integer shareNum = bean.getSharedNum();
             holder.likeNum.setText(likeNum.toString());

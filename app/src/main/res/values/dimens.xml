@@ -27,6 +27,7 @@
     <dimen name="avatars_view_height_90dp">90dp</dimen>
     <dimen name="avatars_view_width_90dp">90dp</dimen>
 
+
     <dimen name="image_thumbnail_size">100dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="layout_margin_6dp">6dp</dimen>
@@ -34,4 +35,22 @@
     <dimen name="layout_margin_30dp">30dp</dimen>
     <dimen name="layout_width_25dp">25dp</dimen>
     <dimen name="layout_height_25dp">25dp</dimen>
+
+    <!--金玉龙 相关dp值-->
+    <dimen name="view_padding_10dp">10dp</dimen>
+
+
+    <dimen name="view_margin_2dp">2dp</dimen>
+    <dimen name="view_margin_4dp">4dp</dimen>
+    <dimen name="view_margin_10dp">10dp</dimen>
+    <dimen name="view_margin_6dp">6dp</dimen>
+    <dimen name="view_margin_16dp">16dp</dimen>
+    <dimen name="view_margin_36dp">36dp</dimen>
+
+    <dimen name="view_width_0dp">0dp</dimen>
+    <dimen name="view_width_60dp">60dp</dimen>
+    <dimen name="view_height_60dp">60dp</dimen>
+
+    <dimen name="view_text_size_40sp">40sp</dimen>
+    <dimen name="view_text_size_14sp">14sp</dimen>
 </resources>

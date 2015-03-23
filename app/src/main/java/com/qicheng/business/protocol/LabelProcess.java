@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by NO3 on 2015/2/5.
- * 标签报文发送与解析
+ * Created by 金玉龙 on 2015/2/5.
+ * 启程App添加标签接口处理类
  */
 public class LabelProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.VerifyCodeProcess");
