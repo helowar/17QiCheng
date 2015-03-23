@@ -68,7 +68,7 @@ public class Benefit implements Serializable {
     /**
      * 福利金额
      */
-    private int value;
+    private double value;
     /**
      * 福利说明
      */
@@ -166,11 +166,11 @@ public class Benefit implements Serializable {
         this.expireTime = expireTime;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

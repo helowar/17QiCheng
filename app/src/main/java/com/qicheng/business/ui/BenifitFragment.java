@@ -8,6 +8,7 @@
 package com.qicheng.business.ui;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qicheng.R;
+import com.qicheng.business.module.Benefit;
 import com.qicheng.business.ui.component.ShakeListener;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.util.Const;
@@ -92,11 +94,12 @@ public class BenifitFragment extends BaseFragment {
                 startAnim();  //开始 摇一摇手掌动画
                 mShakeListener.stop();
                 sndPool.play(soundPoolMap.get(0), (float) 1, (float) 1, 0, 0,(float) 1.2);
+                startVibrato();
                 //TODO 调用获取福利的logic
                 new Handler().postDelayed(new Runnable(){
                     public void run(){
                         sndPool.play(soundPoolMap.get(1), (float) 1, (float) 1, 0, 0,(float) 1.0);
-
+                        showTicket(new Benefit());
                         //mtoast.setGravity(Gravity.CENTER, 0, 0);
                         mVibrator.cancel();
                         mShakeListener.start();
@@ -155,5 +158,26 @@ public class BenifitFragment extends BaseFragment {
         if (mShakeListener != null) {
             mShakeListener.stop();
         }
+    }
+
+    private void showTicket(Benefit benefit){
+        LayoutInflater inflaterDl = LayoutInflater.from(getActivity());
+        LinearLayout layout = (LinearLayout)inflaterDl.inflate(R.layout.dialog_ticket, null );
+        initTicketDialog(layout,benefit);
+        final Dialog dialog = new android.app.AlertDialog.Builder(getActivity()).create();
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //对话框
+
+        dialog.show();
+        dialog.getWindow().setContentView(layout);
+    }
+
+    private void initTicketDialog(View dialogView, Benefit benefit){
+
     }
 }
