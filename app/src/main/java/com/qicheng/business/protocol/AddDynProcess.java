@@ -19,7 +19,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * Created by NO3 on 2015/3/5.
+ * Created by 金玉龙 on 2015/3/5.
+ * 启程App添加动态接口处理类
  */
 public class AddDynProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.AddDynProcess");

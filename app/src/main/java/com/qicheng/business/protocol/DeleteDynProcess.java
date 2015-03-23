@@ -14,7 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by NO3 on 2015/3/10.
+ * Created by 金玉龙 on 2015/3/10.
+ * 启程App删除动态接口处理类
  */
 public class DeleteDynProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.DeleteDynProcess");

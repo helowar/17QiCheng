@@ -9,34 +9,32 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/bg_benefit_detail"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/view_margin_16dp"
         android:gravity="center"
-        android:padding="10dp"
+        android:padding="@dimen/view_padding_10dp"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:layout_marginBottom="36dp"
-            >
+            android:layout_marginTop="@dimen/view_margin_36dp"
+            android:layout_marginBottom="@dimen/view_margin_36dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+                    android:layout_marginBottom="@dimen/view_margin_6dp"
                     android:layout_gravity="center">
 
                     <ImageView
                         android:id="@+id/benefit_icon"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="@dimen/view_width_60dp"
+                        android:layout_height="@dimen/view_height_60dp"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_didi" />
 
@@ -52,7 +50,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="40sp"
+                            android:textSize="@dimen/view_text_size_40sp"
                             android:text="￥"
                             android:textColor="@color/white" />
 
@@ -60,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15"
-                            android:textSize="40sp"
+                            android:textSize="@dimen/view_text_size_40sp"
                             android:textColor="@color/white" />
                     </LinearLayout>
 
@@ -76,111 +74,95 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp">
+                    android:layout_marginTop="@dimen/view_margin_4dp"
+                    android:layout_marginBottom="@dimen/view_margin_4dp">
 
                     <TextView
                         android:id="@+id/benefit_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
                         android:text="票券类型："
-                        android:textSize="14sp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
 
                     <TextView
                         android:id="@+id/benefit_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_margin="2dp"
-                        android:textSize="14sp"
                         android:text="专车券"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp">
+                    android:layout_marginTop="@dimen/view_margin_4dp"
+                    android:layout_marginBottom="@dimen/view_margin_4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="截止日期："
-                        android:layout_margin="2dp"
-                        android:textSize="14sp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
                         android:text="2015-03-31"
-                        android:layout_margin="2dp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp">
+                    android:layout_marginTop="@dimen/view_margin_4dp"
+                    android:layout_marginBottom="@dimen/view_margin_4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="使用说明："
-                        android:layout_margin="2dp"
-                        android:textSize="14sp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textSize="14sp"
                         android:text="费用大于100可用"
-                        android:layout_margin="2dp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp">
+                    android:layout_marginTop="@dimen/view_margin_4dp"
+                    android:layout_marginBottom="@dimen/view_margin_4dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="商户信息："
-                        android:textSize="14sp"
-                        android:layout_margin="2dp"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:textSize="14sp"
-                        android:layout_margin="2dp"
                         android:text="滴滴专车券，由滴滴专车发送"
-                        android:textColor="@color/white" />
+                        style="@style/benefit_item_text_style" />
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/view_margin_10dp"
+                    android:layout_marginBottom="@dimen/view_margin_4dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center">

@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import static com.qicheng.framework.util.JSONUtil.STATUS_TAG;
 
 /**
- * Created by NO3 on 2015/2/28.
+ * Created by 金玉龙 on 2015/2/28.
+ * 启程App获取动态列表处理类
  */
 public class GetDynListProcess extends BaseProcess {
     private static Logger logger = new Logger("com.qicheng.business.protocol.GetDynListProcess");

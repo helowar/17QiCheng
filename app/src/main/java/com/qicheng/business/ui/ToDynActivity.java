@@ -62,7 +62,7 @@ public class ToDynActivity extends BaseActivity {
     private GeneralListView dynListView = null;
     /*动态的ListView的Adapter*/
     private DynListViewAdapter listAdapter;
-    /*搜索选线的GridView视图*/
+    /*搜索选项的GridView视图*/
     private List<Dyn> dynSearchList = new ArrayList<Dyn>();
     /*城市列表*/
     /*搜索条件*/
@@ -403,8 +403,6 @@ public class ToDynActivity extends BaseActivity {
                             .create().show();
                 }
             });
-
-
             String userPortrait = bean.getPortraitUrl();
             ImageManager.displayPortrait(userPortrait, holder.portraitl);
             holder.name.setText(bean.getNickName());
@@ -412,8 +410,6 @@ public class ToDynActivity extends BaseActivity {
             String thumbnailUrl = bean.getThumbnailUrl();
             if (thumbnailUrl != null) {
                 ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
-                ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
-                stopLoading();
                 int screenWidth = UIUtil.getScreenWidth(getActivity());
                 holder.photo.setVisibility(View.VISIBLE);
                 holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth,screenWidth));
