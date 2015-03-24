@@ -87,4 +87,11 @@ public enum OperErrorCode {
 
     ResultNotPermit,
 
+    /**没有争抢到派发福利机会，请重试*/
+    ResultNoGrab,
+    /**福利已派完*/
+    ResultDistributeFinished,
+    /**行程无福利*/
+    ResultNoBenefit,
+
 }

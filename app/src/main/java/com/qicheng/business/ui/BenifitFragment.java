@@ -24,13 +24,26 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.BenefitLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.BenefitEventArgs;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.Benefit;
+import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.ShakeListener;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,6 +59,9 @@ public class BenifitFragment extends BaseFragment {
     Vibrator mVibrator;
     private SoundPool sndPool;
     private HashMap<Integer, Integer> soundPoolMap = new HashMap<Integer, Integer>();
+
+    private TextView mRestNumber;
+    private TextView mFriendNumber;
 
 
     public BenifitFragment() {
@@ -64,6 +80,8 @@ public class BenifitFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View convertView = inflater.inflate(R.layout.fragment_benifit, container, false);
         viewTicket =(LinearLayout) convertView.findViewById(R.id.ticket_view);
+        mRestNumber = (TextView)convertView.findViewById(R.id.rest_number);
+        mFriendNumber = (TextView)convertView.findViewById(R.id.friend_number);
         LinearLayout showBenefitList = (LinearLayout)convertView.findViewById(R.id.show_benefit_list);
         showBenefitList.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -79,6 +97,16 @@ public class BenifitFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
             }
         });
+        BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
+        logic.initBenefitView(createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                UserEventArgs userEventArgs = (UserEventArgs)args;
+                User user = userEventArgs.getResult();
+                mRestNumber.setText(user.getValidBenefitCount());
+                mFriendNumber.setText(user.getFriendCount());
+            }
+        }));
         return convertView;
 
     }
@@ -95,17 +123,27 @@ public class BenifitFragment extends BaseFragment {
                 mShakeListener.stop();
                 sndPool.play(soundPoolMap.get(0), (float) 1, (float) 1, 0, 0,(float) 1.2);
                 startVibrato();
-                //TODO 调用获取福利的logic
-                new Handler().postDelayed(new Runnable(){
-                    public void run(){
-                        sndPool.play(soundPoolMap.get(1), (float) 1, (float) 1, 0, 0,(float) 1.0);
-                        showTicket(new Benefit());
-                        //mtoast.setGravity(Gravity.CENTER, 0, 0);
-                        mVibrator.cancel();
-                        mShakeListener.start();
-
-                    }
-                }, 2000);
+               BenefitLogic logic = (BenefitLogic) LogicFactory.self().get(LogicFactory.Type.Benefit);
+               logic.getNewBenefit(createUIEventListener(new EventListener() {
+                   @Override
+                   public void onEvent(EventId id, EventArgs args) {
+                       BenefitEventArgs benefitEventArgs = (BenefitEventArgs)args;
+                       if(benefitEventArgs.getErrCode()== OperErrorCode.Success){
+                           sndPool.play(soundPoolMap.get(1), (float) 1, (float) 1, 0, 0,(float) 1.0);
+                           showTicket(benefitEventArgs.getBenefit());
+                       }else {
+                           if(benefitEventArgs.getErrCode() == OperErrorCode.ResultNoGrab){
+                               Alert.Toast("没抢到，请再摇一次试试吧！");
+                           }else if(benefitEventArgs.getErrCode() == OperErrorCode.ResultDistributeFinished){
+                               Alert.Toast("福利全都送完了，快去找土豪分享一个吧！");
+                           }else if(benefitEventArgs.getErrCode() == OperErrorCode.ResultNoBenefit){
+                               Alert.Toast("本次行程中没有福利哦，快去朋友那儿找找吧！");
+                           }
+                       }
+                       mVibrator.cancel();
+                       mShakeListener.start();
+                   }
+               }));
             }
         });
     }

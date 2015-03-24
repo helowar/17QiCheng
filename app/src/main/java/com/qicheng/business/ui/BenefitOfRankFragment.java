@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
 

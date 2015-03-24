@@ -378,6 +378,21 @@ public class Const {
          * 响应结果码 17:注册本系统账户成功，但注册IM账户失败
          */
         public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
+
+        /**
+         * 响应结果码 18:没有争抢到派发福利机会，请重试
+         */
+        public static final int RESULT_NO_GRAB = 18;
+
+        /**
+         * 响应结果码 19:福利已派发完了
+         */
+        public static final int RESULT_DISTRIBUTE_FINISHED = 19;
+
+        /**
+         * 响应结果码 20:该行程没有相关福利
+         */
+        public static final int RESULT_NO_BENEFIT = 20;
     }
 
     /** 查询类型 -1：全站 */

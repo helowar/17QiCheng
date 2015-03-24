@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,9 +21,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.module.Benefit;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.util.UIUtil;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +78,7 @@ public class BenefitOfAllFragment extends BaseFragment {
     public class BenefitListAdapter extends BaseAdapter {
         private Context context;
 
-        private List list;
+        private List<Benefit> list;
 
         BenefitListAdapter(Context context) {
             this.context = context;
@@ -102,15 +105,21 @@ public class BenefitOfAllFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
-            if (convertView == null) {
-                view = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);
-                TextView title = (TextView) view.findViewById(R.id.benefit_title);
-                title.setText(list.get(position).toString());
-            } else {
-                view = convertView;
-            }
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView == null)
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);
+            TextView title = (TextView) convertView.findViewById(R.id.benefit_title);
+            title.setText(list.get(position).toString());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
+                        Benefit b = list.get(position);
+                        getActivity().setResult(Activity.RESULT_OK,getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b));
+                        getActivity().finish();
+                    }
+                }
+            });
             return view;
         }
     }

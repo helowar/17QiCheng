@@ -8,9 +8,13 @@
 package com.qicheng.business.logic;
 
 import com.qicheng.business.logic.event.BenefitEventArgs;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.protocol.GetBenefitListProcess;
 import com.qicheng.business.protocol.GetBenefitRankListProcess;
+import com.qicheng.business.protocol.GetNewBenefitProcess;
+import com.qicheng.business.protocol.InitBenefitViewProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.TransferBenefitProcess;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.logic.BaseLogic;
@@ -69,5 +73,46 @@ public class BenefitLogic extends BaseLogic {
                 fireEvent(listener, benefitEventArgs);
             }
         });
+    }
+
+    /**
+     * 获取福利页面初始化信息
+     */
+    public void initBenefitView(final EventListener listener){
+        final InitBenefitViewProcess process = new InitBenefitViewProcess();
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                UserEventArgs userEventArgs = new UserEventArgs(process.getResult(),errCode);
+                fireEvent(listener,userEventArgs);
+            }
+        });
+    }
+
+    /**
+     * 摇一摇获取新的福利
+     * @param listener
+     */
+    public void getNewBenefit(final EventListener listener){
+        final GetNewBenefitProcess process = new GetNewBenefitProcess();
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                BenefitEventArgs userEventArgs = new BenefitEventArgs(errCode,process.getResult());
+                fireEvent(listener,userEventArgs);
+            }
+        });
+    }
+
+    /**
+     * 转送福利（对结果不显示）
+     * @param benefitId
+     * @param targetUserImId
+     */
+    public void transferBenefit(String benefitId,String targetUserImId){
+        final TransferBenefitProcess process = new TransferBenefitProcess(benefitId,targetUserImId);
+        process.run();
     }
 }
