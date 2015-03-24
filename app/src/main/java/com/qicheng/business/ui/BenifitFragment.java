@@ -133,6 +133,7 @@ public class BenifitFragment extends BaseFragment {
                        BenefitEventArgs benefitEventArgs = (BenefitEventArgs)args;
                        if(benefitEventArgs.getErrCode()== OperErrorCode.Success){
                            sndPool.play(soundPoolMap.get(1), (float) 1, (float) 1, 0, 0,(float) 1.0);
+                           mRestNumber.setText((Integer.parseInt(mRestNumber.getText().toString())+1)+"");
                            showTicket(benefitEventArgs.getBenefit());
                        }else {
                            if(benefitEventArgs.getErrCode() == OperErrorCode.ResultNoGrab){

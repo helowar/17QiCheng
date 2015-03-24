@@ -114,6 +114,15 @@ abstract public class BaseProcess {
             case Const.ResponseResultCode.RESULT_EXCEPTION:
                 mStatus = ProcessStatus.Status.ErrFailure;
                 break;
+            case Const.ResponseResultCode.RESULT_NO_GRAB:
+                mStatus = ProcessStatus.Status.ResultNoGrab;
+                break;
+            case Const.ResponseResultCode.RESULT_DISTRIBUTE_FINISHED:
+                mStatus = ProcessStatus.Status.ResultDistributeFinished;
+                break;
+            case Const.ResponseResultCode.RESULT_NO_BENEFIT:
+                mStatus = ProcessStatus.Status.ResultNoBenefit;
+                break;
 
         }
     }

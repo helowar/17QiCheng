@@ -542,7 +542,7 @@ public class MessageAdapter extends BaseAdapter{
             public void onClick(View v) {
                 Intent i = new Intent();
                 i.setClass(activity, BenefitDetailActivity.class);
-                i.putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b);
+                i.putExtra(Const.Intent.BENEFIT_DETAIL,b);
                 activity.startActivity(i);
             }
         });
