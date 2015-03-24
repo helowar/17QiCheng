@@ -151,10 +151,10 @@ public class Const {
          */
         public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
 
-        public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
-        public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
-        public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
-        public static final String UPDATE_USER_INFORMATION_TITLE="update_title";
+        public static final String UPDATE_USER_INFORMATION_RESULT = "result_value";
+        public static final String UPDATE_USER_INFORMATION_TYPE = "update_type";
+        public static final String UPDATE_USER_INFORMATION_VALUE = "update_value";
+        public static final String UPDATE_USER_INFORMATION_TITLE = "update_title";
 
         /**
          * 好友来源值Key
@@ -165,6 +165,19 @@ public class Const {
          * 是否来源聊天Activity Key
          */
         public static final String IS_FROM_CHAT_ACTIVITY_KEY = "is.from.chat.activity";
+        /**
+         * 福利物品类型Key
+         */
+        public static final String TYPE_THING = "type_thing";
+        /**
+         * 福利类型id Key
+         */
+        public static final String BENEFIT_TYPE_ID = "benefit_type_id";
+
+        /**
+         * 福利详情Key
+         */
+        public static final String BENEFIT_DETAIL = "benefit_detail";
     }
 
     public static class DefaultValue {
@@ -374,22 +387,34 @@ public class Const {
         public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
     }
 
-    /** 查询类型 -1：全站 */
+    /**
+     * 查询类型 -1：全站
+     */
     public static final byte QUERY_TYPE_ALL = -1;
 
-    /** 查询类型 0：车站 */
+    /**
+     * 查询类型 0：车站
+     */
     public static final byte QUERY_TYPE_STATION = 0;
 
-    /** 查询类型 1：出发车站 */
+    /**
+     * 查询类型 1：出发车站
+     */
     public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /** 查询类型 2：到达车站 */
+    /**
+     * 查询类型 2：到达车站
+     */
     public static final byte QUERY_TYPE_END = 2;
 
-    /** 查询类型 3：车次 */
+    /**
+     * 查询类型 3：车次
+     */
     public static final byte QUERY_TYPE_TRAIN = 3;
 
-    /** 查询类型 4：未上车 */
+    /**
+     * 查询类型 4：未上车
+     */
     public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
     /**
@@ -427,7 +452,9 @@ public class Const {
      */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
-    /** 查询类型 12：用户 */
+    /**
+     * 查询类型 12：用户
+     */
     public static final byte QUERY_TYPE_USER = 12;
 
     /**

@@ -31,22 +31,18 @@
             android:id="@+id/benefit_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="专车券"
             style="@style/benefit_text_style" />
-
-        <TextView
-            android:id="@+id/benefit_deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="截止日期 2015-03-31"
-            style="@style/benefit_text_style" />
-
         <TextView
             android:id="@+id/benefit_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="费用大于100可用"
             style="@style/benefit_text_style" />
+        <TextView
+            android:id="@+id/benefit_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/benefit_text_style" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -63,15 +59,16 @@
             style="@style/benefit_text_style" />
 
         <TextView
+            android:id="@+id/benefit_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15"
-            android:textSize="40sp"
+            android:textSize="24sp"
             style="@style/benefit_text_style" />
     </LinearLayout>
 
 
     <ImageView
+        android:id="@+id/share_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

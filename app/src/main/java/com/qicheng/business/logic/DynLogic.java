@@ -166,7 +166,7 @@ public class DynLogic extends BaseLogic {
             errCode = OperErrorCode.FileUpLoadFailed;
         }
         final ImageUploadProcess process = new ImageUploadProcess();
-        process.run(null, ImageUploadProcess.USAGE_PORTRAIT, myCaptureFile, new ResponseListener() {
+        process.run(null, ImageUploadProcess.USAGE_COMMON, myCaptureFile, new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
