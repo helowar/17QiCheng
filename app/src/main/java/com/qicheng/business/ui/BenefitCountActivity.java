@@ -15,7 +15,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.BenefitLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.BenefitEventArgs;
+import com.qicheng.business.module.Benefit;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.util.Const;
+
+import java.util.List;
 
 public class BenefitCountActivity extends BaseActivity {
     private BenefitOfAllFragment benefitOfAllFragment;
@@ -24,6 +35,8 @@ public class BenefitCountActivity extends BaseActivity {
 
     private static final int TAG_ALL = 0;
     private static final int TAG_ENTITY = 1;
+
+    private List<Benefit> benefitList;
 
 
     @Override
@@ -85,16 +98,26 @@ public class BenefitCountActivity extends BaseActivity {
         clearBackground();
         view.setBackgroundColor(getResources().getColor(R.color.main));
         ((TextView) view).setTextColor(getResources().getColor(R.color.white));
+        Bundle bundle = new Bundle();
         switch (tag) {
             case TAG_ALL:
-                benefitOfAllFragment = new BenefitOfAllFragment();
-                getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
+                bundle.putInt(Const.Intent.TYPE_THING, 0);
+                bundle.putString(Const.Intent.BENEFIT_TYPE_ID, null);
                 break;
             case TAG_ENTITY:
-                benefitOfAllFragment = new BenefitOfAllFragment();
-                getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
+                bundle.putInt(Const.Intent.TYPE_THING, 1);
+                bundle.putString(Const.Intent.BENEFIT_TYPE_ID, null);
                 break;
             default:
+        }
+        if (benefitOfAllFragment == null) {
+            benefitOfAllFragment = new BenefitOfAllFragment();
+            benefitOfAllFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().add(R.id.benefit_of_count, benefitOfAllFragment).commit();
+        } else {
+            benefitOfAllFragment = new BenefitOfAllFragment();
+            benefitOfAllFragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.benefit_of_count, benefitOfAllFragment).commit();
         }
     }
 
@@ -114,5 +137,6 @@ public class BenefitCountActivity extends BaseActivity {
         view.setBackgroundColor(resources.getColor(R.color.white));
         view.setTextColor(resources.getColor(R.color.main));
     }
+
 
 }

@@ -27,14 +27,14 @@ public class UserPhotoEventArgs extends StatusEventArgs {
     /**
      * 用户照片一览对象
      */
-    private List<Photo> photoList;
+    private ArrayList<Photo> photoList;
 
-    public UserPhotoEventArgs(List<Photo> photoList, OperErrorCode errCode) {
+    public UserPhotoEventArgs(ArrayList<Photo> photoList, OperErrorCode errCode) {
         super(errCode);
         this.photoList = photoList;
     }
 
-    public List<Photo> getPhotoList() {
+    public ArrayList<Photo> getPhotoList() {
         return photoList;
     }
 }

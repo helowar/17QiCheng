@@ -34,11 +34,13 @@ import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumActivity extends BaseActivity {
 
-    private List<Photo> photoList;
+    private ArrayList<Photo> photoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +92,9 @@ public class AlbumActivity extends BaseActivity {
      */
     class AlbumGridViewAdapter extends BaseAdapter {
         private Context context;
-        private List<Photo> list;
+        private ArrayList<Photo> list;
 
-        AlbumGridViewAdapter(Context context, List<Photo> list) {
+        AlbumGridViewAdapter(Context context, ArrayList<Photo> list) {
             this.context = context;
             this.list = list;
         }
@@ -129,7 +131,9 @@ public class AlbumActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY,list.get(position).getPhotoUrl());
+                        intent.putExtra("photos", list);
+                        intent.putExtra("index", position);
+                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, list.get(position).getPhotoUrl());
                         startActivity(intent);
                     }
                 });
@@ -137,10 +141,9 @@ public class AlbumActivity extends BaseActivity {
             } else {
                 view = convertView;
             }
-
-
             return view;
         }
+
     }
 
 

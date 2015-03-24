@@ -61,7 +61,7 @@ public class GetUserPhotoListProcess extends BaseProcess {
     /**
      * 查询结果：用户照片一览对象
      */
-    private List<Photo> photoList;
+    private ArrayList<Photo> photoList;
 
     @Override
     protected String getRequestUrl() {
@@ -127,7 +127,7 @@ public class GetUserPhotoListProcess extends BaseProcess {
         this.size = size;
     }
 
-    public List<Photo> getPhotoList() {
+    public ArrayList<Photo> getPhotoList() {
         return photoList;
     }
 }

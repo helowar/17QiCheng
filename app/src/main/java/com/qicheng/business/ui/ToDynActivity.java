@@ -64,7 +64,6 @@ public class ToDynActivity extends BaseActivity {
     private DynListViewAdapter listAdapter;
     /*搜索选项的GridView视图*/
     private List<Dyn> dynSearchList = new ArrayList<Dyn>();
-    /*城市列表*/
     /*搜索条件*/
     private List<Dyn> newData;
     /*动态的类型*/
@@ -368,9 +367,9 @@ public class ToDynActivity extends BaseActivity {
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
-                holder.likeCollect=(LinearLayout)convertView.findViewById(R.id.like_collect);
-                holder.shareCollect=(LinearLayout)convertView.findViewById(R.id.share_collect);
-                holder.weixinCollect=(LinearLayout)convertView.findViewById(R.id.weixin_collect);
+                holder.likeCollect = (LinearLayout) convertView.findViewById(R.id.like_collect);
+                holder.shareCollect = (LinearLayout) convertView.findViewById(R.id.share_collect);
+                holder.weixinCollect = (LinearLayout) convertView.findViewById(R.id.weixin_collect);
                 convertView.setTag(holder);
                 if (dynSearch.getQueryType() != Const.QUERY_TYPE_MY) {
                     holder.delete = (TextView) convertView.findViewById(R.id.activity_delete);
@@ -412,7 +411,7 @@ public class ToDynActivity extends BaseActivity {
                 ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
                 int screenWidth = UIUtil.getScreenWidth(getActivity());
                 holder.photo.setVisibility(View.VISIBLE);
-                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth,screenWidth));
+                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth));
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -528,7 +527,7 @@ public class ToDynActivity extends BaseActivity {
              */
             private ImageView weixin;
 
-            private LinearLayout likeCollect,shareCollect,weixinCollect;
+            private LinearLayout likeCollect, shareCollect, weixinCollect;
 
         }
     }

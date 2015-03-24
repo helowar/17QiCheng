@@ -155,10 +155,10 @@ public class Const {
          */
         public static final String ORIGINAL_PICTURE_URL_KEY = "original.picture.url";
 
-        public static final String UPDATE_USER_INFORMATION_RESULT="result_value";
-        public static final String UPDATE_USER_INFORMATION_TYPE="update_type";
-        public static final String UPDATE_USER_INFORMATION_VALUE="update_value";
-        public static final String UPDATE_USER_INFORMATION_TITLE="update_title";
+        public static final String UPDATE_USER_INFORMATION_RESULT = "result_value";
+        public static final String UPDATE_USER_INFORMATION_TYPE = "update_type";
+        public static final String UPDATE_USER_INFORMATION_VALUE = "update_value";
+        public static final String UPDATE_USER_INFORMATION_TITLE = "update_title";
 
         /**
          * 好友来源值Key
@@ -169,6 +169,19 @@ public class Const {
          * 是否来源聊天Activity Key
          */
         public static final String IS_FROM_CHAT_ACTIVITY_KEY = "is.from.chat.activity";
+        /**
+         * 福利物品类型Key
+         */
+        public static final String TYPE_THING = "type_thing";
+        /**
+         * 福利类型id Key
+         */
+        public static final String BENEFIT_TYPE_ID = "benefit_type_id";
+
+        /**
+         * 福利详情Key
+         */
+        public static final String BENEFIT_DETAIL = "benefit_detail";
 
         public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
     }

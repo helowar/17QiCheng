@@ -75,8 +75,8 @@ public class GetBenefitListProcess extends BaseProcess {
                         Benefit benefit = new Benefit();
                         benefit.setId(o.optString("id"));
                         benefit.setName(o.optString("name"));
-                        benefit.setStatus((Byte) o.opt("status"));
-                        benefit.setPostOpFlag((Byte) o.opt("post_op_flag"));
+                        benefit.setStatus(o.optInt("status"));
+                        benefit.setPostOpFlag(o.optInt("post_op_flag"));
                         benefit.setCreateTime(o.optString("create_time"));
                         benefit.setLogoUrl(o.optString("logo_url"));
                         benefit.setBgUrl(o.optString("bg_url"));

@@ -28,13 +28,13 @@ public class Benefit implements Serializable {
      * 1:已使用/已领取
      * 2:已过期
      */
-    private byte status;
+    private int status;
     /**
      * 后续可操作标识
      * 0:不可操作
      * 1:可转让
      */
-    private byte postOpFlag;
+    private int postOpFlag;
 
     /**
      * 当前来源ID
@@ -94,19 +94,19 @@ public class Benefit implements Serializable {
         this.name = name;
     }
 
-    public byte getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public byte getPostOpFlag() {
+    public int getPostOpFlag() {
         return postOpFlag;
     }
 
-    public void setPostOpFlag(byte postOpFlag) {
+    public void setPostOpFlag(int postOpFlag) {
         this.postOpFlag = postOpFlag;
     }
 
