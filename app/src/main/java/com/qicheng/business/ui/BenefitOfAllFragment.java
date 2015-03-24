@@ -118,7 +118,7 @@ public class BenefitOfAllFragment extends BaseFragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = null;
             final Benefit benefit = list.get(position);
             if (convertView == null) {
@@ -141,6 +141,12 @@ public class BenefitOfAllFragment extends BaseFragment {
                 textLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
+                            Benefit b = list.get(position);
+                            getActivity().setResult(Activity.RESULT_OK,getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b));
+                            getActivity().finish();
+                            return;
+                        }
                         Intent intent = new Intent(getActivity(), BenefitDetailActivity.class);
                         intent.putExtra(Const.Intent.BENEFIT_DETAIL, benefit);
                         startActivity(intent);
@@ -150,7 +156,7 @@ public class BenefitOfAllFragment extends BaseFragment {
             } else {
                 view = convertView;
             }
-            convertView.setOnClickListener(new View.OnClickListener() {
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {

@@ -284,6 +284,7 @@ public class MessageAdapter extends BaseAdapter{
 				}
                 //发送福利
                 if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_TICKET, false)){
+                    holder.ticketContainer = (LinearLayout) convertView.findViewById(R.id.tv_chatcontent);
                     holder.ticketLogo = (ImageView)convertView.findViewById(R.id.benefit_icon);
                     holder.ticketName = (TextView)convertView.findViewById(R.id.benefit_title);
                     holder.ticketValue = (TextView)convertView.findViewById(R.id.benefit_value);
@@ -534,9 +535,9 @@ public class MessageAdapter extends BaseAdapter{
         final Benefit b = new Benefit();
         b.setLogoUrl(iconUrl);
         b.setName(titleTxt);
-        b.setValue(Integer.parseInt(value));
+        b.setValue(Double.parseDouble(value));
         //点击显示福利详情
-        holder.tv.setOnClickListener(new OnClickListener() {
+        holder.ticketContainer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
@@ -1454,6 +1455,8 @@ public class MessageAdapter extends BaseAdapter{
         TextView ticketName;
         //优惠券价值
         TextView ticketValue;
+
+        LinearLayout ticketContainer;
 
 		TextView tv_file_name;
 		TextView tv_file_size;

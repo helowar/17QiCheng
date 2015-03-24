@@ -97,18 +97,21 @@ public class BenifitFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
             }
         });
+        updateInitView();
+        return convertView;
+    }
+
+    public void updateInitView(){
         BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
         logic.initBenefitView(createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 UserEventArgs userEventArgs = (UserEventArgs)args;
                 User user = userEventArgs.getResult();
-                mRestNumber.setText(user.getValidBenefitCount());
-                mFriendNumber.setText(user.getFriendCount());
+                mRestNumber.setText(user.getValidBenefitCount()+"");
+                mFriendNumber.setText(user.getFriendCount()+"");
             }
         }));
-        return convertView;
-
     }
 
     @Override

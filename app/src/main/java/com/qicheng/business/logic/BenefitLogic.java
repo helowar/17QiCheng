@@ -79,6 +79,7 @@ public class BenefitLogic extends BaseLogic {
      * 获取福利页面初始化信息
      */
     public void initBenefitView(final EventListener listener){
+        EventListener l = listener;
         final InitBenefitViewProcess process = new InitBenefitViewProcess();
         process.run(new ResponseListener() {
             @Override
@@ -100,8 +101,8 @@ public class BenefitLogic extends BaseLogic {
             @Override
             public void onResponse(String requestId) {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
-                BenefitEventArgs userEventArgs = new BenefitEventArgs(errCode,process.getResult());
-                fireEvent(listener,userEventArgs);
+                BenefitEventArgs benefitEventArgs = new BenefitEventArgs(errCode,process.getResult());
+                fireEvent(listener,benefitEventArgs);
             }
         });
     }

@@ -323,6 +323,7 @@ public class MainActivity extends BaseActivity {
                     getFragmentManager().beginTransaction().add(R.id.user_content, benefitFragment).commit();
                 } else {
                     invalidateOptionsMenu();
+                    benefitFragment.updateInitView();
                 }
                 activatedFrame(R.id.user_content);
                 break;
