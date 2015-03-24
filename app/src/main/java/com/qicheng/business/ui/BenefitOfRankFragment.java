@@ -16,9 +16,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.logic.BenefitLogic;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.event.BenefitEventArgs;
+import com.qicheng.business.module.BenefitUserRank;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
@@ -32,6 +39,7 @@ public class BenefitOfRankFragment extends BaseFragment {
     private View view;
     private ListView listView;
     private BenefitListAdapter benefitListAdapter;
+    private List<BenefitUserRank> userRankList;
 
 
     @Override
@@ -43,17 +51,7 @@ public class BenefitOfRankFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_benefit_of_rank, container, false);
         listView = (ListView) view.findViewById(R.id.benefit_rank_list);
-        List<String> strings = new ArrayList<String>();
-        strings.add("专车");
-        strings.add("出租车");
-        strings.add("拼车");
-        strings.add("自行车");
-        strings.add("拼车");
-        strings.add("自行车");
-        strings.add("拼车");
-        strings.add("自行车");
-        benefitListAdapter = new BenefitListAdapter(getActivity(), strings);
-        listView.setAdapter(benefitListAdapter);
+        getBenefitRankList(null);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -64,8 +62,27 @@ public class BenefitOfRankFragment extends BaseFragment {
         return view;
     }
 
-    private void iniBenefitListView() {
+    /**
+     * 获取用户福利排名列表
+     *
+     * @param benefitTypeId
+     */
+    private void getBenefitRankList(String benefitTypeId) {
+        BenefitLogic logic = (BenefitLogic) LogicFactory.self().get(LogicFactory.Type.Benefit);
+        logic.getBenefitRankList(benefitTypeId, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                BenefitEventArgs result = (BenefitEventArgs) args;
+                OperErrorCode errorCode = result.getErrCode();
+                if (errorCode == OperErrorCode.Success) {
+                    userRankList = result.getBenefitList();
+                    benefitListAdapter = new BenefitListAdapter(getActivity(), userRankList);
+                    listView.setAdapter(benefitListAdapter);
+                }
+            }
+        }));
     }
+
 
     /**
      * 福利列表的Adapter
@@ -73,13 +90,13 @@ public class BenefitOfRankFragment extends BaseFragment {
     public class BenefitListAdapter extends BaseAdapter {
         private Context context;
 
-        private List list;
+        private List<BenefitUserRank> list;
 
         BenefitListAdapter(Context context) {
             this.context = context;
         }
 
-        BenefitListAdapter(Context context, List list) {
+        BenefitListAdapter(Context context, List<BenefitUserRank> list) {
             this.context = context;
             this.list = list;
         }
