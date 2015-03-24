@@ -7,9 +7,14 @@
 
 package com.qicheng.business.ui;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.qicheng.R;
 import com.qicheng.business.module.Benefit;
 
 /**
@@ -29,6 +34,17 @@ public class TicketFragment extends DialogFragment{
 
     public TicketFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater inflaterDl = LayoutInflater.from(getActivity());
+        LinearLayout layout = (LinearLayout)inflaterDl.inflate(R.layout.dialog_ticket, null );
+        //对话框
+        final Dialog dialog = new android.app.AlertDialog.Builder(getActivity()).create();
+        dialog.show();
+        dialog.getWindow().setContentView(layout);
+        return dialog;
     }
 
 

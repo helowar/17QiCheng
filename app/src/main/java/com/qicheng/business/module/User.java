@@ -60,6 +60,12 @@ public class User {
      */
     private QueryValue queryValue;
 
+    /* 有效福利数 */
+    private int validBenefitCount;
+
+    /* 联系人数 */
+    private int friendCount;
+
     public User() {
         location = new Location();
         queryValue = new QueryValue();
@@ -220,5 +226,21 @@ public class User {
 
     public void setInBlackList(boolean inBlackList) {
         this.inBlackList = inBlackList;
+    }
+
+    public int getFriendCount() {
+        return friendCount;
+    }
+
+    public void setFriendCount(int friendCount) {
+        this.friendCount = friendCount;
+    }
+
+    public int getValidBenefitCount() {
+        return validBenefitCount;
+    }
+
+    public void setValidBenefitCount(int validBenefitCount) {
+        this.validBenefitCount = validBenefitCount;
     }
 }

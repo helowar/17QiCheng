@@ -22,6 +22,10 @@ public class Const {
         public static final String FROM_USER_NICK = "from_nick_name";
         public static final String FROM_USER_AVATAR = "from_avatar";
         public static final String FROM_USER_ID = "from_im_id";
+
+        public static final String BENEFIT_ICON_URL = "benefit_icon_url";
+        public static final String BENEFIT_TITLE_TXT = "benefit_title_txt";
+        public static final String BENEFIT_VALUE = "benefit_value";
     }
 
     /**
@@ -178,6 +182,8 @@ public class Const {
          * 福利详情Key
          */
         public static final String BENEFIT_DETAIL = "benefit_detail";
+
+        public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
     }
 
     public static class DefaultValue {
@@ -387,34 +393,22 @@ public class Const {
         public static final int RESULT_REGISTER_IM_ACCOUNT_FAIL = 17;
     }
 
-    /**
-     * 查询类型 -1：全站
-     */
+    /** 查询类型 -1：全站 */
     public static final byte QUERY_TYPE_ALL = -1;
 
-    /**
-     * 查询类型 0：车站
-     */
+    /** 查询类型 0：车站 */
     public static final byte QUERY_TYPE_STATION = 0;
 
-    /**
-     * 查询类型 1：出发车站
-     */
+    /** 查询类型 1：出发车站 */
     public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /**
-     * 查询类型 2：到达车站
-     */
+    /** 查询类型 2：到达车站 */
     public static final byte QUERY_TYPE_END = 2;
 
-    /**
-     * 查询类型 3：车次
-     */
+    /** 查询类型 3：车次 */
     public static final byte QUERY_TYPE_TRAIN = 3;
 
-    /**
-     * 查询类型 4：未上车
-     */
+    /** 查询类型 4：未上车 */
     public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
     /**
@@ -452,9 +446,7 @@ public class Const {
      */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
-    /**
-     * 查询类型 12：用户
-     */
+    /** 查询类型 12：用户 */
     public static final byte QUERY_TYPE_USER = 12;
 
     /**
