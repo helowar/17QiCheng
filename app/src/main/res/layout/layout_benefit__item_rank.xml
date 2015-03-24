@@ -32,7 +32,7 @@
                 android:src="@drawable/ic_gold" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/personal_information_person_img"
+                android:id="@+id/portrait_img"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
 

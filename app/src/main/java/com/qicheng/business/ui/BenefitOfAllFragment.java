@@ -153,9 +153,8 @@ public class BenefitOfAllFragment extends BaseFragment {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
-                        Benefit b = list.get(position);
-                        getActivity().setResult(Activity.RESULT_OK,getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b));
+                    if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {
+                        getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL, benefit));
                         getActivity().finish();
                     }
                 }
