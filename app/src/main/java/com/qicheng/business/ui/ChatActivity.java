@@ -520,14 +520,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             } else if (requestCode == REQUEST_CODE_ADD_TO_BLACKLIST) { // 移入黑名单
                 EMMessage deleteMsg = (EMMessage) adapter.getItem(data.getIntExtra("position", -1));
                 addUserToBlacklist(deleteMsg.getFrom());
+            } else if (requestCode == REQUEST_CODE_SELECT_TICKET){
+                Benefit b = (Benefit)data.getSerializableExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL);
+                sendBenefit(b);
             } else if (conversation.getMsgCount() > 0) {
                 adapter.refresh();
                 setResult(RESULT_OK);
             } else if (requestCode == REQUEST_CODE_GROUP_DETAIL) {
                 adapter.refresh();
-            } else if (requestCode == REQUEST_CODE_SELECT_TICKET){
-                Benefit b = (Benefit)data.getSerializableExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL);
-                sendBenefit(b);
             }
         }
     }
@@ -722,6 +722,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             message.setReceipt(toChatUsername);
             //设置发送福利的标识
             message.setAttribute(Constant.MESSAGE_ATTR_IS_TICKET,true);
+            message.setAttribute(Const.Easemob.BENEFIT_ICON_URL,benefit.getLogoUrl());
+            message.setAttribute(Const.Easemob.BENEFIT_TITLE_TXT,benefit.getName());
+            message.setAttribute(Const.Easemob.BENEFIT_VALUE,benefit.getValue()+"");
             BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
             logic.transferBenefit(benefit.getId(),toChatUsername);
             // 把messgage加到conversation中
