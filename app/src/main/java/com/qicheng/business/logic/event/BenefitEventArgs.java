@@ -20,6 +20,8 @@ import java.util.List;
 public class BenefitEventArgs extends StatusEventArgs {
 
     private List list;
+    private Benefit b;
+
 
     public BenefitEventArgs(OperErrorCode errCode) {
         super(errCode);
@@ -30,7 +32,16 @@ public class BenefitEventArgs extends StatusEventArgs {
         this.list = list;
     }
 
+    public BenefitEventArgs(OperErrorCode errorCode,Benefit b){
+        super(errorCode);
+        this.b = b;
+    }
+
     public List getBenefitList() {
         return list;
+    }
+
+    public Benefit getBenefit(){
+        return b;
     }
 }

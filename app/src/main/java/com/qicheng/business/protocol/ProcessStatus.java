@@ -71,7 +71,12 @@ public class ProcessStatus {
         /**未找到数据*/
         InfoNoData,
         ResultNotPermit,
-
+        /**没有争抢到派发福利机会，请重试*/
+        ResultNoGrab,
+        /**福利已派完*/
+        ResultDistributeFinished,
+        /**行程无福利*/
+        ResultNoBenefit,
     }
 
     public static OperErrorCode convertFromStatus(Status status) {
@@ -104,6 +109,12 @@ public class ProcessStatus {
                 return OperErrorCode.NoDataFound;
             case ResultNotPermit:
                 return OperErrorCode.ResultNotPermit;
+            case ResultNoGrab:
+                return OperErrorCode.ResultNoGrab;
+            case ResultDistributeFinished:
+                return OperErrorCode.ResultDistributeFinished;
+            case ResultNoBenefit:
+                return OperErrorCode.ResultNoBenefit;
             default:
                 return OperErrorCode.Unknown;
         }

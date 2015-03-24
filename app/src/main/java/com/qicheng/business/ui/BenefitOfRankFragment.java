@@ -26,8 +26,11 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.business.module.User;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 

@@ -57,6 +57,7 @@ import com.easemob.util.VoiceRecorder;
 import com.qicheng.QichengApplication;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.ContactLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
@@ -599,7 +600,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public void selectTicketFromList(){
-
+        Intent i = new Intent();
+        i.setClass(this,BenefitCountActivity.class);
+        i.putExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,true);
+        startActivityForResult(i,REQUEST_CODE_SELECT_TICKET);
     }
 
     /**
@@ -718,6 +722,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             message.setReceipt(toChatUsername);
             //设置发送福利的标识
             message.setAttribute(Constant.MESSAGE_ATTR_IS_TICKET,true);
+            BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
+            logic.transferBenefit(benefit.getId(),toChatUsername);
             // 把messgage加到conversation中
             conversation.addMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法

@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.module.Benefit;
+import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
@@ -30,6 +33,8 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.util.UIUtil;
+import com.qicheng.util.Const;
 import com.qicheng.util.Const;
 
 import java.util.List;
@@ -145,6 +150,16 @@ public class BenefitOfAllFragment extends BaseFragment {
             } else {
                 view = convertView;
             }
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
+                        Benefit b = list.get(position);
+                        getActivity().setResult(Activity.RESULT_OK,getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b));
+                        getActivity().finish();
+                    }
+                }
+            });
             return view;
         }
     }
