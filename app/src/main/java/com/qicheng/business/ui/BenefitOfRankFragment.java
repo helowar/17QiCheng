@@ -8,16 +8,17 @@
 package com.qicheng.business.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.qicheng.R;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
@@ -26,11 +27,8 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.business.module.User;
-import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.ui.base.BaseFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -52,13 +50,6 @@ public class BenefitOfRankFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_benefit_of_rank, container, false);
         listView = (ListView) view.findViewById(R.id.benefit_rank_list);
         getBenefitRankList(null);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), BenefitDetailActivity.class);
-                startActivity(intent);
-            }
-        });
         return view;
     }
 
@@ -118,13 +109,17 @@ public class BenefitOfRankFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = null;
             if (convertView == null) {
-                view = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit__item_rank, null);
-            } else {
-                view = convertView;
+                BenefitUserRank rank = list.get(position);
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit__item_rank, null);
+                ImageView portrait = (ImageView) convertView.findViewById(R.id.portrait_img);
+                ImageManager.displayPortrait(rank.getPortraitUrl(), portrait);
+                TextView name = (TextView) convertView.findViewById(R.id.user_name);
+                name.setText(rank.getUserName());
+                TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
+                benefitNum.setText(rank.getBenefitNum());
             }
-            return view;
+            return convertView;
         }
     }
 }
