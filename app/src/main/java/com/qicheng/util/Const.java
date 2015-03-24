@@ -22,6 +22,10 @@ public class Const {
         public static final String FROM_USER_NICK = "from_nick_name";
         public static final String FROM_USER_AVATAR = "from_avatar";
         public static final String FROM_USER_ID = "from_im_id";
+
+        public static final String BENEFIT_ICON_URL = "benefit_icon_url";
+        public static final String BENEFIT_TITLE_TXT = "benefit_title_txt";
+        public static final String BENEFIT_VALUE = "benefit_value";
     }
 
     /**
@@ -165,6 +169,8 @@ public class Const {
          * 是否来源聊天Activity Key
          */
         public static final String IS_FROM_CHAT_ACTIVITY_KEY = "is.from.chat.activity";
+
+        public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
     }
 
     public static class DefaultValue {

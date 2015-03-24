@@ -56,7 +56,9 @@ import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserDetailEventArgs;
+import com.qicheng.business.module.Benefit;
 import com.qicheng.business.module.UserDetail;
+import com.qicheng.business.ui.BenefitDetailActivity;
 import com.qicheng.business.ui.UserInfoActivity;
 import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
@@ -108,6 +110,8 @@ public class MessageAdapter extends BaseAdapter{
 	private static final int MESSAGE_TYPE_RECV_VOICE_CALL = 13;
 	private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 14;
 	private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 15;
+    private static final int MESSAGE_TYPE_SENT_TICKET = 16;
+    private static final int MESSAGE_TYPE_RECV_TICKET = 17;
 
 	public static final String IMAGE_DIR = "chat/image/";
 	public static final String VOICE_DIR = "chat/audio/";
@@ -177,7 +181,9 @@ public class MessageAdapter extends BaseAdapter{
 			    return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VOICE_CALL : MESSAGE_TYPE_SENT_VOICE_CALL;
 			else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
 			    return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_VIDEO_CALL : MESSAGE_TYPE_SENT_VIDEO_CALL;
-			return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
+			else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_TICKET,false))
+                return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TICKET : MESSAGE_TYPE_SENT_TICKET;
+            return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_TXT : MESSAGE_TYPE_SENT_TXT;
 		}
 		if (message.getType() == EMMessage.Type.IMAGE) {
 			return message.direct == EMMessage.Direct.RECEIVE ? MESSAGE_TYPE_RECV_IMAGE : MESSAGE_TYPE_SENT_IMAGE;
@@ -200,7 +206,7 @@ public class MessageAdapter extends BaseAdapter{
 	}
 
 	public int getViewTypeCount() {
-		return 16;
+		return 18;
 	}
 
 	private View createViewByMessage(EMMessage message, int position) {
@@ -230,6 +236,10 @@ public class MessageAdapter extends BaseAdapter{
 			else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
 			    return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_video_call, null) : inflater
                         .inflate(R.layout.row_sent_video_call, null);
+            //福利
+            else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_TICKET, false))
+                return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_ticket, null) : inflater
+                        .inflate(R.layout.row_sent_ticket, null);
 			return message.direct == EMMessage.Direct.RECEIVE ? inflater.inflate(R.layout.row_received_message, null) : inflater.inflate(
 					R.layout.row_sent_message, null);
 		}
@@ -272,6 +282,12 @@ public class MessageAdapter extends BaseAdapter{
 					holder.iv = (ImageView) convertView.findViewById(R.id.iv_call_icon);
 					holder.tv = (TextView) convertView.findViewById(R.id.tv_chatcontent);
 				}
+                //发送福利
+                if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_TICKET, false)){
+                    holder.ticketLogo = (ImageView)convertView.findViewById(R.id.benefit_icon);
+                    holder.ticketName = (TextView)convertView.findViewById(R.id.benefit_title);
+                    holder.ticketValue = (TextView)convertView.findViewById(R.id.benefit_value);
+                }
 
 			} else if (message.getType() == EMMessage.Type.VOICE) {
 				try {
@@ -388,7 +404,10 @@ public class MessageAdapter extends BaseAdapter{
 			        || message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_VIDEO_CALL, false))
 			    // 音视频通话
 			    handleCallMessage(message, holder, position);
-			else
+			else if (message.getBooleanAttribute(Constant.MESSAGE_ATTR_IS_TICKET, false))
+                //福利
+                handleTicketMessage(message, holder, position);
+            else
 			    handleTextMessage(message, holder, position);
 			break;
 		case LOCATION: // 位置
@@ -503,6 +522,51 @@ public class MessageAdapter extends BaseAdapter{
         }));
         activity.startLoading();
     }
+
+    private void handleTicketMessage(EMMessage message, ViewHolder holder, final int position){
+
+        String iconUrl = message.getStringAttribute(Const.Easemob.BENEFIT_ICON_URL,"");
+        String titleTxt = message.getStringAttribute(Const.Easemob.BENEFIT_TITLE_TXT,"");
+        String value = message.getStringAttribute(Const.Easemob.BENEFIT_VALUE,"");
+        ImageManager.displayImageDefault(iconUrl,holder.ticketLogo);
+        holder.ticketName.setText(titleTxt);
+        holder.ticketValue.setText(value);
+        final Benefit b = new Benefit();
+        b.setLogoUrl(iconUrl);
+        b.setName(titleTxt);
+        b.setValue(Integer.parseInt(value));
+        //点击显示福利详情
+        holder.tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent();
+                i.setClass(activity, BenefitDetailActivity.class);
+                i.putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b);
+                activity.startActivity(i);
+            }
+        });
+
+        if (message.direct == EMMessage.Direct.SEND) {
+            switch (message.status) {
+                case SUCCESS: // 发送成功
+                    holder.pb.setVisibility(View.GONE);
+                    holder.staus_iv.setVisibility(View.GONE);
+                    break;
+                case FAIL: // 发送失败
+                    holder.pb.setVisibility(View.GONE);
+                    holder.staus_iv.setVisibility(View.VISIBLE);
+                    break;
+                case INPROGRESS: // 发送中
+                    holder.pb.setVisibility(View.VISIBLE);
+                    holder.staus_iv.setVisibility(View.GONE);
+                    break;
+                default:
+                    // 发送消息
+                    sendMsgInBackground(message, holder);
+            }
+        }
+    }
+
 	/**
 	 * 文本消息
 	 *
@@ -1380,6 +1444,16 @@ public class MessageAdapter extends BaseAdapter{
 		TextView tv_ack;
 		// 显示送达回执状态
 		TextView tv_delivered;
+
+        /**
+         * 福利专用View
+         */
+        //优惠券Logo
+        ImageView ticketLogo;
+        //优惠券名称
+        TextView ticketName;
+        //优惠券价值
+        TextView ticketValue;
 
 		TextView tv_file_name;
 		TextView tv_file_size;

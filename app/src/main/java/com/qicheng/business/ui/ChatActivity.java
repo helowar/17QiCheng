@@ -60,6 +60,7 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.ContactLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.module.Benefit;
 import com.qicheng.business.ui.chat.ExpressionAdapter;
 import com.qicheng.business.ui.chat.ExpressionPagerAdapter;
 import com.qicheng.business.ui.chat.MessageAdapter;
@@ -67,6 +68,7 @@ import com.qicheng.business.ui.chat.activity.AlertDialog;
 import com.qicheng.business.ui.chat.activity.BaiduMapActivity;
 import com.qicheng.business.ui.chat.activity.ImageGridActivity;
 import com.qicheng.business.ui.chat.utils.CommonUtils;
+import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.qicheng.business.ui.chat.utils.VoicePlayClickListener;
 import com.qicheng.business.ui.chat.widget.ExpandGridView;
@@ -106,6 +108,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     public static final int REQUEST_CODE_SELECT_VIDEO = 23;
 //    public static final int REQUEST_CODE_SELECT_FILE = 24;
     public static final int REQUEST_CODE_ADD_TO_BLACKLIST = 25;
+    public static final int REQUEST_CODE_SELECT_TICKET = 26;
+
     /**
      * ContextMenu结果代码
      */
@@ -520,6 +524,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
                 setResult(RESULT_OK);
             } else if (requestCode == REQUEST_CODE_GROUP_DETAIL) {
                 adapter.refresh();
+            } else if (requestCode == REQUEST_CODE_SELECT_TICKET){
+                Benefit b = (Benefit)data.getSerializableExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL);
+                sendBenefit(b);
             }
         }
     }
@@ -568,6 +575,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             btnContainer.setVisibility(View.VISIBLE);
             emojiIconContainer.setVisibility(View.GONE);
             more.setVisibility(View.GONE);
+        }else if(id == R.id.btn_coupon){//福利
+            selectTicketFromList();
+        }
 //        } else if (id == R.id.btn_video) {
 //            // 点击摄像图标
 //            Intent intent = new Intent(ChatActivity.this, ImageGridActivity.class);
@@ -586,7 +596,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 //            else
 //                startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername)
 //                        .putExtra("isComingCall", false));
-        }
+    }
+
+    public void selectTicketFromList(){
+
     }
 
     /**
@@ -689,6 +702,32 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
         adapter.refresh();
         listView.setSelection(position);
     }
+
+    /**
+     * 发送福利
+     * @param benefit
+     */
+    private void sendBenefit(final Benefit benefit){
+        if (benefit!=null) {
+            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+            setUserInfoIntoMessage(message);
+            TextMessageBody txtBody = new TextMessageBody("转发福利:"+benefit.getName());
+            // 设置消息body
+            message.addBody(txtBody);
+            // 设置要发给谁,用户username或者群聊groupid
+            message.setReceipt(toChatUsername);
+            //设置发送福利的标识
+            message.setAttribute(Constant.MESSAGE_ATTR_IS_TICKET,true);
+            // 把messgage加到conversation中
+            conversation.addMessage(message);
+            // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
+            adapter.refresh();
+            listView.setSelection(listView.getCount() - 1);
+            mEditTextContent.setText("");
+            setResult(RESULT_OK);
+        }
+    }
+
 
     /**
      * 发送图片
