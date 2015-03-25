@@ -1,12 +1,13 @@
 package com.qicheng.business.module;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by NO1 on 2015/1/18.
  */
-public class User {
+public class User implements Serializable{
 
     private String userName;
 

@@ -175,6 +175,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Const.Application.chatActivityAlive = true;
         setContentView(R.layout.activity_chat);
         source = getIntent().getStringExtra(Const.Intent.FRIEND_SOURCE_KEY);
         initView();
@@ -1364,6 +1365,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     protected void onDestroy() {
         super.onDestroy();
         activityInstance = null;
+        Const.Application.chatActivityAlive = false;
 //        EMGroupManager.getInstance().removeGroupChangeListener(groupListener);
         // 注销广播
         try {

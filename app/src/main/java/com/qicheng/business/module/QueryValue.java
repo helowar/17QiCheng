@@ -7,13 +7,15 @@
 
 package com.qicheng.business.module;
 
+import java.io.Serializable;
+
 /**
  * QueryValue.java是启程APP的查询值实体类。
  *
  * @author 花树峰
  * @version 1.0 2015年2月26日
  */
-public class QueryValue {
+public class QueryValue implements Serializable{
 
     /**
      * 性别 0:女 1:男

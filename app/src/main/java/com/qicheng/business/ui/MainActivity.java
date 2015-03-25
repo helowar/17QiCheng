@@ -1,6 +1,7 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +19,13 @@ import com.qicheng.R;
 import com.qicheng.business.service.LocationService;
 import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.business.ui.component.BadgeView;
+import com.qicheng.business.ui.component.BenefitChangedListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
 
+import static com.qicheng.util.Const.Application;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
 
@@ -74,12 +77,18 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // 记得把广播给终结掉
-            abortBroadcast();
-            setUnreadMessageCount();
-            String msgid = intent.getStringExtra("msgid");
-            // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
-            final EMMessage message = EMChatManager.getInstance().getMessage(msgid);
-            notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK,message.getFrom()));
+            if( !Application.chatActivityAlive){
+                abortBroadcast();
+                setUnreadMessageCount();
+                String msgid = intent.getStringExtra("msgid");
+                // 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
+                final EMMessage message = EMChatManager.getInstance().getMessage(msgid);
+                if(messageFragment!=null){
+                    messageFragment.refresh();
+                }
+                notifyNewMessage(message,message.getStringAttribute(Const.Easemob.FROM_USER_NICK,message.getFrom()));
+            }
+
             // 如果是群聊消息，获取到group id
 //            if (message.getChatType() == EMMessage.ChatType.GroupChat) {
 //                username = message.getTo();
@@ -127,6 +136,11 @@ public class MainActivity extends BaseActivity {
         ticketBadge.setBadgeMargin(4);
         ticketBadge.setTargetView(benefitRb);
         ticketBadge.setBadgeCount(8);
+        //初始化BenefitChangedListener
+        BenefitChangedListener listener = Const.Application.getBenefitChangedListener();
+        listener.setBenefitBadge(ticketBadge);
+        //设置福利数初始值
+        listener.initBenefitBadge();
         BadgeView tripBadge = new BadgeView(getActivity());
         tripBadge.setHideOnNull(true);
         tripBadge.setBadgeMargin(4);
