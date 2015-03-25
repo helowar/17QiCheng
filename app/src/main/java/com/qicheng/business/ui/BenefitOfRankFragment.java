@@ -81,7 +81,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                 BenefitEventArgs result = (BenefitEventArgs) args;
                 OperErrorCode errorCode = result.getErrCode();
                 if (errorCode == OperErrorCode.Success) {
-                    userRankList = result.getBenefitList();
+                    userRankList = result.getBenefitUserRankList();
                     initSelfView(userRankList);
                     benefitListAdapter = new BenefitListAdapter(getActivity(), userRankList);
                     listView.setAdapter(benefitListAdapter);
