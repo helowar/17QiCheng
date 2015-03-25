@@ -96,7 +96,6 @@ public class BenifitFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
             }
         });
-        updateInitView();
         return convertView;
     }
 
@@ -108,6 +107,7 @@ public class BenifitFragment extends BaseFragment {
                 UserEventArgs userEventArgs = (UserEventArgs)args;
                 User user = userEventArgs.getResult();
                 mRestNumber.setText(user.getValidBenefitCount()+"");
+                Const.Application.getBenefitChangedListener().updateBenefitBadge(user.getValidBenefitCount());
                 mFriendNumber.setText(user.getFriendCount()+"");
             }
         }));
@@ -116,6 +116,7 @@ public class BenifitFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        updateInitView();
         loadSound() ;
         mShakeListener = new ShakeListener(getActivity());
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {

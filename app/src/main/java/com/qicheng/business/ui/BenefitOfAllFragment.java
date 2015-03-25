@@ -235,6 +235,8 @@ public class BenefitOfAllFragment extends BaseFragment {
             logic.transferBenefit(targetBenefit.getId(),targetUser.getUserImId());
             // 把messgage加到conversation中
             conversation.addMessage(message);
+            benefitList.remove(targetBenefit);
+            benefitListAdapter.notifyDataSetChanged();
         }
     }
 

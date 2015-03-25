@@ -728,6 +728,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             message.setAttribute(Const.Easemob.BENEFIT_VALUE,benefit.getValue()+"");
             BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
             logic.transferBenefit(benefit.getId(),toChatUsername);
+            //更新底部福利数量提示
+            Const.Application.getBenefitChangedListener().benefitBadgeDecrement();
             // 把messgage加到conversation中
             conversation.addMessage(message);
             // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
