@@ -91,14 +91,14 @@ public class BenefitOfAllFragment extends BaseFragment {
                 OperErrorCode errorCode = result.getErrCode();
                 if (errorCode == OperErrorCode.Success) {
                     //从聊天中发起转发行为
-                    if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)) {
-                        benefitList=new ArrayList<Benefit>();
-                        for(Benefit b : result.getBenefitList()){
-                            if(b.getPostOpFlag()==1){//只有可转让的福利才在从聊天发起的列表界面中显示
+                    if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {
+                        benefitList = new ArrayList<Benefit>();
+                        for (Benefit b : result.getBenefitList()) {
+                            if (b.getPostOpFlag() == 1) {//只有可转让的福利才在从聊天发起的列表界面中显示
                                 benefitList.add(b);
                             }
                         }
-                    }else{
+                    } else {
                         benefitList = result.getBenefitList();
                     }
                     benefitListAdapter = new BenefitListAdapter(getActivity(), benefitList);
@@ -146,7 +146,7 @@ public class BenefitOfAllFragment extends BaseFragment {
             if (convertView == null)
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);
             //从聊天中发起转发行为
-            if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
+            if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {
                 ImageView benefitIcon = (ImageView) convertView.findViewById(R.id.benefit_icon);
                 ImageManager.displayImageDefault(benefit.getLogoUrl(), benefitIcon);
                 TextView title = (TextView) convertView.findViewById(R.id.benefit_title);
@@ -169,7 +169,7 @@ public class BenefitOfAllFragment extends BaseFragment {
                         }
                     }
                 });
-            }else {
+            } else {
                 ImageView benefitIcon = (ImageView) convertView.findViewById(R.id.benefit_icon);
                 ImageManager.displayImageDefault(benefit.getLogoUrl(), benefitIcon);
                 TextView title = (TextView) convertView.findViewById(R.id.benefit_title);
@@ -179,7 +179,7 @@ public class BenefitOfAllFragment extends BaseFragment {
                 TextView description = (TextView) convertView.findViewById(R.id.benefit_content);
                 description.setText(benefit.getDescription());
                 TextView value = (TextView) convertView.findViewById(R.id.benefit_value);
-                value.setText(benefit.getValue() + "");
+                value.setText(String.valueOf(benefit.getValue()));
                 ImageView shareImg = (ImageView) convertView.findViewById(R.id.share_img);
                 shareImg.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -187,8 +187,8 @@ public class BenefitOfAllFragment extends BaseFragment {
                         //TODO 需调用联系人Activity
                         targetBenefit = benefit;
                         Intent i = new Intent(getActivity(), ContactActivity.class);
-                        i.putExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false);
-                        startActivityForResult(i,REQUEST_CODE_BENEFIT_TO_CONTACT);
+                        i.putExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false);
+                        startActivityForResult(i, REQUEST_CODE_BENEFIT_TO_CONTACT);
                     }
                 });
                 if (benefit.getPostOpFlag() == 0) {
@@ -197,9 +197,9 @@ public class BenefitOfAllFragment extends BaseFragment {
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,false)){
+                        if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {
                             Benefit b = list.get(position);
-                            getActivity().setResult(Activity.RESULT_OK,getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL,b));
+                            getActivity().setResult(Activity.RESULT_OK, getActivity().getIntent().putExtra(Const.Intent.BENEFIT_ENTITY_FOR_DETAIL, b));
                             getActivity().finish();
                             return;
                         }
@@ -216,23 +216,23 @@ public class BenefitOfAllFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(requestCode==REQUEST_CODE_BENEFIT_TO_CONTACT && resultCode == Activity.RESULT_OK){
-            User targetUser  = (User)intent.getSerializableExtra(Const.Intent.USER_ENTITY_FROM_CONTACT);
+        if (requestCode == REQUEST_CODE_BENEFIT_TO_CONTACT && resultCode == Activity.RESULT_OK) {
+            User targetUser = (User) intent.getSerializableExtra(Const.Intent.USER_ENTITY_FROM_CONTACT);
             EMConversation conversation = EMChatManager.getInstance().getConversation(targetUser.getUserImId());
             EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
-            setUserInfoIntoMessage(message,targetUser);
-            TextMessageBody txtBody = new TextMessageBody("转发福利:"+targetBenefit.getName());
+            setUserInfoIntoMessage(message, targetUser);
+            TextMessageBody txtBody = new TextMessageBody("转发福利:" + targetBenefit.getName());
             // 设置消息body
             message.addBody(txtBody);
             // 设置要发给谁,用户username或者群聊groupid
             message.setReceipt(targetUser.getUserImId());
             //设置发送福利的标识
-            message.setAttribute(Constant.MESSAGE_ATTR_IS_TICKET,true);
-            message.setAttribute(Const.Easemob.BENEFIT_ICON_URL,targetBenefit.getLogoUrl());
-            message.setAttribute(Const.Easemob.BENEFIT_TITLE_TXT,targetBenefit.getName());
-            message.setAttribute(Const.Easemob.BENEFIT_VALUE,targetBenefit.getValue()+"");
-            BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
-            logic.transferBenefit(targetBenefit.getId(),targetUser.getUserImId());
+            message.setAttribute(Constant.MESSAGE_ATTR_IS_TICKET, true);
+            message.setAttribute(Const.Easemob.BENEFIT_ICON_URL, targetBenefit.getLogoUrl());
+            message.setAttribute(Const.Easemob.BENEFIT_TITLE_TXT, targetBenefit.getName());
+            message.setAttribute(Const.Easemob.BENEFIT_VALUE, targetBenefit.getValue() + "");
+            BenefitLogic logic = (BenefitLogic) LogicFactory.self().get(LogicFactory.Type.Benefit);
+            logic.transferBenefit(targetBenefit.getId(), targetUser.getUserImId());
             // 把messgage加到conversation中
             conversation.addMessage(message);
             benefitList.remove(targetBenefit);
@@ -242,15 +242,16 @@ public class BenefitOfAllFragment extends BaseFragment {
 
     /**
      * 把环信无法获取的头像/昵称等用户基本信息塞进EMMessage，imId作为标识判断该取哪一个
+     *
      * @param message
      */
-    private void setUserInfoIntoMessage(EMMessage message,User user){
+    private void setUserInfoIntoMessage(EMMessage message, User user) {
         message.setAttribute(Const.Easemob.FROM_USER_NICK, Cache.getInstance().getUser().getNickName());
-        message.setAttribute(Const.Easemob.FROM_USER_AVATAR,Cache.getInstance().getUser().getPortraitURL());
-        message.setAttribute(Const.Easemob.FROM_USER_ID,Cache.getInstance().getUser().getUserImId());
-        message.setAttribute(Const.Easemob.TO_USER_AVATAR,user.getPortraitURL());
-        message.setAttribute(Const.Easemob.TO_USER_NICK,user.getNickName());
-        message.setAttribute(Const.Easemob.TO_USER_ID,user.getUserImId());
+        message.setAttribute(Const.Easemob.FROM_USER_AVATAR, Cache.getInstance().getUser().getPortraitURL());
+        message.setAttribute(Const.Easemob.FROM_USER_ID, Cache.getInstance().getUser().getUserImId());
+        message.setAttribute(Const.Easemob.TO_USER_AVATAR, user.getPortraitURL());
+        message.setAttribute(Const.Easemob.TO_USER_NICK, user.getNickName());
+        message.setAttribute(Const.Easemob.TO_USER_ID, user.getUserImId());
     }
 }
 

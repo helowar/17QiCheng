@@ -31,12 +31,15 @@ import java.util.List;
 public class BenefitCountActivity extends BaseActivity {
     private BenefitOfAllFragment benefitOfAllFragment;
 
-    private TextView allBenefit, entityBenefit, hotelBenefit, touristBenefit;
-
+    private TextView allBenefit, entityBenefit;
+    /**
+     * 虚拟福利的Tag
+     */
     private static final int TAG_ALL = 0;
+    /**
+     * 实体福利的Tag
+     */
     private static final int TAG_ENTITY = 1;
-
-    private List<Benefit> benefitList;
 
 
     @Override

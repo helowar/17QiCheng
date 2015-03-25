@@ -38,7 +38,7 @@ public class BenefitDetailActivity extends Activity {
         TextView description = (TextView) findViewById(R.id.benefit_content);
         description.setText(benefit.getDescription());
         TextView value = (TextView) findViewById(R.id.benefit_value);
-        value.setText(benefit.getValue() + "");
+        value.setText(String.valueOf(benefit.getValue()));
         ImageView shareImg = (ImageView) findViewById(R.id.share_img);
         if (benefit.getPostOpFlag() == 0) {
             shareImg.setVisibility(View.GONE);
