@@ -39,6 +39,14 @@ public class BenefitChangedListener {
         }
     }
 
+    public void benefitBadgeIncrement(){
+        benefitBadge.setBadgeCount(benefitBadge.getBadgeCount()+1);
+    }
+
+    public void benefitBadgeDecrement(){
+        benefitBadge.setBadgeCount(benefitBadge.getBadgeCount()-1);
+    }
+
     public void updateBenefitBadge(int i){
         if(benefitBadge!=null){
             benefitBadge.setBadgeCount(i);

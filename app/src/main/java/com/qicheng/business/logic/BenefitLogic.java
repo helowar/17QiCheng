@@ -80,7 +80,6 @@ public class BenefitLogic extends BaseLogic {
      * 获取福利页面初始化信息
      */
     public void initBenefitView(final EventListener listener){
-        EventListener l = listener;
         final InitBenefitViewProcess process = new InitBenefitViewProcess();
         process.run(new ResponseListener() {
             @Override
