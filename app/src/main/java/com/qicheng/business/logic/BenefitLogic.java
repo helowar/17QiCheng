@@ -69,7 +69,8 @@ public class BenefitLogic extends BaseLogic {
             @Override
             public void onResponse(String requestId) {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
-                BenefitEventArgs benefitEventArgs = new BenefitEventArgs(errCode, process.getRankList());
+                BenefitEventArgs benefitEventArgs = new BenefitEventArgs(errCode);
+                benefitEventArgs.setBenefitUserRankList(process.getRankList());
                 fireEvent(listener, benefitEventArgs);
             }
         });

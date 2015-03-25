@@ -3,6 +3,7 @@ package com.qicheng.business.protocol;
 import com.qicheng.business.module.Trip;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,6 +66,8 @@ public class AddTripProcess extends BaseProcess {
                  */
                 JSONObject jsonArrayUserList = o.has("body") ? o.optJSONObject("body") : null;
                 if(jsonArrayUserList!=null){
+                    //更新底部福利数量提示
+                    Const.Application.getBenefitChangedListener().updateBenefitBadge(jsonArrayUserList.optInt("benefit_num"));
                     this.result = this.param;
                     this.result.setStartUserList(getUserList(jsonArrayUserList.has("begin_travellers") ? jsonArrayUserList.optJSONArray("begin_travellers") : null));
                     this.result.setStopUserList(getUserList(jsonArrayUserList.has("end_travellers") ? jsonArrayUserList.optJSONArray("end_travellers") : null));

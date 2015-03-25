@@ -8,6 +8,7 @@
 package com.qicheng.business.logic.event;
 
 import com.qicheng.business.module.Benefit;
+import com.qicheng.business.module.BenefitUserRank;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 
@@ -19,7 +20,8 @@ import java.util.List;
  */
 public class BenefitEventArgs extends StatusEventArgs {
 
-    private List list;
+    private List<Benefit> mBenefitListList;
+    private List<BenefitUserRank> mBenefitUserRankList;
     private Benefit b;
 
 
@@ -27,9 +29,9 @@ public class BenefitEventArgs extends StatusEventArgs {
         super(errCode);
     }
 
-    public BenefitEventArgs(OperErrorCode errorCode, List list) {
+    public BenefitEventArgs(OperErrorCode errorCode, List<Benefit> list) {
         super(errorCode);
-        this.list = list;
+        this.mBenefitListList = list;
     }
 
     public BenefitEventArgs(OperErrorCode errorCode,Benefit b){
@@ -37,8 +39,16 @@ public class BenefitEventArgs extends StatusEventArgs {
         this.b = b;
     }
 
-    public List getBenefitList() {
-        return list;
+    public List<Benefit> getBenefitList() {
+        return mBenefitListList;
+    }
+
+    public List<BenefitUserRank> getBenefitUserRankList() {
+        return mBenefitUserRankList;
+    }
+
+    public void setBenefitUserRankList(List<BenefitUserRank> benefitUserRankList) {
+        mBenefitUserRankList = benefitUserRankList;
     }
 
     public Benefit getBenefit(){

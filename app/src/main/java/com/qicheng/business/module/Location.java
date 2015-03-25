@@ -8,13 +8,15 @@
 package com.qicheng.business.module;
 
 
+import java.io.Serializable;
+
 /**
  * Location.java是启程APP的地理位置信息实体类。
  *
  * @author 花树峰
  * @version 1.0 2015年2月26日
  */
-public class Location {
+public class Location implements Serializable{
 
     /**
      * 经度

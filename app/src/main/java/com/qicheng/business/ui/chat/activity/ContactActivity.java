@@ -120,13 +120,18 @@ public class ContactActivity extends BaseActivity {
 //                } else {
                     // 直接进入聊天页面
                 User u = adapter.getItem(position);
-                Intent i = new Intent();
-                i.setClass(getActivity(),ChatActivity.class);
-                i.putExtra(Const.Intent.HX_USER_ID,u.getUserImId());
-                i.putExtra(Const.Intent.HX_USER_NICK_NAME,u.getNickName());
-                i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR,u.getPortraitURL());
-                startActivity(i);
-                finish();
+                if(getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY,true)) {
+                    Intent i = new Intent();
+                    i.setClass(getActivity(), ChatActivity.class);
+                    i.putExtra(Const.Intent.HX_USER_ID, u.getUserImId());
+                    i.putExtra(Const.Intent.HX_USER_NICK_NAME, u.getNickName());
+                    i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, u.getPortraitURL());
+                    startActivity(i);
+                    finish();
+                }else {
+                    setResult(RESULT_OK,getIntent().putExtra(Const.Intent.USER_ENTITY_FROM_CONTACT,u));
+                    finish();
+                }
 //                }
             }
         });

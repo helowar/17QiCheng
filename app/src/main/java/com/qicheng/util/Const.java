@@ -183,7 +183,12 @@ public class Const {
          */
         public static final String BENEFIT_DETAIL = "benefit_detail";
 
+        /**
+         *
+         */
         public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
+
+        public static final String USER_ENTITY_FROM_CONTACT = "user_entity_from_contact";
     }
 
     public static class DefaultValue {

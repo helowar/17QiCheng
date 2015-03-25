@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
 import com.qicheng.business.ui.chat.QichengHXSDKHelper;
+import com.qicheng.business.ui.component.BenefitChangedListener;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
 
@@ -25,8 +26,11 @@ public class QichengApplication extends Application {
 
     private BaseActivity mShowingActivity = null;
     private BaseActivity mCurrentActivity = null;
+    public boolean chatActivityAlive = false;
 
     public static QichengHXSDKHelper hxSDKHelper = new QichengHXSDKHelper();
+
+    private BenefitChangedListener mBenefitChangedListener;
 
 
     @Override
@@ -38,6 +42,7 @@ public class QichengApplication extends Application {
         Cache.getInstance().onCreate();
         applicationContext = this;
         instance = this;
+        mBenefitChangedListener = BenefitChangedListener.create();
 //		LogicFactory.self().getUser().appStrat();
 
         // This configuration tuning is custom. You can tune every option, you may tune some of them,
@@ -62,6 +67,10 @@ public class QichengApplication extends Application {
             }
         });
         hxSDKHelper.onInit(this);
+    }
+
+    public BenefitChangedListener getBenefitChangedListener() {
+        return mBenefitChangedListener;
     }
 
     public BaseActivity getCurrentActivity() {

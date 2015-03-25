@@ -15,7 +15,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qicheng.R;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
@@ -41,9 +41,8 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -133,19 +132,21 @@ public class BenifitFragment extends BaseFragment {
                        BenefitEventArgs benefitEventArgs = (BenefitEventArgs)args;
                        if(benefitEventArgs.getErrCode()== OperErrorCode.Success){
                            sndPool.play(soundPoolMap.get(1), (float) 1, (float) 1, 0, 0,(float) 1.0);
-                           mRestNumber.setText((Integer.parseInt(mRestNumber.getText().toString())+1)+"");
-                           showTicket(benefitEventArgs.getBenefit());
+                           int benefitCount = Integer.parseInt(mRestNumber.getText().toString())+1;
+                           mRestNumber.setText(benefitCount+"");
+                           //更新底部福利数量提示
+                           Const.Application.getBenefitChangedListener().updateBenefitBadge(benefitCount);
+                           showTicket(benefitEventArgs.getBenefit(),null);
                        }else {
                            if(benefitEventArgs.getErrCode() == OperErrorCode.ResultNoGrab){
-                               Alert.Toast("没抢到，请再摇一次试试吧！");
+                               showTicket(null, "没抢到，请再摇一次试试吧！");
                            }else if(benefitEventArgs.getErrCode() == OperErrorCode.ResultDistributeFinished){
-                               Alert.Toast("福利全都送完了，快去找土豪分享一个吧！");
+                               showTicket(null, "福利全都送完了，快去找土豪分享一个吧！");
                            }else if(benefitEventArgs.getErrCode() == OperErrorCode.ResultNoBenefit){
-                               Alert.Toast("本次行程中没有福利哦，快去朋友那儿找找吧！");
+                               showTicket(null, "本次行程中没有福利哦，快去朋友那儿找找吧！");
                            }
                        }
                        mVibrator.cancel();
-                       mShakeListener.start();
                    }
                }));
             }
@@ -202,24 +203,45 @@ public class BenifitFragment extends BaseFragment {
         }
     }
 
-    private void showTicket(Benefit benefit){
+    private void showTicket(Benefit benefit,String failReason){
         LayoutInflater inflaterDl = LayoutInflater.from(getActivity());
         LinearLayout layout = (LinearLayout)inflaterDl.inflate(R.layout.dialog_ticket, null );
-        initTicketDialog(layout,benefit);
+        initTicketDialog(layout,benefit,failReason);
         final Dialog dialog = new android.app.AlertDialog.Builder(getActivity()).create();
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                mShakeListener.start();
             }
         });
         //对话框
-
         dialog.show();
         dialog.getWindow().setContentView(layout);
     }
 
-    private void initTicketDialog(View dialogView, Benefit benefit){
-
+    private void initTicketDialog(View dialogView, Benefit benefit,String failReason){
+        ImageView iconView = (ImageView)dialogView.findViewById(R.id.benefit_icon);
+        TextView titleView = (TextView)dialogView.findViewById(R.id.benefit_title);
+        TextView deadLineView = (TextView)dialogView.findViewById(R.id.benefit_deadline);
+        TextView contentView = (TextView)dialogView.findViewById(R.id.benefit_content);
+        TextView valueView = (TextView)dialogView.findViewById(R.id.benefit_value);
+        if(benefit!=null && StringUtil.isEmpty(failReason)){
+            ImageManager.displayImageDefault(benefit.getLogoUrl(),iconView);
+            titleView.setText(benefit.getName());
+            deadLineView.setText(benefit.getExpireTime());
+            contentView.setText(benefit.getDescription());
+            valueView.setText(benefit.getValue()+"");
+        }else {
+            iconView.setVisibility(View.GONE);
+            titleView.setText(failReason);
+            deadLineView.setVisibility(View.GONE);
+            contentView.setVisibility(View.GONE);
+            valueView.setVisibility(View.GONE);
+            dialogView.findViewById(R.id.deadline_icon).setVisibility(View.GONE);
+            dialogView.findViewById(R.id.ic_price).setVisibility(View.GONE);
+            dialogView.findViewById(R.id.ic_value).setVisibility(View.GONE);
+        }
     }
+
 }
