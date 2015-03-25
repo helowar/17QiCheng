@@ -15,7 +15,6 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qicheng.R;
+import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
@@ -42,8 +42,6 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -214,12 +212,20 @@ public class BenifitFragment extends BaseFragment {
             }
         });
         //对话框
-
         dialog.show();
         dialog.getWindow().setContentView(layout);
     }
 
     private void initTicketDialog(View dialogView, Benefit benefit){
-
+        ImageView iconView = (ImageView)dialogView.findViewById(R.id.benefit_icon);
+        TextView titleView = (TextView)dialogView.findViewById(R.id.benefit_title);
+        TextView deadLineView = (TextView)dialogView.findViewById(R.id.benefit_deadline);
+        TextView contentView = (TextView)dialogView.findViewById(R.id.benefit_content);
+        TextView valueView = (TextView)dialogView.findViewById(R.id.benefit_value);
+        ImageManager.displayImageDefault(benefit.getLogoUrl(),iconView);
+        titleView.setText(benefit.getName());
+        deadLineView.setText(benefit.getExpireTime());
+        contentView.setText(benefit.getDescription());
+        valueView.setText(benefit.getValue()+"");
     }
 }
