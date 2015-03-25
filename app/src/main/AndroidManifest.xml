@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qicheng" >
+    package="com.qicheng">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -43,7 +43,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_qicheng"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- 百度定位SDK服务器 -->
         <service
@@ -59,7 +59,7 @@
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -91,46 +91,39 @@
             android:name=".business.ui.RegisterActivity"
             android:label="@string/title_activity_register"
             android:logo="@drawable/ic_user"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".business.ui.RegisterLabelSelectActivity"
             android:label="@string/actionbar_title_label"
             android:logo="@drawable/ic_user"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".business.ui.RegisterLabelEditActivity"
             android:label="@string/actionbar_title_label"
             android:logo="@drawable/ic_user"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".business.ui.PersonalInformationActivity"
             android:label="@string/actionbar_title_modify_personal_information"
             android:logo="@drawable/ic_user"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|adjustPan"></activity>
         <activity
             android:name=".business.ui.DynPublishActivity"
             android:label="@string/actionbar_title_publish_dyn"
             android:logo="@drawable/ic_user"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
         <activity
             android:name=".business.ui.AddTripActivity"
             android:label="添加行程"
             android:logo="@drawable/ic_user"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".business.ui.TrainSelectActivity"
             android:label="@string/title_activity_train_select"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <!-- IM 相关Activity -->
         <activity
             android:name=".business.ui.ChatActivity"
@@ -138,69 +131,59 @@
             android:launchMode="singleTop"
             android:logo="@drawable/ic_chat_logo"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <!-- 地图 -->
         <activity
             android:name=".business.ui.chat.activity.BaiduMapActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" >
-        </activity>
+            android:theme="@style/horizontal_slide"></activity>
         <!-- 自定义的contextmenu -->
         <activity
             android:name=".business.ui.chat.activity.ContextMenu"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle" >
-        </activity>
+            android:theme="@style/MyDialogStyle"></activity>
         <!-- 自定义的alertdialog -->
         <activity
             android:name=".business.ui.chat.activity.AlertDialog"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyle" >
-        </activity>
+            android:theme="@style/MyDialogStyle"></activity>
         <!-- 显示下载大图页面 -->
         <activity
             android:name=".business.ui.chat.activity.ShowBigImage"
             android:screenOrientation="portrait"
-            android:theme="@style/horizontal_slide" >
-        </activity>
+            android:theme="@style/horizontal_slide"></activity>
         <activity
             android:name=".business.ui.chat.activity.ShowVideoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <!-- choose video -->
         <activity
             android:name=".business.ui.chat.activity.ImageGridActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity
             android:name=".business.ui.chat.activity.RecorderVideoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/horizontal_slide"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <!-- IM 相关Activity -->
         <activity
             android:name=".business.ui.PassengerActivity"
             android:label="@string/passenger_activity_title"
             android:logo="@drawable/ic_user"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".business.ui.TravellerActivity"
             android:label="@string/traveller_activity_title"
             android:logo="@drawable/ic_user"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <!-- activity config end -->
         <!-- 开机自启动服务 -->
-        <receiver android:name="com.easemob.chat.StartServiceReceiver" >
-            <intent-filter android:priority="1000" >
+        <receiver android:name="com.easemob.chat.StartServiceReceiver">
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
 
@@ -246,7 +229,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent100371282" />
 
@@ -260,7 +243,7 @@
             android:name=".business.ui.ToDynActivity"
             android:label="@string/title_activity_trip_to_dyn"
             android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            android:parentActivityName=".framework.ui.base.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />
@@ -269,7 +252,7 @@
             android:name=".business.ui.AlbumActivity"
             android:label="@string/title_activity_album"
             android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            android:parentActivityName=".framework.ui.base.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />
@@ -277,32 +260,27 @@
         <activity
             android:name=".business.ui.UserSettingActivity"
             android:label="@string/title_activity_user_setting"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user"></activity>
         <activity
             android:name=".business.ui.UserInformationModifyActivity"
             android:label="@string/title_activity_user_information_modify"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user"></activity>
         <activity
             android:name=".business.ui.chat.activity.ContactActivity"
             android:label="@string/title_activity_contact"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user"></activity>
         <activity
             android:name=".business.ui.SelectEducationActivity"
             android:label="@string/title_activity_select_education"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user"></activity>
         <activity
             android:name=".business.ui.BenefitCountActivity"
             android:label="@string/title_activity_benefit_count"
-            android:logo="@drawable/ic_user" >
-        </activity>
+            android:logo="@drawable/ic_user"></activity>
         <activity
             android:name=".business.ui.BenefitRequestActivity"
             android:label="@string/title_activity_benefit_request"
-            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            android:parentActivityName=".framework.ui.base.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />
@@ -311,7 +289,7 @@
             android:name=".business.ui.BenefitDetailActivity"
             android:label="@string/title_activity_benefit_detail"
             android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            android:parentActivityName=".framework.ui.base.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />
@@ -319,7 +297,15 @@
         <activity
             android:name=".business.ui.UserInformationCellnumModifyActivity"
             android:label="@string/title_activity_user_information_cellnum_modify"
-            android:parentActivityName=".framework.ui.base.BaseActivity" >
+            android:parentActivityName=".framework.ui.base.BaseActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qicheng.framework.ui.base.BaseActivity" />
+        </activity>
+        <activity
+            android:name=".business.ui.AlbumItemActivity"
+            android:label="@string/title_activity_album_item"
+            android:parentActivityName=".framework.ui.base.BaseActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qicheng.framework.ui.base.BaseActivity" />

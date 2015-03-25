@@ -46,7 +46,7 @@ public class AlbumActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
-        getPhotoList((byte) 0, 0l, 40);
+        getPhotoList((byte) 0, 0l, 100);
     }
 
     /**
@@ -130,7 +130,7 @@ public class AlbumActivity extends BaseActivity {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
+                        Intent intent = new Intent(getActivity(), AlbumItemActivity.class);
                         intent.putExtra("photos", list);
                         intent.putExtra("index", position);
                         intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, list.get(position).getPhotoUrl());

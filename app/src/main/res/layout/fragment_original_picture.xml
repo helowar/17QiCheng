@@ -11,11 +11,9 @@
         android:scaleType="fitCenter" />
 
     <ProgressBar
-        android:id="@+id/pb_load_local"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-
-
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

@@ -13,12 +13,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 
 import com.qicheng.R;
 import com.qicheng.business.image.ImageManager;
-import com.qicheng.business.ui.component.PicViewPagerAdapter;
-import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.business.module.Photo;
+
+import java.util.List;
 
 
 /**
@@ -26,20 +28,26 @@ import com.qicheng.framework.ui.base.BaseFragment;
  */
 @SuppressLint("ValidFragment")
 public class OriginalPictureFragment extends Fragment {
-    private int position;
-    private String[] url;
 
+    public static OriginalPictureFragment newInstance(String imageUrl) {
+        final OriginalPictureFragment f = new OriginalPictureFragment();
+        final Bundle args = new Bundle();
+        args.putString("url", imageUrl);
+        f.setArguments(args);
+        return f;
+    }
 
-    public OriginalPictureFragment(int position, String[] url) {
-        this.position = position;
-        this.url = url;
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_original_picture, null);
         ImageView pic = (ImageView) view.findViewById(R.id.image);
-        ImageManager.displayImageDefault(url[position], pic);
+        String url = getArguments().getString("url");
+        ImageManager.displayImageDefault(url, pic);
         return view;
     }
 }

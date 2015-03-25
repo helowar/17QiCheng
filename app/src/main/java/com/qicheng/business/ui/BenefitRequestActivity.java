@@ -22,8 +22,15 @@ public class BenefitRequestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_benefit_request);
-        benefitOfRankFragment = new BenefitOfRankFragment();
-        getFragmentManager().beginTransaction().add(R.id.benefit_of_rank, benefitOfRankFragment).commit();
+        if (null == benefitOfRankFragment) {
+            benefitOfRankFragment = new BenefitOfRankFragment();
+            getFragmentManager().beginTransaction().add(R.id.benefit_of_rank, benefitOfRankFragment).commit();
+
+        } else {
+            benefitOfRankFragment = new BenefitOfRankFragment();
+            getFragmentManager().beginTransaction().replace(R.id.benefit_of_rank, benefitOfRankFragment).commit();
+
+        }
     }
 
 
@@ -45,9 +52,6 @@ public class BenefitRequestActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
 }
