@@ -55,6 +55,11 @@ public class BenefitOfRankFragment extends BaseFragment {
     }
 
 
+    /**
+     * 初始化当前用户的福利排名
+     *
+     * @param userRankList
+     */
     private void initSelfView(List<BenefitUserRank> userRankList) {
         for (BenefitUserRank userRank : userRankList) {
             if (StringUtil.isEmpty(userRank.getUserId())) {
@@ -135,6 +140,9 @@ public class BenefitOfRankFragment extends BaseFragment {
                 TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
                 benefitNum.setText(String.valueOf(rank.getBenefitNum()));
                 ImageView benefitWinner = (ImageView) convertView.findViewById(R.id.benefit_winner);
+                /*
+                 *前三名的皇冠
+                 */
                 switch (position) {
                     case 0:
                         benefitWinner.setImageResource(R.drawable.ic_gold);

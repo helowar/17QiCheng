@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
@@ -33,20 +32,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumItemActivity extends FragmentActivity {
+    /**
+     * 相册的ViewPager
+     */
     private ViewPager mViewPager;
+    /**
+     * ViewPager的适配器
+     */
     private PicViewPagerAdapter mAdapter;
+    /**
+     * 初始相册的List
+     */
     private List<Photo> photos;
-
+    /**
+     * 相册添加List
+     */
     private List<Photo> newPhotos;
+    /**
+     * 进度条
+     */
     private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_album_item);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         int index = getIntent().getExtras().getInt("index");
         photos = (ArrayList<Photo>) getIntent().getExtras().get("photos");
-        setContentView(R.layout.activity_album_item);
         mViewPager = (ViewPager) findViewById(R.id.id_pager);
         mAdapter = new PicViewPagerAdapter(getSupportFragmentManager(), photos);
         mViewPager.setAdapter(mAdapter);
@@ -67,6 +80,7 @@ public class AlbumItemActivity extends FragmentActivity {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     int curr = mViewPager.getCurrentItem();
                     int lastReal = mViewPager.getAdapter().getCount() - 1;
+                    /*如果滑到最后则继续添加*/
                     if (curr == lastReal) {
                         progressBar = (ProgressBar) mViewPager.findViewById(R.id.progress_bar);
                         int index = photos.size();
@@ -84,6 +98,11 @@ public class AlbumItemActivity extends FragmentActivity {
 
     /**
      * 获取用户照片接口
+     *
+     * @param userId
+     * @param orderBy
+     * @param orderNum
+     * @param size
      */
     public void getPhotoList(String userId, byte orderBy, Long orderNum, int size) {
         progressBar.setVisibility(View.VISIBLE);
