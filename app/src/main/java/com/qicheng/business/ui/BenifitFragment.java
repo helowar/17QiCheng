@@ -10,6 +10,7 @@ package com.qicheng.business.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -209,11 +210,16 @@ public class BenifitFragment extends BaseFragment {
         LinearLayout layout = (LinearLayout)inflaterDl.inflate(R.layout.dialog_ticket, null );
         initTicketDialog(layout,benefit,failReason);
         final Dialog dialog = new android.app.AlertDialog.Builder(getActivity()).create();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                mShakeListener.start();
+            }
+        });
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                mShakeListener.start();
             }
         });
         //对话框
