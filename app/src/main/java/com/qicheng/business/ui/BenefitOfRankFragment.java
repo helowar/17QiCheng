@@ -28,6 +28,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.util.StringUtil;
 
 import java.util.List;
 
@@ -53,6 +54,20 @@ public class BenefitOfRankFragment extends BaseFragment {
         return view;
     }
 
+
+    private void initSelfView(List<BenefitUserRank> userRankList) {
+        for (BenefitUserRank userRank : userRankList) {
+            if (StringUtil.isEmpty(userRank.getUserId())) {
+                ImageView portrait = (ImageView) view.findViewById(R.id.self_portrait);
+                ImageManager.displayPortrait(userRank.getPortraitUrl(), portrait);
+                TextView ranking = (TextView) view.findViewById(R.id.benefit_ranking);
+                ranking.setText(String.valueOf(userRank.getRanking()));
+                TextView benefitNum = (TextView) view.findViewById(R.id.self_benefit_num);
+                benefitNum.setText(String.valueOf(userRank.getBenefitNum()));
+            }
+        }
+    }
+
     /**
      * 获取用户福利排名列表
      *
@@ -67,6 +82,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                 OperErrorCode errorCode = result.getErrCode();
                 if (errorCode == OperErrorCode.Success) {
                     userRankList = result.getBenefitList();
+                    initSelfView(userRankList);
                     benefitListAdapter = new BenefitListAdapter(getActivity(), userRankList);
                     listView.setAdapter(benefitListAdapter);
                 }
@@ -117,7 +133,23 @@ public class BenefitOfRankFragment extends BaseFragment {
                 TextView name = (TextView) convertView.findViewById(R.id.user_name);
                 name.setText(rank.getUserName());
                 TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
-                benefitNum.setText(rank.getBenefitNum());
+                benefitNum.setText(String.valueOf(rank.getBenefitNum()));
+                ImageView benefitWinner = (ImageView) convertView.findViewById(R.id.benefit_winner);
+                switch (position) {
+                    case 0:
+                        benefitWinner.setImageResource(R.drawable.ic_gold);
+                        break;
+                    case 1:
+                        benefitWinner.setImageResource(R.drawable.ic_silver);
+                        break;
+                    case 2:
+                        benefitWinner.setImageResource(R.drawable.ic_copper);
+                        break;
+                    default:
+                        benefitWinner.setVisibility(View.GONE);
+                }
+
+
             }
             return convertView;
         }

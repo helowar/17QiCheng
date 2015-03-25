@@ -9,31 +9,37 @@ package com.qicheng.business.ui.component;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.qicheng.business.module.Photo;
 import com.qicheng.business.ui.OriginalPictureFragment;
+
+import java.util.List;
 
 /**
  * Created by NO3 on 2015/3/24.
  */
-public class PicViewPagerAdapter extends FragmentPagerAdapter {
+public class PicViewPagerAdapter extends FragmentStatePagerAdapter {
+    private List<Photo> photos;
 
-    private String[] url;
-
-    public PicViewPagerAdapter(FragmentManager fm, String[] url) {
+    public PicViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.url = url;
+    }
+
+    public PicViewPagerAdapter(FragmentManager fm, List<Photo> photos) {
+        super(fm);
+        this.photos = photos;
     }
 
     @Override
     public Fragment getItem(int i) {
-        OriginalPictureFragment fragment = new OriginalPictureFragment(i, url);
-        return fragment;
+        String url = photos.get(i).getPhotoUrl();
+        return OriginalPictureFragment.newInstance(url);
     }
 
     @Override
     public int getCount() {
-        return url.length;
+        return photos.size();
     }
 
 
