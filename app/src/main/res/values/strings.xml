@@ -343,6 +343,7 @@
 
     <!-- AlbumActivity begin-->
     <string name="title_activity_album">我的相册</string>
+    <string name="no_more_picture">没有更多照片了</string>
     <string name="title_activity_select_education">选择学历</string>
     <string name="title_activity_benefit_count">数福利</string>
     <!-- AlbumActivity end -->

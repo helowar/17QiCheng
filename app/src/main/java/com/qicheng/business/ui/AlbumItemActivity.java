@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
@@ -26,6 +27,7 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.ui.helper.Alert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +74,6 @@ public class AlbumItemActivity extends FragmentActivity {
                         getPhotoList(null, orderNum, photos.get(index - 1).getOrderNum(), 100);
                         if (photos.size() > index) {
                             mViewPager.setCurrentItem(index, false);
-
                         }
                     }
                 }
@@ -96,8 +97,10 @@ public class AlbumItemActivity extends FragmentActivity {
                     newPhotos = result.getPhotoList();
                     if (newPhotos != null) {
                         photos.addAll(newPhotos);
-                        progressBar.setVisibility(View.GONE);
+                    } else {
+                        Alert.Toast(getResources().getString(R.string.no_more_picture));
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             }
         });
