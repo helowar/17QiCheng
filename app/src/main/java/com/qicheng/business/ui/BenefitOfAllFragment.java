@@ -38,6 +38,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
@@ -247,6 +248,7 @@ public class BenefitOfAllFragment extends BaseFragment {
             conversation.addMessage(message);
             benefitList.remove(targetBenefit);
             benefitListAdapter.notifyDataSetChanged();
+            Alert.Toast(targetBenefit.getName()+"已经发给"+targetUser.getNickName()+"了哦！");
         }
     }
 
@@ -255,7 +257,7 @@ public class BenefitOfAllFragment extends BaseFragment {
      *
      * @param message
      */
-    private void setUserInfoIntoMessage(EMMessage message, User user) {
+    public static void setUserInfoIntoMessage(EMMessage message, User user) {
         message.setAttribute(Const.Easemob.FROM_USER_NICK, Cache.getInstance().getUser().getNickName());
         message.setAttribute(Const.Easemob.FROM_USER_AVATAR, Cache.getInstance().getUser().getPortraitURL());
         message.setAttribute(Const.Easemob.FROM_USER_ID, Cache.getInstance().getUser().getUserImId());

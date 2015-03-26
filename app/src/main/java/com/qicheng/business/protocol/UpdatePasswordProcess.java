@@ -47,16 +47,10 @@ public class UpdatePasswordProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.d("更新密码失败");
-        }
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
     }
 
     @Override
