@@ -10,9 +10,9 @@ public class JSONUtil {
     public static final String BODY_TAG = "body";
     public static final String STATUS_TAG = "result_code";
 
-    public static JSONObject getResultBody(JSONObject result) throws Exception {
+    public static JSONObject getResultBody(JSONObject result) {
         if (result != null && result.has(BODY_TAG)) {
-            return result.getJSONObject(BODY_TAG);
+            return result.optJSONObject(BODY_TAG);
         }
         return null;
     }

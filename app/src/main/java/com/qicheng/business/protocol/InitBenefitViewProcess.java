@@ -33,20 +33,15 @@ public class InitBenefitViewProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try{
-            JSONObject o = new JSONObject(result);
-            //获取结果代码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-            if(value==0){
-                JSONObject js = o.optJSONObject("body");
-                mUser = new User();
-                mUser.setValidBenefitCount(js.optInt("benefit_num"));
-                mUser.setFriendCount(js.optInt("friend_num"));
-            }
-        }catch (JSONException e){
-
+    protected void onResult(JSONObject o) {
+        //获取结果代码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
+        if(value==0){
+            JSONObject js = o.optJSONObject("body");
+            mUser = new User();
+            mUser.setValidBenefitCount(js.optInt("benefit_num"));
+            mUser.setFriendCount(js.optInt("friend_num"));
         }
 
     }

@@ -34,7 +34,7 @@ public class LoginProcess extends BaseProcess {
     }
 
     @Override
-    protected String getRequestUrl() {
+    public String getRequestUrl() {
         return URL;
     }
 
@@ -43,7 +43,7 @@ public class LoginProcess extends BaseProcess {
     }
 
     @Override
-    protected String getInfoParameter() {
+    public String getInfoParameter() {
 
         try {
             //组装传入服务端参数
@@ -58,10 +58,8 @@ public class LoginProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt(JSONUtil.STATUS_TAG);
             if(value==0){
@@ -92,4 +90,29 @@ public class LoginProcess extends BaseProcess {
             setStatus(ProcessStatus.Status.ErrUnkown);
         }
     }
+
+    public User getUserFromResult(JSONObject o){
+        /**
+         * 取出返回值
+         */
+        JSONObject body = JSONUtil.getResultBody(o);
+        String token = body.optString("token");
+        String nickname = body.optString("nickname");
+        String url = body.optString("portrait_url");
+        String imId = body.optString("user_im_id");
+        String gender = body.optString("gender");
+        String birthday = body.optString("birthday");
+        /**
+         * 组装返回对象
+         */
+        User resultUser = new User();
+        resultUser.setToken(token);
+        resultUser.setNickName(nickname);
+        resultUser.setPortraitURL(url);
+        resultUser.setUserImId(imId);
+        resultUser.setGender(Integer.parseInt(gender));
+        resultUser.setBirthday(birthday);
+        return resultUser;
+    }
+
 }

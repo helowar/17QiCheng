@@ -132,35 +132,45 @@ public class UserLogic extends BaseLogic {
             fireStatusEvent(listener, errorCode);
             return;
         }
-        //登录所用的数据
-        final User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
         //登录后台交互过程
-        final LoginProcess process = new LoginProcess();
-        process.setParamUser(user);
+        final LoginProcess process = getProcessForCacheLogin();
         process.run(new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 logger.d("login process response, " + errCode);
-
                 UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(), errCode);
                 if (errCode == OperErrorCode.Success) {
-                    User user = Cache.getInstance().getUser();
-                    user.setToken(process.getResultUser().getToken());
-                    user.setNickName(process.getResultUser().getNickName());
-                    user.setPortraitURL(process.getResultUser().getPortraitURL());
-                    user.setUserImId(process.getResultUser().getUserImId());
-                    user.setBirthday(process.getResultUser().getBirthday());
-                    user.setGender(process.getResultUser().getGender());
-                    loginHX(user.getUserImId(), StringUtil.MD5(user.getPassWord()));
-                    Cache.getInstance().refreshCacheUser();
+                    callbackForCacheLogin(process.getResultUser());
+                    loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
                 }
                 //发送事件
                 fireEvent(listener, userEventArgs);
 
             }
         });
+    }
+
+    public LoginProcess getProcessForCacheLogin(){
+        User cachedUser = Cache.getInstance().getUser();
+        //登录所用的数据
+        User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
+        //登录后台交互过程
+        LoginProcess process = new LoginProcess();
+        process.setParamUser(user);
+        return process;
+    }
+
+    public void callbackForCacheLogin(User resultUser){
+        User user = Cache.getInstance().getUser();
+        user.setToken(resultUser.getToken());
+        user.setNickName(resultUser.getNickName());
+        user.setPortraitURL(resultUser.getPortraitURL());
+        user.setUserImId(resultUser.getUserImId());
+        user.setBirthday(resultUser.getBirthday());
+        user.setGender(resultUser.getGender());
+        Cache.getInstance().refreshCacheUser();
     }
 
     /**
@@ -252,7 +262,8 @@ public class UserLogic extends BaseLogic {
                     /**
                      *获取公钥出错
                      */
-                    fireStatusEvent(listener, errCode);
+                fireStatusEvent(listener, errCode);
+
                 }
             }
         });

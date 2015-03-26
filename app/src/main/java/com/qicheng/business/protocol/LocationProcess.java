@@ -57,10 +57,10 @@ public class LocationProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
             // 取回的JSON结果
-            JSONObject o = new JSONObject(result);
+
             // 获取状态码
             int resultCode = o.optInt(STATUS_TAG);
             setProcessStatus(resultCode);

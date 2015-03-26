@@ -68,20 +68,13 @@ public class AddDynProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            if (value == Const.ResponseResultCode.RESULT_NOT_PERMIT) {
-                setStatus(ProcessStatus.Status.ResultNotPermit);
-            }
-            setProcessStatus(value);
-        } catch (Exception e) {
-            logger.e("动态添加失败");
-            e.printStackTrace();
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        if (value == Const.ResponseResultCode.RESULT_NOT_PERMIT) {
+            setStatus(ProcessStatus.Status.ResultNotPermit);
         }
+        setProcessStatus(value);
     }
 
     @Override

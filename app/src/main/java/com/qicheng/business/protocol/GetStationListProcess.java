@@ -52,14 +52,11 @@ public class GetStationListProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
             //获取状态码
             int resultCode = o.optInt("result_code");
             setProcessStatus(resultCode);
-            logger.d("Get city related station list result:" + result);
             if (resultCode == Const.ResponseResultCode.RESULT_SUCCESS) {
                 /**
                  * 获取列表并缓存

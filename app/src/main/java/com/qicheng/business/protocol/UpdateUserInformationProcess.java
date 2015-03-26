@@ -66,16 +66,10 @@ public class UpdateUserInformationProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-        } catch (Exception e) {
-            logger.e("个人信息修改失败");
-        }
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
     }
 
     @Override
