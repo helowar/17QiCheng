@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.qicheng.R;
 import com.qicheng.business.logic.LogicFactory;
@@ -19,6 +20,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.util.Const;
 
 public class LoginActivity extends BaseActivity {
 
@@ -27,6 +29,8 @@ public class LoginActivity extends BaseActivity {
     private EditText mUserName;
 
     private EditText mPassWord;
+
+    private TextView mForgetPassword;
 
     private Button mRegisterButton;
 
@@ -47,11 +51,11 @@ public class LoginActivity extends BaseActivity {
             }
         }));
         mLoginButton = (Button) findViewById(R.id.button_login);
-        mRegisterButton = (Button)findViewById(R.id.button_register);
-        mRegisterButton.setOnClickListener(new View.OnClickListener(){
+        mRegisterButton = (Button) findViewById(R.id.button_register);
+        mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),RegisterActivity.class));
+                startActivity(new Intent(getActivity(), RegisterActivity.class));
                 finish();
             }
         });
@@ -62,6 +66,16 @@ public class LoginActivity extends BaseActivity {
                     login();
                 }
 
+            }
+        });
+
+        mForgetPassword = (TextView) findViewById(R.id.forget_password);
+        mForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserPasswordUpdateActivity.class);
+                intent.putExtra(Const.Intent.UPDATE_PASSWORD_RESOURCE, Const.UPDATE_PWD_FROM_FORGET);
+                startActivity(intent);
             }
         });
     }

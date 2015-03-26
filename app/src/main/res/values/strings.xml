@@ -354,11 +354,20 @@
     <string name="title_activity_benefit_request">求福利</string>
     <string name="benefit_all_text">优惠券</string>
     <string name="benefit_entity_text">赠品</string>
-
+    <string name="deadline_text">截止日期</string>
     <string name="title_activity_benefit_detail">福利详情</string>
     <string name="title_activity_user_information_cellnum_modify">
-        UserInformationCellnumModifyActivity
+        更新手机号
     </string>
-    <string name="title_activity_album_item">AlbumItemActivity</string>
+    <string name="title_activity_album_item">相册</string>
     <!--代金券相关string end-->
+
+    <!--用户设置相关string-->
+    <string name="logout">退出登录</string>
+    <string name="update_cell_num">修改手机号码</string>
+    <string name="update_password">修改密码</string>
+    <string name="update_button">确认</string>
+    <string name="title_activity_user_setting_update_activity">修改密码</string>
+
+
 </resources>

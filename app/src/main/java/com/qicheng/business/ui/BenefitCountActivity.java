@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
@@ -52,7 +53,6 @@ public class BenefitCountActivity extends BaseActivity {
         entityBenefit = (TextView) findViewById(R.id.car_entity_title);
         entityBenefit.setTag(TAG_ENTITY);
         setTagOnclickListener(entityBenefit);
-
         //初始化时键入全部福利
         switchBenefitItem((Integer) allBenefit.getTag(), allBenefit);
 
@@ -62,19 +62,13 @@ public class BenefitCountActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_benefit_count, menu);
+        ActionBar bar = this.getActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

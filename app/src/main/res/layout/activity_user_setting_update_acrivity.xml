@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/FormInputContainer">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray_text"
+            android:text="@string/register_memo_text"
+            android:textSize="@dimen/input_title_text_size" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cell_num_container"
+        style="@style/FormInputContainerWithBorder">
+
+        <TextView
+            android:text="@string/mobile_prefix_text"
+            style="@style/InputTitle" />
+
+        <EditText
+            android:id="@+id/edittext_mobile"
+            android:layout_width="@dimen/zero"
+            android:layout_height="match_parent"
+            style="@style/FormEditText"
+            android:imeOptions="actionNext"
+            android:inputType="phone"
+            android:hint="@string/username_is_empty"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/FormInputContainer">
+
+        <EditText
+            android:id="@+id/editText_verify_code"
+            android:layout_width="@dimen/zero"
+            android:layout_height="match_parent"
+            style="@style/FormEditText"
+            android:layout_marginRight="32dp"
+            android:hint="@string/verify_code_hint"
+            android:inputType="numberDecimal"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/button_get_verify_code"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:text="@string/get_verify_code_button"
+            android:enabled="true"
+            android:layout_weight="1"
+            style="@style/NormalButton" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/FormInputContainerWithBorder">
+
+        <TextView
+            android:text="@string/pwd_text"
+            style="@style/InputTitle" />
+
+        <EditText
+            android:id="@+id/edittext_pwd"
+            android:layout_width="@dimen/zero"
+            android:layout_height="match_parent"
+            style="@style/FormEditText"
+            android:hint="@string/pwd_hint_msg"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/FormInputContainer">
+
+        <Button
+            android:id="@+id/button_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/update_button"
+            android:enabled="false"
+            style="@style/NormalButton" />
+    </LinearLayout>
+</LinearLayout>

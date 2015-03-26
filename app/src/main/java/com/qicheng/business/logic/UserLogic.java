@@ -11,7 +11,6 @@ import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.AddViewUserProcess;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
-import com.qicheng.business.protocol.GetUserBaseInfoForChatProcess;
 import com.qicheng.business.protocol.GetUserDetailProcess;
 import com.qicheng.business.protocol.GetUserPhotoListProcess;
 import com.qicheng.business.protocol.ImageUploadProcess;
@@ -19,6 +18,7 @@ import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.SetUserInfoProcess;
+import com.qicheng.business.protocol.UpdatePasswordProcess;
 import com.qicheng.business.protocol.UpdateUserInformationProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
 import com.qicheng.framework.event.EventListener;
@@ -89,7 +89,7 @@ public class UserLogic extends BaseLogic {
                     user.setUserImId(process.getResultUser().getUserImId());
                     user.setBirthday(process.getResultUser().getBirthday());
                     user.setGender(process.getResultUser().getGender());
-                    loginHX(user.getUserImId(),StringUtil.MD5(password));
+                    loginHX(user.getUserImId(), StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -127,7 +127,7 @@ public class UserLogic extends BaseLogic {
             fireStatusEvent(listener, errorCode);
             return;
         }
-        if(StringUtil.isEmpty(cachedUser.getUserId())||StringUtil.isEmpty(cachedUser.getPassWord())){
+        if (StringUtil.isEmpty(cachedUser.getUserId()) || StringUtil.isEmpty(cachedUser.getPassWord())) {
             OperErrorCode errorCode = OperErrorCode.NotLogin;
             fireStatusEvent(listener, errorCode);
             return;
@@ -192,12 +192,13 @@ public class UserLogic extends BaseLogic {
      * @param cellNum
      * @param listener
      */
-    public void getVerifyCode(final String cellNum, final EventListener listener) {
+    public void getVerifyCode(final String cellNum, int actionType, final EventListener listener) {
         logger.d("Get Verify Code with CellNum:" + cellNum);
         final User user = new User();
         user.setCellNum(cellNum);
         //获取验证码过程
         final VerifyCodeProcess process = new VerifyCodeProcess();
+        process.setActionType(actionType);
         process.setParamUser(user);
         process.run(new ResponseListener() {
             @Override
@@ -387,5 +388,31 @@ public class UserLogic extends BaseLogic {
         final AddViewUserProcess process = new AddViewUserProcess();
         process.setUserId(userId);
         process.run();
+    }
+
+    /**
+     * 修改用户密码
+     *
+     * @param cellNum
+     * @param newPwd
+     * @param verifyCode
+     * @param listener
+     */
+    public void updatePassword(String cellNum, String newPwd, String verifyCode, final EventListener listener) {
+        final UpdatePasswordProcess process = new UpdatePasswordProcess();
+        process.setCellNum(cellNum);
+        process.setNewPwd(newPwd);
+        process.setVerifyCode(verifyCode);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取修改密码结果码为：" + errCode);
+                UserEventArgs userEventArgs = new UserEventArgs(errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
     }
 }

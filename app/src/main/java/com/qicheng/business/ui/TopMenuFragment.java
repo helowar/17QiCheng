@@ -67,8 +67,6 @@ public class TopMenuFragment extends BaseFragment {
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
 
-        initViewItem(inflater, R.string.test_count_benefit, R.drawable.ic_account_setting);
-        initViewItem(inflater, R.string.test_request_benefit, R.drawable.ic_account_setting);
 
     }
 
