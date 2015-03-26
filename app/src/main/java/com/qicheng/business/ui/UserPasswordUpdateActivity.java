@@ -195,6 +195,7 @@ public class UserPasswordUpdateActivity extends BaseActivity {
 
     /**
      * 获取验证码
+     * @param cellNum
      */
     private void getVerifyCode(String cellNum) {
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
