@@ -48,6 +48,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/rmb_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/view_text_size_40sp"
@@ -63,13 +64,6 @@
                             android:textColor="@color/white" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/share_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_share_benefit_detail" />
                 </LinearLayout>
 
 

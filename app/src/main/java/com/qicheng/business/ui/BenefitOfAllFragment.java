@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,23 +25,19 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.TextMessageBody;
 import com.qicheng.R;
 import com.qicheng.business.cache.Cache;
-import com.qicheng.business.module.Benefit;
-import com.qicheng.business.module.User;
-import com.qicheng.business.ui.chat.activity.ContactActivity;
-import com.qicheng.business.ui.chat.utils.Constant;
-import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
 import com.qicheng.business.module.Benefit;
+import com.qicheng.business.module.User;
+import com.qicheng.business.ui.chat.activity.ContactActivity;
+import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
-import com.qicheng.framework.util.UIUtil;
-import com.qicheng.util.Const;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
@@ -143,6 +138,8 @@ public class BenefitOfAllFragment extends BaseFragment {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             final Benefit benefit = list.get(position);
+            StringBuilder builder = new StringBuilder(getResources().getString(R.string.deadline_text));
+            builder.append(benefit.getExpireTime());
             if (convertView == null)
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit_item, null);
             //从聊天中发起转发行为
@@ -152,11 +149,17 @@ public class BenefitOfAllFragment extends BaseFragment {
                 TextView title = (TextView) convertView.findViewById(R.id.benefit_title);
                 title.setText(benefit.getName());
                 TextView expireTime = (TextView) convertView.findViewById(R.id.benefit_deadline);
-                expireTime.setText("截止日期 " + benefit.getExpireTime());
+                expireTime.setText(builder.toString());
                 TextView description = (TextView) convertView.findViewById(R.id.benefit_content);
                 description.setText(benefit.getDescription());
                 TextView value = (TextView) convertView.findViewById(R.id.benefit_value);
-                value.setText(benefit.getValue() + "");
+                if (benefit.getValue() == 0.0) {
+                    TextView rmb = (TextView) convertView.findViewById(R.id.rmb_text);
+                    rmb.setVisibility(View.GONE);
+                    value.setVisibility(View.GONE);
+                } else {
+                    value.setText(String.valueOf(benefit.getValue()));
+                }
                 //不需要转发标识，因所有均可转发
                 convertView.findViewById(R.id.share_img).setVisibility(View.GONE);
                 //增加点击转发事件
@@ -175,11 +178,18 @@ public class BenefitOfAllFragment extends BaseFragment {
                 TextView title = (TextView) convertView.findViewById(R.id.benefit_title);
                 title.setText(benefit.getName());
                 TextView expireTime = (TextView) convertView.findViewById(R.id.benefit_deadline);
-                expireTime.setText("截止日期 " + benefit.getExpireTime());
+
+                expireTime.setText(builder.toString());
                 TextView description = (TextView) convertView.findViewById(R.id.benefit_content);
                 description.setText(benefit.getDescription());
                 TextView value = (TextView) convertView.findViewById(R.id.benefit_value);
-                value.setText(String.valueOf(benefit.getValue()));
+                if (benefit.getValue() == 0.0) {
+                    TextView rmb = (TextView) convertView.findViewById(R.id.rmb_text);
+                    rmb.setVisibility(View.GONE);
+                    value.setVisibility(View.GONE);
+                } else {
+                    value.setText(String.valueOf(benefit.getValue()));
+                }
                 ImageView shareImg = (ImageView) convertView.findViewById(R.id.share_img);
                 shareImg.setOnClickListener(new View.OnClickListener() {
                     @Override

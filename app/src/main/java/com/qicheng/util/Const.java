@@ -184,11 +184,16 @@ public class Const {
         public static final String BENEFIT_DETAIL = "benefit_detail";
 
         /**
-         *
+         * 福利详情Key
          */
         public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
 
         public static final String USER_ENTITY_FROM_CONTACT = "user_entity_from_contact";
+
+        /**
+         * 更新密码来源key
+         */
+        public static final String UPDATE_PASSWORD_RESOURCE = "update_password_resource";
     }
 
     public static class DefaultValue {
@@ -413,22 +418,34 @@ public class Const {
         public static final int RESULT_NO_BENEFIT = 20;
     }
 
-    /** 查询类型 -1：全站 */
+    /**
+     * 查询类型 -1：全站
+     */
     public static final byte QUERY_TYPE_ALL = -1;
 
-    /** 查询类型 0：车站 */
+    /**
+     * 查询类型 0：车站
+     */
     public static final byte QUERY_TYPE_STATION = 0;
 
-    /** 查询类型 1：出发车站 */
+    /**
+     * 查询类型 1：出发车站
+     */
     public static final byte QUERY_TYPE_BEGIN = 1;
 
-    /** 查询类型 2：到达车站 */
+    /**
+     * 查询类型 2：到达车站
+     */
     public static final byte QUERY_TYPE_END = 2;
 
-    /** 查询类型 3：车次 */
+    /**
+     * 查询类型 3：车次
+     */
     public static final byte QUERY_TYPE_TRAIN = 3;
 
-    /** 查询类型 4：未上车 */
+    /**
+     * 查询类型 4：未上车
+     */
     public static final byte QUERY_TYPE_NOT_ON_CAR = 4;
 
     /**
@@ -466,7 +483,9 @@ public class Const {
      */
     public static final byte QUERY_TYPE_LEAVE_CITY = 11;
 
-    /** 查询类型 12：用户 */
+    /**
+     * 查询类型 12：用户
+     */
     public static final byte QUERY_TYPE_USER = 12;
 
     /**
@@ -574,4 +593,30 @@ public class Const {
      * ID类型 1：用户IM账户ID
      */
     public static final byte ID_TYPE_USER_IM_ID = 1;
+
+    /**
+     * 修改密码
+     */
+    public static final byte UPDATE_PWD_FROM_MODIFY = 0;
+    /**
+     * 忘记密码
+     */
+    public static final byte UPDATE_PWD_FROM_FORGET = 1;
+
+    /**
+     * 操作类型 0:注册
+     */
+    public static final byte ACTION_TYPE_REGISTER = 0;
+
+    /**
+     * 操作类型 1:找回密码
+     */
+    public static final byte ACTION_TYPE_FIND = 1;
+
+    /**
+     * 操作类型 2:修改手机号码
+     */
+    public static final byte ACTION_TYPE_MODIFY = 2;
+
+
 }

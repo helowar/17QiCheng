@@ -22,6 +22,7 @@ import com.qicheng.util.Const;
 
 public class BenefitDetailActivity extends Activity {
     private Benefit benefit;
+    private static final int REQUEST_CODE_BENEFIT_TO_CONTACT = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +39,13 @@ public class BenefitDetailActivity extends Activity {
         TextView description = (TextView) findViewById(R.id.benefit_content);
         description.setText(benefit.getDescription());
         TextView value = (TextView) findViewById(R.id.benefit_value);
-        value.setText(String.valueOf(benefit.getValue()));
-        ImageView shareImg = (ImageView) findViewById(R.id.share_img);
-        if (benefit.getPostOpFlag() == 0) {
-            shareImg.setVisibility(View.GONE);
+        if (benefit.getValue() == 0.0) {
+            TextView rmb = (TextView) findViewById(R.id.rmb_text);
+            rmb.setVisibility(View.GONE);
+            value.setVisibility(View.GONE);
+        } else {
+            value.setText(String.valueOf(benefit.getValue()));
         }
-
     }
 
 

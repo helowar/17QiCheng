@@ -31,6 +31,9 @@ import com.qicheng.framework.ui.helper.Alert;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 照片详细页面
+ */
 public class AlbumItemActivity extends FragmentActivity {
     /**
      * 相册的ViewPager
@@ -56,8 +59,8 @@ public class AlbumItemActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album_item);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.activity_album_item);
         int index = getIntent().getExtras().getInt("index");
         photos = (ArrayList<Photo>) getIntent().getExtras().get("photos");
         mViewPager = (ViewPager) findViewById(R.id.id_pager);
