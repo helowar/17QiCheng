@@ -36,25 +36,21 @@ public class GetNewBenefitProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            JSONObject o = new JSONObject(result);
-            //获取结果代码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-            if(value==0){
-                JSONObject jb = o.optJSONObject("body");
-                //取出获得的优惠券
-                mBenefit = new Benefit();
-                mBenefit.setId(jb.optString("id"));
-                mBenefit.setName(jb.optString("name"));
-                mBenefit.setExpireTime(jb.optString("expire_time"));
-                mBenefit.setValue(jb.optDouble("value"));
-                mBenefit.setDescription(jb.optString("description"));
-                mBenefit.setLogoUrl(jb.optString("logo_url"));
-                mBenefit.setBgUrl(jb.optString("bg_url"));
-            }
-        }catch (JSONException e){
+    protected void onResult(JSONObject o) {
+        //获取结果代码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
+        if(value==0){
+            JSONObject jb = o.optJSONObject("body");
+            //取出获得的优惠券
+            mBenefit = new Benefit();
+            mBenefit.setId(jb.optString("id"));
+            mBenefit.setName(jb.optString("name"));
+            mBenefit.setExpireTime(jb.optString("expire_time"));
+            mBenefit.setValue(jb.optDouble("value"));
+            mBenefit.setDescription(jb.optString("description"));
+            mBenefit.setLogoUrl(jb.optString("logo_url"));
+            mBenefit.setBgUrl(jb.optString("bg_url"));
         }
     }
 

@@ -30,11 +30,9 @@ public class GetLabelListProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject jsonObject) {
 
-        JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(result);
             int value = jsonObject.optInt(JSONUtil.STATUS_TAG);
             if (value == 0) {
                 JSONArray arry = (JSONArray) jsonObject.opt("body");

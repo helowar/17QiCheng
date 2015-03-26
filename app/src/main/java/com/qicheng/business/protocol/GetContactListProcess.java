@@ -41,14 +41,11 @@ public class GetContactListProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
             setProcessStatus(value);
-            logger.d("Add Trip result:"+result);
             if(value ==0){
                 JSONArray jsonUserInfoList = o.has("body") ? o.optJSONArray("body") : null;
                 if(jsonUserInfoList!=null){

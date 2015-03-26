@@ -42,15 +42,9 @@ public class DeleteDynProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            JSONObject object = new JSONObject(result);
-            int value = object.optInt("result_code");
-            setProcessStatus(value);
-        } catch (JSONException e) {
-            logger.e("删除动态参数异常");
-            e.printStackTrace();
-        }
+    protected void onResult(JSONObject object) {
+        int value = object.optInt("result_code");
+        setProcessStatus(value);
     }
 
     @Override

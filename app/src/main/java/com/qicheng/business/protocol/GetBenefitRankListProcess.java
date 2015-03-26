@@ -48,9 +48,8 @@ public class GetBenefitRankListProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            JSONObject o = new JSONObject(result);
             int value = o.optInt(STATUS_TAG);
             setProcessStatus(value);
             if (value == Const.ResponseResultCode.RESULT_SUCCESS) {

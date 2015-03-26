@@ -10,11 +10,27 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qicheng.business.cache.Cache;
+import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
+import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
+import com.qicheng.business.protocol.GetPublicKeyProcess;
+import com.qicheng.business.protocol.LoginProcess;
+import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.ui.chat.QichengHXSDKHelper;
 import com.qicheng.business.ui.component.BenefitChangedListener;
+import com.qicheng.framework.event.EventArgs;
+import com.qicheng.framework.event.EventId;
+import com.qicheng.framework.event.EventListener;
+import com.qicheng.framework.event.OperErrorCode;
+import com.qicheng.framework.event.StatusEventArgs;
+import com.qicheng.framework.net.HttpComm;
+import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Map;
@@ -181,5 +197,67 @@ public class QichengApplication extends Application {
 
             }
         });
+    }
+
+    public JSONObject reLoginAndRepeat(final String url,final String parameter) throws JSONException{
+        fetchPublicKey();
+        reLogin();
+        return rePost(url,parameter);
+    }
+
+    private void reLogin(){
+        final UserLogic logic =(UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        final LoginProcess process = logic.getProcessForCacheLogin();
+        HttpComm comm  = new HttpComm(false);
+        comm.post(Const.BASE_URL+process.getRequestUrl(), process.getInfoParameter(), new HttpResultCallback() {
+
+            @Override
+            public void onResponse(HttpDownloaderResult success, String url,
+                                   String message) {
+
+                if (success == HttpDownloaderResult.eSuccessful) {
+                    try{
+                        JSONObject o = new JSONObject(message);
+                        logic.callbackForCacheLogin(process.getUserFromResult(o));
+                    }catch (JSONException e){
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onProgress(String url, float rate) {
+            }
+        });
+    }
+
+    private void fetchPublicKey(){
+        final GetPublicKeyProcess process = new GetPublicKeyProcess();
+        HttpComm comm  = new HttpComm(false);
+        comm.post(Const.BASE_URL+process.getRequestUrl(), process.getInfoParameter(), new HttpResultCallback() {
+
+            @Override
+            public void onResponse(HttpDownloaderResult success, String url,
+                                   String message) {
+
+                if (success == HttpDownloaderResult.eSuccessful) {
+                    try{
+                        JSONObject o = new JSONObject(message);
+                        process.storePublicKey(o);
+                    }catch (JSONException e){
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void onProgress(String url, float rate) {
+            }
+        });
+    }
+
+    private JSONObject rePost(final String url,final String parameter)throws JSONException{
+       HttpComm comm  = new HttpComm(false);
+       return new JSONObject( comm.post(url, parameter));
     }
 }

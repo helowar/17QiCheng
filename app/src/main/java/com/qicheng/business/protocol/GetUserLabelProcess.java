@@ -36,11 +36,8 @@ public class GetUserLabelProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        JSONObject o = null;
+    protected void onResult(JSONObject o) {
         try {
-            o = new JSONObject(result);
-            Log.d("tabel_result", result);
             //获取状态码
             int value = o.optInt(JSONUtil.STATUS_TAG);
 

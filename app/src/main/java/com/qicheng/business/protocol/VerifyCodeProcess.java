@@ -46,17 +46,10 @@ public class VerifyCodeProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-            setStatus(ProcessStatus.Status.ErrUnkown);
-        }
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
     }
 
     @Override

@@ -46,14 +46,11 @@ public class TripListProcess extends BaseProcess{
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
             //获取状态码
             int value = o.optInt("result_code");
             setProcessStatus(value);
-            logger.d("Get Trip list result:"+result);
             if(value ==0){
                 /**
                  * 获取行程列表
