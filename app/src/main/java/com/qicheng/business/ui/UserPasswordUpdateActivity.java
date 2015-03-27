@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -195,6 +196,7 @@ public class UserPasswordUpdateActivity extends BaseActivity {
 
     /**
      * 获取验证码
+     *
      * @param cellNum
      */
     private void getVerifyCode(String cellNum) {
@@ -256,19 +258,20 @@ public class UserPasswordUpdateActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_setting_update_acrivity, menu);
+        ActionBar actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
 }

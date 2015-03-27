@@ -43,6 +43,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
@@ -79,7 +80,7 @@ public class ActyFragment extends BaseFragment {
     private DynSearch dynSearch = new DynSearch();
     private List<Dyn> newData;
     /*动态的类型*/
-    private String title = "关联";
+    private String title;
     private String cityCode;
 
     private static final int ADD_SUCCESS = 0;
@@ -656,6 +657,10 @@ public class ActyFragment extends BaseFragment {
                     }
                     Intent i = new Intent();
                     i.setClass(getActivity(), ChatActivity.class);
+                    if (StringUtil.isEmpty(title)) {
+                        title
+                                = "关联";
+                    }
                     i.putExtra(Const.Intent.FRIEND_SOURCE_KEY, title);
                     i.putExtra(Const.Intent.HX_USER_ID, bean.getUserImId());
                     i.putExtra(Const.Intent.HX_USER_NICK_NAME, bean.getNickName());

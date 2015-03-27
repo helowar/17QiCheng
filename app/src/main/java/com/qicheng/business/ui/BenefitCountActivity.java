@@ -54,13 +54,18 @@ public class BenefitCountActivity extends BaseFragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_benefit_count, menu);
-        ActionBar bar = this.getActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
