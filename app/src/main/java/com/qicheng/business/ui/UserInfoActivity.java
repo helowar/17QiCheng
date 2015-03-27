@@ -30,7 +30,6 @@ import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
 import com.qicheng.business.module.UserDetail;
-import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.HorizontalScrollListView;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -39,11 +38,12 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
-import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.ALBUM_ITEM_INDEX_KEY;
+import static com.qicheng.util.Const.Intent.ALBUM_LIST_KEY;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_NAME;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_VALUE;
@@ -52,7 +52,6 @@ import static com.qicheng.util.Const.Intent.HX_USER_ID;
 import static com.qicheng.util.Const.Intent.HX_USER_NICK_NAME;
 import static com.qicheng.util.Const.Intent.HX_USER_TO_CHAT_AVATAR;
 import static com.qicheng.util.Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY;
-import static com.qicheng.util.Const.Intent.ORIGINAL_PICTURE_URL_KEY;
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 import static com.qicheng.util.Const.ORDER_BY_EARLIEST;
 import static com.qicheng.util.Const.QUERY_TYPE_USER;
@@ -88,7 +87,7 @@ public class UserInfoActivity extends BaseActivity {
     /**
      * 相册列表
      */
-    private List<Photo> photoList = new ArrayList<Photo>();
+    private ArrayList<Photo> photoList = new ArrayList<Photo>();
 
     /**
      * 用户ID
@@ -163,8 +162,8 @@ public class UserInfoActivity extends BaseActivity {
         List<Photo> photos = userDetail.getPhotoList();
         if (photos != null && photos.size() > 0) {
             photoList.addAll(photos);
-            for (Photo photo : photos) {
-                photoLayout.addView(createPhotoView(photo));
+            for (int i = 0, size = photos.size(); i < size; i++) {
+                photoLayout.addView(createPhotoView(i, photos.get(i)));
             }
         }
         activityNumLayout.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +255,7 @@ public class UserInfoActivity extends BaseActivity {
                             if (photos != null && photos.size() > 0) {
                                 photoList.addAll(photos);
                                 for (int i = 0, size = photos.size(); i < size; i++) {
-                                    photoLayout.addView(createPhotoView(photos.get(i)));
+                                    photoLayout.addView(createPhotoView(i, photos.get(i)));
                                 }
                             }
                         }
@@ -289,10 +288,11 @@ public class UserInfoActivity extends BaseActivity {
     /**
      * 创建一个用户照片View对象。
      *
+     * @param index 用户照片下标
      * @param photo 用户照片
      * @return 用户照片View对象
      */
-    private View createPhotoView(final Photo photo) {
+    private View createPhotoView(final int index, final Photo photo) {
         // 创建用户照片View
         View userPhotoView = getLayoutInflater().inflate(R.layout.user_info_photo, photoLayout, false);
         ImageView photoView = (ImageView) userPhotoView.findViewById(R.id.user_info_photo_image_view);
@@ -300,8 +300,9 @@ public class UserInfoActivity extends BaseActivity {
         userPhotoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), OriginalPictureActivity.class);
-                intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, photo.getPhotoUrl());
+                Intent intent = new Intent(getActivity(), AlbumItemActivity.class);
+                intent.putExtra(ALBUM_ITEM_INDEX_KEY, index);
+                intent.putExtra(ALBUM_LIST_KEY, photoList);
                 startActivity(intent);
             }
         });

@@ -27,6 +27,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.helper.Alert;
+import com.qicheng.util.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +57,10 @@ public class AlbumItemActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album_item);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        int index = getIntent().getExtras().getInt("index");
-        photos = (ArrayList<Photo>) getIntent().getExtras().get("photos");
+        setContentView(R.layout.activity_album_item);
+        int index = getIntent().getExtras().getInt(Const.Intent.ALBUM_ITEM_INDEX_KEY);
+        photos = (ArrayList<Photo>) getIntent().getExtras().get(Const.Intent.ALBUM_LIST_KEY);
         mViewPager = (ViewPager) findViewById(R.id.id_pager);
         mAdapter = new PicViewPagerAdapter(getSupportFragmentManager(), photos);
         mViewPager.setAdapter(mAdapter);
