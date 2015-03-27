@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+  ~ This software is the confidential and proprietary information of QiCheng, Inc.
+  ~ You shall not disclose such Confidential Information and shall use it only in
+  ~ accordance with the terms of the license agreement you entered into with QiCheng.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.qicheng.business.ui.BenifitFragment">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+          android:orderInCategory="100" android:showAsAction="never" />
+</menu>

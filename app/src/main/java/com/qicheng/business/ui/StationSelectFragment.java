@@ -92,7 +92,7 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu, menu);
         ActionBar bar = getActivity().getActionBar();
         if(bar!=null){
             bar.setTitle(getResources().getString(R.string.station_select_activity_title));

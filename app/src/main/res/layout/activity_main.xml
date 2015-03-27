@@ -29,7 +29,7 @@
             android:layout_height="fill_parent" />
 
         <FrameLayout
-            android:id="@+id/user_content"
+            android:id="@+id/benefit_content"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </FrameLayout>
