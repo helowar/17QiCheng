@@ -337,7 +337,7 @@
     <string name="no_sd_card">未找到存储卡，无法存储照片</string>
     <string name="pic_upload_fail">动态图片上传失败</string>
     <string name="no_trip">请先添加行程</string>
-    <string name="add_pic">添加动态图片</string>
+    <string name="add_pic">添加图片</string>
 
     <!--DynPublishActivity end-->
 
@@ -368,6 +368,9 @@
     <string name="update_password">修改密码</string>
     <string name="update_button">确认</string>
     <string name="title_activity_user_setting_update_activity">修改密码</string>
+    <string name="new_pwd_text">新密码</string>
+    <string name="update_pwd_memo_text">请点击获取验证码</string>
+    <string name="new_cell_num_is_empty">请输入新的手机号码</string>
 
 
 </resources>

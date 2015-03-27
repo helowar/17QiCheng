@@ -255,11 +255,15 @@ public class ToDynActivity extends BaseActivity {
     /*shareSDK分享*/
     private void showShare(String msg, String url) {
         ShareSDK.initSDK(getActivity());
+        //关闭sso授权
         OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
         // 分享时Notification的图标和文字
-        oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        //oks.setNotification(R.drawable.ic_qicheng, getString(R.string.app_name));
+        oks.setTitle("来自启程分享");
         oks.setText(msg);
         oks.setImageUrl(url);
+        oks.setUrl(url);
         // 启动分享GUI
         oks.show(getActivity());
     }

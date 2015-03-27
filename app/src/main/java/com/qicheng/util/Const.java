@@ -201,11 +201,21 @@ public class Const {
         public static final String BENEFIT_DETAIL = "benefit_detail";
 
         /**
-         * 福利详情Key
+         * 福利实例详情Key
          */
         public static final String BENEFIT_ENTITY_FOR_DETAIL = "benefit_entity_for_detail";
 
         public static final String USER_ENTITY_FROM_CONTACT = "user_entity_from_contact";
+
+        /**
+         * 相册下标Key
+         */
+        public static final String ALBUM_ITEM_INDEX_KEY = "index";
+
+        /**
+         * 相册列表Key
+         */
+        public static final String ALBUM_LIST_KEY = "photos";
 
         /**
          * 更新密码来源key

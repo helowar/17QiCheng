@@ -3,15 +3,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/FormInputContainer">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_text"
-            android:text="@string/register_memo_text"
-            android:textSize="@dimen/input_title_text_size" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/cell_num_container"
@@ -57,7 +48,7 @@
     <LinearLayout style="@style/FormInputContainerWithBorder">
 
         <TextView
-            android:text="@string/pwd_text"
+            android:text="@string/new_pwd_text"
             style="@style/InputTitle" />
 
         <EditText

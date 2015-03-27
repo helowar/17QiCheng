@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="auto_fit"
-        android:columnWidth="@dimen/avatars_view_width_90dp"
+        android:columnWidth="@dimen/avatars_view_width_80dp"
         android:stretchMode="columnWidth"
-        android:horizontalSpacing="@dimen/common_gap"
-        android:verticalSpacing="@dimen/common_gap"
+        android:horizontalSpacing="@dimen/half_gap"
+        android:verticalSpacing="@dimen/half_gap"
         android:scrollbars="none" />
 </LinearLayout>

@@ -18,6 +18,7 @@ import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.SetUserInfoProcess;
+import com.qicheng.business.protocol.UpdateCellNumProcess;
 import com.qicheng.business.protocol.UpdatePasswordProcess;
 import com.qicheng.business.protocol.UpdateUserInformationProcess;
 import com.qicheng.business.protocol.VerifyCodeProcess;
@@ -152,7 +153,7 @@ public class UserLogic extends BaseLogic {
         });
     }
 
-    public LoginProcess getProcessForCacheLogin(){
+    public LoginProcess getProcessForCacheLogin() {
         User cachedUser = Cache.getInstance().getUser();
         //登录所用的数据
         User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
@@ -162,7 +163,7 @@ public class UserLogic extends BaseLogic {
         return process;
     }
 
-    public void callbackForCacheLogin(User resultUser){
+    public void callbackForCacheLogin(User resultUser) {
         User user = Cache.getInstance().getUser();
         user.setToken(resultUser.getToken());
         user.setNickName(resultUser.getNickName());
@@ -262,7 +263,7 @@ public class UserLogic extends BaseLogic {
                     /**
                      *获取公钥出错
                      */
-                fireStatusEvent(listener, errCode);
+                    fireStatusEvent(listener, errCode);
 
                 }
             }
@@ -413,6 +414,30 @@ public class UserLogic extends BaseLogic {
         final UpdatePasswordProcess process = new UpdatePasswordProcess();
         process.setCellNum(cellNum);
         process.setNewPwd(newPwd);
+        process.setVerifyCode(verifyCode);
+        process.run(new ResponseListener() {
+            @Override
+            public void onResponse(String requestId) {
+                // 状态转换：从调用结果状态转为操作结果状态
+                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                logger.d("获取修改密码结果码为：" + errCode);
+                UserEventArgs userEventArgs = new UserEventArgs(errCode);
+                // 发送事件
+                fireEvent(listener, userEventArgs);
+            }
+        });
+    }
+
+    /**
+     * 修改手机号码
+     *
+     * @param cellNum
+     * @param verifyCode
+     * @param listener
+     */
+    public void updateCellNum(String cellNum, String verifyCode, final EventListener listener) {
+        final UpdateCellNumProcess process = new UpdateCellNumProcess();
+        process.setCellNum(cellNum);
         process.setVerifyCode(verifyCode);
         process.run(new ResponseListener() {
             @Override

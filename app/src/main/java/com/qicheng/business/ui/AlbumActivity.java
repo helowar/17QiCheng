@@ -127,9 +127,8 @@ public class AlbumActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), AlbumItemActivity.class);
-                        intent.putExtra("photos", list);
-                        intent.putExtra("index", position);
-                        intent.putExtra(Const.Intent.ORIGINAL_PICTURE_URL_KEY, list.get(position).getPhotoUrl());
+                        intent.putExtra(Const.Intent.ALBUM_LIST_KEY, list);
+                        intent.putExtra(Const.Intent.ALBUM_ITEM_INDEX_KEY, position);
                         startActivity(intent);
                     }
                 });
