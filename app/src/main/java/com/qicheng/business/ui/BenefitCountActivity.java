@@ -16,20 +16,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qicheng.R;
-import com.qicheng.business.logic.BenefitLogic;
-import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.event.BenefitEventArgs;
-import com.qicheng.business.module.Benefit;
-import com.qicheng.framework.event.EventArgs;
-import com.qicheng.framework.event.EventId;
-import com.qicheng.framework.event.EventListener;
-import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 import com.qicheng.util.Const;
 
 import java.util.List;
 
-public class BenefitCountActivity extends BaseActivity {
+public class BenefitCountActivity extends BaseFragmentActivity {
     private BenefitOfAllFragment benefitOfAllFragment;
 
     private TextView allBenefit, entityBenefit;

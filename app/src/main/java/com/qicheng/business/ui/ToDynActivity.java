@@ -44,6 +44,7 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -445,6 +446,9 @@ public class ToDynActivity extends BaseActivity {
                     String id = bean.getActivityId();
                     /*赞与取消赞的逻辑*/
                     if (bean.getIsLiked() == Const.INTERACT_ACTION_LIKED) {
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_UNLIKE_ACTIVITY);
+
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
                         byte action = Const.INTERACT_ACTION_LIKED;
                         interact(id, action);
@@ -452,6 +456,9 @@ public class ToDynActivity extends BaseActivity {
                         bean.setIsLiked(Const.INTERACT_ACTION_CANCEL);
                         bean.setLikedNum((Integer.valueOf(holder.likeNum.getText().toString())));
                     } else {
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_LIKE_ACTIVITY);
+
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) - 1) + "");
                         byte action = Const.INTERACT_ACTION_CANCEL;
                         holder.likeimg.setImageResource(R.drawable.ic_like);
@@ -464,6 +471,9 @@ public class ToDynActivity extends BaseActivity {
             holder.shareCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //记录友盟事件
+                    MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_SHARE_ACTIVITY);
+
                     showShare(bean.getContent(), bean.getFileUrl());
                     String id = bean.getActivityId();
                     holder.shareNum.setText((Integer.valueOf(holder.shareNum.getText().toString()) + 1) + "");

@@ -1,7 +1,10 @@
 package com.qicheng.framework.event;
 
+import android.app.Activity;
+
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +14,11 @@ import java.util.Map;
  */
 public class UIEventListener implements EventListener {
 
-    private BaseActivity mActivity = null;
+    private Activity mActivity = null;
     private BaseFragment mFragment = null;
     private EventListener mListener = null;
 
-    public UIEventListener(BaseActivity activity, EventListener listener) {
+    public UIEventListener(Activity activity, EventListener listener) {
         mActivity = activity;
         mListener = listener;
     }
@@ -28,7 +31,9 @@ public class UIEventListener implements EventListener {
     @Override
     public void onEvent(EventId id, EventArgs args) {
         if (mActivity != null) {
-            if (!mActivity.isCreated()) {
+            if ( mActivity.getClass()==BaseActivity.class && !((BaseActivity)mActivity).isCreated()) {
+                return;
+            }else if(mActivity.getClass()==BaseFragmentActivity.class && !((BaseFragmentActivity)mActivity).isCreated()){
                 return;
             }
         }
@@ -43,9 +48,9 @@ public class UIEventListener implements EventListener {
     public static class Helper {
         private Map<EventListener, UIEventListener> mContainer = new HashMap<EventListener, UIEventListener>();
 
-        private BaseActivity mActivity = null;
+        private Activity mActivity = null;
 
-        public void setHost(BaseActivity value) {
+        public void setHost(Activity value) {
             mActivity = value;
         }
 

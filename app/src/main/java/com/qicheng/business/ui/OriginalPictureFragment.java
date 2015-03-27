@@ -13,12 +13,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 
 import com.qicheng.R;
 import com.qicheng.business.image.ImageManager;
-import com.qicheng.business.module.Photo;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -49,5 +48,19 @@ public class OriginalPictureFragment extends Fragment {
         String url = getArguments().getString("url");
         ImageManager.displayImageDefault(url, pic);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("OriginalPictureFragment");
+        MobclickAgent.onResume(getActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("OriginalPictureFragment");
+        MobclickAgent.onPause(getActivity());
     }
 }

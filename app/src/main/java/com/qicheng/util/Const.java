@@ -7,6 +7,23 @@ import com.qicheng.QichengApplication;
 public class Const {
 
     /**
+     * For 友盟事件统计
+     */
+
+    public static class MobclickAgent{
+        public static final String EVENT_ADD_TRIP = "add_trip";
+        public static final String EVENT_ADD_ACTIVITY = "add_activity";
+        public static final String EVENT_BEGIN_CHAT = "begin_chat";
+        public static final String EVENT_IMAGE_UPLOAD = "upload_image";
+        public static final String EVENT_SHAKE_BENEFIT = "shake_benefit";
+        public static final String EVENT_TRANS_BENEFIT = "trans_benefit";
+        public static final String EVENT_BEG_BENEFIT = "beg_benefit";
+        public static final String EVENT_SHARE_ACTIVITY = "share_activity";
+        public static final String EVENT_LIKE_ACTIVITY = "like_activity";
+        public static final String EVENT_UNLIKE_ACTIVITY = "unlike_activity";
+    }
+
+    /**
      * For 环信
      */
     public static class Easemob {

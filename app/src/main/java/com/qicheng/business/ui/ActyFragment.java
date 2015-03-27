@@ -46,6 +46,7 @@ import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -613,6 +614,9 @@ public class ActyFragment extends BaseFragment {
                     String id = bean.getActivityId();
                     /*赞与取消赞的逻辑*/
                     if (bean.getIsLiked() == Const.INTERACT_ACTION_LIKED) {
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_UNLIKE_ACTIVITY);
+
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
                         byte action = Const.INTERACT_ACTION_LIKED;
                         interact(id, action);
@@ -620,6 +624,9 @@ public class ActyFragment extends BaseFragment {
                         bean.setIsLiked(Const.INTERACT_ACTION_CANCEL);
                         bean.setLikedNum((Integer.valueOf(holder.likeNum.getText().toString())));
                     } else {
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_LIKE_ACTIVITY);
+
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) - 1) + "");
                         byte action = Const.INTERACT_ACTION_CANCEL;
                         holder.likeimg.setImageResource(R.drawable.ic_like);
@@ -638,6 +645,8 @@ public class ActyFragment extends BaseFragment {
                     byte action = Const.INTERACT_ACTION_SHARED;
                     interact(id, action);
                     bean.setSharedNum((Integer.valueOf(holder.shareNum.getText().toString())));
+                    //记录友盟事件
+                    MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_SHARE_ACTIVITY);
                 }
             });
             holder.weixinCollect.setOnClickListener(new View.OnClickListener() {

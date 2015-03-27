@@ -8,8 +8,9 @@ import android.view.MenuItem;
 import com.qicheng.R;
 import com.qicheng.business.module.TrainStation;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
-public class TrainSelectActivity extends BaseActivity {
+public class TrainSelectActivity extends BaseFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

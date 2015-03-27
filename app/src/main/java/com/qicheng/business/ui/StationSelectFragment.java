@@ -36,6 +36,7 @@ import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -208,6 +209,8 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                             OperErrorCode errCode = result.getErrCode();
                             switch(errCode) {
                                 case Success:
+                                    //记录友盟事件
+                                    MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_ADD_TRIP);
                                     sendResult(Const.ActivityResultCode.RESULT_SUCCESS,result.getTrip());
                                     getActivity().finish();
                                     break;

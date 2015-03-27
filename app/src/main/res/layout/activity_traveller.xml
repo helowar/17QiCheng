@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/traveller_recommend_text"
-            android:layout_width="35dp"
+            android:layout_width="@dimen/two_double_gap"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
@@ -32,15 +32,15 @@
                 android:id="@+id/traveller_recommend_persons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/half_gap"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:padding="@dimen/half_gap" />
         </com.qicheng.business.ui.component.HorizontalScrollListView>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/traveller_btn_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/two_double_gap"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
@@ -48,7 +48,7 @@
         <Button
             android:id="@+id/traveller_start_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/main"
             android:text="@string/traveller_start_btn_text"
@@ -58,7 +58,7 @@
         <Button
             android:id="@+id/traveller_end_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
             android:text="@string/traveller_end_btn_text"

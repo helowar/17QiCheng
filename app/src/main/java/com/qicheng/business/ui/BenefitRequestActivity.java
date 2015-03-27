@@ -7,14 +7,14 @@
 
 package com.qicheng.business.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.qicheng.R;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
-public class BenefitRequestActivity extends Activity {
+public class BenefitRequestActivity extends BaseFragmentActivity {
 
     private BenefitOfRankFragment benefitOfRankFragment;
 
