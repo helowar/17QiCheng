@@ -34,7 +34,6 @@ import com.qicheng.business.module.Dyn;
 import com.qicheng.business.module.Location;
 import com.qicheng.business.module.Train;
 import com.qicheng.business.module.TrainStation;
-import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.GeneralListView;
 import com.qicheng.framework.event.EventArgs;
@@ -564,9 +563,9 @@ public class ActyFragment extends BaseFragment {
                 holder.likeimg = (ImageView) convertView.findViewById(R.id.likeimg);
                 holder.shareimg = (ImageView) convertView.findViewById(R.id.shareimg);
                 holder.weixin = (ImageView) convertView.findViewById(R.id.weixin);
-                holder.likeCollect=(LinearLayout)convertView.findViewById(R.id.like_collect);
-                holder.shareCollect=(LinearLayout)convertView.findViewById(R.id.share_collect);
-                holder.weixinCollect=(LinearLayout)convertView.findViewById(R.id.weixin_collect);
+                holder.likeCollect = (LinearLayout) convertView.findViewById(R.id.like_collect);
+                holder.shareCollect = (LinearLayout) convertView.findViewById(R.id.share_collect);
+                holder.weixinCollect = (LinearLayout) convertView.findViewById(R.id.weixin_collect);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -701,7 +700,7 @@ public class ActyFragment extends BaseFragment {
              */
             private ImageView weixin;
 
-            private LinearLayout likeCollect,shareCollect,weixinCollect;
+            private LinearLayout likeCollect, shareCollect, weixinCollect;
 
         }
     }
@@ -766,15 +765,17 @@ public class ActyFragment extends BaseFragment {
 
     private void showShare(String msg, String url) {
         ShareSDK.initSDK(getActivity());
+        //关闭sso授权
         OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
         // 分享时Notification的图标和文字
-        oks.setNotification(R.drawable.ic_qicheng, getString(R.string.app_name));
-        // oks.setTitle("启程分享");
+        //oks.setNotification(R.drawable.ic_qicheng, getString(R.string.app_name));
+        oks.setTitle("来自启程分享");
         oks.setText(msg);
         oks.setImageUrl(url);
+        oks.setUrl(url);
         // 启动分享GUI
         oks.show(getActivity());
-
 
     }
 
