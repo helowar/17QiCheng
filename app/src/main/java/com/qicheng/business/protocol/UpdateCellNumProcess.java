@@ -15,15 +15,12 @@ import com.qicheng.framework.util.Logger;
 import org.json.JSONObject;
 
 /**
- * Created by 金玉龙 on 2015/3/26.
- * 启程App的修改密码的接口实现类
+ * Created by NO3 on 2015/3/26.
  */
-public class UpdatePasswordProcess extends BaseProcess {
-    private static Logger logger = new Logger("com.qicheng.business.protocol.UpdatePasswordProcess");
-
-    private String url = "/user/find_pwd.html";
+public class UpdateCellNumProcess extends BaseProcess {
+    private static Logger logger = new Logger("com.qicheng.business.protocol.UpdateCellNumProcess");
+    private String url = "/user/modify_phone.html";
     private String cellNum;
-    private String newPwd;
     private String verifyCode;
 
     @Override
@@ -36,20 +33,19 @@ public class UpdatePasswordProcess extends BaseProcess {
         try {
             JSONObject o = new JSONObject();
             o.put("cell_num", cellNum);
-            o.put("new_pwd", newPwd);
             o.put("verify_code", verifyCode);
             return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
             e.printStackTrace();
-            logger.d("组装修改密码参数失败");
+            logger.d("组装修改手机号码参数失败");
         }
         return null;
     }
 
     @Override
-    protected void onResult(JSONObject o) {
+    protected void onResult(JSONObject result) {
         //获取状态码
-        int value = o.optInt("result_code");
+        int value = result.optInt("result_code");
         setProcessStatus(value);
     }
 
@@ -60,10 +56,6 @@ public class UpdatePasswordProcess extends BaseProcess {
 
     public void setCellNum(String cellNum) {
         this.cellNum = cellNum;
-    }
-
-    public void setNewPwd(String newPwd) {
-        this.newPwd = newPwd;
     }
 
     public void setVerifyCode(String verifyCode) {

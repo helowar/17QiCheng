@@ -293,7 +293,7 @@
 
         </activity>
         <activity
-            android:name=".business.ui.UserInformationCellnumModifyActivity"
+            android:name=".business.ui.UserCellnumupdateActivity"
             android:label="@string/title_activity_user_information_cellnum_modify"
             android:logo="@drawable/ic_user"
             android:parentActivityName=".framework.ui.base.BaseActivity">

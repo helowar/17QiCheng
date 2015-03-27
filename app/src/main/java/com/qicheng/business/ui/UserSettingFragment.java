@@ -79,13 +79,15 @@ public class UserSettingFragment extends BaseFragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = null;
                 switch (stringID) {
                     case R.string.update_cell_num:
-
+                        intent = new Intent(getActivity(), UserCellnumupdateActivity.class);
+                        startActivity(intent);
                         break;
                     case R.string.update_password:
                        /*跳转到更新密码*/
-                        Intent intent = new Intent(getActivity(), UserPasswordUpdateActivity.class);
+                        intent = new Intent(getActivity(), UserPasswordUpdateActivity.class);
                         intent.putExtra(Const.Intent.UPDATE_PASSWORD_RESOURCE, Const.UPDATE_PWD_FROM_MODIFY);
                         startActivity(intent);
                         break;
