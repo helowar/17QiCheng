@@ -208,8 +208,7 @@ public class QichengApplication extends Application {
     }
 
     private void reLogin(){
-        final UserLogic logic =(UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
-        final LoginProcess process = logic.getProcessForCacheLogin();
+        final LoginProcess process = getProcessForCacheLogin();
         HttpComm comm  = new HttpComm(false);
         comm.post(Const.BASE_URL+process.getRequestUrl(), process.getInfoParameter(), new HttpResultCallback() {
 
@@ -220,7 +219,7 @@ public class QichengApplication extends Application {
                 if (success == HttpDownloaderResult.eSuccessful) {
                     try{
                         JSONObject o = new JSONObject(message);
-                        logic.callbackForCacheLogin(process.getUserFromResult(o));
+                        callbackForCacheLogin(process.getUserFromResult(o));
                     }catch (JSONException e){
                     }
                 } else {
@@ -231,6 +230,27 @@ public class QichengApplication extends Application {
             public void onProgress(String url, float rate) {
             }
         });
+    }
+
+    private LoginProcess getProcessForCacheLogin() {
+        User cachedUser = Cache.getInstance().getUser();
+        //登录所用的数据
+        User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
+        //登录后台交互过程
+        LoginProcess process = new LoginProcess();
+        process.setParamUser(user);
+        return process;
+    }
+
+    private void callbackForCacheLogin(User resultUser) {
+        User user = Cache.getInstance().getUser();
+        user.setToken(resultUser.getToken());
+        user.setNickName(resultUser.getNickName());
+        user.setPortraitURL(resultUser.getPortraitURL());
+        user.setUserImId(resultUser.getUserImId());
+        user.setBirthday(resultUser.getBirthday());
+        user.setGender(resultUser.getGender());
+        Cache.getInstance().refreshCacheUser();
     }
 
     private void fetchPublicKey(){
