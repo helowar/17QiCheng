@@ -11,15 +11,24 @@ public class Const {
      */
 
     public static class MobclickAgent{
+        //新增行程
         public static final String EVENT_ADD_TRIP = "add_trip";
+        //新增动态
         public static final String EVENT_ADD_ACTIVITY = "add_activity";
+        //进入聊天
         public static final String EVENT_BEGIN_CHAT = "begin_chat";
-        public static final String EVENT_IMAGE_UPLOAD = "upload_image";
+        //public static final String EVENT_IMAGE_UPLOAD = "upload_image";
+        //摇一摇
         public static final String EVENT_SHAKE_BENEFIT = "shake_benefit";
+        //转发福利
         public static final String EVENT_TRANS_BENEFIT = "trans_benefit";
+        //求福利
         public static final String EVENT_BEG_BENEFIT = "beg_benefit";
+        //分享动态
         public static final String EVENT_SHARE_ACTIVITY = "share_activity";
+        //赞
         public static final String EVENT_LIKE_ACTIVITY = "like_activity";
+        //取消赞
         public static final String EVENT_UNLIKE_ACTIVITY = "unlike_activity";
     }
 

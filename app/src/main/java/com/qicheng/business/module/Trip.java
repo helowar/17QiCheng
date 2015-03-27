@@ -38,6 +38,8 @@ public class Trip implements Serializable {
 
     private int stayDays = 1;
 
+    private int validBenefit;
+
     public String getTripDate() {
         return tripDate;
     }
@@ -156,5 +158,13 @@ public class Trip implements Serializable {
 
     public void setStayDays(int stayDays) {
         this.stayDays = stayDays;
+    }
+
+    public int getValidBenefit() {
+        return validBenefit;
+    }
+
+    public void setValidBenefit(int validBenefit) {
+        this.validBenefit = validBenefit;
     }
 }

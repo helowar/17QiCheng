@@ -490,6 +490,10 @@ public class TripListFragment extends BaseFragment {
     private void addNewTrip(Trip trip){
         pageList.add(0,trip);
         mAdapter.notifyDataSetChanged();
+        //移除当前展开的行程详情
+        removeDetailView(mListView);
+        //设置需展开的行程详情为第一个
+        unfoledPosition=0;
     }
 
     private void setImageViewWidth(ImageView view,int width){

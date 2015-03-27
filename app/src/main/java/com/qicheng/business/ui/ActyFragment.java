@@ -615,7 +615,7 @@ public class ActyFragment extends BaseFragment {
                     /*赞与取消赞的逻辑*/
                     if (bean.getIsLiked() == Const.INTERACT_ACTION_LIKED) {
                         //记录友盟事件
-                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_UNLIKE_ACTIVITY);
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_LIKE_ACTIVITY);
 
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) + 1) + "");
                         byte action = Const.INTERACT_ACTION_LIKED;
@@ -625,7 +625,7 @@ public class ActyFragment extends BaseFragment {
                         bean.setLikedNum((Integer.valueOf(holder.likeNum.getText().toString())));
                     } else {
                         //记录友盟事件
-                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_LIKE_ACTIVITY);
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_UNLIKE_ACTIVITY);
 
                         holder.likeNum.setText((Integer.valueOf(holder.likeNum.getText().toString()) - 1) + "");
                         byte action = Const.INTERACT_ACTION_CANCEL;

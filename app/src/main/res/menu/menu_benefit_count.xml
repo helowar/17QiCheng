@@ -6,6 +6,6 @@
   -->
 
 <menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.qicheng.business.ui.BenefitCountActivity">
+             tools:context="com.qicheng.business.ui.BenefitCountActivity">
 
 </menu>

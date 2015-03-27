@@ -229,6 +229,7 @@ public class MainActivity extends BaseFragmentActivity {
                 setTitle("消息");
                 break;
             case Const.INDEX_VOUCHER:
+                getMenuInflater().inflate(R.menu.menu_benefit, menu);
                 setTitle("福利");
                 break;
         }
@@ -287,7 +288,7 @@ public class MainActivity extends BaseFragmentActivity {
         findViewById(R.id.social_content).setVisibility(View.GONE);
         findViewById(R.id.acty_content).setVisibility(View.GONE);
         findViewById(R.id.message_content).setVisibility(View.GONE);
-        findViewById(R.id.user_content).setVisibility(View.GONE);
+        findViewById(R.id.benefit_content).setVisibility(View.GONE);
         findViewById(id).setVisibility(View.VISIBLE);
     }
 
@@ -335,12 +336,12 @@ public class MainActivity extends BaseFragmentActivity {
                 index = Const.INDEX_VOUCHER;
                 if (benefitFragment == null) {
                     benefitFragment = new BenifitFragment();
-                    getFragmentManager().beginTransaction().add(R.id.user_content, benefitFragment).commit();
+                    getFragmentManager().beginTransaction().add(R.id.benefit_content, benefitFragment).commit();
                 } else {
                     invalidateOptionsMenu();
                     benefitFragment.updateInitView();
                 }
-                activatedFrame(R.id.user_content);
+                activatedFrame(R.id.benefit_content);
                 break;
             case R.id.rbActy:
                 index = Const.INDEX_ACTIVITY;

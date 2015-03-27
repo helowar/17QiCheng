@@ -73,7 +73,7 @@
                             android:text="滴滴专车券"
                             android:textStyle="bold"
                             android:textColor="@color/gray_text"
-                            android:textSize="20sp"/>
+                            android:textSize="18sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -94,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15"
-                            android:textSize="35sp"
+                            android:textSize="18sp"
                             style="@style/benefit_text_style" />
                     </LinearLayout>
                 </LinearLayout>

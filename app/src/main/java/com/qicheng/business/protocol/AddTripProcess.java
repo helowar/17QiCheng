@@ -63,9 +63,8 @@ public class AddTripProcess extends BaseProcess {
              */
             JSONObject jsonArrayUserList = o.has("body") ? o.optJSONObject("body") : null;
             if(jsonArrayUserList!=null){
-                //更新底部福利数量提示
-                Const.Application.getBenefitChangedListener().updateBenefitBadge(jsonArrayUserList.optInt("benefit_num"));
                 this.result = this.param;
+                this.result.setValidBenefit(jsonArrayUserList.optInt("benefit_num"));
                 this.result.setStartUserList(getUserList(jsonArrayUserList.has("begin_travellers") ? jsonArrayUserList.optJSONArray("begin_travellers") : null));
                 this.result.setStopUserList(getUserList(jsonArrayUserList.has("end_travellers") ? jsonArrayUserList.optJSONArray("end_travellers") : null));
                 this.result.setTrainUserList(getUserList(jsonArrayUserList.has("train_travellers") ? jsonArrayUserList.optJSONArray("train_travellers") : null));
