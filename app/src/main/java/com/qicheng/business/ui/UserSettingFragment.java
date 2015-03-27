@@ -92,7 +92,9 @@ public class UserSettingFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case R.string.logout:
-                        /*跳转到我的动态*/
+                        /*回LoginActivity*/
+                        startActivity(new Intent(getActivity(),LoginActivity.class));
+                        getActivity().finish();
                         break;
                     default:
                         break;

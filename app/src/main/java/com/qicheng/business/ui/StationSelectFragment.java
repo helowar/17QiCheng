@@ -211,6 +211,8 @@ public class StationSelectFragment extends BaseFragment implements Serializable 
                                 case Success:
                                     //记录友盟事件
                                     MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_ADD_TRIP);
+                                    //更新底部福利数量提示
+                                    Const.Application.getBenefitChangedListener().updateBenefitBadge(result.getTrip().getValidBenefit());
                                     sendResult(Const.ActivityResultCode.RESULT_SUCCESS,result.getTrip());
                                     getActivity().finish();
                                     break;
