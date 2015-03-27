@@ -34,7 +34,7 @@ public class RegisterLabelSelectActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_label_select);
-        instance=this;
+        instance = this;
         linearLayout = (LinearLayout) findViewById(R.id.label_scroll_root);
         //获取测试数据
         Intent intent = getIntent();
@@ -131,15 +131,12 @@ public class RegisterLabelSelectActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            //Intent intent = new Intent(this,RegisterLabelSelectActivity.class);
-            //startActivity(intent);
             onBackPressed();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

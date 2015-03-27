@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -19,7 +20,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.qicheng.R;
-import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.framework.event.EventArgs;
@@ -223,19 +223,19 @@ public class UserCellnumupdateActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_user_information_cellnum_modify, menu);
+        ActionBar actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

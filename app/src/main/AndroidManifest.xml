@@ -242,21 +242,14 @@
         <activity
             android:name=".business.ui.ToDynActivity"
             android:label="@string/title_activity_trip_to_dyn"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.qicheng.framework.ui.base.BaseActivity" />
+            android:logo="@drawable/ic_user">
+
         </activity>
         <activity
             android:name=".business.ui.AlbumActivity"
             android:label="@string/title_activity_album"
             android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.qicheng.framework.ui.base.BaseActivity" />
-        </activity>
+            android:parentActivityName=".framework.ui.base.BaseActivity"></activity>
         <activity
             android:name=".business.ui.UserSettingActivity"
             android:label="@string/title_activity_user_setting"
@@ -281,36 +274,31 @@
         <activity
             android:name=".business.ui.BenefitRequestActivity"
             android:label="@string/title_activity_benefit_request"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
+            android:logo="@drawable/ic_user">
 
         </activity>
         <activity
             android:name=".business.ui.BenefitDetailActivity"
             android:label="@string/title_activity_benefit_detail"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
+            android:logo="@drawable/ic_user">
 
         </activity>
         <activity
             android:name=".business.ui.UserCellnumupdateActivity"
             android:label="@string/title_activity_user_information_cellnum_modify"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
+            android:logo="@drawable/ic_user">
 
         </activity>
         <activity
             android:name=".business.ui.AlbumItemActivity"
             android:label="@string/title_activity_album_item"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity">
+            android:logo="@drawable/ic_user">
 
         </activity>
         <activity
             android:name=".business.ui.UserPasswordUpdateActivity"
             android:label="@string/title_activity_user_setting_update_activity"
-            android:logo="@drawable/ic_user"
-            android:parentActivityName=".framework.ui.base.BaseActivity"></activity>
+            android:logo="@drawable/ic_user"></activity>
     </application>
 
 </manifest>
