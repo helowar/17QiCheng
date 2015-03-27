@@ -11,6 +11,7 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.UIEventListener;
 import com.qicheng.framework.ui.component.Loading;
+import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("HandlerLeak")
 public class BaseFragment extends Fragment {
@@ -45,15 +46,15 @@ public class BaseFragment extends Fragment {
     // loading
     // 不做类型检查，子类做
     public void startLoading() {
-        ((BaseActivity) getActivity()).startLoading();
+        ((BaseFragmentActivity) getActivity()).startLoading();
     }
 
     public void stopLoading() {
-        ((BaseActivity) getActivity()).stopLoading();
+        ((BaseFragmentActivity) getActivity()).stopLoading();
     }
 
     public Loading getLoading() {
-        return ((BaseActivity) getActivity()).getLoading();
+        return ((BaseFragmentActivity) getActivity()).getLoading();
     }
 
     ////////////////////数据加载处理///////////////////////////
@@ -133,7 +134,7 @@ public class BaseFragment extends Fragment {
     protected void removeFragment(int id) {
         // 正在销毁，不允许remove fragment
         // 否则异常java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-        if (((BaseActivity) getActivity()).isActyDestroyed()) {
+        if (((BaseFragmentActivity) getActivity()).isActyDestroyed()) {
             return;
         }
         Fragment fragment = findFragment(id);
@@ -179,5 +180,18 @@ public class BaseFragment extends Fragment {
         mActivityCreated = false;
         mEventListenerHelper.clear();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 }

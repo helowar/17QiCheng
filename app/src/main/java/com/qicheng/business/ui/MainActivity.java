@@ -1,7 +1,6 @@
 package com.qicheng.business.ui;
 
 import android.app.ActionBar;
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +19,7 @@ import com.qicheng.business.service.LocationService;
 import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.business.ui.component.BenefitChangedListener;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
@@ -29,7 +28,7 @@ import static com.qicheng.util.Const.Application;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseFragmentActivity {
 
     private static Logger logger = new Logger("com.qicheng.business.ui.MainActivity");
 
@@ -303,6 +302,8 @@ public class MainActivity extends BaseActivity {
                     invalidateOptionsMenu();
                     messageFragment.refresh();
                 }
+                // onresume时，取消notification显示
+                EMChatManager.getInstance().activityResumed();
                 activatedFrame(R.id.message_content);
                 break;
             case R.id.rbTrip:

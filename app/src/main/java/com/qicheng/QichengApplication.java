@@ -1,5 +1,6 @@
 package com.qicheng;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
@@ -28,6 +29,7 @@ import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,8 +42,8 @@ public class QichengApplication extends Application {
     public static Context applicationContext;
     private static QichengApplication instance;
 
-    private BaseActivity mShowingActivity = null;
-    private BaseActivity mCurrentActivity = null;
+    private Activity mShowingActivity = null;
+    private Activity mCurrentActivity = null;
     public boolean chatActivityAlive = false;
 
     public static QichengHXSDKHelper hxSDKHelper = new QichengHXSDKHelper();
@@ -52,7 +54,7 @@ public class QichengApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        MobclickAgent.openActivityDurationTrack(false);
         Const.Application = this;
         //初始化内存缓存
         Cache.getInstance().onCreate();
@@ -89,11 +91,11 @@ public class QichengApplication extends Application {
         return mBenefitChangedListener;
     }
 
-    public BaseActivity getCurrentActivity() {
+    public Activity getCurrentActivity() {
         return mCurrentActivity;
     }
 
-    public void setCurrentActivity(BaseActivity value) {
+    public void setCurrentActivity(Activity value) {
         mCurrentActivity = value;
     }
 
@@ -101,14 +103,14 @@ public class QichengApplication extends Application {
         return mShowingActivity == null;
     }
 
-    public void setActivityOnStop(BaseActivity activity) {
+    public void setActivityOnStop(Activity activity) {
         // 一般是先新activity onstart，再老activity onstop
         if (activity == mShowingActivity) {
             mShowingActivity = null;
         }
     }
 
-    public void setActivityOnStart(BaseActivity activity) {
+    public void setActivityOnStart(Activity activity) {
         mShowingActivity = activity;
     }
 

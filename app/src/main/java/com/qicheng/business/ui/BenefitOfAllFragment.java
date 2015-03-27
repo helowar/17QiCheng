@@ -40,6 +40,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -248,6 +249,8 @@ public class BenefitOfAllFragment extends BaseFragment {
             conversation.addMessage(message);
             benefitList.remove(targetBenefit);
             benefitListAdapter.notifyDataSetChanged();
+            //记录友盟事件
+            MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_TRANS_BENEFIT);
             Alert.Toast(targetBenefit.getName()+"已经发给"+targetUser.getNickName()+"了哦！");
         }
     }

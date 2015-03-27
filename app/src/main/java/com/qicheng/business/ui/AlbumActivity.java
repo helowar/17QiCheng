@@ -10,7 +10,6 @@ package com.qicheng.business.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.UserPhotoEventArgs;
 import com.qicheng.business.module.Photo;
-import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
@@ -34,9 +32,7 @@ import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.UIUtil;
 import com.qicheng.util.Const;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumActivity extends BaseActivity {
 

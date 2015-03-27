@@ -37,7 +37,7 @@ import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 import com.qicheng.util.Const;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @author 花树峰
  * @version 1.0 2015年2月1日
  */
-public class TravellerActivity extends BaseActivity {
+public class TravellerActivity extends BaseFragmentActivity {
 
     /**
      * 推荐车友Layout

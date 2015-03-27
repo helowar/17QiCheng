@@ -7,9 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.qicheng.R;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
-public class PersonalInformationActivity extends BaseActivity {
+public class PersonalInformationActivity extends BaseFragmentActivity {
     private UserInformationFragment userInformationModifyFragment;
     private static final int UPDATE_COMPLETE = 0;
 

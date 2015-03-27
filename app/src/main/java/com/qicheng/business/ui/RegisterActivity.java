@@ -3,9 +3,9 @@ package com.qicheng.business.ui;
 import android.os.Bundle;
 
 import com.qicheng.R;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseFragmentActivity {
 
     private RegisterFragment mRegisterFragment;
     private UserInfoInputFragment mUserInfoInputFragment;

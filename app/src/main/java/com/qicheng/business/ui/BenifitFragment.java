@@ -44,6 +44,7 @@ import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -122,6 +123,8 @@ public class BenifitFragment extends BaseFragment {
         mShakeListener = new ShakeListener(getActivity());
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             public void onShake() {
+                //记录友盟事件
+                MobclickAgent.onEvent(getActivity(),Const.MobclickAgent.EVENT_SHAKE_BENEFIT);
                 //Toast.makeText(getApplicationContext(), "抱歉，暂时没有找到在同一时刻摇一摇的人。\n再试一次吧！", Toast.LENGTH_SHORT).show();
                 startAnim();  //开始 摇一摇手掌动画
                 mShakeListener.stop();

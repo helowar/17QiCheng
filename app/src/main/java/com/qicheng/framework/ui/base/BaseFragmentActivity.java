@@ -1,3 +1,10 @@
+/*
+ * Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+ * This software is the confidential and proprietary information of QiCheng, Inc.
+ * You shall not disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into with QiCheng.
+ */
+
 package com.qicheng.framework.ui.base;
 
 import android.app.Activity;
@@ -24,13 +31,13 @@ import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
 
 
-public class BaseActivity extends Activity {
+public class BaseFragmentActivity extends Activity {
     private static final int notifiId = 11;
     protected NotificationManager notificationManager;
 
 
     // helper
-    public BaseActivity getActivity() {
+    public BaseFragmentActivity getActivity() {
         return this;
     }
 
@@ -115,10 +122,8 @@ public class BaseActivity extends Activity {
             mLoading.forceStop();
         }
         MobclickAgent.onPause(this);
-        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         Const.Application.setActivityOnStop(this);
         super.onPause();
-
     }
 
     @Override
@@ -126,7 +131,6 @@ public class BaseActivity extends Activity {
         super.onResume();
         Const.Application.setCurrentActivity(this);
         Const.Application.setActivityOnStart(this);
-        MobclickAgent.onPageStart(this.getClass().getSimpleName());
         MobclickAgent.onResume(this);
 //		DebugLogger.write("onResume " + this);
     }

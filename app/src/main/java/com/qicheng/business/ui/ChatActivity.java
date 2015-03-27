@@ -77,13 +77,17 @@ import com.qicheng.business.ui.chat.widget.PasteEditText;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private static final int REQUEST_CODE_EMPTY_HISTORY = 2;
@@ -171,6 +175,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     private String toChatUserNickName;
     private String toChatUserAvatar;
     private String source;
+
+    private long chatStartTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -737,6 +743,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             listView.setSelection(listView.getCount() - 1);
             mEditTextContent.setText("");
             setResult(RESULT_OK);
+            //记录友盟事件
+            MobclickAgent.onEvent(getActivity(),Const.MobclickAgent.EVENT_TRANS_BENEFIT);
         }
     }
 
@@ -1337,6 +1345,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void onPause() {
+        //记录友盟事件
+        Long dur = new Long (((new Date()).getTime()-chatStartTime)/1000);
+        int durSec = dur.intValue();
+        Map<String, String> map_value = new HashMap<String, String>();
+        map_value.put("source", source);
+        MobclickAgent.onEventValue(this, Const.MobclickAgent.EVENT_BEGIN_CHAT, map_value, durSec);
+
         super.onPause();
         if (wakeLock.isHeld())
             wakeLock.release();
@@ -1358,6 +1373,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
+        chatStartTime = (new Date()).getTime();
 //        if(group != null)
 //            ((TextView) findViewById(R.id.name)).setText(group.getGroupName());
         adapter.refresh();

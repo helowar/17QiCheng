@@ -1,16 +1,12 @@
 package com.qicheng.business.ui;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.qicheng.R;
-import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 import com.qicheng.framework.util.Logger;
 
-public class AddTripActivity extends BaseActivity {
+public class AddTripActivity extends BaseFragmentActivity {
 
     private static final Logger logger = new Logger("com.qicheng.business.ui.AddTripActivity");
 

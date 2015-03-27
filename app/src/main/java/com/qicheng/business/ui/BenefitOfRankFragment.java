@@ -39,6 +39,7 @@ import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 
@@ -171,6 +172,8 @@ public class BenefitOfRankFragment extends BaseFragment {
                         //设置发送福利的标识
                         // 把messgage加到conversation中
                         conversation.addMessage(message);
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_BEG_BENEFIT);
                         Alert.Toast( "已向"+targetUser.getNickName() + "求援，耐心等待吧！");
                     }
                 });

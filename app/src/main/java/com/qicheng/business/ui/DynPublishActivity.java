@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -41,6 +40,8 @@ import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -261,6 +262,8 @@ public class DynPublishActivity extends BaseActivity {
                 OperErrorCode errCode = dynEventAargs.getErrCode();
                 switch (errCode) {
                     case Success:
+                        //记录友盟事件
+                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_ADD_ACTIVITY);
                         sentAnswerResult(true);
                         break;
                     case ResultNotPermit:

@@ -8,8 +8,9 @@ import android.view.MenuItem;
 
 import com.qicheng.R;
 import com.qicheng.framework.ui.base.BaseActivity;
+import com.qicheng.framework.ui.base.BaseFragmentActivity;
 
-public class UserSettingActivity extends BaseActivity {
+public class UserSettingActivity extends BaseFragmentActivity {
     private UserSettingFragment userSettingFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
