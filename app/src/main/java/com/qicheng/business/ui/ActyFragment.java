@@ -658,8 +658,7 @@ public class ActyFragment extends BaseFragment {
                     Intent i = new Intent();
                     i.setClass(getActivity(), ChatActivity.class);
                     if (StringUtil.isEmpty(title)) {
-                        title
-                                = "关联";
+                        title = "关联";
                     }
                     i.putExtra(Const.Intent.FRIEND_SOURCE_KEY, title);
                     i.putExtra(Const.Intent.HX_USER_ID, bean.getUserImId());

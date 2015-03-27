@@ -220,7 +220,9 @@ public class UserPasswordUpdateActivity extends BaseActivity {
     }
 
     /**
-     * 执行登录过程
+     * 修改密码
+     *
+     * @param cellNum
      */
     private void doModify(String cellNum) {
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
