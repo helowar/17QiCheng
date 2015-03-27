@@ -23,8 +23,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_info_portrait_image_view"
-                android:layout_width="@dimen/avatars_view_width_100dp"
-                android:layout_height="@dimen/avatars_view_height_100dp"
+                android:layout_width="@dimen/avatars_view_width_80dp"
+                android:layout_height="@dimen/avatars_view_height_80dp"
                 android:layout_margin="@dimen/half_gap"
                 android:src="@drawable/ic_default_portrait" />
 
@@ -105,7 +105,7 @@
 
             <TextView
                 android:id="@+id/user_info_tag_label_text_view"
-                android:layout_width="35dp"
+                android:layout_width="@dimen/two_double_gap"
                 android:layout_height="match_parent"
                 android:background="@color/main"
                 android:gravity="center|center_vertical"
@@ -117,7 +117,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/half_gap"
+                android:paddingBottom="@dimen/common_gap">
 
                 <com.qicheng.business.ui.component.LabelViewGroup
                     android:id="@+id/user_info_tag_view_group"
@@ -135,7 +137,7 @@
 
             <TextView
                 android:id="@+id/user_info_photo_text_view"
-                android:layout_width="35dp"
+                android:layout_width="@dimen/two_double_gap"
                 android:layout_height="match_parent"
                 android:background="@color/main"
                 android:gravity="center|center_vertical"

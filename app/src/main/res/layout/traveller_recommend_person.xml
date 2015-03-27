@@ -7,8 +7,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/traveller_recommend_person_img"
-        android:layout_width="@dimen/avatars_view_width_100dp"
-        android:layout_height="@dimen/avatars_view_height_100dp"
+        android:layout_width="@dimen/avatars_view_width_72dp"
+        android:layout_height="@dimen/avatars_view_height_72dp"
         android:layout_margin="@dimen/half_gap"
         android:src="@drawable/ic_default_portrait" />
 </LinearLayout>

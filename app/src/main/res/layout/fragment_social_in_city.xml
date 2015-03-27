@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/social_recommend_text"
-            android:layout_width="35dp"
+            android:layout_width="@dimen/two_double_gap"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
@@ -50,7 +50,7 @@
     <LinearLayout
         android:id="@+id/social_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/two_double_gap"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
@@ -58,7 +58,7 @@
         <Button
             android:id="@+id/social_person_come_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/main"
             android:text="@string/social_person_come_btn_text"
@@ -68,7 +68,7 @@
         <Button
             android:id="@+id/social_person_leave_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
             android:text="@string/social_person_leave_btn_text"

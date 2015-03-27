@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/passenger_recommend_text"
-            android:layout_width="35dp"
+            android:layout_width="@dimen/two_double_gap"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
@@ -40,7 +40,7 @@
     <LinearLayout
         android:id="@+id/passenger_btn_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/two_double_gap"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
@@ -48,7 +48,7 @@
         <Button
             android:id="@+id/passenger_not_on_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/main"
             android:text="@string/passenger_not_on_btn_text"
@@ -58,7 +58,7 @@
         <Button
             android:id="@+id/passenger_on_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
             android:text="@string/passenger_on_btn_text"
@@ -68,7 +68,7 @@
         <Button
             android:id="@+id/passenger_off_btn"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/bg_form_input_container"
             android:text="@string/passenger_off_btn_text"

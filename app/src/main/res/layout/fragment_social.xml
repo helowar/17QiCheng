@@ -21,7 +21,7 @@
 
         <TextView
             android:id="@+id/social_recommend_text"
-            android:layout_width="35dp"
+            android:layout_width="@dimen/two_double_gap"
             android:layout_height="match_parent"
             android:background="@color/main"
             android:gravity="center|center_vertical"
@@ -50,7 +50,7 @@
     <LinearLayout
         android:id="@+id/social_text_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/two_double_gap"
         android:layout_margin="@dimen/zero"
         android:orientation="horizontal"
         android:padding="@dimen/zero">
@@ -58,13 +58,13 @@
         <TextView
             android:id="@+id/social_person_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/bg_form_input_container"
+            android:background="@color/main"
             android:paddingBottom="@dimen/half_gap"
             android:paddingLeft="@dimen/form_padding"
             android:text="@string/social_relation_person_text"
-            android:textColor="@color/main"
+            android:textColor="@color/white"
             android:textSize="@dimen/font_size_18sp" />
     </LinearLayout>
 
