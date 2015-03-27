@@ -17,18 +17,28 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.BenefitLogic;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
 import com.qicheng.business.module.BenefitUserRank;
+import com.qicheng.business.module.User;
+import com.qicheng.business.ui.chat.utils.Constant;
+import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.StringUtil;
+import com.qicheng.util.Const;
 
 import java.util.List;
 
@@ -104,10 +114,6 @@ public class BenefitOfRankFragment extends BaseFragment {
 
         private List<BenefitUserRank> list;
 
-        BenefitListAdapter(Context context) {
-            this.context = context;
-        }
-
         BenefitListAdapter(Context context, List<BenefitUserRank> list) {
             this.context = context;
             this.list = list;
@@ -130,35 +136,63 @@ public class BenefitOfRankFragment extends BaseFragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                BenefitUserRank rank = list.get(position);
+            final BenefitUserRank rank = list.get(position);
+
+            if (convertView == null)
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.layout_benefit__item_rank, null);
-                ImageView portrait = (ImageView) convertView.findViewById(R.id.portrait_img);
-                ImageManager.displayPortrait(rank.getPortraitUrl(), portrait);
-                TextView name = (TextView) convertView.findViewById(R.id.user_name);
-                name.setText(rank.getUserName());
-                TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
-                benefitNum.setText(String.valueOf(rank.getBenefitNum()));
-                ImageView benefitWinner = (ImageView) convertView.findViewById(R.id.benefit_winner);
-                /*
-                 *前三名的皇冠
-                 */
-                switch (position) {
-                    case 0:
-                        benefitWinner.setImageResource(R.drawable.ic_gold);
-                        break;
-                    case 1:
-                        benefitWinner.setImageResource(R.drawable.ic_silver);
-                        break;
-                    case 2:
-                        benefitWinner.setImageResource(R.drawable.ic_copper);
-                        break;
-                    default:
-                        benefitWinner.setVisibility(View.GONE);
-                }
 
-
+            ImageView portrait = (ImageView) convertView.findViewById(R.id.portrait_img);
+            ImageManager.displayPortrait(rank.getPortraitUrl(), portrait);
+            TextView name = (TextView) convertView.findViewById(R.id.user_name);
+            name.setText(rank.getUserName());
+            TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
+            benefitNum.setText(String.valueOf(rank.getBenefitNum()));
+            ImageView benefitWinner = (ImageView) convertView.findViewById(R.id.benefit_winner);
+            ImageView begView = (ImageView)convertView.findViewById(R.id.imageview_beg);
+            if(rank.getUserImId().equals(Cache.getInstance().getUser().getUserImId())){
+                begView.setVisibility(View.GONE);
+            }else{
+                begView.setVisibility(View.VISIBLE);
+                begView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        User targetUser = new User();
+                        targetUser.setUserImId(rank.getUserImId());
+                        targetUser.setNickName(rank.getUserName());
+                        targetUser.setPortraitURL(rank.getPortraitUrl());
+                        EMConversation conversation = EMChatManager.getInstance().getConversation(targetUser.getUserImId());
+                        EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+                        BenefitOfAllFragment.setUserInfoIntoMessage(message, targetUser);
+                        TextMessageBody txtBody = new TextMessageBody("福利用完啦"+ SmileUtils.ee_11+"！求土豪支援"+SmileUtils.ee_13);
+                        // 设置消息body
+                        message.addBody(txtBody);
+                        // 设置要发给谁,用户username或者群聊groupid
+                        message.setReceipt(targetUser.getUserImId());
+                        //设置发送福利的标识
+                        // 把messgage加到conversation中
+                        conversation.addMessage(message);
+                        Alert.Toast( "已向"+targetUser.getNickName() + "求援，耐心等待吧！");
+                    }
+                });
             }
+            /*
+             *前三名的皇冠
+             */
+            switch (position) {
+                case 0:
+                    benefitWinner.setImageResource(R.drawable.ic_gold);
+                    break;
+                case 1:
+                    benefitWinner.setImageResource(R.drawable.ic_silver);
+                    break;
+                case 2:
+                    benefitWinner.setImageResource(R.drawable.ic_copper);
+                    break;
+                default:
+                    benefitWinner.setVisibility(View.GONE);
+            }
+
+
             return convertView;
         }
     }
