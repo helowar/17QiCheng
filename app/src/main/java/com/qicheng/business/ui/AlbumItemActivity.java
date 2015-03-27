@@ -32,6 +32,9 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 照片详细页面
+ */
 public class AlbumItemActivity extends FragmentActivity {
     /**
      * 相册的ViewPager

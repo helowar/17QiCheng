@@ -138,6 +138,28 @@ public class HttpComm {
         }
     }
 
+    public String post(String url, String param){
+        this.mUrl = url;
+        HttpPost request = new HttpPost(url);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        if (!StringUtil.isEmpty(param)) {
+            try {
+                byte[] paramBytes = param.getBytes("UTF-8");
+                BasicHttpEntity requestBody = new BasicHttpEntity();
+                requestBody.setContent(new ByteArrayInputStream(paramBytes));
+                requestBody.setContentLength(paramBytes.length);
+                request.setEntity(requestBody);
+                request.setHeader("Accept", "application/json");
+                request.setHeader("Content-Type", "application/json;charset=utf-8");
+            } catch (Exception e) {
+                this.postEvent(null);
+                return null;
+            }
+        }
+        return work(request);
+    }
+
     private void postEvent(String result) {
         if (this.mCallback != null) {
             this.mCallback.onResponse(result != null ? HttpDownloaderResult.eSuccessful : HttpDownloaderResult.eNone, this.mUrl, result);

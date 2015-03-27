@@ -2,7 +2,6 @@ package com.qicheng.business.protocol;
 
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
-import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
@@ -42,10 +41,10 @@ public class RegisterProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
+    protected void onResult(JSONObject o) {
         try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
+
+
             //获取状态码
             int value = o.optInt("result_code");
             if(value==0||value==17){

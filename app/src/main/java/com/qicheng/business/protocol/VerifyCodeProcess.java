@@ -22,6 +22,8 @@ public class VerifyCodeProcess extends BaseProcess {
 
     private User mResultUser;
 
+    private int actionType;
+
     @Override
     protected String getRequestUrl() {
         return url;
@@ -36,7 +38,7 @@ public class VerifyCodeProcess extends BaseProcess {
         try {
             //组装传入服务端参数
             JSONObject o = new JSONObject();
-            o.put("action_type", "0");
+            o.put("action_type", actionType);
             o.put("cell_num", mParamUser.getCellNum());
             return RSACoder.getInstance().encryptByPublicKey(o.toString(), Cache.getInstance().getPublicKey());
         } catch (Exception e) {
@@ -46,21 +48,18 @@ public class VerifyCodeProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-            setStatus(ProcessStatus.Status.ErrUnkown);
-        }
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
     }
 
     @Override
     protected String getFakeResult() {
         return null;
+    }
+
+    public void setActionType(int actionType) {
+        this.actionType = actionType;
     }
 }

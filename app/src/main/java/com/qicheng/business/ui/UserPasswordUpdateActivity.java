@@ -1,23 +1,25 @@
+/*
+ * Copyright(c) 2015, QiCheng, Inc. All rights reserved.
+ * This software is the confidential and proprietary information of QiCheng, Inc.
+ * You shall not disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into with QiCheng.
+ */
+
 package com.qicheng.business.ui;
 
-
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.qicheng.R;
+import com.qicheng.business.cache.Cache;
 import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.UserLogic;
 import com.qicheng.framework.event.EventArgs;
@@ -25,18 +27,14 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.event.StatusEventArgs;
-import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class RegisterFragment extends BaseFragment {
-
-    private static Logger logger = new Logger("com.qicheng.business.ui.RegisterFragment");
+public class UserPasswordUpdateActivity extends BaseActivity {
+    private static Logger logger = new Logger("com.qicheng.business.ui.UserPasswordUpdateActivity");
 
     /**
      * 控件成员
@@ -46,63 +44,41 @@ public class RegisterFragment extends BaseFragment {
     private EditText mMobileNumber;
     private EditText mVerifyCode;
     private EditText mUserPwd;
+    private LinearLayout mCellNumContainer;
     private CountDownTimer timer;
-
-
-    public RegisterFragment() {
-        // Required empty public constructor
-    }
+    private String cellNum;
+    private byte resource;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        getActivity().setTitle(getResources().getString(R.string.title_activity_register));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //跳转至登录
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        setContentView(R.layout.activity_user_setting_update_acrivity);
+        resource = getIntent().getExtras().getByte(Const.Intent.UPDATE_PASSWORD_RESOURCE);
+        mCellNumContainer = (LinearLayout) findViewById(R.id.cell_num_container);
+        if (resource == Const.UPDATE_PWD_FROM_MODIFY) {
+            cellNum = Cache.getInstance().getUser().getUserId();
+            mCellNumContainer.setVisibility(View.GONE);
         }
-
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_register, menu);
-        ActionBar bar = getActivity().getActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View fragmentView = inflater.inflate(R.layout.fragment_register, container, false);
-        //验证码按钮
-        mVerifyCodeButton = (Button) fragmentView.findViewById(R.id.button_get_verify_code);
+        mVerifyCodeButton = (Button) findViewById(R.id.button_get_verify_code);
         //注册按钮
-        mSubmitButton = (Button) fragmentView.findViewById(R.id.button_register);
+        mSubmitButton = (Button) findViewById(R.id.button_register);
         //获取手机号码输入控件
-        mMobileNumber = (EditText) fragmentView.findViewById(R.id.edittext_mobile);
+        mMobileNumber = (EditText) findViewById(R.id.edittext_mobile);
         //获取验证码输入控件
-        mVerifyCode = (EditText) fragmentView.findViewById(R.id.editText_verify_code);
+        mVerifyCode = (EditText) findViewById(R.id.editText_verify_code);
         //获取密码输入控件
-        mUserPwd = (EditText) fragmentView.findViewById(R.id.edittext_pwd);
+        mUserPwd = (EditText) findViewById(R.id.edittext_pwd);
 
         mVerifyCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
-                String cellNum = mMobileNumber.getText().toString();
+
+                if (resource == Const.UPDATE_PWD_FROM_FORGET) {
+                    cellNum = mMobileNumber.getText().toString();
+                } else {
+                    cellNum = Cache.getInstance().getUser().getUserId();
+                }
+                logger.d(cellNum);
                 //判断手机号码是否合法
                 if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
                     Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
@@ -114,6 +90,7 @@ public class RegisterFragment extends BaseFragment {
                         public void onTick(long millisUntilFinished) {
                             mVerifyCodeButton.setText(millisUntilFinished / 1000 + getResources().getString(R.string.verify_code_wait_msg));
                         }
+
                         public void onFinish() {
                             mVerifyCodeButton.setEnabled(true);
                             mVerifyCodeButton.setText(getResources().getString(R.string.get_verify_code_button));
@@ -122,31 +99,33 @@ public class RegisterFragment extends BaseFragment {
                     /**
                      * 获取验证码
                      */
-                    getVerifyCode();
+                    getVerifyCode(cellNum);
                 }
             }
         });
 
-        mMobileNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //Do nothing
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mVerifyCode.getText().toString()) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
-                    mSubmitButton.setEnabled(true);
-                } else {
-                    mSubmitButton.setEnabled(false);
+        if (resource == Const.UPDATE_PWD_FROM_FORGET) {
+            mMobileNumber.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    //Do nothing
                 }
-            }
-        });
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    //Do nothing
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mVerifyCode.getText().toString()) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
+                        mSubmitButton.setEnabled(true);
+                    } else {
+                        mSubmitButton.setEnabled(false);
+                    }
+                }
+            });
+        }
 
         mVerifyCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -161,7 +140,7 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mMobileNumber.getText().toString()) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
+                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(cellNum) && !StringUtil.isEmpty(mUserPwd.getText().toString())) {
                     mSubmitButton.setEnabled(true);
                 } else {
                     mSubmitButton.setEnabled(false);
@@ -182,7 +161,7 @@ public class RegisterFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(mMobileNumber.getText().toString()) && !StringUtil.isEmpty(mVerifyCode.getText().toString())) {
+                if (!StringUtil.isEmpty(s.toString()) && !StringUtil.isEmpty(cellNum) && !StringUtil.isEmpty(mVerifyCode.getText().toString())) {
                     mSubmitButton.setEnabled(true);
                 } else {
                     mSubmitButton.setEnabled(false);
@@ -193,26 +172,35 @@ public class RegisterFragment extends BaseFragment {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String cellNum = mMobileNumber.getText().toString();
-                if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
-                    Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
-                    return;
+                if (resource == Const.UPDATE_PWD_FROM_FORGET) {
+                    cellNum = mMobileNumber.getText().toString();
+                    if (StringUtil.isEmpty(cellNum) || !StringUtil.isMobileNum(cellNum)) {
+                        Alert.Toast(getResources().getString(R.string.illegal_cell_num_msg));
+                        return;
+                    }
+                    if (StringUtil.isEmpty(mUserPwd.getText().toString()) || StringUtil.isEmpty(mVerifyCode.getText().toString())) {
+                        Alert.Toast("请填写正确信息");
+                    }
+                    doModify(mMobileNumber.getText().toString());
+                } else if (resource == Const.UPDATE_PWD_FROM_MODIFY) {
+                    if (StringUtil.isEmpty(mUserPwd.getText().toString()) || StringUtil.isEmpty(mVerifyCode.getText().toString())) {
+                        Alert.Toast("请填写正确信息");
+                    }
+                    doModify(Cache.getInstance().getUser().getUserId());
                 }
-                if (StringUtil.isEmpty(mUserPwd.getText().toString()) || StringUtil.isEmpty(mVerifyCode.getText().toString())) {
-                    Alert.Toast("请填写正确注册信息");
-                }
-                // TODO:调用注册逻辑
-                doRegister();
+
             }
         });
-        return fragmentView;
     }
 
-
-    private void getVerifyCode() {
+    /**
+     * 获取验证码
+     * @param cellNum
+     */
+    private void getVerifyCode(String cellNum) {
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
         logger.d("Public key is:------*" + userLogic.getPublicKey() + "*--------");
-        userLogic.getVerifyCode(mMobileNumber.getText().toString(), Const.ACTION_TYPE_REGISTER, createUIEventListener(new EventListener() {
+        userLogic.getVerifyCode(cellNum, Const.ACTION_TYPE_FIND, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
@@ -232,16 +220,16 @@ public class RegisterFragment extends BaseFragment {
     /**
      * 执行登录过程
      */
-    private void doRegister() {
+    private void doModify(String cellNum) {
         UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
-        userLogic.userRegister(mMobileNumber.getText().toString(), mUserPwd.getText().toString(), mVerifyCode.getText().toString(), createUIEventListener(new EventListener() {
+        userLogic.updatePassword(cellNum, mUserPwd.getText().toString(), mVerifyCode.getText().toString(), createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 stopLoading();
                 OperErrorCode errCode = ((StatusEventArgs) args).getErrCode();
                 switch (errCode) {
                     case Success:
-                        getActivity().getFragmentManager().beginTransaction().replace(R.id.form_register,new UserInfoInputFragment()).commit();
+                        finish();
                         break;
                     case CellNumExist:
                         Alert.Toast(getResources().getString(R.string.cell_num_already_exist_err_msg));
@@ -256,7 +244,7 @@ public class RegisterFragment extends BaseFragment {
                         Alert.showNetAvaiable();
                         break;
                     default:
-                        Alert.Toast("注册失败");
+                        Alert.Toast("修改失败");
                         break;
                 }
             }
@@ -265,11 +253,22 @@ public class RegisterFragment extends BaseFragment {
         startLoading();
     }
 
+
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (timer != null) {
-            timer.cancel();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_user_setting_update_acrivity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 }

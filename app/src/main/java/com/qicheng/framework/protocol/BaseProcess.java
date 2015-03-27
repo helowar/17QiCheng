@@ -11,6 +11,9 @@ import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 服务器协议通信单元基类
  *
@@ -35,7 +38,7 @@ abstract public class BaseProcess {
     /**
      * 通信完成，解析结果，派生类实现
      */
-    abstract protected void onResult(String result);
+    abstract protected void onResult(JSONObject result);
 
     /**
      * 获得测试用假数据
@@ -131,6 +134,7 @@ abstract public class BaseProcess {
 
         private String mRequestId = "";
         private ResponseListener mListener = null;
+        private String parameter;
 
         public AsyncComm(String requestId, ResponseListener listener) {
             mRequestId = requestId;
@@ -158,7 +162,7 @@ abstract public class BaseProcess {
                 url=url+"&t="+token;
             }
 
-            String parameter = getInfoParameter();
+            parameter = getInfoParameter();
             if (!StringUtil.isEmpty(parameter)) {
                 parameter = parameter.replace("\\/", "/");
             }
@@ -175,12 +179,13 @@ abstract public class BaseProcess {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                 }
-                onResult(getFakeResult());
+//                onResult(getFakeResult());
                 return null;
             }
 
 
-            new HttpComm(false).post(url, parameter, new HttpResultCallback() {
+            final HttpComm comm  = new HttpComm(false);
+            comm.post(url, parameter, new HttpResultCallback() {
 
                 @Override
                 public void onResponse(HttpDownloaderResult success, String url,
@@ -190,7 +195,18 @@ abstract public class BaseProcess {
                         logger.d(String.format("recv name:%s url:%s result:%s",
                                 clazz, url, message));
                         mStatus = ProcessStatus.Status.Success;
-                        onResult(message);
+                        try{
+                            JSONObject o = new JSONObject(message);
+                            if(commonExceptionHandler(o)){
+                                onResult(o);
+                            }else{
+                                //可自恢复的异常
+                                onResult(Const.Application.reLoginAndRepeat(url,parameter));
+                            }
+                        }catch (JSONException e){
+                            logger.d("recv response url:" + url + "; fail");
+                            mStatus = ProcessStatus.Status.ErrNetDisable;
+                        }
                     } else {
                         logger.d("recv response url:" + url + "; fail");
                         mStatus = ProcessStatus.Status.ErrNetDisable;
@@ -202,6 +218,18 @@ abstract public class BaseProcess {
                 }
             });
             return null;
+        }
+
+        private boolean commonExceptionHandler(JSONObject message){
+           int resultCode =  message.optInt("result_code");
+           switch (resultCode){
+               case Const.ResponseResultCode.RESULT_NOT_LOGINED:
+                   return false;
+               case Const.ResponseResultCode.RESULT_LOGIN_TIMEOUT:
+                   return false;
+               default:
+                   return true;
+           }
         }
 
         @Override

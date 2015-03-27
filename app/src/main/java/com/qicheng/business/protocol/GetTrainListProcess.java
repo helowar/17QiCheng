@@ -35,31 +35,22 @@ public class GetTrainListProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            logger.d("Get train list result:"+result);
-            if(value ==0){
-                /**
-                 * 获取列表并缓存
-                 */
-                JSONArray trains = o.optJSONArray("body");
-                Set<String> trainCodeSet = new HashSet<String>();
-                for(int i =0;i<trains.length();i++){
-                    trainCodeSet.add((trains.getString(i)));
-                }
-                Cache.getInstance().setTrainList(trainCodeSet);
-                logger.d("Success get and cache the train list with the length:"+trainCodeSet.size());
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        if(value ==0){
+            /**
+             * 获取列表并缓存
+             */
+            JSONArray trains = o.optJSONArray("body");
+            Set<String> trainCodeSet = new HashSet<String>();
+            for(int i =0;i<trains.length();i++){
+                trainCodeSet.add((trains.optString(i)));
             }
-            setProcessStatus(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-            setStatus(ProcessStatus.Status.ErrUnkown);
+            Cache.getInstance().setTrainList(trainCodeSet);
+            logger.d("Success get and cache the train list with the length:"+trainCodeSet.size());
         }
-
+        setProcessStatus(value);
     }
 
     @Override

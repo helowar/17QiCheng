@@ -66,20 +66,13 @@ public class TransferBenefitProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try{
-            JSONObject o = new JSONObject(result);
-            //获取结果代码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-            if(value==0){
-
-            }
-        }catch (JSONException e){
+    protected void onResult(JSONObject o) {
+        //获取结果代码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
+        if(value==0){
 
         }
-
-
     }
 
     @Override

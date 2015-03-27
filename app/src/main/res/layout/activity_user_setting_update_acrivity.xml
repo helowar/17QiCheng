@@ -19,7 +19,7 @@
             style="@style/FormEditText"
             android:imeOptions="actionNext"
             android:inputType="phone"
-            android:hint="@string/new_cell_num_is_empty"
+            android:hint="@string/username_is_empty"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -43,6 +43,23 @@
             android:enabled="true"
             android:layout_weight="1"
             style="@style/NormalButton" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/FormInputContainerWithBorder">
+
+        <TextView
+            android:text="@string/new_pwd_text"
+            style="@style/InputTitle" />
+
+        <EditText
+            android:id="@+id/edittext_pwd"
+            android:layout_width="@dimen/zero"
+            android:layout_height="match_parent"
+            style="@style/FormEditText"
+            android:hint="@string/pwd_hint_msg"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout style="@style/FormInputContainer">

@@ -38,24 +38,17 @@ public class GetTripRelatedCityList extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            logger.d("Get Trip related city list result:"+result);
-            if(value ==0){
-                /**
-                 * 获取列表并缓存
-                 */
-                this.result = o.getString("body");
-            }
-            setProcessStatus(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-            setStatus(ProcessStatus.Status.ErrUnkown);
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        logger.d("Get Trip related city list result:"+result);
+        if(value ==0){
+            /**
+             * 获取列表并缓存
+             */
+            this.result = o.optString("body");
         }
+        setProcessStatus(value);
     }
 
     @Override

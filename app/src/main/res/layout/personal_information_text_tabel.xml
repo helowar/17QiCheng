@@ -47,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_test_img"
                 android:layout_toLeftOf="@id/ic_arrow"
-                android:textColor="@color/gray_text"
-                android:text="文本" />
+                android:textColor="@color/gray_text" />
 
             <ImageView
                 android:id="@+id/ic_arrow"

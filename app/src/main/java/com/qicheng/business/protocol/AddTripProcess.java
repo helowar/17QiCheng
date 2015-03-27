@@ -52,35 +52,27 @@ public class AddTripProcess extends BaseProcess {
     }
 
     @Override
-    protected void onResult(String result) {
-        try {
-            //取回的JSON结果
-            JSONObject o = new JSONObject(result);
-            //获取状态码
-            int value = o.optInt("result_code");
-            setProcessStatus(value);
-            logger.d("Add Trip result:"+result);
-            if(value ==0){
-                /**
-                 * 获取添加行程中的用户
-                 */
-                JSONObject jsonArrayUserList = o.has("body") ? o.optJSONObject("body") : null;
-                if(jsonArrayUserList!=null){
-                    //更新底部福利数量提示
-                    Const.Application.getBenefitChangedListener().updateBenefitBadge(jsonArrayUserList.optInt("benefit_num"));
-                    this.result = this.param;
-                    this.result.setStartUserList(getUserList(jsonArrayUserList.has("begin_travellers") ? jsonArrayUserList.optJSONArray("begin_travellers") : null));
-                    this.result.setStopUserList(getUserList(jsonArrayUserList.has("end_travellers") ? jsonArrayUserList.optJSONArray("end_travellers") : null));
-                    this.result.setTrainUserList(getUserList(jsonArrayUserList.has("train_travellers") ? jsonArrayUserList.optJSONArray("train_travellers") : null));
-                }
-            }else{
-                setStatus(ProcessStatus.Status.InfoNoData);
+    protected void onResult(JSONObject o) {
+        //获取状态码
+        int value = o.optInt("result_code");
+        setProcessStatus(value);
+        logger.d("Add Trip result:"+result);
+        if(value ==0){
+            /**
+             * 获取添加行程中的用户
+             */
+            JSONObject jsonArrayUserList = o.has("body") ? o.optJSONObject("body") : null;
+            if(jsonArrayUserList!=null){
+                //更新底部福利数量提示
+                Const.Application.getBenefitChangedListener().updateBenefitBadge(jsonArrayUserList.optInt("benefit_num"));
+                this.result = this.param;
+                this.result.setStartUserList(getUserList(jsonArrayUserList.has("begin_travellers") ? jsonArrayUserList.optJSONArray("begin_travellers") : null));
+                this.result.setStopUserList(getUserList(jsonArrayUserList.has("end_travellers") ? jsonArrayUserList.optJSONArray("end_travellers") : null));
+                this.result.setTrainUserList(getUserList(jsonArrayUserList.has("train_travellers") ? jsonArrayUserList.optJSONArray("train_travellers") : null));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            setStatus(ProcessStatus.Status.ErrUnkown);
+        }else{
+            setStatus(ProcessStatus.Status.InfoNoData);
         }
-
     }
 
     @Override

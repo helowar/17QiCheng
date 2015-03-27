@@ -87,7 +87,7 @@ public class UserInformationFragment extends BaseFragment {
      * 初始化View视图
      *
      * @param inflater
-    */
+     */
     public void initView(LayoutInflater inflater) {
         linearLayout = (LinearLayout) view.findViewById(R.id.label_scroll_root);
         UserDetail userDetail = (UserDetail) getActivity().getIntent().getExtras().get(USER_DETAIL_KEY);
@@ -112,9 +112,6 @@ public class UserInformationFragment extends BaseFragment {
         initViewItem(inflater, R.string.personal_home_text, userDetail.getHometown());
         /*添加分割段*/
         addSeparation(inflater);
-
-         /*手机号码*/
-        initViewItem(inflater, R.string.personal_cell_text, user.getCellNum());
 
 
     }
