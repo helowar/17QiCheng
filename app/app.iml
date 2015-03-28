@@ -93,14 +93,15 @@
     <orderEntry type="library" exported="" name="ShareSDK-QQ-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="mframework" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-SinaWeibo-2.5.8" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.1.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Core-2.5.8" level="project" />
+    <orderEntry type="library" exported="" name="httpmime-4.1.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="locSDK_5.01" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.5.8" level="project" />
     <orderEntry type="library" exported="" name="qps-crypt-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="baidumapapi_v3_2_0" level="project" />
+    <orderEntry type="library" exported="" name="umeng-update-v2.6.0.1" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-2.5.8" level="project" />
   </component>
 </module>
