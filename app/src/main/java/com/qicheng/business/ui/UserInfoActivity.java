@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -108,7 +107,7 @@ public class UserInfoActivity extends BaseActivity {
         TextView nicknameTextView = (TextView) findViewById(R.id.user_info_nickname_text_view);
         ImageView genderImageView = (ImageView) findViewById(R.id.user_info_gender_image_view);
         TextView ageTextView = (TextView) findViewById(R.id.user_info_age_text_view);
-        Button senderBtn = (Button) findViewById(R.id.user_info_sender_btn);
+        ImageView senderImage = (ImageView) findViewById(R.id.user_info_sender_image);
         tagViewGroup = (ViewGroup) findViewById(R.id.user_info_tag_view_group);
         HorizontalScrollListView photoListView = (HorizontalScrollListView) findViewById(R.id.user_info_photo_list_view);
         photoLayout = (LinearLayout) findViewById(R.id.user_info_photo_layout);
@@ -133,9 +132,9 @@ public class UserInfoActivity extends BaseActivity {
         }
         setAge(ageTextView, userDetail.getBirthday());
         if (userDetail.getUserIMId().equals(Cache.getInstance().getUser().getUserImId())) {
-            senderBtn.setVisibility(View.GONE);
+            senderImage.setVisibility(View.GONE);
         } else {
-            senderBtn.setOnClickListener(new View.OnClickListener() {
+            senderImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isFromChatActivity) {
