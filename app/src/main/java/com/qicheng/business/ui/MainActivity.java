@@ -23,12 +23,15 @@ import com.qicheng.framework.ui.base.BaseFragmentActivity;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 import static com.qicheng.util.Const.Application;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
 import static com.qicheng.util.Const.QUERY_TYPE_TRAIN;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseFragmentActivity implements UmengUpdateListener{
 
     private static Logger logger = new Logger("com.qicheng.business.ui.MainActivity");
 
@@ -59,6 +62,9 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //友盟自动更新
+        UmengUpdateAgent.setUpdateOnlyWifi(false);//支持非wifi环境
+        UmengUpdateAgent.update(this);
         // setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
         logger.d("Get the user token:" + userToken);
@@ -70,6 +76,15 @@ public class MainActivity extends BaseFragmentActivity {
         // 设置广播的优先级别大于Mainacitivity,这样如果消息来的时候正好在chat页面，直接显示消息，而不是提示消息未读
         intentFilter.setPriority(5);
         registerReceiver(receiver, intentFilter);
+    }
+
+    /**
+     * 友盟自动更新回调接口
+     * @param statusCode statusCode参数表示更新返回状态，状态在statusCode中，0表示有更新，1表示无更新，2表示非wifi状态，3表示请求超时。
+     * @param updateInfo
+     */
+    public void onUpdateReturned(int statusCode, UpdateResponse updateInfo){
+
     }
 
     private class NewMessageBroadcastReceiver extends BroadcastReceiver {

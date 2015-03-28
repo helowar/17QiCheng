@@ -11,5 +11,5 @@
           android:id="@+id/contact_list"
           android:title="@string/title_activity_contact"
           android:orderInCategory="100"
-          android:showAsAction="always"/>
+          android:showAsAction="always|withText"/>
 </menu>

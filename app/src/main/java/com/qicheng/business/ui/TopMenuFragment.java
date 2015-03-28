@@ -26,6 +26,7 @@ import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.util.Const;
+import com.umeng.update.UmengUpdateAgent;
 
 import java.util.Date;
 
@@ -66,6 +67,8 @@ public class TopMenuFragment extends BaseFragment {
         initViewItem(inflater, R.string.my_activity, R.drawable.ic_fliter);
          /*账户设置menu*/
         initViewItem(inflater, R.string.account_setting, R.drawable.ic_account_setting);
+        /*检查新版本menu*/
+        initViewItem(inflater, R.string.update_check, R.drawable.ic_update);
 
 
     }
@@ -109,12 +112,9 @@ public class TopMenuFragment extends BaseFragment {
                        /*跳转到账户设置*/
                         skipToActivity(UserSettingActivity.class);
                         break;
-                    case R.string.test_count_benefit:
-                        skipToActivity(BenefitCountActivity.class);
-                        break;
-
-                    case R.string.test_request_benefit:
-                        skipToActivity(BenefitRequestActivity.class);
+                    case R.string.update_check:
+                        /*新版本检查*/
+                        UmengUpdateAgent.forceUpdate(getActivity());
                         break;
                     default:
                         break;
