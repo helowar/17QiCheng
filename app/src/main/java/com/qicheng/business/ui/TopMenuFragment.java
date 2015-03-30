@@ -25,6 +25,7 @@ import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
 import com.qicheng.framework.util.DateTimeUtil;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -181,12 +182,29 @@ public class TopMenuFragment extends BaseFragment {
             gender.setImageResource(R.drawable.ic_male);
         }
         String birthday = user.getBirthday();
-        Date birthdayDate = DateTimeUtil.parseByyyyyMMdd10(birthday);
-        String age = DateTimeUtil.getAge(birthdayDate);
         TextView ageView = (TextView) view.findViewById(R.id.age);
-        ageView.setText(age + "岁");
+        setAge(ageView, birthday);
     }
 
+
+    /**
+     * 设置年龄TextView的文本值。
+     *
+     * @param ageTextView 年龄TextView对象
+     * @param birthday    生日字符串（yyyy-MM-dd）
+     */
+    private void setAge(TextView ageTextView, String birthday) {
+        if (StringUtil.isEmpty(birthday)) {
+            ageTextView.setText(R.string.secret_text);
+        } else {
+            String age = DateTimeUtil.getAge(birthday);
+            if (StringUtil.isEmpty(age)) {
+                ageTextView.setText(R.string.secret_text);
+            } else {
+                ageTextView.setText(age + getResources().getString(R.string.age_text));
+            }
+        }
+    }
 
     /**
      * 迁移到用户详细信息页面。
