@@ -7,6 +7,7 @@
 
 package com.qicheng.business.ui;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -153,6 +154,8 @@ public class ToDynActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_trip_to_dyn, menu);
+        ActionBar actionBar = this.getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         if (dynSearch.getQueryType() == Const.QUERY_TYPE_MY || dynSearch.getQueryType() == Const.QUERY_TYPE_USER) {
             menu.findItem(R.id.activity_add).setVisible(false);
         }
