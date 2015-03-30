@@ -80,18 +80,14 @@
                         android:textColor="@color/main"
                         android:textSize="@dimen/font_size_18sp" />
 
-                    <Button
-                        android:id="@+id/user_info_sender_btn"
+                    <ImageView
+                        android:id="@+id/user_info_sender_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="@dimen/common_gap"
-                        android:background="@drawable/bg_user_info_sender_btn"
                         android:gravity="center"
-                        android:padding="@dimen/common_gap"
-                        android:text="@string/user_info_sender_text"
-                        android:textColor="@color/main"
-                        android:textSize="@dimen/font_size_18sp" />
+                        android:src="@drawable/ic_message_selected"/>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>

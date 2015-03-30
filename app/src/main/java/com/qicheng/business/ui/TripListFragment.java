@@ -275,6 +275,10 @@ public class TripListFragment extends BaseFragment {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_trip, null);
                 convertView.setTag("" + position);
+                //第一次进入，首条默认展开
+                if(position==unfoledPosition&&unfoledPosition==0){
+                    addDetailView(position,getActivity().getLayoutInflater(), (TableLayout) convertView);
+                }
             } else {
                 //行程展开
                 if (position != unfoledPosition && ((TableLayout) convertView).getChildCount() > 1) {

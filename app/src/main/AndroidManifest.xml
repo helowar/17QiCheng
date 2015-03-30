@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qicheng">
+    package="com.qicheng"
+    android:versionCode="10001"
+    android:versionName="1.0.0.0.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -53,8 +55,17 @@
         <service
             android:name=".business.service.LocationService"
             android:enabled="true" />
+        <!--umeng自动更新service-->
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
         <!-- activity config begin -->
-
+        <!--umeng自动更新对话框-->
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
         <activity
             android:name=".business.ui.Welcome"
             android:label="@string/title_activity_welcome"

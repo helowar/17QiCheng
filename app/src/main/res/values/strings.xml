@@ -24,6 +24,7 @@
     <string name="month_text">月</string>
     <string name="day_text">日</string>
     <string name="time_sep_icon">:</string>
+    <string name="update_check">检查新版本</string>
     <!--非用户信息-->
     <string name="please_check">key 验证出错! 请在 AndroidManifest.xml 文件中检查 key 设置</string>
     <string name="select_text">筛选</string>
