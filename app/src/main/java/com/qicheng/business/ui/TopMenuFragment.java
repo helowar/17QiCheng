@@ -29,8 +29,6 @@ import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.update.UmengUpdateAgent;
 
-import java.util.Date;
-
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 /**
@@ -173,7 +171,8 @@ public class TopMenuFragment extends BaseFragment {
     private void getUserInformation() {
         User user = Cache.getInstance().getUser();
         ImageView portrait = (ImageView) view.findViewById(R.id.personal_information_person_img);
-        ImageManager.displayPortrait(user.getPortraitURL(), portrait);
+        String portraitUrl = user.getPortraitURL();
+        ImageManager.displayPortrait(portraitUrl, portrait);
         TextView nicknameView = (TextView) view.findViewById(R.id.personal_information_nickname);
         String nickname = user.getNickName();
         nicknameView.setText(nickname);
