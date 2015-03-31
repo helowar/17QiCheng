@@ -1,16 +1,23 @@
 package com.qicheng.business.protocol;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
+import com.qicheng.framework.net.HttpComm;
+import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by NO1 on 2015/2/8.
@@ -92,13 +99,42 @@ public class ImageUploadProcess {
                 mStatus = ProcessStatus.Status.ErrUnkown;
                 return null;
             }
-            FileImageUpload fileImageUpload = new FileImageUpload();
-            FileImageUpload.UploadResult result = fileImageUpload.uploadFile(imageToUpload,url);
+//            FileImageUpload fileImageUpload = new FileImageUpload();
+//            FileImageUpload.UploadResult result = fileImageUpload.uploadFile(imageToUpload,url);
+//
+//            if (result.getResult() == FileImageUpload.SUCCESS) {
+//                mStatus = ProcessStatus.Status.Success;
+//                resultUrl = result.getUrl();
+//                return null;
+//            }
 
-            if(result.getResult()== FileImageUpload.SUCCESS){
+            // 把图片文件上传到七牛云存储服务器
+            // 获取上传文件令牌
+            String uploadToken = null;
+            if (fileUsage == USAGE_COMMON) {
+                uploadToken = cacheUser.getImagesToken();
+            } else if (fileUsage == USAGE_PORTRAIT) {
+                uploadToken = cacheUser.getAvatarsToken();
+            } else {
+                mStatus = ProcessStatus.Status.ErrUnkown;
+                return null;
+            }
+            QiniuFileUpload qiniuFileUpload = new QiniuFileUpload();
+            QiniuFileUpload.UploadResult result = qiniuFileUpload.uploadFile(imageToUpload, uploadToken);
+            if (result.getResult() == QiniuFileUpload.SUCCESS) {
                 mStatus = ProcessStatus.Status.Success;
                 resultUrl = result.getUrl();
                 return null;
+            } else if (result.getResult() == QiniuFileUpload.FAILURE_EXPIRE) {
+                // 重登录系统，获取新的上传文件令牌
+                Const.Application.reLoginAndRepeat();
+                // 重新上传该文件
+                result = qiniuFileUpload.uploadFile(imageToUpload, uploadToken);
+                if (result.getResult() == QiniuFileUpload.SUCCESS) {
+                    mStatus = ProcessStatus.Status.Success;
+                    resultUrl = result.getUrl();
+                    return null;
+                }
             }
             mStatus = ProcessStatus.Status.ErrUnkown;
             return null;

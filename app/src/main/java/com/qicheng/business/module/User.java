@@ -67,6 +67,16 @@ public class User implements Serializable{
     /* 联系人数 */
     private int friendCount;
 
+    /**
+     * 上传头像图片令牌
+     */
+    private String avatarsToken;
+
+    /**
+     * 上传普通图片令牌
+     */
+    private String imagesToken;
+
     public User() {
         location = new Location();
         queryValue = new QueryValue();
@@ -243,5 +253,21 @@ public class User implements Serializable{
 
     public void setValidBenefitCount(int validBenefitCount) {
         this.validBenefitCount = validBenefitCount;
+    }
+
+    public String getAvatarsToken() {
+        return avatarsToken;
+    }
+
+    public void setAvatarsToken(String avatarsToken) {
+        this.avatarsToken = avatarsToken;
+    }
+
+    public String getImagesToken() {
+        return imagesToken;
+    }
+
+    public void setImagesToken(String imagesToken) {
+        this.imagesToken = imagesToken;
     }
 }

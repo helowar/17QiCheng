@@ -28,6 +28,8 @@ class UserPreferences {
         editor.putFloat("lastDirection", user.getLocation().getDirection());
         editor.putString("lastCity", user.getLocation().getCity());
         editor.putInt("genderQueryValue", user.getQueryValue().getGender());
+        editor.putString("lastAvatarsToken",user.getAvatarsToken());
+        editor.putString("lastImagesToken",user.getImagesToken());
 		editor.commit();
 	}
 
@@ -59,6 +61,8 @@ class UserPreferences {
         user.getLocation().setDirection(sp.getFloat("lastDirection", 0));
         user.getLocation().setCity(sp.getString("lastCity", ""));
         user.getQueryValue().setGender(sp.getInt("genderQueryValue", -1));
+        user.setAvatarsToken(sp.getString("lastAvatarsToken",""));
+        user.setImagesToken(sp.getString("lastImagesToken",""));
 		return user;
 	}
 	

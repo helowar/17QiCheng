@@ -49,4 +49,5 @@ dependencies {
     compile files('libs/sharelib/ShareSDK-Wechat-Moments-2.5.8.jar')
     compile files('libs/umeng-analytics-v5.4.2.jar')
     compile files('libs/umeng-update-v2.6.0.1.jar')
+    compile files('libs/qiniu-android-sdk-7.0.3.jar')
 }

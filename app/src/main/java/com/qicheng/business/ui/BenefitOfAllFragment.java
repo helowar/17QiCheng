@@ -84,25 +84,29 @@ public class BenefitOfAllFragment extends BaseFragment {
         logic.getBenefitList(benefitTypeId, thingType, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
                 BenefitEventArgs result = (BenefitEventArgs) args;
                 OperErrorCode errorCode = result.getErrCode();
                 if (errorCode == OperErrorCode.Success) {
                     //从聊天中发起转发行为
+                    benefitList = new ArrayList<Benefit>();
                     if (getActivity().getIntent().getBooleanExtra(Const.Intent.IS_FROM_CHAT_ACTIVITY_KEY, false)) {
-                        benefitList = new ArrayList<Benefit>();
                         for (Benefit b : result.getBenefitList()) {
                             if (b.getPostOpFlag() == 1) {//只有可转让的福利才在从聊天发起的列表界面中显示
                                 benefitList.add(b);
                             }
                         }
                     } else {
-                        benefitList = result.getBenefitList();
+                        if (result.getBenefitList() != null) {
+                            benefitList = result.getBenefitList();
+                        }
                     }
                     benefitListAdapter = new BenefitListAdapter(getActivity(), benefitList);
                     listView.setAdapter(benefitListAdapter);
                 }
             }
         }));
+        startLoading();
     }
 
     /**
@@ -251,7 +255,7 @@ public class BenefitOfAllFragment extends BaseFragment {
             benefitListAdapter.notifyDataSetChanged();
             //记录友盟事件
             MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_TRANS_BENEFIT);
-            Alert.Toast(targetBenefit.getName()+"已经发给"+targetUser.getNickName()+"了哦！");
+            Alert.Toast(targetBenefit.getName() + "已经发给" + targetUser.getNickName() + "了哦！");
         }
     }
 

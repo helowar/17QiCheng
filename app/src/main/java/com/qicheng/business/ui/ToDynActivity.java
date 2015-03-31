@@ -31,8 +31,11 @@ import com.qicheng.business.cache.Cache;
 import com.qicheng.business.image.ImageManager;
 import com.qicheng.business.logic.DynLogic;
 import com.qicheng.business.logic.LogicFactory;
+import com.qicheng.business.logic.UserLogic;
 import com.qicheng.business.logic.event.DynEventAargs;
+import com.qicheng.business.logic.event.UserDetailEventArgs;
 import com.qicheng.business.module.Dyn;
+import com.qicheng.business.module.UserDetail;
 import com.qicheng.business.ui.chat.activity.ShowBigImage;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.business.ui.component.GeneralListView;
@@ -57,6 +60,8 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_NAME;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.DYN_QUERY_VALUE;
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
+import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
 public class ToDynActivity extends BaseActivity {
 
@@ -315,6 +320,31 @@ public class ToDynActivity extends BaseActivity {
         }));
     }
 
+    /**
+     * 迁移到用户详细信息页面。
+     *
+     * @param userId 用户ID
+     */
+    private void startUserInfoActivity(String userId) {
+        UserLogic userLogic = (UserLogic) LogicFactory.self().get(LogicFactory.Type.User);
+        userLogic.getUserDetail(userId, Const.ID_TYPE_USER_ID, createUIEventListener(new EventListener() {
+            @Override
+            public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
+                UserDetailEventArgs result = (UserDetailEventArgs) args;
+                OperErrorCode errCode = result.getErrCode();
+                if (errCode == OperErrorCode.Success) {
+                    UserDetail userDetail = result.getUserDetail();
+                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                    intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    intent.putExtra(FRIEND_SOURCE_KEY, getTitle());
+                    startActivity(intent);
+                }
+            }
+        }));
+        startLoading();
+    }
+
 
     /**
      * ListView的Adapter
@@ -498,6 +528,13 @@ public class ToDynActivity extends BaseActivity {
                     i.putExtra(Const.Intent.HX_USER_NICK_NAME, bean.getNickName());
                     i.putExtra(Const.Intent.HX_USER_TO_CHAT_AVATAR, bean.getPortraitUrl());
                     startActivity(i);
+                }
+            });
+
+            holder.portraitl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startUserInfoActivity(bean.getUserId());
                 }
             });
             return convertView;
