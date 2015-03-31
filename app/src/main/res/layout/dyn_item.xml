@@ -45,7 +45,8 @@
         android:layout_toRightOf="@+id/portrait"
         android:paddingLeft="10dp"
         android:paddingTop="2dp"
-        android:text="20秒前"></TextView>
+        android:text="20秒前"
+        android:textSize="12sp"></TextView>
 
     <RelativeLayout
         android:id="@+id/line"

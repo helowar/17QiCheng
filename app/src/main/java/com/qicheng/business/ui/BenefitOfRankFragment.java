@@ -72,6 +72,7 @@ public class BenefitOfRankFragment extends BaseFragment {
      * @param userRankList
      */
     private void initSelfView(List<BenefitUserRank> userRankList) {
+        startLoading();
         for (BenefitUserRank userRank : userRankList) {
             if (StringUtil.isEmpty(userRank.getUserId())) {
                 ImageView portrait = (ImageView) view.findViewById(R.id.self_portrait);
@@ -82,6 +83,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                 benefitNum.setText(String.valueOf(userRank.getBenefitNum()));
             }
         }
+        stopLoading();
     }
 
     /**
@@ -94,6 +96,7 @@ public class BenefitOfRankFragment extends BaseFragment {
         logic.getBenefitRankList(benefitTypeId, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
+                stopLoading();
                 BenefitEventArgs result = (BenefitEventArgs) args;
                 OperErrorCode errorCode = result.getErrCode();
                 if (errorCode == OperErrorCode.Success) {
@@ -104,6 +107,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                 }
             }
         }));
+        startLoading();
     }
 
 
