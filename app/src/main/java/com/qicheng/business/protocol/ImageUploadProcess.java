@@ -1,15 +1,23 @@
 package com.qicheng.business.protocol;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.qicheng.business.cache.Cache;
 import com.qicheng.business.module.User;
+import com.qicheng.framework.net.HttpComm;
+import com.qicheng.framework.net.HttpResultCallback;
+import com.qicheng.framework.protocol.FileImageUpload;
 import com.qicheng.framework.protocol.ResponseListener;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by NO1 on 2015/2/8.

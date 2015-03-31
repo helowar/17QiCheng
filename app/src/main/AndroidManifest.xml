@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qicheng"
-    android:versionCode="10001"
-    android:versionName="1.0.0.0.1">
+    android:versionCode="100012"
+    android:versionName="1.0.0.0.12">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -214,7 +214,7 @@
             android:value="54bb635ffd98c5be0500055a" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Self" />
+            android:value="self" />
         <!-- 百度定位SDK配置项 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

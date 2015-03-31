@@ -11,24 +11,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.qicheng.business.cache.Cache;
-import com.qicheng.business.logic.LogicFactory;
-import com.qicheng.business.logic.UserLogic;
-import com.qicheng.business.logic.event.UserEventArgs;
 import com.qicheng.business.module.User;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.LoginProcess;
-import com.qicheng.business.protocol.ProcessStatus;
 import com.qicheng.business.ui.chat.QichengHXSDKHelper;
 import com.qicheng.business.ui.component.BenefitChangedListener;
-import com.qicheng.framework.event.EventArgs;
-import com.qicheng.framework.event.EventId;
-import com.qicheng.framework.event.EventListener;
-import com.qicheng.framework.event.OperErrorCode;
-import com.qicheng.framework.event.StatusEventArgs;
 import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
-import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
+import com.qicheng.util.CrashHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -78,12 +69,10 @@ public class QichengApplication extends Application {
 
         //Initialize ImageLoader with configuration
         ImageLoader.getInstance().init(config);
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(instance);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        crashHandler.sendPreviousReportsToServer();
         hxSDKHelper.onInit(this);
     }
 
@@ -200,6 +189,8 @@ public class QichengApplication extends Application {
             }
         });
     }
+
+
 
     public JSONObject reLoginAndRepeat(final String url,final String parameter) throws JSONException{
         fetchPublicKey();

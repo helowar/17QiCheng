@@ -56,11 +56,11 @@ public class UserLogic extends BaseLogic {
     /**
      * 通过用户名和密码登录
      *
-     * @param uid
+     * @param uName userName含义不固定，具体内容由服务端判断，客户端仅保持此userName以保证可登录
      * @param password
      */
-    public void login(final String uid, final String password, final EventListener listener) {
-        logger.d("Login with UserName and Password:" + uid);
+    public void login(final String uName, final String password, final EventListener listener) {
+        logger.d("Login with UserName and Password:" + uName);
         /**
          *友盟统计
          */
@@ -68,9 +68,10 @@ public class UserLogic extends BaseLogic {
         //清空缓存
         Cache.getInstance().clear();
         //登录所用的数据
-        final User user = new User(uid, password);
+        final User user = new User(uName, password);
+        user.getUserName();
         User cachedUser = Cache.getInstance().getUser();
-        cachedUser.setUserId(uid);
+        cachedUser.setUserName(uName);
         cachedUser.setPassWord(password);
         //登录后台交互过程
         final LoginProcess process = new LoginProcess();
@@ -90,6 +91,9 @@ public class UserLogic extends BaseLogic {
                     user.setUserImId(process.getResultUser().getUserImId());
                     user.setBirthday(process.getResultUser().getBirthday());
                     user.setGender(process.getResultUser().getGender());
+                    user.setUserId(process.getResultUser().getUserId());
+                    user.setCellNum(process.getResultUser().getCellNum());
+//                    user.setUserName(process.getResultUser().getUserName());userName不覆盖，保证自动登录可用
                     loginHX(user.getUserImId(), StringUtil.MD5(password));
                     Cache.getInstance().refreshCacheUser();
                 }
@@ -101,12 +105,12 @@ public class UserLogic extends BaseLogic {
 
     }
 
-    public void loginHX(final String userName, String password) {
-        EMChatManager.getInstance().login(userName, password, new EMCallBack() {
+    public void loginHX(final String userImId, String password) {
+        EMChatManager.getInstance().login(userImId, password, new EMCallBack() {
 
             @Override
             public void onSuccess() {
-                logger.d(userName + " login huanxin success!");
+                logger.d(userImId + " login huanxin success!");
             }
 
             @Override
@@ -116,7 +120,7 @@ public class UserLogic extends BaseLogic {
 
             @Override
             public void onError(int code, String message) {
-                logger.d(userName + " login huanxin error,errorCode=" + code + "message:" + message);
+                logger.d(userImId + " login huanxin error,errorCode=" + code + "message:" + message);
             }
         });
     }
@@ -153,7 +157,7 @@ public class UserLogic extends BaseLogic {
         });
     }
 
-    public LoginProcess getProcessForCacheLogin() {
+    private LoginProcess getProcessForCacheLogin() {
         User cachedUser = Cache.getInstance().getUser();
         //登录所用的数据
         User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
@@ -163,7 +167,7 @@ public class UserLogic extends BaseLogic {
         return process;
     }
 
-    public void callbackForCacheLogin(User resultUser) {
+    private void callbackForCacheLogin(User resultUser) {
         User user = Cache.getInstance().getUser();
         user.setToken(resultUser.getToken());
         user.setNickName(resultUser.getNickName());
@@ -171,6 +175,8 @@ public class UserLogic extends BaseLogic {
         user.setUserImId(resultUser.getUserImId());
         user.setBirthday(resultUser.getBirthday());
         user.setGender(resultUser.getGender());
+        user.setUserId(resultUser.getUserId());
+        user.setCellNum(resultUser.getCellNum());
         Cache.getInstance().refreshCacheUser();
     }
 

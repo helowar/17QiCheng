@@ -141,7 +141,7 @@ public class MessageFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 EMConversation conversation = adapter.getItem(position);
                 String username = conversation.getUserName();
-                if (username.equals(Cache.getInstance().getUser().getUserName()))
+                if (username.equals(Cache.getInstance().getUser().getUserImId()))
                     Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
                 else {
                     // 进入聊天页面
