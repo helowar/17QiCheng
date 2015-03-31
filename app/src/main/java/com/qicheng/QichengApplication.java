@@ -207,6 +207,11 @@ public class QichengApplication extends Application {
         return rePost(url,parameter);
     }
 
+    public void reLoginAndRepeat() {
+        fetchPublicKey();
+        reLogin();
+    }
+
     private void reLogin(){
         final LoginProcess process = getProcessForCacheLogin();
         HttpComm comm  = new HttpComm(false);
