@@ -39,13 +39,17 @@ public class QiniuFileUpload {
     public static final int FAILURE_EXPIRE = 401;
 
     /**
+     * 上传文件结果对象
+     */
+    private UploadResult result = new UploadResult();
+
+    /**
      * 上传文件到七牛云存储服务器。
      *
      * @param file        文件对象
      * @param uploadToken 上传令牌
      */
     public UploadResult uploadFile(File file, String uploadToken) {
-        final UploadResult result = new UploadResult();
         try {
             String fileName = file.getName();
             String extension = fileName.substring(fileName.lastIndexOf("."));
