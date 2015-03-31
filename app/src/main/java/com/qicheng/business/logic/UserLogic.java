@@ -84,17 +84,9 @@ public class UserLogic extends BaseLogic {
                 logger.d("login process response, " + errCode);
                 UserEventArgs userEventArgs = new UserEventArgs(process.getResultUser(), errCode);
                 if (errCode == OperErrorCode.Success) {
-                    User user = Cache.getInstance().getUser();
-                    user.setToken(process.getResultUser().getToken());
-                    user.setNickName(process.getResultUser().getNickName());
-                    user.setPortraitURL(process.getResultUser().getPortraitURL());
-                    user.setUserImId(process.getResultUser().getUserImId());
-                    user.setBirthday(process.getResultUser().getBirthday());
-                    user.setGender(process.getResultUser().getGender());
-                    user.setUserId(process.getResultUser().getUserId());
-                    user.setCellNum(process.getResultUser().getCellNum());
+                    callbackForCacheLogin(process.getResultUser());
 //                    user.setUserName(process.getResultUser().getUserName());userName不覆盖，保证自动登录可用
-                    loginHX(user.getUserImId(), StringUtil.MD5(password));
+                    loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
                     Cache.getInstance().refreshCacheUser();
                 }
                 //发送事件
@@ -177,6 +169,8 @@ public class UserLogic extends BaseLogic {
         user.setGender(resultUser.getGender());
         user.setUserId(resultUser.getUserId());
         user.setCellNum(resultUser.getCellNum());
+        user.setAvatarsToken(resultUser.getAvatarsToken());
+        user.setImagesToken(resultUser.getImagesToken());
         Cache.getInstance().refreshCacheUser();
     }
 

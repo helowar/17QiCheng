@@ -51,18 +51,28 @@ public class RegisterProcess extends BaseProcess {
                 JSONObject resultBody = o.getJSONObject("body");
                 String token = resultBody.optString("token");
                 String portraitUrl = resultBody.optString("portrait_url");
+                String userImId = resultBody.optString("user_im_id");
+                String userId = resultBody.optString("user_id");
+                String cellNum = resultBody.optString("cell_num");
+                String avatarsToken = resultBody.optString("avatars_token");
+                String imagesToken = resultBody.optString("images_token");
                 logger.d("Get users token:" + token);
                 logger.d("Get user portraitUrl" + portraitUrl);
                 User user = Cache.getInstance().getUser();
                 user.setPortraitURL(portraitUrl);
                 user.setToken(token);
-                user.setUserId(mParamUser.getCellNum());
+                user.setUserId(userId);
+                user.setUserImId(userImId);
+                user.setPortraitURL(portraitUrl);
+                user.setAvatarsToken(avatarsToken);
+                user.setImagesToken(imagesToken);
+                //当前使用cellNum登录故如此处理
+                user.setUserName(mParamUser.getCellNum());
                 user.setCellNum(mParamUser.getCellNum());
                 user.setPassWord(mParamUser.getPassWord());
                 /**
                  * 刷新缓存
                  */
-                Cache.getInstance().clear();
                 Cache.getInstance().refreshCacheUser();
             }
             setProcessStatus(value);

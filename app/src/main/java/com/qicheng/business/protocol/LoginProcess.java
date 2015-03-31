@@ -76,6 +76,8 @@ public class LoginProcess extends BaseProcess {
                 String userName = body.optString("user_name");
                 String userId = body.optString("user_id");
                 String cellNum = body.optString("cell_num");
+                String avatarsToken = body.optString("avatars_token");
+                String imagesToken = body.optString("images_token");
                 /**
                  * 组装返回对象
                  */
@@ -89,6 +91,8 @@ public class LoginProcess extends BaseProcess {
                 resultUser.setUserId(userId);
                 resultUser.setUserName(userName);
                 resultUser.setCellNum(cellNum);
+                resultUser.setImagesToken(imagesToken);
+                resultUser.setAvatarsToken(avatarsToken);
             }
             setProcessStatus(value);
         } catch (Exception e) {
@@ -111,6 +115,8 @@ public class LoginProcess extends BaseProcess {
         String userName = body.optString("user_name");
         String userId = body.optString("user_id");
         String cellNum = body.optString("cell_num");
+        String avatarsToken = body.optString("avatars_token");
+        String imagesToken = body.optString("images_token");
         /**
          * 组装返回对象
          */
@@ -124,6 +130,8 @@ public class LoginProcess extends BaseProcess {
         resultUser.setUserId(userId);
         resultUser.setUserName(userName);
         resultUser.setCellNum(cellNum);
+        resultUser.setImagesToken(imagesToken);
+        resultUser.setAvatarsToken(avatarsToken);
         return resultUser;
     }
 
