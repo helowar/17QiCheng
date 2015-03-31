@@ -126,7 +126,11 @@ abstract public class BaseProcess {
             case Const.ResponseResultCode.RESULT_NO_BENEFIT:
                 mStatus = ProcessStatus.Status.ResultNoBenefit;
                 break;
-
+            case Const.ResponseResultCode.RESULT_BODY_IS_NOT_EXIST:
+                mStatus = ProcessStatus.Status.InfoNoData;
+                break;
+            default:
+                mStatus = ProcessStatus.Status.ErrUnkown;
         }
     }
 
