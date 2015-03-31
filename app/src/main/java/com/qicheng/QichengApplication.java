@@ -246,6 +246,8 @@ public class QichengApplication extends Application {
         user.setUserImId(resultUser.getUserImId());
         user.setBirthday(resultUser.getBirthday());
         user.setGender(resultUser.getGender());
+        user.setAvatarsToken(resultUser.getAvatarsToken());
+        user.setImagesToken(resultUser.getImagesToken());
         Cache.getInstance().refreshCacheUser();
     }
 
