@@ -52,7 +52,7 @@ public class Welcome extends BaseActivity {
 //            public void onTick(long millisUntilFinished) {
 //            }
 //            public void onFinish() {
-                UserLogic logic = (UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
+                UserLogic logic =(UserLogic)LogicFactory.self().get(LogicFactory.Type.User);
                 logic.loginWithCache( createUIEventListener(new EventListener() {
                         @Override
                         public void onEvent(EventId id, EventArgs args) {

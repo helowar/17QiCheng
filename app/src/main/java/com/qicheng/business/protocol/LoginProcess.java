@@ -73,6 +73,9 @@ public class LoginProcess extends BaseProcess {
                 String imId = body.optString("user_im_id");
                 String gender = body.optString("gender");
                 String birthday = body.optString("birthday");
+                String userName = body.optString("user_name");
+                String userId = body.optString("user_id");
+                String cellNum = body.optString("cell_num");
                 /**
                  * 组装返回对象
                  */
@@ -83,6 +86,9 @@ public class LoginProcess extends BaseProcess {
                 resultUser.setUserImId(imId);
                 resultUser.setGender(Integer.parseInt(gender));
                 resultUser.setBirthday(birthday);
+                resultUser.setUserId(userId);
+                resultUser.setUserName(userName);
+                resultUser.setCellNum(cellNum);
             }
             setProcessStatus(value);
         } catch (Exception e) {
@@ -102,6 +108,9 @@ public class LoginProcess extends BaseProcess {
         String imId = body.optString("user_im_id");
         String gender = body.optString("gender");
         String birthday = body.optString("birthday");
+        String userName = body.optString("user_name");
+        String userId = body.optString("user_id");
+        String cellNum = body.optString("cell_num");
         /**
          * 组装返回对象
          */
@@ -112,6 +121,9 @@ public class LoginProcess extends BaseProcess {
         resultUser.setUserImId(imId);
         resultUser.setGender(Integer.parseInt(gender));
         resultUser.setBirthday(birthday);
+        resultUser.setUserId(userId);
+        resultUser.setUserName(userName);
+        resultUser.setCellNum(cellNum);
         return resultUser;
     }
 

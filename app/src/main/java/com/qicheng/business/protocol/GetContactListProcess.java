@@ -91,7 +91,7 @@ public class GetContactListProcess extends BaseProcess {
         if (!StringUtil.isEmpty(user.getNickName())) {
             headerName = user.getNickName();
         } else {
-            headerName = user.getUserName();
+            headerName = user.getUserImId();
         }
         if (Character.isDigit(headerName.charAt(0))) {
             user.setHeader("#");

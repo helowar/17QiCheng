@@ -29,6 +29,7 @@ import com.qicheng.framework.net.HttpComm;
 import com.qicheng.framework.net.HttpResultCallback;
 import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.util.Const;
+import com.qicheng.util.CrashHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
@@ -78,12 +79,10 @@ public class QichengApplication extends Application {
 
         //Initialize ImageLoader with configuration
         ImageLoader.getInstance().init(config);
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(instance);
+        Thread.setDefaultUncaughtExceptionHandler(crashHandler);
+        crashHandler.sendPreviousReportsToServer();
         hxSDKHelper.onInit(this);
     }
 
@@ -200,6 +199,8 @@ public class QichengApplication extends Application {
             }
         });
     }
+
+
 
     public JSONObject reLoginAndRepeat(final String url,final String parameter) throws JSONException{
         fetchPublicKey();

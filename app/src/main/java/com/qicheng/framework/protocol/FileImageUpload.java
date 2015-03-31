@@ -47,6 +47,7 @@ public class FileImageUpload {
             conn.setUseCaches(false); //不允许使用缓存
             conn.setRequestMethod("POST"); //请求方式
             conn.setRequestProperty("Charset", CHARSET);
+            conn.setRequestProperty( "Accept-Encoding", "" );
             //设置编码
             conn.setRequestProperty("connection", "keep-alive");
             conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
@@ -91,7 +92,7 @@ public class FileImageUpload {
                     StringBuilder stringBuilder = new StringBuilder();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     boolean firstLine = true;
-                    String line = null; ;
+                    String line = null;
                     while((line = bufferedReader.readLine()) != null){
                         if(!firstLine){
                             stringBuilder.append(System.getProperty("line.separator"));
