@@ -58,7 +58,7 @@ public class AddDynProcess extends BaseProcess {
                 fileArray.put(fileObj);
                 o.put("files", fileArray);
             }
-            logger.e("组装传入添加动态参数成功" + o.toString());
+            logger.d("组装传入添加动态参数成功" + o.toString());
             return o.toString();
         } catch (Exception e) {
             logger.e("组装传入添加动态参数异常");

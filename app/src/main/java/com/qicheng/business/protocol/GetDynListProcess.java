@@ -44,7 +44,7 @@ public class GetDynListProcess extends BaseProcess {
             Byte queryType = dynSearch.getQueryType();
             if (queryType != null) {
                 spliceParameter(o);
-                logger.e("组装传入搜索城市动态参数成功");
+                logger.d("组装传入搜索城市动态参数成功");
                 logger.d(o.toString());
                 //后期出问题时进行排查，default是否有作用
 //                switch (queryType) {
