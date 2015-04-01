@@ -340,7 +340,7 @@ public class UserInformationFragment extends BaseFragment {
     }
 
     /**
-     * 更新用户头像信息
+     * 更新用户信息
      *
      * @param updateType
      * @param updateValue
@@ -354,7 +354,7 @@ public class UserInformationFragment extends BaseFragment {
                 OperErrorCode errCode = userEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        Cache.getInstance().getUser().setPortraitURL(Const.BASE_URL + updateValue);
+                        Cache.getInstance().getUser().setPortraitURL(updateValue);
                         Cache.getInstance().refreshCacheUser();
                         break;
                 }
