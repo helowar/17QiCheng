@@ -51,7 +51,7 @@ public class TripListProcess extends BaseProcess{
             //获取状态码
             int value = o.optInt("result_code");
             setProcessStatus(value);
-            if(value ==0){
+            if(getStatus()== ProcessStatus.Status.Success){
                 /**
                  * 获取行程列表
                  */
@@ -74,8 +74,6 @@ public class TripListProcess extends BaseProcess{
                         trip.setTrainUserList(getUserList(jsonTrip.has("train_travellers") ? jsonTrip.optJSONArray("train_travellers") : null));
                         mTripList.add(trip);
                     }
-                }else{
-                    setStatus(ProcessStatus.Status.InfoNoData);
                 }
             }
         } catch (Exception e) {

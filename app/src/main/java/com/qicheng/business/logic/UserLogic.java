@@ -152,7 +152,7 @@ public class UserLogic extends BaseLogic {
     private LoginProcess getProcessForCacheLogin() {
         User cachedUser = Cache.getInstance().getUser();
         //登录所用的数据
-        User user = new User(cachedUser.getUserId(), cachedUser.getPassWord());
+        User user = new User(cachedUser.getUserName(), cachedUser.getPassWord());
         //登录后台交互过程
         LoginProcess process = new LoginProcess();
         process.setParamUser(user);
