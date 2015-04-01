@@ -492,12 +492,15 @@ public class TripListFragment extends BaseFragment {
     }
 
     private void addNewTrip(Trip trip){
+        unfoledPosition=0;
         pageList.add(0,trip);
         mAdapter.notifyDataSetChanged();
-        //移除当前展开的行程详情
-        removeDetailView(mListView);
+        if(pageList.size()>1){
+            //移除当前展开的行程详情
+            removeDetailView(mListView);
+        }
         //设置需展开的行程详情为第一个
-        unfoledPosition=0;
+        mListView.setSelection(0);
     }
 
     private void setImageViewWidth(ImageView view,int width){

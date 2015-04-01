@@ -215,7 +215,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             File file = new File(dir,fileName);
             FileOutputStream trace = new FileOutputStream(file);
             mDeviceCrashInfo.store(trace, "");
-            trace.write("test".getBytes());
             trace.flush();
             trace.close();
             return fileName;
@@ -271,9 +270,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     private void postReport(final File file) {
-        // TODO 使用HTTP Post 发送错误报告到服务器
-        // 这里不再详述,开发者可以根据OPhoneSDN上的其他网络操作
-        // 教程来提交错误报告
         FileImageUpload fileImageUpload = new FileImageUpload();
         FileImageUpload.UploadResult result = fileImageUpload.uploadFile(file,Const.BASE_URL+upload_url);
         result.getResult();
