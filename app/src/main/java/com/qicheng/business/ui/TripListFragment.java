@@ -45,8 +45,6 @@ public class TripListFragment extends BaseFragment {
 
     private TripLogic logic;
 
-    private int lastTrip;
-
     private boolean noFurtherData = false;
 
 
@@ -408,7 +406,7 @@ public class TripListFragment extends BaseFragment {
     }
 
     private void loadMoreData() {
-        logic.getPersonalTripList(lastTrip,createUIEventListener(new EventListener() {
+        logic.getPersonalTripList(pageList.size()==0 ? 0 : pageList.get(pageList.size()-1).getOrderNum(),createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 footerView.hide();
@@ -418,7 +416,6 @@ public class TripListFragment extends BaseFragment {
                     case Success:
                         ArrayList<Trip> tripList = result.getTripList();
                         pageList.addAll(tripList);
-                        lastTrip = tripList.get(tripList.size()-1).getOrderNum();
                         mAdapter.notifyDataSetChanged();
 
                         break;
