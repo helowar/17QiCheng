@@ -10,9 +10,9 @@ import com.qicheng.business.protocol.AddDynProcess;
 import com.qicheng.business.protocol.DeleteDynProcess;
 import com.qicheng.business.protocol.GetDynListProcess;
 import com.qicheng.business.protocol.GetStationListProcess;
-import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.InteractProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.QiniuImageUploadProcess;
 import com.qicheng.business.ui.DynPublishActivity;
 import com.qicheng.business.ui.component.DynSearch;
 import com.qicheng.framework.event.EventListener;
@@ -165,14 +165,28 @@ public class DynLogic extends BaseLogic {
         } catch (IOException e) {
             errCode = OperErrorCode.FileUpLoadFailed;
         }
-        final ImageUploadProcess process = new ImageUploadProcess();
-        process.run(null, ImageUploadProcess.USAGE_COMMON, myCaptureFile, new ResponseListener() {
+//        final ImageUploadProcess process = new ImageUploadProcess();
+//        process.run(null, ImageUploadProcess.USAGE_COMMON, myCaptureFile, new ResponseListener() {
+//            @Override
+//            public void onResponse(String requestId) {
+//                // 状态转换：从调用结果状态转为操作结果状态
+//                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+//                User resultUser = new User();
+//
+//                UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
+//                if (errCode == OperErrorCode.Success) {
+//                    resultUser.setPortraitURL(process.getResultUrl());
+//                }
+//                fireEvent(listener, userEventArgs);
+//            }
+//        });
+        final QiniuImageUploadProcess process = new QiniuImageUploadProcess();
+        process.run(null, QiniuImageUploadProcess.FILE_USAGE_SIMPLE, myCaptureFile, new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 User resultUser = new User();
-
                 UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
                 if (errCode == OperErrorCode.Success) {
                     resultUser.setPortraitURL(process.getResultUrl());
@@ -180,8 +194,5 @@ public class DynLogic extends BaseLogic {
                 fireEvent(listener, userEventArgs);
             }
         });
-
     }
-
-
 }

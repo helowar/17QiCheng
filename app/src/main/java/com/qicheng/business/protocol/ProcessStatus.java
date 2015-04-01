@@ -115,6 +115,8 @@ public class ProcessStatus {
                 return OperErrorCode.ResultDistributeFinished;
             case ResultNoBenefit:
                 return OperErrorCode.ResultNoBenefit;
+            case ErrLoginTimeOut:
+                return OperErrorCode.ErrLoginTimeOut;
             default:
                 return OperErrorCode.Unknown;
         }
