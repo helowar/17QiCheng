@@ -241,6 +241,9 @@ public class UserLogic extends BaseLogic {
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                if(errCode==OperErrorCode.Success){
+                    loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
+                }
                 logger.d("Register process response, " + errCode);
                 //发送事件
                 fireStatusEvent(listener, errCode);
