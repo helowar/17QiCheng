@@ -300,16 +300,19 @@ public class SocialInTrainFragment extends BaseFragment {
         notOn.putString(TRAVELLER_QUERY_VALUE, train);
         notOnPersonFragment = new TravellerPersonFragment();
         notOnPersonFragment.setArguments(notOn);
+        notOnPersonFragment.setTitle(title);
         Bundle on = new Bundle();
         on.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_ON_CAR);
         on.putString(TRAVELLER_QUERY_VALUE, train);
         onPersonFragment = new TravellerPersonFragment();
         onPersonFragment.setArguments(on);
+        onPersonFragment.setTitle(title);
         Bundle off = new Bundle();
         off.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_OFF_CAR);
         off.putString(TRAVELLER_QUERY_VALUE, train);
         offPersonFragment = new TravellerPersonFragment();
         offPersonFragment.setArguments(off);
+        offPersonFragment.setTitle(title);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.social_person_not_on_Layout, notOnPersonFragment);
         fragmentTransaction.add(R.id.social_person_on_Layout, onPersonFragment);
@@ -575,6 +578,9 @@ public class SocialInTrainFragment extends BaseFragment {
                 public void onClick(DialogInterface dialog, int which) {
                     title = trains[which];
                     getActivity().setTitle(title);
+                    notOnPersonFragment.setTitle(title);
+                    onPersonFragment.setTitle(title);
+                    offPersonFragment.setTitle(title);
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;

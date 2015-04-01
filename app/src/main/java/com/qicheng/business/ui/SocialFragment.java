@@ -227,6 +227,7 @@ public class SocialFragment extends BaseFragment {
                     case 2:
                         title = getResources().getString(R.string.relation_btn_text);
                         getActivity().setTitle(title);
+                        socialPersonFragment.setTitle(title);
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
@@ -239,6 +240,7 @@ public class SocialFragment extends BaseFragment {
                     case 3:
                         title = getResources().getString(R.string.nearby_btn_text);
                         getActivity().setTitle(title);
+                        socialPersonFragment.setTitle(title);
                         recommendLayout.setVisibility(View.VISIBLE);
                         queryParamsLayout.setVisibility(View.GONE);
                         isVisible = View.GONE;
@@ -265,6 +267,7 @@ public class SocialFragment extends BaseFragment {
         socialPerson.putString(TRAVELLER_QUERY_VALUE, queryValue);
         socialPersonFragment = new TravellerPersonFragment();
         socialPersonFragment.setArguments(socialPerson);
+        socialPersonFragment.setTitle(title);
         getFragmentManager().beginTransaction().add(R.id.social_person_Layout, socialPersonFragment).commit();
         // 查询推荐用户
         refreshRecommendPerson();
