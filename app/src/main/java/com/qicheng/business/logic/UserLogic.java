@@ -188,6 +188,12 @@ public class UserLogic extends BaseLogic {
                 UserEventArgs userEventArgs = new UserEventArgs(errCode);
                 if (errCode == OperErrorCode.Success) {
                     userEventArgs.setResultLabelTypes(process.getLabelTypes());
+                    User user = Cache.getInstance().getUser();
+                    user.setNickName(param.getNickName());
+                    user.setPortraitURL(param.getPortraitURL());
+                    user.setBirthday(param.getBirthday());
+                    user.setGender(param.getGender());
+                    Cache.getInstance().refreshCacheUser();
                 }
                 fireEvent(listener, userEventArgs);
             }

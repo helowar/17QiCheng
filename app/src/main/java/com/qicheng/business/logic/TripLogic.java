@@ -34,7 +34,7 @@ public class TripLogic extends BaseLogic{
      * 获取用户行程列表
      * @param listener
      */
-    public void getPersonalTripList(int lastTripOrderNum,final EventListener listener){
+    public void getPersonalTripList(long lastTripOrderNum,final EventListener listener){
         final TripListProcess process = new TripListProcess();
         process.setParam(lastTripOrderNum);
         process.run(new ResponseListener() {

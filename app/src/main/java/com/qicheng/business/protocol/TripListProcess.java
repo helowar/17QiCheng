@@ -22,7 +22,7 @@ public class TripListProcess extends BaseProcess{
 
     private ArrayList<Trip> mTripList = null;
 
-    private int param;
+    private long param;
 
 
     @Override
@@ -104,7 +104,7 @@ public class TripListProcess extends BaseProcess{
         return null;
     }
 
-    public void setParam(int param) {
+    public void setParam(long param) {
         this.param = param;
     }
 

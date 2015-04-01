@@ -16,7 +16,9 @@ public class Trip implements Serializable {
 
     private String endStationName;
 
-    private int orderNum;
+    private long orderNum;
+
+    private String tripId;
 
     private String tripDate;
 
@@ -96,11 +98,11 @@ public class Trip implements Serializable {
         this.endStationName = endStationName;
     }
 
-    public int getOrderNum() {
+    public long getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(int orderNum) {
+    public void setOrderNum(long orderNum) {
         this.orderNum = orderNum;
     }
 
@@ -166,5 +168,13 @@ public class Trip implements Serializable {
 
     public void setValidBenefit(int validBenefit) {
         this.validBenefit = validBenefit;
+    }
+
+    public String getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(String tripId) {
+        this.tripId = tripId;
     }
 }

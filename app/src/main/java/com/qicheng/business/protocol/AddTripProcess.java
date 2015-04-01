@@ -65,6 +65,9 @@ public class AddTripProcess extends BaseProcess {
             if(jsonArrayUserList!=null){
                 this.result = this.param;
                 this.result.setValidBenefit(jsonArrayUserList.optInt("benefit_num"));
+                this.result.setTripId(jsonArrayUserList.optString("id"));
+                this.result.setOrderNum(jsonArrayUserList.optLong("order_num"));
+                this.result.setValidBenefit(jsonArrayUserList.optInt("benefit_num"));
                 this.result.setStartUserList(getUserList(jsonArrayUserList.has("begin_travellers") ? jsonArrayUserList.optJSONArray("begin_travellers") : null));
                 this.result.setStopUserList(getUserList(jsonArrayUserList.has("end_travellers") ? jsonArrayUserList.optJSONArray("end_travellers") : null));
                 this.result.setTrainUserList(getUserList(jsonArrayUserList.has("train_travellers") ? jsonArrayUserList.optJSONArray("train_travellers") : null));
