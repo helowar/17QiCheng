@@ -95,7 +95,6 @@ public class DynPublishActivity extends BaseActivity {
     private boolean flag;
 
     public void onCreate(Bundle icicle) {
-
         super.onCreate(icicle);
         setContentView(R.layout.dyn_publish);
         Bundle bundle = getIntent().getExtras();
@@ -144,11 +143,11 @@ public class DynPublishActivity extends BaseActivity {
                 startLoading();
                 if (flag) {
                     saveDynPictuer(bitmap);
-
                 } else {
                     DynBody body = new DynBody();
                     addDyn(body);
                 }
+                stopLoading();
 
             }
         });
