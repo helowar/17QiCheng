@@ -336,11 +336,13 @@ public class SocialInCityFragment extends BaseFragment {
         comePerson.putString(TRAVELLER_QUERY_VALUE, cityCode);
         comePersonFragment = new TravellerPersonFragment();
         comePersonFragment.setArguments(comePerson);
+        comePersonFragment.setTitle(title);
         Bundle leavePerson = new Bundle();
         leavePerson.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_LEAVE_CITY);
         leavePerson.putString(TRAVELLER_QUERY_VALUE, cityCode);
         leavePersonFragment = new TravellerPersonFragment();
         leavePersonFragment.setArguments(leavePerson);
+        leavePersonFragment.setTitle(title);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.social_person_come_Layout, comePersonFragment);
         fragmentTransaction.add(R.id.social_person_leave_Layout, leavePersonFragment);
@@ -539,6 +541,8 @@ public class SocialInCityFragment extends BaseFragment {
                 public void onClick(DialogInterface dialog, int which) {
                     title = cityNames[which];
                     getActivity().setTitle(title);
+                    comePersonFragment.setTitle(title);
+                    leavePersonFragment.setTitle(title);
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
@@ -605,6 +609,8 @@ public class SocialInCityFragment extends BaseFragment {
                 public void onClick(DialogInterface dialog, int which) {
                     title = stationNames[which];
                     getActivity().setTitle(title);
+                    comePersonFragment.setTitle(title);
+                    leavePersonFragment.setTitle(title);
                     recommendLayout.setVisibility(View.VISIBLE);
                     queryParamsLayout.setVisibility(View.GONE);
                     isVisible = View.GONE;
