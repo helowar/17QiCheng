@@ -57,11 +57,11 @@ public class DynPublishActivity extends BaseActivity {
     /*
     文字最大长度提示
      */
-    private TextView surplus;
+    private TextView surplus, publish;
     /*
     相机，发布，图片的ImageView
      */
-    private ImageView camera, picture, publish;
+    private ImageView camera, picture;
 
     /*
     添加照片
@@ -108,7 +108,7 @@ public class DynPublishActivity extends BaseActivity {
         surplus.setText(getResources().getString(R.string.dyn_surplus_start) + Rest_Length + getResources().getString(R.string.dyn_surplus_end));
         camera = (ImageView) this.findViewById(R.id.camera);
         picture = (ImageView) this.findViewById(R.id.activity_pic);
-        publish = (ImageView) this.findViewById(R.id.publish);
+        publish = (TextView) this.findViewById(R.id.publish);
 
 
         camera.setOnClickListener(new OnClickListener() {

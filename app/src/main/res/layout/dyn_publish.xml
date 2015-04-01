@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:background="#ffffff"
+        android:gravity="center"
         android:orientation="horizontal">
 
 
@@ -59,16 +60,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="center_vertical|right"
             android:orientation="horizontal">
 
-            <ImageView
+            <TextView
                 android:id="@+id/publish"
-                android:paddingRight="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:src="@drawable/o"></ImageView>
+                android:text="@string/actionbar_title_publish"
+                android:background="@drawable/dyn_publish_text_shape_selector"
+                android:textColor="@color/main"
+                android:layout_marginRight="@dimen/layout_margin_20dp" />
+
         </LinearLayout>
     </LinearLayout>
 
