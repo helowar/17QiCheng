@@ -32,6 +32,7 @@ import com.qicheng.util.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qicheng.util.Const.Intent.FRIEND_SOURCE_KEY;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_TYPE;
 import static com.qicheng.util.Const.Intent.TRAVELLER_QUERY_VALUE;
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
@@ -47,6 +48,11 @@ import static com.qicheng.util.Const.STATE_PAUSE_ON_SCROLL;
  * @version 1.0 2015年2月1日
  */
 public class TravellerPersonFragment extends BaseFragment {
+
+    /**
+     * 页面标题
+     */
+    private String title = null;
 
     /**
      * 车友View
@@ -311,6 +317,10 @@ public class TravellerPersonFragment extends BaseFragment {
         this.queryValue = queryValue;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     /**
      * 迁移到用户详细信息页面。
      *
@@ -328,6 +338,7 @@ public class TravellerPersonFragment extends BaseFragment {
                     UserDetail userDetail = result.getUserDetail();
                     Intent intent = new Intent(getActivity(), UserInfoActivity.class);
                     intent.putExtra(USER_DETAIL_KEY, userDetail);
+                    intent.putExtra(FRIEND_SOURCE_KEY, title);
                     startActivity(intent);
                 }
             }

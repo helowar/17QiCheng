@@ -24,10 +24,14 @@ import com.qicheng.framework.event.EventId;
 import com.qicheng.framework.event.EventListener;
 import com.qicheng.framework.event.OperErrorCode;
 import com.qicheng.framework.ui.base.BaseFragment;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.DateTimeUtil;
 import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
+import com.umeng.update.UpdateStatus;
 
 import static com.qicheng.util.Const.Intent.USER_DETAIL_KEY;
 
@@ -114,6 +118,19 @@ public class TopMenuFragment extends BaseFragment {
                     case R.string.update_check:
                         /*新版本检查*/
                         UmengUpdateAgent.forceUpdate(getActivity());
+                        UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+                            @Override
+                            public void onUpdateReturned(int i, UpdateResponse updateResponse) {
+                                switch (i) {
+                                    case UpdateStatus.No: // has no update
+                                        Alert.Toast(R.string.no_update);
+                                        break;
+                                    case UpdateStatus.Timeout: // time out
+                                        Alert.Toast(R.string.update_time_out);
+                                        break;
+                                }
+                            }
+                        });
                         break;
                     default:
                         break;

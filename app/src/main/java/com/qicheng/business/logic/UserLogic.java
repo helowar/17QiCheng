@@ -13,9 +13,9 @@ import com.qicheng.business.protocol.AddViewUserProcess;
 import com.qicheng.business.protocol.GetPublicKeyProcess;
 import com.qicheng.business.protocol.GetUserDetailProcess;
 import com.qicheng.business.protocol.GetUserPhotoListProcess;
-import com.qicheng.business.protocol.ImageUploadProcess;
 import com.qicheng.business.protocol.LoginProcess;
 import com.qicheng.business.protocol.ProcessStatus;
+import com.qicheng.business.protocol.QiniuImageUploadProcess;
 import com.qicheng.business.protocol.RegisterProcess;
 import com.qicheng.business.protocol.SetUserInfoProcess;
 import com.qicheng.business.protocol.UpdateCellNumProcess;
@@ -241,6 +241,9 @@ public class UserLogic extends BaseLogic {
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+                if(errCode==OperErrorCode.Success){
+                    loginHX(Cache.getInstance().getUser().getUserImId(), StringUtil.MD5(Cache.getInstance().getUser().getPassWord()));
+                }
                 logger.d("Register process response, " + errCode);
                 //发送事件
                 fireStatusEvent(listener, errCode);
@@ -305,14 +308,28 @@ public class UserLogic extends BaseLogic {
             errCode = OperErrorCode.FileUpLoadFailed;
             fireStatusEvent(listener, errCode);
         }
-        final ImageUploadProcess process = new ImageUploadProcess();
-        process.run(null, ImageUploadProcess.USAGE_PORTRAIT, myCaptureFile, new ResponseListener() {
+//        final ImageUploadProcess process = new ImageUploadProcess();
+//        process.run(null, ImageUploadProcess.USAGE_PORTRAIT, myCaptureFile, new ResponseListener() {
+//            @Override
+//            public void onResponse(String requestId) {
+//                // 状态转换：从调用结果状态转为操作结果状态
+//                OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
+//                User resultUser = new User();
+//
+//                UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
+//                if (errCode == OperErrorCode.Success) {
+//                    resultUser.setPortraitURL(process.getResultUrl());
+//                }
+//                fireEvent(listener, userEventArgs);
+//            }
+//        });
+        final QiniuImageUploadProcess process = new QiniuImageUploadProcess();
+        process.run(null, QiniuImageUploadProcess.FILE_USAGE_AVATAR, myCaptureFile, new ResponseListener() {
             @Override
             public void onResponse(String requestId) {
                 // 状态转换：从调用结果状态转为操作结果状态
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
                 User resultUser = new User();
-
                 UserEventArgs userEventArgs = new UserEventArgs(resultUser, errCode);
                 if (errCode == OperErrorCode.Success) {
                     resultUser.setPortraitURL(process.getResultUrl());

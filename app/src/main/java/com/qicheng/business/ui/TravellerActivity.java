@@ -155,11 +155,13 @@ public class TravellerActivity extends BaseFragmentActivity {
         start.putString(TRAVELLER_QUERY_VALUE, queryValue);
         startTravellerFragment = new TravellerPersonFragment();
         startTravellerFragment.setArguments(start);
+        startTravellerFragment.setTitle(queryName);
         Bundle end = new Bundle();
         end.putByte(TRAVELLER_QUERY_TYPE, QUERY_TYPE_END);
         end.putString(TRAVELLER_QUERY_VALUE, queryValue);
         endTravellerFragment = new TravellerPersonFragment();
         endTravellerFragment.setArguments(end);
+        endTravellerFragment.setTitle(queryName);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.traveller_start_Layout, startTravellerFragment);
         fragmentTransaction.add(R.id.traveller_end_Layout, endTravellerFragment);

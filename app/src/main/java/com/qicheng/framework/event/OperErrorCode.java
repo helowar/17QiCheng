@@ -93,5 +93,6 @@ public enum OperErrorCode {
     ResultDistributeFinished,
     /**行程无福利*/
     ResultNoBenefit,
-
+    /**登录超时*/
+    ErrLoginTimeOut,
 }
