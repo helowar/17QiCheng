@@ -359,7 +359,9 @@ public class UserLogic extends BaseLogic {
             @Override
             public void onResponse(String requestId) {
                 OperErrorCode errCode = ProcessStatus.convertFromStatus(process.getStatus());
-                UserEventArgs userEventArgs = new UserEventArgs(errCode);
+                User u = new User();
+                u.setPortraitURL(process.getPortraitUrl());
+                UserEventArgs userEventArgs = new UserEventArgs(u, errCode);
                 fireEvent(listener, userEventArgs);
             }
         });

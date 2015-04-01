@@ -31,6 +31,7 @@ public class UserEventArgs extends StatusEventArgs {
         this.userList = userList;
     }
 
+
     /**
      * 错误返回
      *

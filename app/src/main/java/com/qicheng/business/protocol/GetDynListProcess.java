@@ -136,6 +136,8 @@ public class GetDynListProcess extends BaseProcess {
                     setStatus(ProcessStatus.Status.InfoNoData);
                 }
                 logger.d("获取动态信息成功");
+            } else if (resultCode == Const.ResponseResultCode.RESULT_BODY_IS_NOT_EXIST) {
+                logger.d("没有更多数据");
             } else {
                 logger.e("获取动态失败");
             }

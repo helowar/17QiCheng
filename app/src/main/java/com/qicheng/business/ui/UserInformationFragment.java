@@ -354,7 +354,7 @@ public class UserInformationFragment extends BaseFragment {
                 OperErrorCode errCode = userEventArgs.getErrCode();
                 switch (errCode) {
                     case Success:
-                        Cache.getInstance().getUser().setPortraitURL(updateValue);
+                        Cache.getInstance().getUser().setPortraitURL(userEventArgs.getResult().getPortraitURL());
                         Cache.getInstance().refreshCacheUser();
                         break;
                 }
