@@ -448,8 +448,9 @@ public class ToDynActivity extends BaseActivity {
             if (thumbnailUrl != null) {
                 ImageManager.displayImageDefault(thumbnailUrl, holder.photo);
                 int screenWidth = UIUtil.getScreenWidth(getActivity());
+                int height = (int) (screenWidth * 0.618);
                 holder.photo.setVisibility(View.VISIBLE);
-                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, screenWidth));
+                holder.photo.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, height));
                 holder.photo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
