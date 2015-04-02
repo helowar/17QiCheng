@@ -341,7 +341,9 @@
     <string name="no_sd_card">未找到存储卡，无法存储照片</string>
     <string name="pic_upload_fail">动态图片上传失败</string>
     <string name="no_trip">请先添加行程</string>
+    <string name="no_content">请添加文字或图片</string>
     <string name="add_pic">添加图片</string>
+    <string name="add_fail">发布失败</string>
 
     <!--DynPublishActivity end-->
 

@@ -40,6 +40,7 @@ import com.qicheng.framework.ui.base.BaseActivity;
 import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.BitmapUtils;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.framework.util.StringUtil;
 import com.qicheng.util.Const;
 import com.umeng.analytics.MobclickAgent;
 
@@ -252,25 +253,33 @@ public class DynPublishActivity extends BaseActivity {
             body.setQueryValue(queryValue);
         }
         body.setContent(edit.getText().toString());
-        DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
-        dynLogic.addDyn(body, createUIEventListener(new EventListener() {
-            @Override
-            public void onEvent(EventId id, EventArgs args) {
-                stopLoading();
-                DynEventAargs dynEventAargs = (DynEventAargs) args;
-                OperErrorCode errCode = dynEventAargs.getErrCode();
-                switch (errCode) {
-                    case Success:
-                        //记录友盟事件
-                        MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_ADD_ACTIVITY);
-                        sentAnswerResult(true);
-                        break;
-                    case ResultNotPermit:
-                        Alert.Toast(getResources().getString(R.string.no_trip));
+        List<DynFile> files = body.getFiles();
+        if (StringUtil.isEmpty(body.getContent()) && files == null) {
+            Alert.Toast(getResources().getString(R.string.no_content));
+            return;
+        } else {
+            DynLogic dynLogic = (DynLogic) LogicFactory.self().get(LogicFactory.Type.Dyn);
+            dynLogic.addDyn(body, createUIEventListener(new EventListener() {
+                @Override
+                public void onEvent(EventId id, EventArgs args) {
+                    stopLoading();
+                    DynEventAargs dynEventAargs = (DynEventAargs) args;
+                    OperErrorCode errCode = dynEventAargs.getErrCode();
+                    switch (errCode) {
+                        case Success:
+                            //记录友盟事件
+                            MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_ADD_ACTIVITY);
+                            sentAnswerResult(true);
+                            break;
+                        case ResultNotPermit:
+                            Alert.Toast(getResources().getString(R.string.no_trip));
+                        default:
+                            Alert.Toast(getResources().getString(R.string.add_fail));
+                    }
                 }
-            }
-        }));
-        startLoading();
+            }));
+            startLoading();
+        }
     }
 
 
