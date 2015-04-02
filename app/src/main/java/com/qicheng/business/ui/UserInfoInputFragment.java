@@ -267,9 +267,8 @@ public class UserInfoInputFragment extends BaseFragment {
                         switch (which) {
                             case 0:
                                 Intent intentFromGallery = new Intent();
-                                intentFromGallery.setType("image/*"); // 设置文件类型
-                                intentFromGallery
-                                        .setAction(Intent.ACTION_GET_CONTENT);
+                                intentFromGallery.setAction(Intent.ACTION_PICK);
+                                intentFromGallery.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(intentFromGallery,
                                         IMAGE_REQUEST_CODE);
                                 break;
