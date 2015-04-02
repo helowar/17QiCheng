@@ -164,19 +164,20 @@ public class ContactActivity extends BaseActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.delete_contact) {
-            User tobeDeleteUser = adapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
-            // 删除此联系人
-            deleteContact(tobeDeleteUser);
-//            // 删除相关的邀请消息
-//            InviteMessgeDao dao = new InviteMessgeDao(getActivity());
-//            dao.deleteMessage(tobeDeleteUser.getUsername());
-            return true;
-        }else if(item.getItemId() == R.id.add_to_blacklist){
-            User user = adapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
-            moveToBlacklist(user);
-            return true;
-        }
+        //TODO 待实现
+//        if (item.getItemId() == R.id.delete_contact) {
+//            User tobeDeleteUser = adapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
+//            // 删除此联系人
+//            deleteContact(tobeDeleteUser);
+////            // 删除相关的邀请消息
+////            InviteMessgeDao dao = new InviteMessgeDao(getActivity());
+////            dao.deleteMessage(tobeDeleteUser.getUsername());
+//            return true;
+//        }else if(item.getItemId() == R.id.add_to_blacklist){
+//            User user = adapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position);
+//            moveToBlacklist(user);
+//            return true;
+//        }
         return super.onContextItemSelected(item);
     }
 

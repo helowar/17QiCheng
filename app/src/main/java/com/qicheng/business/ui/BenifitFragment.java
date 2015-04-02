@@ -87,15 +87,19 @@ public class BenifitFragment extends BaseFragment {
         showBenefitList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(),BenefitCountActivity.class);
-                startActivity(i);
+                if(Integer.parseInt(mRestNumber.getText().toString())>0) {
+                    Intent i = new Intent(getActivity(), BenefitCountActivity.class);
+                    startActivity(i);
+                }
             }
         });
         LinearLayout friendForBenefit = (LinearLayout)convertView.findViewById(R.id.friend_benefit);
         friendForBenefit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
+                if(Integer.parseInt(mFriendNumber.getText().toString())>0){
+                    startActivity(new Intent(getActivity(),BenefitRequestActivity.class));
+                }
             }
         });
         return convertView;
