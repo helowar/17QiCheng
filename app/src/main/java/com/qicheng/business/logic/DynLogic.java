@@ -148,11 +148,13 @@ public class DynLogic extends BaseLogic {
      * @param photo
      */
     public void saveDynPicture(Bitmap photo, final EventListener listener) {
-        File dir = new File(Const.WorkDir);
+        StringBuilder driPath = new StringBuilder(Const.WorkDir).append("imgCache/");
+        File dir = new File(driPath.toString());
         if (!dir.exists() || !dir.isDirectory()) {
             dir.mkdirs();
         }
-        final File myCaptureFile = new File(dir + UUID.randomUUID().toString() + ".jpg");
+        String imgPath = driPath.append("/").append(UUID.randomUUID().toString()).append(".jpg").toString();
+        final File myCaptureFile = new File(imgPath);
         OperErrorCode errCode = null;
         try {
             BufferedOutputStream bos = new BufferedOutputStream(
