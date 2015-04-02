@@ -102,6 +102,10 @@ public class DynPublishActivity extends BaseActivity {
         if (bundle != null) {
             queryType = bundle.getByte("query_type");
             queryValue = getIntent().getExtras().getString("query_value");
+            if (queryType == Const.QUERY_TYPE_NEAR) {
+                queryType = null;
+                queryValue = null;
+            }
             logger.d(queryType + " " + queryValue);
         }
         edit = (RichEdit) this.findViewById(R.id.msg_write_content);

@@ -84,7 +84,7 @@ public class ActyFragment extends BaseFragment {
     private String[] cityCodes;
     /*搜索条件*/
     private DynSearch dynSearch = new DynSearch();
-    private List<Dyn> newData;
+    private List<Dyn> newData = new ArrayList<Dyn>();
     /*动态的类型*/
     private String title;
     private String cityCode;
@@ -122,10 +122,10 @@ public class ActyFragment extends BaseFragment {
                             e.printStackTrace();
                         }
                         if (dynSearchList != null && dynSearchList.size() > 0) {
-                            dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
                             dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
-                            getDynList(dynSearch);
                         }
+                        dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                        getDynList(dynSearch);
                         return null;
                     }
 
@@ -278,10 +278,10 @@ public class ActyFragment extends BaseFragment {
         switch (resultCode) {
             case ADD_SUCCESS:
                 if (dynSearchList != null && dynSearchList.size() > 0) {
-                    dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
                     dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
-                    getDynList(dynSearch);
                 }
+                dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                getDynList(dynSearch);
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -438,7 +438,9 @@ public class ActyFragment extends BaseFragment {
                 Byte type = dynSearchCondition.getQueryType();
                 switch (errCode) {
                     case Success:
-                        newData = dynEventAargs.getDynList();
+                        if (dynEventAargs.getDynList() != null && dynEventAargs.getDynList().size() > 0) {
+                            newData = dynEventAargs.getDynList();
+                        }
                         if (type == null) {
                             refreshSearchList(orderBy);
                         } else {
