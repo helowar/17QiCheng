@@ -204,10 +204,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener{
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.black_list:
-                addUserToBlacklist(toChatUsername);
-                finish();
-                return true;
+//            case R.id.black_list:
+//                addUserToBlacklist(toChatUsername);
+//                finish();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

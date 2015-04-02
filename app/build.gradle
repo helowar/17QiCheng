@@ -7,8 +7,8 @@ android {
         applicationId "com.qicheng"
         minSdkVersion 15
         targetSdkVersion 15
-        versionCode 100012
-        versionName "1.0.0.0.12"
+        versionCode 100013
+        versionName "1.0.0.0.13"
     }
     buildTypes {
         release {
