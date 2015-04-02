@@ -29,7 +29,6 @@ import com.qicheng.business.logic.LogicFactory;
 import com.qicheng.business.logic.event.BenefitEventArgs;
 import com.qicheng.business.module.BenefitUserRank;
 import com.qicheng.business.module.User;
-import com.qicheng.business.ui.chat.utils.Constant;
 import com.qicheng.business.ui.chat.utils.SmileUtils;
 import com.qicheng.framework.event.EventArgs;
 import com.qicheng.framework.event.EventId;
@@ -73,13 +72,15 @@ public class BenefitOfRankFragment extends BaseFragment {
      */
     private void initSelfView(List<BenefitUserRank> userRankList) {
         startLoading();
+        ImageView portrait = (ImageView) view.findViewById(R.id.self_portrait);
+        ImageManager.displayPortrait(Cache.getInstance().getUser().getPortraitURL(), portrait);
+        TextView ranking = (TextView) view.findViewById(R.id.benefit_ranking);
+        TextView benefitNum = (TextView) view.findViewById(R.id.self_benefit_num);
+        ranking.setText(String.valueOf(userRankList.size() + 1));
+        benefitNum.setText(String.valueOf(0));
         for (BenefitUserRank userRank : userRankList) {
             if (StringUtil.isEmpty(userRank.getUserId())) {
-                ImageView portrait = (ImageView) view.findViewById(R.id.self_portrait);
-                ImageManager.displayPortrait(userRank.getPortraitUrl(), portrait);
-                TextView ranking = (TextView) view.findViewById(R.id.benefit_ranking);
                 ranking.setText(String.valueOf(userRank.getRanking()));
-                TextView benefitNum = (TextView) view.findViewById(R.id.self_benefit_num);
                 benefitNum.setText(String.valueOf(userRank.getBenefitNum()));
             }
         }
@@ -153,10 +154,10 @@ public class BenefitOfRankFragment extends BaseFragment {
             TextView benefitNum = (TextView) convertView.findViewById(R.id.all_num);
             benefitNum.setText(String.valueOf(rank.getBenefitNum()));
             ImageView benefitWinner = (ImageView) convertView.findViewById(R.id.benefit_winner);
-            ImageView begView = (ImageView)convertView.findViewById(R.id.imageview_beg);
-            if(rank.getUserImId().equals(Cache.getInstance().getUser().getUserImId())){
+            ImageView begView = (ImageView) convertView.findViewById(R.id.imageview_beg);
+            if (rank.getUserImId().equals(Cache.getInstance().getUser().getUserImId())) {
                 begView.setVisibility(View.GONE);
-            }else{
+            } else {
                 begView.setVisibility(View.VISIBLE);
                 begView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -168,7 +169,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                         EMConversation conversation = EMChatManager.getInstance().getConversation(targetUser.getUserImId());
                         EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
                         BenefitOfAllFragment.setUserInfoIntoMessage(message, targetUser);
-                        TextMessageBody txtBody = new TextMessageBody("福利用完啦"+ SmileUtils.ee_11+"！求土豪支援"+SmileUtils.ee_13);
+                        TextMessageBody txtBody = new TextMessageBody("福利用完啦" + SmileUtils.ee_11 + "！求土豪支援" + SmileUtils.ee_13);
                         // 设置消息body
                         message.addBody(txtBody);
                         // 设置要发给谁,用户username或者群聊groupid
@@ -178,7 +179,7 @@ public class BenefitOfRankFragment extends BaseFragment {
                         conversation.addMessage(message);
                         //记录友盟事件
                         MobclickAgent.onEvent(getActivity(), Const.MobclickAgent.EVENT_BEG_BENEFIT);
-                        Alert.Toast( "已向"+targetUser.getNickName() + "求援，耐心等待吧！");
+                        Alert.Toast("已向" + targetUser.getNickName() + "求援，耐心等待吧！");
                     }
                 });
             }
