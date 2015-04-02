@@ -303,7 +303,7 @@ public class DynPublishActivity extends BaseActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 setResult(ADD_CANCEL);
-                DynPublishActivity.this.finish();
+                finish();
                 break;
             default:
                 break;
