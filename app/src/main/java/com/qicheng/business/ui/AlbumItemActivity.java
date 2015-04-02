@@ -58,12 +58,15 @@ public class AlbumItemActivity extends FragmentActivity {
      */
     private ProgressBar progressBar;
 
+    private String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_album_item);
         int index = getIntent().getExtras().getInt(Const.Intent.ALBUM_ITEM_INDEX_KEY);
+        userId = getIntent().getExtras().getString("user_id");
         photos = (ArrayList<Photo>) getIntent().getExtras().get(Const.Intent.ALBUM_LIST_KEY);
         mViewPager = (ViewPager) findViewById(R.id.id_pager);
         mAdapter = new PicViewPagerAdapter(getSupportFragmentManager(), photos);
@@ -90,7 +93,7 @@ public class AlbumItemActivity extends FragmentActivity {
                         progressBar = (ProgressBar) mViewPager.findViewById(R.id.progress_bar);
                         int index = photos.size();
                         byte orderNum = 1;
-                        getPhotoList(null, orderNum, photos.get(index - 1).getOrderNum(), 100);
+                        getPhotoList(userId, orderNum, photos.get(index - 1).getOrderNum(), 100);
                         if (photos.size() > index) {
                             mViewPager.setCurrentItem(index, false);
                         }
@@ -124,8 +127,10 @@ public class AlbumItemActivity extends FragmentActivity {
                     } else {
                         Alert.Toast(getResources().getString(R.string.no_more_picture));
                     }
-                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Alert.Toast(getResources().getString(R.string.no_more_picture));
                 }
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

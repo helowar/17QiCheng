@@ -300,6 +300,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AlbumItemActivity.class);
+                intent.putExtra("user_id", userId);
                 intent.putExtra(ALBUM_ITEM_INDEX_KEY, index);
                 intent.putExtra(ALBUM_LIST_KEY, photoList);
                 startActivity(intent);

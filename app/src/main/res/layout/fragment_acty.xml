@@ -122,7 +122,7 @@
     <com.qicheng.business.ui.component.GeneralListView
         android:id="@+id/dynlist"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:divider="@null"

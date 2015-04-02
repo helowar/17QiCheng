@@ -145,9 +145,11 @@ public class ActyFragment extends BaseFragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        dynSearch.setOrderNum(dynSearchList.get(dynSearchList.size() - 1).getOrderNum());
-                        dynSearch.setOrderBy(Const.ORDER_BY_EARLIEST);
-                        getDynList(dynSearch);
+                        if (dynSearchList != null && dynSearchList.size() > 0) {
+                            dynSearch.setOrderNum(dynSearchList.get(dynSearchList.size() - 1).getOrderNum());
+                            dynSearch.setOrderBy(Const.ORDER_BY_EARLIEST);
+                            getDynList(dynSearch);
+                        }
                         return null;
                     }
 
@@ -202,6 +204,7 @@ public class ActyFragment extends BaseFragment {
                         break;
                     /*当position的位置为3时是按附近搜索最新动态*/
                     case 3:
+                        dynSearchList.clear();
                         title = getResources().getString(R.string.activity_nearby_btn_text);
                         /*配置当前搜索条件*/
                         dynSearch = new DynSearch();
