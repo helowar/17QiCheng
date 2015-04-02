@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class DynSearch implements Serializable {
 
     private int orderBy;
-    private int orderNum;
+    private long orderNum;
     private int size = 10;
     private Byte queryType;
     private String queryValue;
@@ -32,11 +32,11 @@ public class DynSearch implements Serializable {
         this.orderBy = orderBy;
     }
 
-    public int getOrderNum() {
+    public long getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(int orderNum) {
+    public void setOrderNum(long orderNum) {
         this.orderNum = orderNum;
     }
 

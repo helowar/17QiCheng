@@ -304,6 +304,7 @@
     <!--ActionBar Title -->
     <string name="actionbar_title_label">标签</string>
     <string name="actionbar_title_publish_dyn">发布动态</string>
+    <string name="actionbar_title_publish">发布</string>
     <string name="actionbar_title_label_modify">我的标签</string>
     <string name="title_activity_trip_to_dyn">动态</string>
     <string name="actionbar_title_modify_personal_information">个人信息</string>
@@ -340,7 +341,9 @@
     <string name="no_sd_card">未找到存储卡，无法存储照片</string>
     <string name="pic_upload_fail">动态图片上传失败</string>
     <string name="no_trip">请先添加行程</string>
+    <string name="no_content">请添加文字或图片</string>
     <string name="add_pic">添加图片</string>
+    <string name="add_fail">发布失败</string>
 
     <!--DynPublishActivity end-->
 

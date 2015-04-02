@@ -25,6 +25,8 @@ public class UpdateUserInformationProcess extends BaseProcess {
 
     private String updateValue;
 
+    private String portraitUrl;
+
     @Override
     protected String getRequestUrl() {
         return url;
@@ -69,6 +71,10 @@ public class UpdateUserInformationProcess extends BaseProcess {
     protected void onResult(JSONObject o) {
         //获取状态码
         int value = o.optInt("result_code");
+        JSONObject jsonObject = o.has("body") ? o.optJSONObject("body") : null;
+        if (jsonObject != null) {
+            portraitUrl = jsonObject.optString("portrait_url");
+        }
         setProcessStatus(value);
     }
 
@@ -83,5 +89,9 @@ public class UpdateUserInformationProcess extends BaseProcess {
 
     public void setUpdateValue(String updateValue) {
         this.updateValue = updateValue;
+    }
+
+    public String getPortraitUrl() {
+        return portraitUrl;
     }
 }

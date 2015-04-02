@@ -425,7 +425,6 @@ public class ActyFragment extends BaseFragment {
         dynLogic.getDynList(dynSearchCondition, createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
-                Log.d("..", dynSearchCondition.toString());
                 DynEventAargs dynEventAargs = (DynEventAargs) args;
                 OperErrorCode errCode = dynEventAargs.getErrCode();
                 int orderBy = dynSearchCondition.getOrderBy();
@@ -444,6 +443,9 @@ public class ActyFragment extends BaseFragment {
                                     refreshSearchList(orderBy);
                                     break;
                                 case Const.QUERY_TYPE_STATION:
+                                    refreshSearchList(orderBy);
+                                    break;
+                                case Const.QUERY_TYPE_NEAR:
                                     refreshSearchList(orderBy);
                                     break;
                             }

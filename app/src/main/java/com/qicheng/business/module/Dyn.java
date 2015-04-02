@@ -80,7 +80,7 @@ public class Dyn implements Serializable {
     /*
    排序号
     */
-    private int orderNum;
+    private long orderNum;
     /*
    文件类型
     */
@@ -198,11 +198,11 @@ public class Dyn implements Serializable {
         this.createTime = createTime;
     }
 
-    public int getOrderNum() {
+    public long getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(int orderNum) {
+    public void setOrderNum(long orderNum) {
         this.orderNum = orderNum;
     }
 

@@ -44,7 +44,7 @@ public class GetDynListProcess extends BaseProcess {
             Byte queryType = dynSearch.getQueryType();
             if (queryType != null) {
                 spliceParameter(o);
-                logger.e("组装传入搜索城市动态参数成功");
+                logger.d("组装传入搜索城市动态参数成功");
                 logger.d(o.toString());
                 //后期出问题时进行排查，default是否有作用
 //                switch (queryType) {
@@ -136,6 +136,8 @@ public class GetDynListProcess extends BaseProcess {
                     setStatus(ProcessStatus.Status.InfoNoData);
                 }
                 logger.d("获取动态信息成功");
+            } else if (resultCode == Const.ResponseResultCode.RESULT_BODY_IS_NOT_EXIST) {
+                logger.d("没有更多数据");
             } else {
                 logger.e("获取动态失败");
             }
