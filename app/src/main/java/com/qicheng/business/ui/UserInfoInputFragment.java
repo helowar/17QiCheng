@@ -70,7 +70,7 @@ public class UserInfoInputFragment extends BaseFragment {
     private String portraitUrl = null;
     private boolean confirm = false;
     private int gender = 1;
-    private StringBuffer birthday = new StringBuffer();
+    private String birthday ;
 
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 头像名称 */
@@ -248,27 +248,9 @@ public class UserInfoInputFragment extends BaseFragment {
     }
 
     private void updateBirthDate(Date date) {
-        StringBuffer dateText = new StringBuffer();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        dateText.append(calendar.get(Calendar.YEAR));
-        birthday.append(calendar.get(Calendar.YEAR));
-        dateText.append("年");
-        dateText.append(calendar.get(Calendar.MONTH) + 1);
-        if(Calendar.MONTH + 1<10){
-            birthday.append("0"+(calendar.get(Calendar.MONTH) + 1));
-        }else {
-            birthday.append((calendar.get(Calendar.MONTH) + 1));
-        }
-        dateText.append("月");
-        dateText.append(calendar.get(Calendar.DAY_OF_MONTH));
-        birthday.append(calendar.get(Calendar.DAY_OF_MONTH));
-        dateText.append("日");
-        mBirthDate.setText(dateText.toString());
-        if(!StringUtil.isEmpty(mNickName.getText().toString())){
-            mNextButton.setEnabled(true);
-        }
-
+        birthday = DateTimeUtil.formatByyyyyMMdd(date);
+        mBirthDate.setText(DateTimeUtil.formatByyyyyMMddChinese(date));
+        mNextButton.setEnabled(true);
     }
 
     /**

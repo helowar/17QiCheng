@@ -8,6 +8,7 @@ import com.qicheng.business.persistor.PersistorManager;
 import com.qicheng.common.security.RSACoder;
 import com.qicheng.framework.protocol.BaseProcess;
 import com.qicheng.framework.util.Logger;
+import com.qicheng.util.Const;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,16 +55,22 @@ public class SetUserInfoProcess extends BaseProcess{
         try {
             //获取状态码
             int value = o.optInt("result_code");
-            if(value==0){
-//                User cachedUser = Cache.getInstance().getUser();
-//                cachedUser.setNickName(mParamUser.getNickName());
-//                cachedUser.setGender(mParamUser.getGender());
-//                cachedUser.setPortraitURL(mParamUser.getPortraitURL());
-//                cachedUser.setBirthday(mParamUser.getBirthday());
-//                //刷新User缓存对象
-//                Cache.getInstance().setCacheUser(cachedUser);
+            setProcessStatus(value);
+            if(getStatus()== ProcessStatus.Status.Success){
+                JSONObject userInfo = o.optJSONObject("body");
+                String nickName = userInfo.optString("nickname");
+                int gender = userInfo.optInt("gender");
+                String portraitURL = userInfo.optString("portrait_url");
+                String birthday = userInfo.optString("birthday");
+                User cachedUser = Cache.getInstance().getUser();
+                cachedUser.setNickName(nickName);
+                cachedUser.setGender(gender);
+                cachedUser.setPortraitURL(portraitURL);
+                cachedUser.setBirthday(birthday);
+                //刷新User缓存对象
+                Cache.getInstance().refreshCacheUser();
                 //获取标签列表
-                JSONArray arry = (JSONArray) o.opt("body");
+                JSONArray arry = (JSONArray) userInfo.opt("tag_types");
                 Gson gson = new Gson();
                 for (int i = 0; i < arry.length(); i++) {
                     Object type = arry.get(i);
@@ -71,7 +78,6 @@ public class SetUserInfoProcess extends BaseProcess{
                     mLabelTypes.add(labelType);
                 }
             }
-            setProcessStatus(value);
         } catch (Exception e) {
             e.printStackTrace();
             setStatus(ProcessStatus.Status.ErrUnkown);
