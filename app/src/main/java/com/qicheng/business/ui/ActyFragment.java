@@ -121,9 +121,11 @@ public class ActyFragment extends BaseFragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
-                        dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
-                        getDynList(dynSearch);
+                        if (dynSearchList != null && dynSearchList.size() > 0) {
+                            dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                            dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
+                            getDynList(dynSearch);
+                        }
                         return null;
                     }
 
@@ -275,9 +277,11 @@ public class ActyFragment extends BaseFragment {
         Log.d("result", requestCode + " " + resultCode);
         switch (resultCode) {
             case ADD_SUCCESS:
-                dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
-                dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
-                getDynList(dynSearch);
+                if (dynSearchList != null && dynSearchList.size() > 0) {
+                    dynSearch.setOrderBy(Const.ORDER_BY_NEWEST);
+                    dynSearch.setOrderNum(dynSearchList.get(0).getOrderNum());
+                    getDynList(dynSearch);
+                }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
