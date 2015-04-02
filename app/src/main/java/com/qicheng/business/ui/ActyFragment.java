@@ -194,7 +194,7 @@ public class ActyFragment extends BaseFragment {
                         break;
                     /*当position的位置为2时是按最新搜索最新动态*/
                     case 2:
-                        dynSearchList = new ArrayList<Dyn>();
+                        dynSearchList.clear();
                         dynSearch = new DynSearch();
                         title = getResources().getString(R.string.activity_newest_btn_text);
                         getActivity().invalidateOptionsMenu();
