@@ -124,8 +124,10 @@ public class AlbumItemActivity extends FragmentActivity {
                     } else {
                         Alert.Toast(getResources().getString(R.string.no_more_picture));
                     }
-                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Alert.Toast(getResources().getString(R.string.no_more_picture));
                 }
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

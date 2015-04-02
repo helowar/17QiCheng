@@ -260,7 +260,6 @@ public class UserInformationFragment extends BaseFragment {
         if (data == null) {
             return;
         }
-
         //处理其他更改信息的
         switch (resultCode) {
             case Const.UserUpdateCode.UPDATE_NICKNAME:
