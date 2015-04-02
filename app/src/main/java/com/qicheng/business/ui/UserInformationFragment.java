@@ -256,34 +256,28 @@ public class UserInformationFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("code", requestCode + " " + resultCode);
-        //当没有data时直接返回
-        if (data == null) {
-            return;
-        }
-        //处理其他更改信息的
-        switch (resultCode) {
-            case Const.UserUpdateCode.UPDATE_NICKNAME:
-                String nickname = data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT);
-                nicknameView.setText(nickname);
-                Cache.getInstance().getUser().setNickName(nickname);
-                Cache.getInstance().refreshCacheUser();
-                break;
-            case Const.UserUpdateCode.UPDATE_HOMETOWN:
-                homeView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
-            case Const.UserUpdateCode.UPDATE_RESIDENCE:
-                residenceView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
-            case Const.UserUpdateCode.UPDATE_INDUSTRY:
-                industryView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
-            case Const.UserUpdateCode.UPDATE_EDUCATION:
-                educationView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
-                break;
-        }
+
         //特殊处理修改生日的逻辑
         if (resultCode != Activity.RESULT_CANCELED) {
             switch (requestCode) {
+                case Const.UserUpdateCode.UPDATE_NICKNAME:
+                    String nickname = data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT);
+                    nicknameView.setText(nickname);
+                    Cache.getInstance().getUser().setNickName(nickname);
+                    Cache.getInstance().refreshCacheUser();
+                    break;
+                case Const.UserUpdateCode.UPDATE_HOMETOWN:
+                    homeView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                    break;
+                case Const.UserUpdateCode.UPDATE_RESIDENCE:
+                    residenceView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                    break;
+                case Const.UserUpdateCode.UPDATE_INDUSTRY:
+                    industryView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                    break;
+                case Const.UserUpdateCode.UPDATE_EDUCATION:
+                    educationView.setText(data.getStringExtra(Const.Intent.UPDATE_USER_INFORMATION_RESULT));
+                    break;
                 case DATE_REQUEST_CODE:
                     Date date = (Date) data.getSerializableExtra(DatePickFragment.EXTRA_DATE);
                     updateUserInformation(Const.UserUpdateCode.UPDATE_BIRTHDAY, DateTimeUtil.formatByyyyyMMdd(date), date);

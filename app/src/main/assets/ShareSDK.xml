@@ -84,11 +84,11 @@
 		审核的应用也可以执行分享，但是仅限于分享文字和图片，不能分享其他类型，
 		默认值为false。此外，微信收藏不支持此字段。
 	-->
-    <Wechat Id="4" SortId="4" AppId="wxf203b6cc66be69c3"
-        AppSecret="dda87e484eb58fb8ebfd1f45a53c3bcd" BypassApproval="false" Enable="true" />
+    <Wechat Id="4" SortId="4" AppId="wxd566ebd2e7755084"
+        AppSecret="b47ff06f75adc01ab102e6a1329ed26b" BypassApproval="false" Enable="true" />
 
-    <WechatMoments Id="5" SortId="5" AppId="wxf203b6cc66be69c3"
-        AppSecret="dda87e484eb58fb8ebfd1f45a53c3bcd" BypassApproval="false" Enable="true" />
+    <WechatMoments Id="5" SortId="5" AppId="wxd566ebd2e7755084"
+        AppSecret="b47ff06f75adc01ab102e6a1329ed26b" BypassApproval="false" Enable="true" />
 
     <WechatFavorite Id="6" SortId="6" AppId="wxf203b6cc66be69c3"
         AppSecret="dda87e484eb58fb8ebfd1f45a53c3bcd" Enable="false" />

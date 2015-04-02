@@ -592,7 +592,7 @@ public class Const {
         /**
          * 更新昵称
          */
-        public static final int UPDATE_NICKNAME = 0;
+        public static final int UPDATE_NICKNAME = 8;
         /**
          * 更新生日
          */
