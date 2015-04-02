@@ -112,7 +112,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             return true;
         }
         ex.printStackTrace();
-        final String msg = ex.getLocalizedMessage();
+        final String msg = ex.toString();
         // 使用Toast来显示异常信息
         new Thread() {
             @Override
