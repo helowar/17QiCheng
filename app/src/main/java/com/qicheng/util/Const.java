@@ -264,7 +264,7 @@ public class Const {
     public static final String WorkDir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/QiCheng/";
 
     //服务端接口地址
-    public static final String BASE_URL = "http://www.17qicheng.com:8080/";
+    public static final String BASE_URL = "http://www.17qicheng.com:8080";
 
     // 地图缩放
     public static final int MapZoom = 16;
