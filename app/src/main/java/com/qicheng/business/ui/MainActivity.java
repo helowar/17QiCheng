@@ -365,6 +365,7 @@ public class MainActivity extends BaseFragmentActivity implements UmengUpdateLis
                 if (benefitFragment == null) {
                     benefitFragment = new BenifitFragment();
                     getFragmentManager().beginTransaction().add(R.id.benefit_content, benefitFragment).commit();
+                    invalidateOptionsMenu();
                 } else {
                     invalidateOptionsMenu();
                     benefitFragment.updateInitView();
