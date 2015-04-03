@@ -208,7 +208,7 @@ public class MainActivity extends BaseFragmentActivity implements UmengUpdateLis
         menu.setShadowDrawable(R.drawable.shadow);
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         // 设置滑动菜单的视图界面
         menu.setMenu(R.layout.menu_frame);
         getFragmentManager().beginTransaction().replace(R.id.menu_frame, new TopMenuFragment()).commit();

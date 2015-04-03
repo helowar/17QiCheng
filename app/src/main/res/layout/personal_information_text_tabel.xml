@@ -47,13 +47,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_test_img"
                 android:layout_toLeftOf="@id/ic_arrow"
+                android:layout_marginRight="@dimen/view_margin_10dp"
                 android:textColor="@color/gray_text" />
 
             <ImageView
                 android:id="@+id/ic_arrow"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_arrow" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_gray" />
 
 
         </LinearLayout>

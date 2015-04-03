@@ -40,14 +40,14 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="4dp"
-                android:src="@drawable/ic_test_img"
-                 />
+                android:layout_marginRight="@dimen/view_margin_10dp"
+                android:src="@drawable/ic_test_img" />
 
             <ImageView
                 android:id="@+id/ic_arrow"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_arrow" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_gray" />
 
 
         </LinearLayout>
