@@ -14,11 +14,11 @@
         android:id="@+id/user_info_tag_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/half_gap"
+        android:layout_margin="2dp"
         android:background="@drawable/label_select_shape"
         android:gravity="center"
         android:padding="@dimen/half_gap"
         android:text="标签"
         android:textColor="@color/white"
-        android:textSize="@dimen/font_size_18sp" />
+        android:textSize="@dimen/font_size_16sp" />
 </LinearLayout>

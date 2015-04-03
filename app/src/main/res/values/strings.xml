@@ -288,7 +288,7 @@
     <string name="user_info_sender_text">给TA发消息</string>
     <string name="user_info_tag_text">标签</string>
     <string name="user_info_photo_text">相册</string>
-    <string name="user_info_activity_text">TA的动态</string>
+    <string name="user_info_activity_text">TA的动态：</string>
     <string name="user_info_activity_number">(0)</string>
     <string name="user_info_residence_text">所在地：</string>
     <string name="user_info_hometown_text">家乡：</string>

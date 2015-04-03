@@ -23,6 +23,8 @@
     <integer name="num_cols">1</integer>
 
     <dimen name="font_size_18sp">18sp</dimen>
+    <dimen name="font_size_14sp">14sp</dimen>
+    <dimen name="font_size_16sp">16sp</dimen>
     <dimen name="avatars_view_height_72dp">72dp</dimen>
     <dimen name="avatars_view_width_72dp">72dp</dimen>
     <dimen name="avatars_view_height_80dp">80dp</dimen>
