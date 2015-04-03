@@ -126,6 +126,9 @@ public class LoginActivity extends BaseActivity {
                     case UidNoExist:
                         Alert.Toast("用户名不存在");
                         break;
+                    case UidInvalid:
+                        Alert.Toast("用户名不存在");
+                        break;
                     case PasswordError:
                         Alert.Toast("密码错误");
                         break;
