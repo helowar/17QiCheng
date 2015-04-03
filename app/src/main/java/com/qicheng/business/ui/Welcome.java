@@ -34,7 +34,7 @@ public class Welcome extends BaseActivity {
 //                cover.setImageResource(R.drawable.img_welcome);
 //                break;
 //            case  1:
-                cover.setImageResource(R.drawable.img_welcome_2);
+        cover.setImageResource(R.drawable.img_welcome_3);
 //                break;
 //            case -1:
 //                cover.setImageResource(R.drawable.img_welcome_2);
