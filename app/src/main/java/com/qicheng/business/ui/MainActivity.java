@@ -20,12 +20,14 @@ import com.qicheng.business.ui.chat.db.UserDao;
 import com.qicheng.business.ui.component.BadgeView;
 import com.qicheng.business.ui.component.BenefitChangedListener;
 import com.qicheng.framework.ui.base.BaseFragmentActivity;
+import com.qicheng.framework.ui.helper.Alert;
 import com.qicheng.framework.util.Logger;
 import com.qicheng.util.Const;
 import com.slidingmenu.lib.SlidingMenu;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
 import com.umeng.update.UpdateResponse;
+import com.umeng.update.UpdateStatus;
 
 import static com.qicheng.util.Const.Application;
 import static com.qicheng.util.Const.QUERY_TYPE_ALL;
@@ -65,6 +67,12 @@ public class MainActivity extends BaseFragmentActivity implements UmengUpdateLis
         //友盟自动更新
         UmengUpdateAgent.setUpdateOnlyWifi(false);//支持非wifi环境
         UmengUpdateAgent.update(this);
+        UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+            @Override
+            public void onUpdateReturned(int i, UpdateResponse updateResponse) {
+                //do nothing 仅为了替换侧滑菜单中的listener，避免自动更新时的用户提示。
+            }
+        });
         // setContentView(R.layout.activity_main);
         userToken = getIntent().getStringExtra("token");
         logger.d("Get the user token:" + userToken);
