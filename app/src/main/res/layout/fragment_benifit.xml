@@ -6,15 +6,18 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical"
-             android:gravity="center_horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_line"
+    android:gravity="center_horizontal">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
+
         <LinearLayout
             android:id="@+id/show_benefit_list"
             android:layout_width="@dimen/zero"
@@ -30,21 +33,25 @@
             android:layout_marginLeft="@dimen/double_gap"
             android:layout_marginRight="@dimen/double_gap"
             android:background="@drawable/bg_form_input_container">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_benefit_selected"/>
+                android:src="@drawable/ic_benefit_selected" />
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp">
+
                 <TextView
                     android:id="@+id/self_benefit_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="我的福利"
                     android:textColor="@color/main"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
+
                 <TextView
                     android:id="@+id/rest"
                     android:layout_width="wrap_content"
@@ -53,7 +60,8 @@
                     android:text="还有"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/gray_text"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/rest_number"
                     android:layout_width="wrap_content"
@@ -64,7 +72,8 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:textSize="18sp"
-                    android:text="0"/>
+                    android:text="0" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,9 +82,10 @@
                     android:text="个"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/gray_text"
-                    android:textSize="15sp"/>
-                </RelativeLayout>
-            </LinearLayout>
+                    android:textSize="15sp" />
+            </RelativeLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/friend_benefit"
             android:layout_width="@dimen/zero"
@@ -90,21 +100,25 @@
             android:layout_marginTop="@dimen/double_gap"
             android:layout_marginRight="@dimen/double_gap"
             android:background="@drawable/bg_form_input_container">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_friends"/>
+                android:src="@drawable/ic_friends" />
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp">
+
                 <TextView
                     android:id="@+id/ask_benefit_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="去求福利"
                     android:textColor="@color/main"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp" />
+
                 <TextView
                     android:id="@+id/friend"
                     android:layout_width="wrap_content"
@@ -113,7 +127,8 @@
                     android:text="好友"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/gray_text"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
+
                 <TextView
                     android:id="@+id/friend_number"
                     android:layout_width="wrap_content"
@@ -124,7 +139,8 @@
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:textSize="18sp"
-                    android:text="0"/>
+                    android:text="0" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,10 +149,11 @@
                     android:text="个"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/gray_text"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ticket_view"
         android:layout_width="fill_parent"
@@ -144,17 +161,17 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_shake_benefit"
         android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        >
+        android:gravity="center_horizontal">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="今天还能摇"
             android:textColor="@color/white"
             android:textSize="24sp"
-            android:singleLine="true"
-            />
-       <TextView
+            android:singleLine="true" />
+
+        <TextView
             android:id="@+id/textview_shake_times"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,14 +179,13 @@
             android:text="3"
             android:textColor="@color/white"
             android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            />
+            android:paddingRight="4dp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="次"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            />
-        </LinearLayout>
+            android:textSize="24sp" />
+    </LinearLayout>
 </LinearLayout>
