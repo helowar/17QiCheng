@@ -2,6 +2,7 @@ package com.qicheng.business.ui;
 
 
 import android.app.Fragment;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -229,6 +230,8 @@ public class MessageFragment extends BaseFragment {
      * 刷新页面
      */
     public void refresh() {
+        //去除通知
+        ((NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(11);
         conversationList.clear();
         conversationList.addAll(loadConversationsWithRecentChat());
         if(adapter != null)

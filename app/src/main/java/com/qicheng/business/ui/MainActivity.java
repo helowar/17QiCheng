@@ -307,7 +307,20 @@ public class MainActivity extends BaseFragmentActivity implements UmengUpdateLis
         findViewById(id).setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 切换Frame
+     * @param checkedId
+     */
     private void onCheckedChanged(int checkedId) {
+        /**
+         * 切换发生时统一的预处理
+         */
+        if(benefitFragment!=null){//福利frame非空，停止shake监听
+            benefitFragment.stopShakeListener();
+        }
+        /**
+         * 切换处理
+         */
         switch (checkedId) {
             case R.id.rbMessage:
                 index = Const.INDEX_MESSAGE;
@@ -356,6 +369,7 @@ public class MainActivity extends BaseFragmentActivity implements UmengUpdateLis
                     invalidateOptionsMenu();
                     benefitFragment.updateInitView();
                 }
+                benefitFragment.startShakeListener();//开启shake监听
                 activatedFrame(R.id.benefit_content);
                 break;
             case R.id.rbActy:
