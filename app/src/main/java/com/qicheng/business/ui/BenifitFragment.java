@@ -73,6 +73,7 @@ public class BenifitFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mVibrator = (Vibrator) Const.Application.getSystemService(Context.VIBRATOR_SERVICE);
+        mShakeListener = new ShakeListener(getActivity());
     }
 
     @Override
@@ -105,16 +106,21 @@ public class BenifitFragment extends BaseFragment {
         return convertView;
     }
 
+    /**
+     * 获取界面初始化显示值
+     */
     public void updateInitView(){
         BenefitLogic logic = (BenefitLogic)LogicFactory.self().get(LogicFactory.Type.Benefit);
         logic.initBenefitView(createUIEventListener(new EventListener() {
             @Override
             public void onEvent(EventId id, EventArgs args) {
                 UserEventArgs userEventArgs = (UserEventArgs)args;
-                User user = userEventArgs.getResult();
-                mRestNumber.setText(user.getValidBenefitCount()+"");
-                Const.Application.getBenefitChangedListener().updateBenefitBadge(user.getValidBenefitCount());
-                mFriendNumber.setText(user.getFriendCount()+"");
+                if(userEventArgs.getErrCode()==OperErrorCode.Success){
+                    User user = userEventArgs.getResult();
+                    mRestNumber.setText(user.getValidBenefitCount()+"");
+                    Const.Application.getBenefitChangedListener().updateBenefitBadge(user.getValidBenefitCount());
+                    mFriendNumber.setText(user.getFriendCount()+"");
+                }
             }
         }));
     }
@@ -124,7 +130,6 @@ public class BenifitFragment extends BaseFragment {
         super.onResume();
         updateInitView();
         loadSound() ;
-        mShakeListener = new ShakeListener(getActivity());
         mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
             public void onShake() {
                 //记录友盟事件
@@ -255,6 +260,24 @@ public class BenifitFragment extends BaseFragment {
             dialogView.findViewById(R.id.deadline_icon).setVisibility(View.GONE);
             dialogView.findViewById(R.id.ic_price).setVisibility(View.GONE);
             dialogView.findViewById(R.id.ic_value).setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 外部调用开启shakeListener，保证切换回福利tab时可监听shake
+     */
+    public void startShakeListener(){
+        if(mShakeListener!=null){
+            mShakeListener.start();
+        }
+    }
+
+    /**
+     * 外部调用停止shakeListener，保证切换出去后不再监听shake
+     */
+    public void stopShakeListener(){
+        if(mShakeListener!=null){
+            mShakeListener.stop();
         }
     }
 
